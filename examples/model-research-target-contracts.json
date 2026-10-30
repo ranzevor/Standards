@@ -1,0 +1,578 @@
+{
+  "schema": "research-target-acceptance-contracts/1",
+  "domain": "model-research",
+  "profiles": [
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-RECORDS",
+      "title": "研究记录、权利和主张映射",
+      "command": "python3 examples/model_research_target_probe.py records --input examples/model-research-record-fixture.json",
+      "inputs_and_preconditions": [
+        "Python3 standard library",
+        "supplied synthetic claim/run fixture"
+      ],
+      "complete_applicable_acceptance_contract": "Each claim has stable statement/type/scope, exact proof/result identity, independent support and applicability states; operation permissions are verified against real decision evidence rather than the fixture labels. Compare the complete actual consumer path with allowed purpose/recipient/expiry. A qualified reviewer signs the exact reviewed locations and independent basis.",
+      "probe_expected": "The fixture maps 1 finite-domain claim and 4 planned runs; successful-run mean is9/10, with1 failure and1 pending retained. This proves record processing only.",
+      "direct_failure_contract": "Fail when a result is used for a stronger claim, a pending run disappears, a read right becomes a train/release right, or an inaccessible link is called reviewed.",
+      "legal_neighbor_contract": "A single person may hold real roles; private controlled review and purely theoretical projects need no fake training/account platform.",
+      "source_claim_ids": [
+        "MR-NEURIPS-P1",
+        "MR-PROVO-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-THEORY",
+      "title": "理论与证明的人工审阅和有限算例",
+      "command": "python3 examples/model_research_examples.py --json",
+      "inputs_and_preconditions": [
+        "Python3 standard library",
+        "finite domain0,1,2,3 and exact Fraction values"
+      ],
+      "complete_applicable_acceptance_contract": "A proof reviewer expands quantifiers, definitions and every critical assumption; checks nonempty domain, referenced theorem premises, complete steps and natural-language/implementation correspondence. A finite computation only proves its enumerated domain after an explicit coverage argument. For paper proofs the replay artifact is the worked derivation with exact theorem locations, not a required software package.",
+      "probe_expected": "Finite domain x²≥x holds; at real1/2 difference is−1/4. E[Z]=1 does not imply every path≤1. a100=10000 despite O(1/n). Two finite structural models have identical observational distributions but causal mean effects1 and0. The integer successor rule and reversed-quantifier refutation are separate handwritten arguments.",
+      "direct_failure_contract": "Reject a missing boundary class, an invalid-domain counterexample, an unproved exchange of limits, or a theorem upgraded to real-world safety without verified assumptions. Solver unknown/timeout stays unfinished.",
+      "legal_neighbor_contract": "A correct conditional/nonconstructive/loose-bound paper proof is legitimate without Lean, training or significance tests.",
+      "source_claim_ids": [
+        "MR-UML-P1",
+        "MR-NEURIPS-P1",
+        "MR-AFP-P1",
+        "MR-PEARL-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-LEAN",
+      "title": "可选Lean目标与可信基础",
+      "command": "lean --version && lean examples/model_research_theory.lean",
+      "inputs_and_preconditions": [
+        "Lean project-locked version; rolling source internal4.36.0-rc1 is NOT an installed version",
+        "included exact Nat fixture"
+      ],
+      "complete_applicable_acceptance_contract": "Capture compiler version, exact target statement, imports and #print axioms output for each declaration including transitive dependencies. Review the entire target dependency chain for sorry/admit/custom axioms and additional native evaluation trust; compare domain/quantifiers/premises with the reported statement. A deliberately incomplete project copy must fail the proof-completion decision even if Lean exits0.",
+      "probe_expected": "The included two Nat theorems elaborate and print their exact dependency lists. Reviewer independently checks that these are only Nat statements, not all-real conclusions. No run is claimed here.",
+      "direct_failure_contract": "A target relying on sorryAx is unfinished; altered natural statement, stale version logs, contradictory assumptions or unreported native-evaluation dependencies cannot establish the stated result.",
+      "legal_neighbor_contract": "Accepted classical axioms or explicitly conditional assumptions do not automatically invalidate a proof; rigorous paper proofs do not require this profile.",
+      "source_claim_ids": [
+        "MR-LEAN-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-TORCH-NUMERIC",
+      "title": "CPU目标计算与导数；CUDA/AMP另验",
+      "command": "python3 examples/model_research_target_probe.py torch-numerics",
+      "inputs_and_preconditions": [
+        "Python3",
+        "PyTorch2.14.0 actual metadata",
+        "fixed CPU float64 tensors defined in supplied script"
+      ],
+      "complete_applicable_acceptance_contract": "For the adopted training entrypoint, capture loss itemization/numerators/denominators, variable/frozen buffers, accepted update IDs, gradients where applicable, schedule clocks, scaler and all anomaly decisions. Compare an uninterrupted short known-solution path and interrupted recovery. Actual CUDA AMP must additionally record autocast dtype, one-scale accumulation, unscale/clipping order, skip status and scaler updates on the selected device; this CPU probe does not perform CUDA verification.",
+      "probe_expected": "CPU quadratic gradient−6 and one declared step to3; BCE weighted mean2ln2 and sum4ln2; restored CPU RNG sequence equal; clipped3,4 approximately1.2,1.6 with explicitly limited tolerance.",
+      "direct_failure_contract": "A sign-flipped derivative, lost effective denominator, incompatible accumulated scales, unrecorded frozen buffer change, NaN rewritten to0, or an accepted-clock advance on a rejected update fails the corresponding contract.",
+      "legal_neighbor_contract": "Zero gradient at a proven optimum, frozen backbone with learned head, group-equal loss, derivative-free learning and a declared token-clock advance on rejection are not automatically failures.",
+      "source_claim_ids": [
+        "MR-TORCH-BCE-P1",
+        "MR-TORCH-AMP-P1",
+        "MR-TORCH-NUMERIC-P1",
+        "MR-TORCH-RNG-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-SCIPY",
+      "title": "求解与配对统计实现",
+      "command": "python3 examples/model_research_target_probe.py scipy-statistics",
+      "inputs_and_preconditions": [
+        "Python3",
+        "SciPy1.18.0; record actual NumPy version",
+        "fixed quadratic/boundary and A0,10,20 B1,11,21 arrays"
+      ],
+      "complete_applicable_acceptance_contract": "Actual statistical analysis consumes the full exact results ledger, declares estimand/independent unit/selection/interval assumptions and preserves pairs or fits their correlation structure. Report effect, uncertainty, practical margin and exclusions separately. Solver validation independently checks original-domain feasibility and stopping cause; success is not a generic global-optimality certificate. Degenerate BCa/invalid assumptions become an analysis gap, not a stable zero uncertainty claim.",
+      "probe_expected": "BFGS reaches w3 under the stated tolerance; Powell reaches the nonnegative boundary near0. Paired empirical percentile resamples have difference1. The degenerate empirical interval is not population coverage evidence.",
+      "direct_failure_contract": "Unpaired resampling presented as a paired-difference interval; prediction rows counted as independent training runs; nonsignificance called equivalence; infeasible/over-budget candidate called optimal.",
+      "legal_neighbor_contract": "Separately valid marginal intervals can be independently resampled; one-run descriptive results and honestly labelled success-conditional means with complete failure counts remain legitimate.",
+      "source_claim_ids": [
+        "MR-SCIPY-MIN-P1",
+        "MR-SCIPY-BOOT-P1",
+        "MR-NEURIPS-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-DISTRIBUTED",
+      "title": "真实通信入口与并行贡献合同",
+      "command": "torchrun --standalone --nnodes=1 --nproc-per-node=2 examples/model_research_target_probe.py distributed-gloo",
+      "inputs_and_preconditions": [
+        "Python3",
+        "PyTorch2.14.0 with Gloo CPU",
+        "exactly2 local workers; scalar sum/count and5 sample IDs"
+      ],
+      "complete_applicable_acceptance_contract": "For each adopted DP/TP/PP dimension bind global logical tensors, ownership, generation, groups, collective sequence/root/layout and actual contribution IDs. Test the target backend’s mismatched-order/failure diagnosis under its preauthorized fault strategy, dependent buffer lifetime and supported uneven operations. For NCCL capture actual CUDA streams/events/wait dependencies; for TP compare full matrix reference and derivatives; for PP trace every microbatch forward/backward and weight version, plus snapshot drain/capture. The included Gloo command is only a normal-path API probe.",
+      "probe_expected": "Both Gloo ranks obtain numerator13 denominator3; sampler lists0,2,4 and1,3,0 explicitly identify padded duplicate0. It does not establish cross-device recovery, NCCL completion or training quality.",
+      "direct_failure_contract": "Missing rank treated as full contribution; DP degree confused with total world size; root/order mismatch; partial tensor treated as full; PP mismatched microbatch; buffer consumed without required dependency.",
+      "legal_neighbor_contract": "Declared group-equal objectives, supported uneven gathers, legitimate communication/compute overlap and explicitly bounded-staleness algorithms remain possible under their own contracts.",
+      "source_claim_ids": [
+        "MR-TORCH-DIST-P1",
+        "MR-TORCH-DATA-P1",
+        "MR-TORCH-TP-P1",
+        "MR-TORCH-PIPE-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-DCP",
+      "title": "快照、完整算法切面和恢复",
+      "command": "python3 examples/model_research_target_probe.py dcp --output-dir evidence/local-validation/model-research/target-dcp-new-identity",
+      "inputs_and_preconditions": [
+        "Python3",
+        "PyTorch2.14.0",
+        "a NEW local output directory, no prior evidence overwritten",
+        "fixed model tensor1,2, accepted6 and next-consumed8"
+      ],
+      "complete_applicable_acceptance_contract": "Real trainer acceptance must enumerate parameters/buffers, necessary history/master copies, RNG/scaler/schedule, cursor, accepted/rejected records and in-flight work at one consistent cut. At every target storage boundary before/after required shards, metadata, durable upload and authoritative pointer publication, use preapproved isolated fault instrumentation; read back only a full same-cut generation or previous full generation. Compete two current/old writer generations using actual storage conditional-write/fence evidence. Compare uninterrupted and resumed contribution/state/clock paths; record original execution and selected-snapshot coverage on independent axes. Unknown execution with old-cut-not-covered permits replay only after verified full rollback, old-writer isolation and independent reconciliation of external effects. The supplied command checks only normal single-process API round-trip.",
+      "probe_expected": "The supplied command restores the exact three fixed fields. The fuller contract must reject partial/mixed cuts and stale writers, and accept a fully recorded consumed-but-rejected sample7 with next sample8. Actual crashes/durability/distributed staging remain not-run.",
+      "direct_failure_contract": "staging promoted to complete before upload; k parameters plus k+1 momentum; prefetched cursor skips unconsumed data; unknown prior update retried in existing state; rank-local files reused under a changed logical mapping.",
+      "legal_neighbor_contract": "No-history algorithms or verified reconstruction need no fictional optimizer file. Immutable independent branches and declared tolerance-level recovery are legal; no elastic claim is required for fixed topology.",
+      "source_claim_ids": [
+        "MR-TORCH-DCP-P1",
+        "MR-TORCH-ELASTIC-P1",
+        "MR-TORCH-AMP-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-PEFT",
+      "title": "适配联合状态和线性合并入口",
+      "command": "python3 examples/model_research_target_probe.py peft-linear",
+      "inputs_and_preconditions": [
+        "Python3",
+        "PyTorch2.14.0 and PEFT0.21.0",
+        "local2×2 Linear and rank1 fixed factors; no downloaded model"
+      ],
+      "complete_applicable_acceptance_contract": "Actual adaptation acceptance binds base/teacher/student identities, vocabulary/label semantics, mutable/frozen buffers, trained extra heads, target-cache generation and independent evaluation. It separately verifies input-send/call/retain/train/redistribute rights. For merge/routing/quantization, freeze exact member order/scales/configuration, compare the actual final form using a declared algebraic/numerical/behavioral contract, preserve a legal compatible rollback combination and separately pass application/tool-use acceptance when deployed.",
+      "probe_expected": "The included fixed double-precision linear/no-dropout merge yields output max error≤1e−12 for its exact inputs. It is not quality, privacy, quantization, nonlinear merge or runtime-routing evidence.",
+      "direct_failure_contract": "Wrong base of same shape; teacher alias drift hidden; test answers rewritten into training; missing trained head; factors separately summed giving cross terms; target-candidate scores reused after changed quantization or vocabulary.",
+      "legal_neighbor_contract": "Hard-label/response distillation need no inaccessible logits; planned EMA teachers can evolve; soft-prompt/nonlinear adapters need not merge; a task-specific acknowledged ability tradeoff may be acceptable.",
+      "source_claim_ids": [
+        "MR-LORA-P1",
+        "MR-PEFT-CKPT-P1",
+        "MR-PEFT-MERGE-P1",
+        "MR-HINTON-P1",
+        "MR-SEQKD-P1",
+        "MR-PEFT-API-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-LOAD",
+      "title": "无害受限加载与组合风险入口",
+      "command": "python3 examples/model_research_target_probe.py safe-load",
+      "inputs_and_preconditions": [
+        "Python3",
+        "PyTorch2.14.0",
+        "in-memory benign tensor dictionary only"
+      ],
+      "complete_applicable_acceptance_contract": "At target admission, inspect all exact data/weight/config/tokenizer/adapter/code components before execution, verify source and current use rights, actual parser/resource boundaries and environment isolation. Record allowed code mappings and loader modes; an unsupported restricted load must not silently enable unsafe mode. Do not use benign round-trip success to certify unknown files, dynamic classes, denial-of-service resistance, private-data leakage or the complete environment.",
+      "probe_expected": "The benign tensor loads with weights_only=True and global-scan output is recorded. No suspicious file, dangerous fallback, sandbox probe or real model attack is executed by this example.",
+      "direct_failure_contract": "Automatic unsafe fallback/blanket allowlisting; config remote code omitted from tensor-only review; oversized/path-escape input accepted; scanner crash called no finding; fixed weight hash with replaced tokenizer inherits old admission.",
+      "legal_neighbor_contract": "Specific audited custom code with actual covered execution right and isolation can be a legitimate exception; pure static inspection requires no model execution.",
+      "source_claim_ids": [
+        "MR-TORCH-SER-P1",
+        "MR-SAFETENSORS-P1",
+        "MR-TRANSFORMERS-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-DATA",
+      "title": "预处理与划分实现入口",
+      "command": "python3 examples/model_research_target_probe.py data-sklearn --input examples/model-research-record-fixture.json",
+      "inputs_and_preconditions": [
+        "Python3",
+        "scikit-learn1.9.1; record actual NumPy version",
+        "training0,2 and held-out10 plus supplied time/group metadata"
+      ],
+      "complete_applicable_acceptance_contract": "The real data consumer binds actual source/use evidence, byte and interpretation versions, transformation/label lineage, input/retained/rejected/unparseable counts, group/time/near-duplicate split constraints, fit scope and current withdrawal status. For time prediction compare event, availability, label-maturity and prediction clocks; for streams bind partitions/watermarks and late handling. Mutate the target cache key or label map and observe consumption refusal or changed identity rather than merely checking a manifest label.",
+      "probe_expected": "Training-only scaler mean1 produces held-out transform9; all-data fit mean4 is the contamination contrast. Same-subject future record passes only under its exact information cutoff. This cannot certify rights or no unknown pretraining overlap.",
+      "direct_failure_contract": "Full-data preprocessing before independent split; same-source family across held-out subject claim; future backfilled feature; test cache under train key; unknown label as negative; withdrawn data revived from backup.",
+      "legal_neighbor_contract": "Declared transductive use of unlabeled test inputs narrows the claim rather than being universally forbidden; same-subject future prediction and legitimate repeated observations can be lawful.",
+      "source_claim_ids": [
+        "MR-SKLEARN-P1",
+        "MR-PROVO-P1",
+        "MR-DATASHEETS-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-DP",
+      "title": "隐私声明、观察转录与有限随机响应",
+      "command": "python3 examples/model_research_target_probe.py dp-records --input examples/model-research-record-fixture.json",
+      "inputs_and_preconditions": [
+        "Python3 standard library",
+        "finite binary randomized response with4 equiprobable coins",
+        "synthetic visible-release ledger"
+      ],
+      "complete_applicable_acceptance_contract": "Actual DP validation must bind mechanism/proof, privacy adjacency/unit/parameters/variant, trusted parties/protected observer and EVERY observed training/selection/validation/retry/recovery output. Verify implemented clipping/sampling/noise/numerical randomness and the exact accountant against proof assumptions; the chosen L5 accountant entrypoint and actual output transcript become part of the project command binding. Restricted random-state recovery must preserve the same valid mechanism/accounting assumptions without exposing noise reconstruction to the protected observer. Empirical leakage audits report power, false positives and access capabilities, never replace the proof.",
+      "probe_expected": "Exact singleton enumeration establishes only the included finite binary mechanism’s likelihood ratio≤3, hence its finite pure-DP ε=ln3 statement. Revealing coin alongside output violates that bound. Visible ledger totals candidate epsilons while duplicate transmission of an existing output does not add a new mechanism.",
+      "direct_failure_contract": "Event-level DP named user-history DP; resetting accountant on recovery; excluding candidates already visible to boundary-external analysts because not publicly published; output plus public reconstructible noise seed; false empirical no-hit anonymity proof.",
+      "legal_neighbor_contract": "No-DP research may honestly use empirical risk limits. Trusted internal intermediate state proven covered by the full mechanism is not mechanically a new release. Ordinary non-sensitive reproducible simulations are not secret-data releases.",
+      "source_claim_ids": [
+        "MR-DP-P1",
+        "MR-NIST-DPTRUST-P1",
+        "MR-DP-RNG-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-LEDGER",
+      "title": "资源与所有尝试对账入口",
+      "command": "python3 examples/model_research_target_probe.py ledger --input examples/model-research-record-fixture.json",
+      "inputs_and_preconditions": [
+        "Python3 standard library",
+        "supplied synthetic estimates/settlement/unknown-meter ledger"
+      ],
+      "complete_applicable_acceptance_contract": "For a real provider, bind the exact read-only billing/job query or exported statement identity and period, update time, currency/unit, meter dedup key and target/run/attempt mapping. Reconcile estimates to settlement, include search/failed/retry/storage/egress and shared amortization, and account for in-flight unbilled exposure before new admissions. Provider resources, research states and settled bills have separate authorities; the file-processing probe cannot verify their authenticity.",
+      "probe_expected": "attempt1 estimate2 is replaced by settlement3, attempt2 adds4, giving USD7 known plus one unknown storage-tail meter; completeness remains false, not a zero tail cost.",
+      "direct_failure_contract": "Estimate plus settlement double counted; restart resets original target cost; disconnected job treated as zero cost; heterogenous GPU-hour called equal compute; winner-only cost presented as full research efficiency.",
+      "legal_neighbor_contract": "Private artifact delivery can finish while final billing is pending; clearly stated incremental/hot-cache or real-cost system comparisons can be legitimate without homogeneous hardware.",
+      "source_claim_ids": [
+        "MR-NEURIPS-P1",
+        "MR-AWSBUDGET-P1"
+      ]
+    },
+    {
+      "status": "not-run-on-real-project-target",
+      "evidence_contract": {
+        "identity": [
+          "exact source code and input digests",
+          "actual Python/library/compiler versions",
+          "OS/backend/device and layout if applicable",
+          "run/attempt/segment and protocol revision",
+          "rights/use/recipient and responsible authority references where applicable"
+        ],
+        "capture": [
+          "complete command line and working directory",
+          "start/end and exit code",
+          "stdout/stderr without secrets",
+          "actual result and expected predicate",
+          "failures/pending/not-run entries and limitations"
+        ],
+        "decision": "A command completing does not certify rights, mathematical truth, a whole clause, training quality or deployment. Its stated observations must match the clause; unimplemented project-specific checks remain not-run, never default success."
+      },
+      "project_binding": [
+        "Replace only the synthetic input identity with an authorized exact project object when adopting; preserve field semantics and authority checks.",
+        "For actual training/proof/DP accountancy/provider billing, name the selected implementation entrypoint, environment and raw authority receipts in L6; no universal generic probe can establish these facts.",
+        "Any project-specific command/fixture missing at adoption is a recorded implementation gap. The normative acceptance contract below remains mandatory for the applicable claim."
+      ],
+      "timeout_unknown": "Record a timeout as incomplete/unknown with reached stage and source of observation. Do not infer remote nonexecution. Query the real job/store or reconcile external effects before a retry; preserve attempts and cumulative work. Any automatic fault response must belong to the target’s established operation contract.",
+      "compatibility": "Lock actual implementation versions separately from observed source-document labels. A version/shape/hash match alone is not semantic or behavioral compatibility; changes require a new affected-evidence binding.",
+      "profile_id": "MR-LIFECYCLE",
+      "title": "组合交接、保存和处置计划",
+      "command": "python3 examples/model_research_target_probe.py lifecycle-records --input examples/model-research-record-fixture.json",
+      "inputs_and_preconditions": [
+        "Python3 standard library",
+        "synthetic checkpoint reference and layered delivery states"
+      ],
+      "complete_applicable_acceptance_contract": "Actual acceptance binds each material’s content/interpretation identity and dependency graph, actual access rights and disposition basis, current references/in-flight writes, recipient purpose and observed provider/consumer receipts. Verify original bytes vs parsed/OCR identities and transformations separately. Revalidate current rights before restore. A disposition plan/request acceptance/path absence is not full replica deletion or model forgetting; record each controlled/pending/unrecoverable result and permitted audit minimum. Publication requires exact recipient/channel availability; deployment requires actual environment consuming the exact joint bundle.",
+      "probe_expected": "The supplied probe creates only a plan with effects_executed=False, reports reproducibility loss and no forgetting claim. Artifact delivery complete, billing pending, publication and deployment unverified coexist.",
+      "direct_failure_contract": "Root license used to redistribute restricted base; parsed text hash called original PDF hash; expired private link called delivery complete; unique checkpoint deleted without basis; URL down claimed all copies recalled; CI green called deployment.",
+      "legal_neighbor_contract": "Adapter-only delivery with legal base acquisition, controlled private review, legally required disposal by an already authorized actor, and truthful partial reproducibility remain legitimate.",
+      "source_claim_ids": [
+        "MR-PROVDM-P1",
+        "MR-SLSA-P1",
+        "MR-BAGIT-P1",
+        "MR-PEFT-CKPT-P1"
+      ]
+    }
+  ],
+  "scope": "Specific supplied probes are limited entrypoint examples. Full applicable contract, project identity/authority binding and all fault/negative paths are required before a real implementation is called accepted. None of the framework/compiler/device/backend probes has been run for this package."
+}

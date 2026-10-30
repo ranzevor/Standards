@@ -1,0 +1,11 @@
+# Registry digests identify the exact UTF-8/LF source bytes on every checkout.
+* text=auto eol=lf
+
+# Binary artifacts must never undergo newline conversion.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.zip binary

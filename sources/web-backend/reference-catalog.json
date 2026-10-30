@@ -1,0 +1,1917 @@
+{
+  "references": [
+    {
+      "document_id": "STD-L4-WEB-002",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-002",
+      "url": "https://owasp.github.io/www-project-application-security-verification-standard/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-002",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-002",
+      "url": "https://web.dev/articles/vitals/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "VITALS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-007",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-007",
+      "url": "https://dom.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "DOM"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-007",
+      "url": "https://www.w3.org/TR/wai-aria-1.2/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-007",
+      "url": "https://www.w3.org/WAI/ARIA/apg/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-007",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-007",
+      "url": "https://wpt.fyi/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/Style/CSS/current-work",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-cascade-5/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-flexbox-1/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-grid-2/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-sizing-3/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-values-4/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-overflow-3/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-conditional-5/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/mediaqueries-5/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-logical-1/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-color-4/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/css-fonts-4/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-001",
+      "url": "https://wpt.fyi/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://html.spec.whatwg.org/multipage/browsing-the-web.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HISTORY"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://url.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "URL"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://streams.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "STREAMS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Navigation_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/History_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Window/pageshow_event",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://react.dev/reference/react-dom/client/hydrateRoot",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HYDRATE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://react.dev/reference/react-dom/server/renderToPipeableStream",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-009",
+      "url": "https://wpt.fyi/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://fetch.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "FETCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://html.spec.whatwg.org/multipage/forms.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://dom.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "DOM"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://streams.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "STREAMS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://url.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "URL"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PROBLEM"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://storage.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "STORAGE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://www.w3.org/TR/2025/WD-IndexedDB-3-20250813/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "IDB"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-006",
+      "url": "https://www.w3.org/TR/IndexedDB/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://owasp.org/projects/asvs",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://www.rfc-editor.org/rfc/rfc10017.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "BROWSER-OAUTH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OAUTH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://www.w3.org/TR/2026/REC-webauthn-3-20260825/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "WEBAUTHN"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://fetch.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "FETCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Set-Cookie",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CORS",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Content-Security-Policy",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Trusted_Types_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-008",
+      "url": "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.w3.org/TR/2026/CRD-service-workers-20260917/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SW"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.w3.org/TR/service-workers/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.w3.org/TR/2026/WD-appmanifest-20261008/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.w3.org/TR/appmanifest/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://storage.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "STORAGE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.w3.org/TR/2025/WD-IndexedDB-3-20250813/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "IDB"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://fetch.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "FETCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.w3.org/TR/2026/WD-push-api-20261005/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.rfc-editor.org/rfc/rfc8030.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://www.rfc-editor.org/rfc/rfc8292.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Background_Synchronization_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Web_Periodic_Background_Synchronization_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Guides/Making_PWAs_installable",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Storage_API/Storage_quotas_and_eviction_criteria",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-010",
+      "url": "https://wpt.fyi/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/2024/REC-WCAG22-20241212/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "WCAG"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/2023/REC-wai-aria-1.2-20230606/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "ARIA"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/2026/REC-html-aria-20260811/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTML-ARIA"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/2026/REC-act-rules-format-1.1-20260205/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "ACT"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/WAI/ARIA/apg/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/accname-1.1/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/2026/WD-accname-1.2-20261012/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/wai-aria-1.3/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/TR/html-aam-1.0/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-005",
+      "url": "https://www.w3.org/WAI/test-evaluate/conformance/wcag-em/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://web.dev/articles/vitals",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "VITALS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.w3.org/TR/2026/CRD-resource-timing-20260901/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.w3.org/TR/2026/WD-largest-contentful-paint-20260826/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.w3.org/TR/2026/WD-long-animation-frames-20260428/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.w3.org/TR/navigation-timing-2/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.w3.org/TR/performance-timeline-2/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.w3.org/TR/user-timing/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://fetch.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "FETCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/fetchpriority",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/rel/modulepreload",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Prioritized_Task_Scheduling_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Speculation_Rules_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-004",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Performance_API",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://developer.mozilla.org/en-US/docs/Glossary/Baseline/Compatibility",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://github.com/web-platform-dx/web-features",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://github.com/mdn/browser-compat-data",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://web-platform-tests.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://web-platform-tests.org/writing-tests/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://wpt.fyi/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://www.w3.org/TR/2018/REC-webdriver1-20180605/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://www.w3.org/TR/2026/WD-webdriver2-20260702/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://www.w3.org/TR/2026/WD-webdriver-bidi-20261008/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://playwright.dev/docs/browsers",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PLAYWRIGHT"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://dom.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "DOM"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://fetch.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "FETCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://www.w3.org/Style/CSS/current-work",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://tc39.es/ecma262/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://tc39.es/ecma402/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://www.w3.org/TR/WCAG22/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-011",
+      "url": "https://wpt.fyi/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://html.spec.whatwg.org/multipage/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://fetch.spec.whatwg.org/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "FETCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://www.w3.org/TR/2026/CRD-service-workers-20260917/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SW"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://www.w3.org/TR/2016/REC-SRI-20160623/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SRI"
+      ]
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Cache-Control",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/Caching",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/Security/Defenses/Subresource_Integrity",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/HTTP/Reference/Headers/Clear-Site-Data",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerGlobalScope/skipWaiting",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-WEB-003",
+      "url": "https://developer.mozilla.org/en-US/docs/Web/API/Clients/claim",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PROBLEM"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://spec.openapis.org/oas/v3.2.1.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OAS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://www.w3.org/TR/trace-context/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://opentelemetry.io/docs/specs/otel/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://grpc.io/docs/what-is-grpc/core-concepts/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-007",
+      "url": "https://api-security.owasp.org/editions/2023/en/0x03-introduction/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://martinfowler.com/bliki/BoundedContext.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://martinfowler.com/bliki/DDD_Aggregate.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://martinfowler.com/eaaDev/DomainEvent.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/model/domain-analysis",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/microservices/model/tactical-ddd",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://learn.microsoft.com/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/microservice-domain-model",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://spec.openapis.org/oas/v3.2.1.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OAS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-013",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc9205.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PROBLEM"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://spec.openapis.org/oas/v3.2.1.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OAS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc6585.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc8288.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc9745.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "DEPRECATION"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc8594.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SUNSET"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc5789.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PATCH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://www.rfc-editor.org/rfc/rfc9112.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-001",
+      "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-idempotency-key-header/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/what-is-grpc/core-concepts/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC-WIRE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/guides/flow-control/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC-FLOW"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/guides/cancellation/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/guides/retry/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC-RETRY"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/guides/keepalive/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/guides/status-codes/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/guides/health-checking/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://protobuf.dev/programming-guides/editions/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://www.rfc-editor.org/rfc/rfc6455.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "WS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://www.rfc-editor.org/rfc/rfc8441.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "WS-H2"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://www.rfc-editor.org/rfc/rfc9220.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "WS-H3"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SSE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-002",
+      "url": "https://grpc.io/docs/platforms/web/basics/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc9700.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OAUTH"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc8725.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "JWT"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc9068.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc9449.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "DPOP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc8705.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc7662.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc7009.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc8414.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://www.rfc-editor.org/rfc/rfc8693.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://openid.net/specs/openid-connect-core-1_0-errata2.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://spiffe.io/docs/latest/spiffe-specs/spiffe-id/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://spiffe.io/docs/latest/spiffe-specs/spiffe_workload_api/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://github.com/OWASP/ASVS/tree/v5.0.0",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://api-security.owasp.org/editions/2023/en/0x11-t10/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-009",
+      "url": "https://csrc.nist.gov/pubs/sp/800/63/4/final",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://webstore.iec.ch/en/publication/86046",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://webstore.iec.ch/en/publication/115544",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://www.postgresql.org/docs/18/transaction-iso.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PG"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://www.postgresql.org/docs/18/explicit-locking.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://www.postgresql.org/docs/18/errcodes-appendix.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "MYSQL"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-locking-reads.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://www.sqlite.org/isolation.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SQLITE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-003",
+      "url": "https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-idempotency-key-header-08",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "KEY"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/bindings/kafka-protocol-binding.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://www.asyncapi.com/docs/reference/specification/v3.0.0",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://www.oasis-open.org/standard/amqp/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://kafka.apache.org/40/design/design/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "KAFKA"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://www.rabbitmq.com/docs/confirms",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "RABBIT"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://docs.nats.io/learn/jetstream/pull-consumers",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-010",
+      "url": "https://opentelemetry.io/docs/specs/semconv/messaging/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://www.omg.org/spec/BPMN/2.0.2/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/saga-patterns.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OUTBOX"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/saga",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "COMP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.temporal.io/workflows",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.temporal.io/encyclopedia/workflow-message-passing",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.aws.amazon.com/step-functions/latest/dg/choosing-workflow-type.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.aws.amazon.com/step-functions/latest/dg/redrive-executions.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://docs.aws.amazon.com/step-functions/latest/dg/concepts-amazon-states-language.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-004",
+      "url": "https://www.postgresql.org/docs/18/sql-prepare-transaction.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CACHE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.rfc-editor.org/rfc/rfc9211.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.rfc-editor.org/rfc/rfc5861.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://redis.io/docs/latest/develop/pubsub/keyspace-notifications/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "REDIS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://redis.io/docs/latest/develop/clients/client-side-caching/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://redis.io/docs/latest/develop/reference/eviction/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.postgresql.org/docs/18/logical-replication-subscription.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.postgresql.org/docs/18/sql-refreshmaterializedview.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.elastic.co/docs/api/doc/elasticsearch/operation/operation-open-point-in-time",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-011",
+      "url": "https://www.elastic.co/docs/manage-data/data-store/near-real-time-search",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "HTTP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://www.rfc-editor.org/rfc/rfc6585.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://grpc.io/docs/guides/deadlines/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://grpc.io/docs/guides/retry/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC-RETRY"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://grpc.io/docs/guides/request-hedging/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "ENVOY"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/configuration/operations/overload_manager/overload_manager",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/other_features/global_rate_limiting",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://kubernetes.io/docs/concepts/configuration/liveness-readiness-startup-probes/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-008",
+      "url": "https://aws.amazon.com/builders-library/timeouts-retries-and-backoff-with-jitter/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://www.w3.org/TR/trace-context/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://www.w3.org/TR/trace-context-2/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/specs/otel/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/specs/otlp/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OTLP"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OTEL"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/specs/otel/logs/data-model/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/specs/otel/trace/sdk/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/specs/otel/profiles/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PROFILES"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://prometheus.io/docs/practices/naming/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://prometheus.io/docs/specs/native_histograms/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PROM-HIST"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://sre.google/workbook/implementing-slos/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "SLO"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://sre.google/workbook/alerting-on-slos/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/open-vs-closed/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "LOAD"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-005",
+      "url": "https://opentelemetry.io/docs/collector/internal-telemetry/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://www.rfc-editor.org/rfc/rfc9745",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://www.rfc-editor.org/rfc/rfc8594",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://protobuf.dev/programming-guides/editions/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "K8S"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://www.postgresql.org/docs/18/sql-altertable.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://www.postgresql.org/docs/18/continuous-archiving.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "PITR"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://docs.confluent.io/platform/current/schema-registry/develop/api.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://learn.microsoft.com/en-us/azure/well-architected/operational-excellence/safe-deployments",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-012",
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/deployments-and-environments",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://spec.openapis.org/oas/v3.2.1.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "OAS"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://www.asyncapi.com/docs/reference/specification/v3.1.0",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "ASYNC"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "CE"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://grpc.io/docs/guides/deadlines/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://grpc.io/docs/guides/retry/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": [
+        "GRPC-RETRY"
+      ]
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://docs.pact.io/provider",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://owasp.github.io/www-project-application-security-verification-standard/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://owasp.org/API-Security/editions/2023/en/0x00-header/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://docs.aws.amazon.com/fis/latest/userguide/stop-conditions.html",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://opentelemetry.io/docs/specs/otel/",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    },
+    {
+      "document_id": "STD-L4-BACKEND-006",
+      "url": "https://csrc.nist.gov/pubs/sp/800/61/r3/final",
+      "role": "technical-source-or-conditional-reference",
+      "core_claim_ids": []
+    }
+  ],
+  "note": "本目录用于定位官方技术资料；技术支持范围按claims.json列出的命题与章节确定。具体项目按L5/L6固定采用版本。ISO书目链接用于定位标准，具体隔离语义由所列引擎资料支持。"
+}

@@ -1,0 +1,561 @@
+{
+  "authority": "Chinese normative sources only; this file is source evidence and finite verification contracts, not a second standard registry",
+  "readme_contract": {
+    "additional_badges": [
+      {
+        "claim": "0.1.0",
+        "evidence": {
+          "field": "version",
+          "mode": "json-field",
+          "path": "project.json"
+        },
+        "id": "version",
+        "kind": "version",
+        "object": "Version",
+        "target": "releases/v0.1.0.md",
+        "color": "blue",
+        "url": "https://img.shields.io/badge/Version-0.1.0-blue"
+      },
+      {
+        "claim": "CC BY 4.0",
+        "evidence": {
+          "mode": "text",
+          "path": "LICENSE"
+        },
+        "id": "docs-license",
+        "kind": "license",
+        "object": "Docs & data",
+        "target": "LICENSE",
+        "color": "blue",
+        "url": "https://img.shields.io/badge/Docs%20%26%20data-CC%20BY%204.0-blue"
+      },
+      {
+        "claim": "Apache-2.0",
+        "evidence": {
+          "mode": "text",
+          "path": "LICENSE"
+        },
+        "id": "software-license",
+        "kind": "license",
+        "object": "Software",
+        "target": "LICENSE",
+        "color": "blue",
+        "url": "https://img.shields.io/badge/Software-Apache--2.0-blue"
+      },
+      {
+        "claim": "3.12",
+        "evidence": {
+          "mode": "python-workflow",
+          "path": ".github/workflows/quality.yml"
+        },
+        "id": "python",
+        "kind": "technology",
+        "object": "Python",
+        "target": "guides/COMPATIBILITY.md",
+        "color": "3776AB",
+        "url": "https://img.shields.io/badge/Python-3.12-3776AB"
+      },
+      {
+        "claim": "Markdown",
+        "evidence": {
+          "mode": "text",
+          "path": "guides/AUTHORING.md"
+        },
+        "id": "markdown",
+        "kind": "technology",
+        "object": "Documents",
+        "target": "guides/AUTHORING.md",
+        "color": "000000",
+        "url": "https://img.shields.io/badge/Documents-Markdown-000000"
+      },
+      {
+        "claim": "JSON Schema",
+        "evidence": {
+          "mode": "json-schema",
+          "path": "registry/schemas/standards.schema.json"
+        },
+        "id": "schema",
+        "kind": "technology",
+        "object": "Contracts",
+        "target": "governance/VALIDATION.md",
+        "color": "blue",
+        "url": "https://img.shields.io/badge/Contracts-JSON%20Schema-blue"
+      },
+      {
+        "claim": "Agent Skill",
+        "evidence": {
+          "mode": "text",
+          "path": "guides/OFFLINE.md"
+        },
+        "id": "agent-skill",
+        "kind": "distribution",
+        "object": "Distribution",
+        "target": "guides/OFFLINE.md",
+        "color": "6E59A5",
+        "url": "https://img.shields.io/badge/Distribution-Agent%20Skill-6E59A5"
+      },
+      {
+        "claim": "RFC 2119 / RFC 8174",
+        "evidence": {
+          "items": [
+            "RFC 2119",
+            "RFC 8174"
+          ],
+          "mode": "references",
+          "path": "sources/common-governance.md"
+        },
+        "id": "rfc-reference",
+        "kind": "reference",
+        "object": "References",
+        "target": "sources/common-governance.md",
+        "color": "gray",
+        "url": "https://img.shields.io/badge/References-RFC%202119%20%2F%20RFC%208174-gray"
+      },
+      {
+        "claim": "SSDF 1.1",
+        "evidence": {
+          "items": [
+            "SSDF 1.1"
+          ],
+          "mode": "references",
+          "path": "sources/common-governance.md"
+        },
+        "id": "ssdf-reference",
+        "kind": "reference",
+        "object": "References",
+        "target": "sources/common-governance.md",
+        "color": "gray",
+        "url": "https://img.shields.io/badge/References-SSDF%201.1-gray"
+      }
+    ],
+    "anchors": [
+      "purpose",
+      "status",
+      "quick-start",
+      "navigation",
+      "domains",
+      "versions",
+      "contributing",
+      "security",
+      "license"
+    ],
+    "badge": {
+      "id": "adopted-documents",
+      "kind": "status",
+      "object": "Documents",
+      "claim": "162 adopted",
+      "url": "https://img.shields.io/badge/Documents-162%20adopted-brightgreen",
+      "color": "brightgreen",
+      "target": "#status",
+      "evidence": {
+        "path": "registry/standards.json",
+        "mode": "adopted-documents"
+      }
+    },
+    "files": {
+      "en": "README.en.md",
+      "zh-Hans": "README.md"
+    },
+    "images": [
+      {
+        "bytes": 1643845,
+        "format": "PNG",
+        "height": 768,
+        "path": "assets/cover.png",
+        "sha256": "ce4e342001a077a0e17b94c5accb8efd54803f64627604dd546b319bcfa420df",
+        "width": 2048
+      }
+    ],
+    "navigation": {
+      "adoption": {
+        "en": "standards/L6/001-项目采用与实现验收接口规范--v0.1.0.md",
+        "zh-Hans": "standards/L6/001-项目采用与实现验收接口规范--v0.1.0.md"
+      },
+      "adoptions": {
+        "en": "templates/project-governance/project-record.template.json",
+        "zh-Hans": "templates/project-governance/project-record.template.json"
+      },
+      "architecture": {
+        "en": "standards/L0/001-体系架构与规范编制准则--v0.1.0.md",
+        "zh-Hans": "standards/L0/001-体系架构与规范编制准则--v0.1.0.md"
+      },
+      "authoring": {
+        "en": "guides/AUTHORING.md",
+        "zh-Hans": "guides/AUTHORING.md"
+      },
+      "catalog": {
+        "en": "INDEX.md",
+        "zh-Hans": "INDEX.md"
+      },
+      "changelog": {
+        "en": "CHANGELOG.md",
+        "zh-Hans": "CHANGELOG.md"
+      },
+      "compatibility": {
+        "en": "guides/COMPATIBILITY.md",
+        "zh-Hans": "guides/COMPATIBILITY.md"
+      },
+      "conduct": {
+        "en": "CODE_OF_CONDUCT.md",
+        "zh-Hans": "CODE_OF_CONDUCT.md"
+      },
+      "contribution": {
+        "en": "CONTRIBUTING.md",
+        "zh-Hans": "CONTRIBUTING.md"
+      },
+      "documentation-standard": {
+        "en": "translations/en/project-governance/documentation-i18n.md",
+        "zh-Hans": "standards/project-governance/006-文档编制与国际化规范--v0.1.0.md"
+      },
+      "domain:ai-agent": {
+        "en": "standards/L4/ai-agent/README.md",
+        "zh-Hans": "standards/L4/ai-agent/README.md"
+      },
+      "domain:automation": {
+        "en": "standards/L4/automation/README.md",
+        "zh-Hans": "standards/L4/automation/README.md"
+      },
+      "domain:backend": {
+        "en": "standards/L4/backend/README.md",
+        "zh-Hans": "standards/L4/backend/README.md"
+      },
+      "domain:cli-sdk": {
+        "en": "standards/L4/cli-sdk/README.md",
+        "zh-Hans": "standards/L4/cli-sdk/README.md"
+      },
+      "domain:cloud": {
+        "en": "standards/L4/cloud/README.md",
+        "zh-Hans": "standards/L4/cloud/README.md"
+      },
+      "domain:commerce-billing": {
+        "en": "standards/L4/commerce-billing/README.md",
+        "zh-Hans": "standards/L4/commerce-billing/README.md"
+      },
+      "domain:database": {
+        "en": "standards/L4/database/README.md",
+        "zh-Hans": "standards/L4/database/README.md"
+      },
+      "domain:desktop": {
+        "en": "standards/L4/desktop/README.md",
+        "zh-Hans": "standards/L4/desktop/README.md"
+      },
+      "domain:embedded-edge": {
+        "en": "standards/L4/embedded-edge/README.md",
+        "zh-Hans": "standards/L4/embedded-edge/README.md"
+      },
+      "domain:game": {
+        "en": "standards/L4/game/README.md",
+        "zh-Hans": "standards/L4/game/README.md"
+      },
+      "domain:mobile": {
+        "en": "standards/L4/mobile/README.md",
+        "zh-Hans": "standards/L4/mobile/README.md"
+      },
+      "domain:model-research": {
+        "en": "standards/L4/model-research/README.md",
+        "zh-Hans": "standards/L4/model-research/README.md"
+      },
+      "domain:network-realtime": {
+        "en": "standards/L4/network-realtime/README.md",
+        "zh-Hans": "standards/L4/network-realtime/README.md"
+      },
+      "domain:open-source": {
+        "en": "standards/L4/open-source/README.md",
+        "zh-Hans": "standards/L4/open-source/README.md"
+      },
+      "domain:security": {
+        "en": "standards/L4/security/README.md",
+        "zh-Hans": "standards/L4/security/README.md"
+      },
+      "domain:web": {
+        "en": "standards/L4/web/README.md",
+        "zh-Hans": "standards/L4/web/README.md"
+      },
+      "getting-started": {
+        "en": "guides/GETTING-STARTED.md",
+        "zh-Hans": "guides/GETTING-STARTED.md"
+      },
+      "governance": {
+        "en": "translations/en/project-governance/framework.md",
+        "zh-Hans": "standards/project-governance/001-项目治理领域总则与职责接口--v0.1.0.md"
+      },
+      "languages": {
+        "en": "guides/INTERNATIONALIZATION.md",
+        "zh-Hans": "guides/INTERNATIONALIZATION.md"
+      },
+      "license": {
+        "en": "LICENSE-NOTICE.md",
+        "zh-Hans": "LICENSE-NOTICE.md"
+      },
+      "licensing": {
+        "en": "governance/LICENSING.md",
+        "zh-Hans": "governance/LICENSING.md"
+      },
+      "maintenance": {
+        "en": "governance/MAINTENANCE.md",
+        "zh-Hans": "governance/MAINTENANCE.md"
+      },
+      "readme-standard": {
+        "en": "translations/en/project-governance/readme-branding.md",
+        "zh-Hans": "standards/project-governance/005-README品牌与徽章规范--v0.1.0.md"
+      },
+      "release": {
+        "en": "governance/RELEASE.md",
+        "zh-Hans": "governance/RELEASE.md"
+      },
+      "rights-standard": {
+        "en": "translations/en/project-governance/rights-license.md",
+        "zh-Hans": "standards/project-governance/014-权属许可与第三方材料规范--v0.1.0.md"
+      },
+      "security": {
+        "en": "SECURITY.md",
+        "zh-Hans": "SECURITY.md"
+      },
+      "sources": {
+        "en": "sources/README.md",
+        "zh-Hans": "sources/README.md"
+      },
+      "stacks": {
+        "en": "guides/STACK-ADAPTERS.md",
+        "zh-Hans": "guides/STACK-ADAPTERS.md"
+      },
+      "templates": {
+        "en": "templates/README.md",
+        "zh-Hans": "templates/README.md"
+      }
+    },
+    "semantic_equivalence": "requires read-through; matching navigation/commands are only finite correspondence checks",
+    "shell_blocks": [
+      "python checks/validate_all.py\npython -m unittest discover -s tests -v"
+    ],
+    "badge_protocol": "shields-static/1"
+  },
+  "rights_facts": {
+    "cover_composition": "Project-prepared generated PNG illustration, 2048x768; no bundled font file or external image resource. Status badge remains a geometric SVG with a system-font-family reference.",
+    "excluded": "Third-party material retains its applicable license and rights.",
+    "project_materials": "Project-authored standards, documentation, data, translations and visual assets use CC BY 4.0; software and schemas use Apache-2.0 as allocated in LICENSE.",
+    "public_redistribution_authorized": true,
+    "root_license": "multi-license-CC-BY-4.0-and-Apache-2.0"
+  },
+  "schema": "standards-documentation-rights/1",
+  "sources": [
+    {
+      "consumed_by": [
+        "PGE-02",
+        "PGE-04",
+        "PGD-06"
+      ],
+      "id": "DOC-S01",
+      "normative_effect": "syntax reference only",
+      "read_at": "2026-10-24",
+      "read_scope": [
+        "6.3 link text, destinations, inline/reference forms and balanced parentheses",
+        "6.4 image descriptions and plain-string alternatives"
+      ],
+      "retained_material": "link and limited original paraphrase; no upstream full text or asset bundled",
+      "sections": [
+        "6.3 Links",
+        "6.4 Images"
+      ],
+      "supported_claims": [
+        "Links have visible text and a destination; inline and reference links are distinct forms.",
+        "Image description supplies alternative text, not merely a file name."
+      ],
+      "title": "CommonMark Spec",
+      "unsupported_inferences": [
+        "The finite repository parser implements all CommonMark.",
+        "A syntactically valid link is reachable, readable or truthful."
+      ],
+      "url": "https://spec.commonmark.org/0.31.2/",
+      "version": "0.31.2 (2024-01-28)"
+    },
+    {
+      "consumed_by": [
+        "PGE-02",
+        "PGE-08"
+      ],
+      "id": "DOC-S02",
+      "normative_effect": "limited accessibility criteria; no conformance claim",
+      "read_at": "2026-10-24",
+      "read_scope": [
+        "1.1.1 text alternatives and listed exceptions",
+        "1.4.10 320 CSS px vertical reflow, two-dimensional exception and note 1"
+      ],
+      "retained_material": "link and limited original paraphrase; no upstream full text or asset bundled",
+      "sections": [
+        "1.1.1 Non-text Content",
+        "1.4.10 Reflow"
+      ],
+      "supported_claims": [
+        "Meaningful non-text content needs an alternative serving its purpose, subject to stated exceptions.",
+        "A 320 CSS px width is the specified vertical-content reflow reference; necessary two-dimensional content is excepted."
+      ],
+      "title": "Web Content Accessibility Guidelines (WCAG) 2.2",
+      "unsupported_inferences": [
+        "Two local screenshots prove full WCAG conformance.",
+        "A nonempty alt attribute proves an equivalent purpose.",
+        "GitHub or any untested remote renderer has passed."
+      ],
+      "url": "https://www.w3.org/TR/2024/REC-WCAG22-20241212/",
+      "version": "W3C Recommendation 12 December 2024"
+    },
+    {
+      "consumed_by": [
+        "PGD-02",
+        "PGD-07"
+      ],
+      "id": "DOC-S03",
+      "normative_effect": "language identification guidance only",
+      "read_at": "2026-10-24",
+      "read_scope": [
+        "language tags versus subtags, HTML lang/XML xml:lang, inheritance",
+        "en and zh-Hans examples; avoiding unnecessary subtags; registry guidance"
+      ],
+      "retained_material": "link and limited original paraphrase; no upstream full text or asset bundled",
+      "sections": [
+        "Overview",
+        "Finding subtags in the IANA registry"
+      ],
+      "supported_claims": [
+        "Language tags identify the language of text; en and zh-Hans identify English and Simplified-script Chinese.",
+        "Language tags use BCP 47 conventions and should not add unnecessary distinctions."
+      ],
+      "title": "Language tags in HTML and XML",
+      "unsupported_inferences": [
+        "A language tag establishes semantic equivalence.",
+        "Document language determines regional law or UI implementation.",
+        "This project implements the entire BCP 47 validation algorithm."
+      ],
+      "url": "https://www.w3.org/International/articles/language-tags/",
+      "version": "living W3C Internationalization article; read 2026-10-24, no fixed edition claimed"
+    },
+    {
+      "consumed_by": [
+        "PGL-01",
+        "PGL-02",
+        "PGL-03",
+        "PGL-04",
+        "PGL-07",
+        "PGL-08"
+      ],
+      "id": "DOC-S04",
+      "normative_effect": "general distinctions; actual owner confirmation and permissions remain separate facts",
+      "read_at": "2026-10-24",
+      "read_scope": [
+        "automatic protection and voluntary registration",
+        "rights-holder licensing authorization",
+        "initial ownership and employment exceptions",
+        "authorization and national limitations/exceptions"
+      ],
+      "retained_material": "link and limited original paraphrase; no upstream full text or asset bundled",
+      "sections": [
+        "Can I register copyright?",
+        "What does it mean to license my works and how can I do it?",
+        "Who owns the copyright to a work?",
+        "Do I need authorization to use a work protected by copyright?"
+      ],
+      "supported_claims": [
+        "Registration is generally not required for protection; voluntary registration can assist evidence.",
+        "Licensing is an authorization by a rights holder; access, ownership and usage permission are different facts.",
+        "Specific ownership and exceptions can depend on national law and circumstances."
+      ],
+      "title": "WIPO Frequently Asked Questions: Copyright",
+      "unsupported_inferences": [
+        "WIPO has verified this repository owner’s title.",
+        "Every material is copyrightable or automatically owned by its submitter.",
+        "The repository is licensed under MIT, Apache or CC.",
+        "A checker can decide infringement, contract formation or license compatibility."
+      ],
+      "url": "https://www.wipo.int/en/web/copyright/faq-copyright",
+      "version": "living official FAQ; read 2026-10-24, no jurisdiction-specific legal conclusion"
+    },
+    {
+      "consumed_by": [
+        "PGE-02",
+        "PGE-08"
+      ],
+      "id": "DOC-S05",
+      "normative_effect": "finite image-container reference only",
+      "read_at": "2026-10-24",
+      "read_scope": [
+        "signature, bounded chunk fields and CRC coverage",
+        "first IHDR and final IEND, required IDAT, nonzero header dimensions and integer byte order"
+      ],
+      "retained_material": "link and limited original paraphrase; no upstream full text or asset bundled",
+      "sections": [
+        "5.2 PNG signature",
+        "5.3 Chunk layout",
+        "5.5 CRC algorithm",
+        "7.1 Integers and byte order",
+        "11.2.1 IHDR Image header"
+      ],
+      "supported_claims": [
+        "PNG signature and chunk framing/CRC locate data and detect container corruption.",
+        "IHDR holds width and height; container/header checks alone do not decode pixels."
+      ],
+      "title": "Portable Network Graphics (PNG) Specification (Third Edition)",
+      "unsupported_inferences": [
+        "Complete PNG decoder conformance or valid decompressed pixels.",
+        "README browser layout, accessible task completion or mandatory PNG for every project."
+      ],
+      "url": "https://www.w3.org/TR/2025/REC-png-3-20250624/",
+      "version": "W3C Recommendation 24 June 2025"
+    },
+    {
+      "id": "DOC-S06",
+      "title": "Shields.io Static Badge",
+      "url": "https://shields.io/badges/static-badge",
+      "version": "official static badge endpoint documentation",
+      "read_at": "2026-10-30",
+      "read_scope": [
+        "static endpoint label/message/color path format",
+        "spaces, literal hyphens and underscores",
+        "standard style and label options"
+      ],
+      "sections": [
+        "Static Badge",
+        "Path Parameters",
+        "Query Parameters"
+      ],
+      "supported_claims": [
+        "The official static endpoint encodes badge text and color in its URL.",
+        "Percent-encoded spaces, doubled hyphens and doubled underscores preserve the intended displayed text."
+      ],
+      "unsupported_inferences": [
+        "A badge service independently verifies project status or license allocation."
+      ],
+      "normative_effect": "URL format reference; the project chooses the Shields.io requirement",
+      "consumed_by": [
+        "PGE-03",
+        "PGE-08"
+      ],
+      "retained_material": "link and original paraphrase"
+    }
+  ],
+  "translation_registry": {
+    "document_ids": [
+      "STD-PG-005",
+      "STD-PG-006",
+      "STD-PG-014"
+    ],
+    "path": "registry/translations.json"
+  },
+  "visual_contract": {
+    "assets": "readme_contract.images fixes each current asset identity; PNG profile checks container/header only",
+    "browser_targets_css_px": [
+      320,
+      1280
+    ],
+    "languages": [
+      "zh-Hans",
+      "en"
+    ],
+    "mechanical_scope": "finite links, asset identities and declared PNG container/header metadata; no pixel decode, browser-layout, accessibility-conformance or legal result",
+    "required_checks": [
+      "images loaded",
+      "positioning, current version and adoption state, quick-start and license readable",
+      "no whole-page horizontal overflow except necessary two-dimensional content",
+      "equivalent key prose with images hidden"
+    ]
+  }
+}

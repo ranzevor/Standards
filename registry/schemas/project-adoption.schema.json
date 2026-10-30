@@ -1,0 +1,300 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "example_only",
+    "operation_authorized",
+    "project",
+    "decision",
+    "standards",
+    "requirements",
+    "dependencies",
+    "implementation"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "1.0"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "example_only": {
+      "enum": [
+        true
+      ]
+    },
+    "operation_authorized": {
+      "enum": [
+        false
+      ]
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "id",
+        "kind"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "synthetic"
+          ]
+        }
+      }
+    },
+    "decision": {
+      "type": "object",
+      "required": [
+        "status",
+        "actor",
+        "authority_reference",
+        "at"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "not-decided"
+          ]
+        },
+        "actor": {
+          "type": "null"
+        },
+        "authority_reference": {
+          "type": "null"
+        },
+        "at": {
+          "type": "null"
+        }
+      }
+    },
+    "standards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "version",
+          "sha256",
+          "path",
+          "selection"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^[0-9]+\\.[0-9]+$"
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "path": {
+            "type": "string",
+            "pattern": "^standards/.+\\.md$"
+          },
+          "selection": {
+            "enum": [
+              "technical-reference",
+              "trial",
+              "adopted"
+            ]
+          }
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "document_id",
+          "clause_id",
+          "applicability",
+          "reason",
+          "checks"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clause_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "applicability": {
+            "enum": [
+              "applicable",
+              "not-applicable",
+              "undetermined"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          },
+          "checks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "id",
+                "evidence_level",
+                "command",
+                "expected",
+                "actual",
+                "status",
+                "evidence"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "evidence_level": {
+                  "enum": [
+                    "document-structure",
+                    "semantic-review",
+                    "finite-model",
+                    "isolated-implementation",
+                    "real-business"
+                  ]
+                },
+                "command": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "expected": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "actual": {
+                  "type": "null"
+                },
+                "status": {
+                  "enum": [
+                    "not-run"
+                  ]
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "from",
+          "to",
+          "interface",
+          "kind"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "from": {
+            "type": "object",
+            "required": [
+              "document_id",
+              "clause_id"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "document_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "clause_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "to": {
+            "type": "object",
+            "required": [
+              "document_id",
+              "clause_id"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "document_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "clause_id": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "interface": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": [
+              "required-consumption",
+              "technical-reference"
+            ]
+          }
+        }
+      }
+    },
+    "implementation": {
+      "type": "object",
+      "required": [
+        "status",
+        "identity",
+        "environment",
+        "scope"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "enum": [
+            "not-run"
+          ]
+        },
+        "identity": {
+          "type": "string",
+          "minLength": 1
+        },
+        "environment": {
+          "type": "string",
+          "minLength": 1
+        },
+        "scope": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  }
+}

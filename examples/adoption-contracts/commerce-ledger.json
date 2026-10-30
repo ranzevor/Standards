@@ -1,0 +1,153 @@
+{
+  "decision": {
+    "actor": null,
+    "at": null,
+    "authority_reference": null,
+    "status": "not-decided"
+  },
+  "dependencies": [
+    {
+      "from": {
+        "clause_id": "COM-Q03",
+        "document_id": "STD-L4-COMMERCE-002"
+      },
+      "interface": "本合成设计消费来源唯一的记账接口，确认结果与记账状态分别保留。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "COM-L03",
+        "document_id": "STD-L4-COMMERCE-004"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "COM-L03",
+        "document_id": "STD-L4-COMMERCE-004"
+      },
+      "interface": "分录金额消费准确币种、精度与舍入后的数值。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "COM-L01",
+        "document_id": "STD-L4-COMMERCE-004"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "COM-L03",
+        "document_id": "STD-L4-COMMERCE-004"
+      },
+      "interface": "持久分录消费实际SQL事务/唯一约束和未知提交恢复。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "STK-04",
+        "document_id": "STD-L5-009"
+      }
+    }
+  ],
+  "example_only": true,
+  "id": "synthetic-commerce-ledger",
+  "implementation": {
+    "environment": "设计环境：内存/SQLite合成账；真实支付渠道未接入。",
+    "identity": "synthetic-design:commerce-ledger:v1 (not a real project or accepted implementation)",
+    "scope": "仅演示合成金额/意图/分录合同，无真实渠道、退款、税务或资金。非交易合规结论与全量采用。",
+    "status": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "id": "合成交易账",
+    "kind": "synthetic"
+  },
+  "requirements": [
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest discover -s tests -p test_sec_edge_commerce_models.py -v",
+          "evidence": [],
+          "evidence_level": "finite-model",
+          "expected": "旧unknown加新not-applied仍unknown；重复通知不生成第二份权益或记账。",
+          "id": "commerce-ledger-intent",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "COM-Q03",
+      "document_id": "STD-L4-COMMERCE-002",
+      "reason": "一个商业意图可能有多个支付尝试，未知旧尝试不能被新尝试覆盖。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest discover -s tests -p test_sec_edge_commerce_models.py -v",
+          "evidence": [],
+          "evidence_level": "finite-model",
+          "expected": "金额转换、币种和舍入边界可复算；合法零额按业务合同而不是统一禁止。",
+          "id": "commerce-ledger-money",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "COM-L01",
+      "document_id": "STD-L4-COMMERCE-004",
+      "reason": "合成账使用币种与明确精度，不用浮点隐式舍入决定金额。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest discover -s tests -p test_sec_edge_commerce_models.py -v",
+          "evidence": [],
+          "evidence_level": "finite-model",
+          "expected": "同一来源重复接收不重复记账；冲突载荷不能静默覆盖已确认分录。",
+          "id": "commerce-ledger-ledger",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "COM-L03",
+      "document_id": "STD-L4-COMMERCE-004",
+      "reason": "分录必须保持来源唯一、状态分离和可追溯更正。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python examples/stacks/sqlite_case.py",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "本地事务原子性/回滚可观察；不推导真实支付终态、会计或法律结论。",
+          "id": "commerce-ledger-sql",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "STK-04",
+      "document_id": "STD-L5-009",
+      "reason": "若落SQLite，分录唯一和意图状态更新需同一明确事务或真实补偿契约。"
+    }
+  ],
+  "schema_version": "1.0",
+  "standards": [
+    {
+      "id": "STD-L4-COMMERCE-002",
+      "path": "standards/L4/commerce-billing/002-报价库存、支付尝试与订单履约技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "3da9150fd9e091f039acc3f308929fc45c033e00b7db4a20ac7810ce45db9cf6",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L4-COMMERCE-004",
+      "path": "standards/L4/commerce-billing/004-金额分摊、账本结算与渠道对账技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "559f1cb8e9fb461ead5fca44e4122571bf7aacb746e997467f8b4c6a93031ffc",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L5-009",
+      "path": "standards/L5/009-SQL-技术适配规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "7ea4bc8ae22de9d39d411a76967bb494efbf6d53afb7aebf4ae27aa8a54eb724",
+      "version": "0.1.0"
+    }
+  ]
+}

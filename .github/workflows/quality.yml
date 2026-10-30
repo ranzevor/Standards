@@ -1,0 +1,53 @@
+name: Standards quality
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      runner_mode:
+        description: 运行器选择；auto 读取私有仓库额度耗尽标记
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - github-hosted
+          - mu-fallback
+
+permissions:
+  contents: read
+
+concurrency:
+  group: standards-quality-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: >-
+      ${{ fromJSON(github.event.repository.private
+          && github.actor_id == github.repository_owner_id
+          && github.triggering_actor == github.repository_owner
+          && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+          && (inputs.runner_mode == 'mu-fallback' || ((inputs.runner_mode == '' || inputs.runner_mode == 'auto') && vars.STANDARDS_PRIVATE_ACTIONS_EXHAUSTED == 'true'))
+          && format('["mu-fallback-linux-x64","mu-run-{0}-{1}","mu-job-validate"]', github.run_id, github.run_attempt)
+          || '["ubuntu-latest"]') }}
+    timeout-minutes: 15
+    steps:
+      - name: Checkout exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Record Python identity
+        run: python --version
+      - name: Check generated registries
+        run: python checks/generate_registry.py --check
+      - name: Check generated navigation
+        run: python checks/generate_index.py --check
+      - name: Validate repository contracts
+        run: python checks/validate_all.py
+      - name: Run regression suite
+        run: python -m unittest discover -s tests -v

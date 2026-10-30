@@ -1,0 +1,17 @@
+{
+  "schema": "standards-behavior-adapter-template/1",
+  "enabled": false,
+  "adapter_id": "",
+  "model_identifiers": [],
+  "host_versions": [],
+  "tool_configuration_ref": "",
+  "observed_failure": "",
+  "source_case_ids": [],
+  "additional_instructions": "",
+  "normative_references": [],
+  "evidence": [],
+  "last_checked_at": null,
+  "revalidation_triggers": [],
+  "removal_condition": "",
+  "validation_status": "not-run"
+}

@@ -1,0 +1,102 @@
+name: Standards offline consumers
+
+on:
+  workflow_dispatch:
+    inputs:
+      runner_mode:
+        description: Linux 运行器选择；Windows 使用原生托管运行器
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - github-hosted
+          - mu-fallback
+
+permissions:
+  contents: read
+
+concurrency:
+  group: standards-platform-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONUTF8: '1'
+  PYTHONIOENCODING: utf-8
+  SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  offline-consumer:
+    if: >-
+      github.repository == 'ranzevor/Standards' && github.actor_id == github.repository_owner_id && github.triggering_actor == github.repository_owner
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: >-
+      ${{ fromJSON(matrix.os == 'ubuntu-latest'
+          && github.event.repository.private
+          && github.actor_id == github.repository_owner_id
+          && github.triggering_actor == github.repository_owner
+          && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+          && (inputs.runner_mode == 'mu-fallback' || ((inputs.runner_mode == '' || inputs.runner_mode == 'auto') && vars.STANDARDS_PRIVATE_ACTIONS_EXHAUSTED == 'true'))
+          && format('["mu-fallback-linux-x64","mu-run-{0}-{1}","mu-job-offline-consumer"]', github.run_id, github.run_attempt)
+          || format('["{0}"]', matrix.os)) }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: python
+    steps:
+      - name: Checkout the exact candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Verify portable source contracts and regression cases
+        run: |
+          import os, pathlib, subprocess, sys
+          evidence = pathlib.Path(os.environ['RUNNER_TEMP']) / 'standards-platform' / 'checks'
+          evidence.mkdir(parents=True)
+          commands = [
+              ('registry', ['checks/generate_registry.py', '--check']),
+              ('index', ['checks/generate_index.py', '--check']),
+              ('contracts', ['checks/validate_all.py']),
+              ('regressions', ['-m', 'unittest', 'tests.test_platform_portability',
+                               'tests.test_offline_consumers', '-v']),
+          ]
+          for name, args in commands:
+              with (evidence / (name + '.stdout')).open('wb') as out, (evidence / (name + '.stderr')).open('wb') as err:
+                  result = subprocess.run([sys.executable, '-X', 'utf8', '-B', *args], stdout=out, stderr=err)
+              print(name, result.returncode)
+              result.check_returncode()
+      - name: Build and consume this exact committed candidate
+        run: |
+          import json, os, pathlib, subprocess, sys
+          base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'standards-platform'
+          assets = base / 'artifacts'
+          subprocess.run([sys.executable, '-X', 'utf8', '-B', 'tools/build_release_bundle.py',
+                          '--output', str(assets), '--source-commit', os.environ['SOURCE_COMMIT']], check=True)
+          version = json.loads(pathlib.Path('project.json').read_text(encoding='utf-8'))['version']
+          subprocess.run([sys.executable, '-X', 'utf8', '-B', 'tools/check_offline_consumers.py',
+                          '--source-archive', str(assets / ('Standards-v' + version + '-source.zip')),
+                          '--skill-archive', str(assets / ('Standards-v' + version + '-agent-skill.zip')),
+                          '--evidence-dir', str(base / 'consumer')], check=True)
+      - name: Retain actual native-platform evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: standards-platform-${{ matrix.os }}-${{ env.SOURCE_COMMIT }}
+          path: |
+            ${{ runner.temp }}/standards-platform/checks/*
+            ${{ runner.temp }}/standards-platform/consumer/execution.json
+            ${{ runner.temp }}/standards-platform/consumer/*.stdout
+            ${{ runner.temp }}/standards-platform/consumer/*.stderr
+            ${{ runner.temp }}/standards-platform/artifacts/BUILD-REPORT.json
+            ${{ runner.temp }}/standards-platform/artifacts/SHA256SUMS.txt
+          if-no-files-found: warn
+          retention-days: 7

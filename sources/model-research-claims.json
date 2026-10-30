@@ -1,0 +1,1740 @@
+{
+  "schema": "standards-source-claims/1",
+  "domain": "model-research",
+  "read_date": "2026-10-23",
+  "records": [
+    {
+      "source_id": "MR-RFC8174",
+      "publisher": "RFC Editor / IETF",
+      "title": "RFC 8174",
+      "version": "BCP14, May 2017",
+      "nature": "Best Current Practice",
+      "url": "https://www.rfc-editor.org/rfc/rfc8174.html",
+      "read_at": "2026-10-23",
+      "read_scope": "§2",
+      "propositions": [
+        {
+          "claim_id": "MR-RFC8174-P1",
+          "supported": "English uppercase keywords have special BCP14 meanings; normative prose need not use those keywords.",
+          "limitations": "Does not define the Chinese modal verbs or prescribe learning methods."
+        }
+      ],
+      "supported_clause_references": [],
+      "document_context_references": [
+        "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-NEURIPS",
+      "publisher": "NeurIPS",
+      "title": "Paper Checklist Guidelines",
+      "version": "public 2026 selector, observed 2026-10-23; rolling page",
+      "nature": "conference reporting guidance",
+      "url": "https://neurips.cc/public/guides/PaperChecklist",
+      "read_at": "2026-10-23",
+      "read_scope": "items1–4,6–8",
+      "propositions": [
+        {
+          "claim_id": "MR-NEURIPS-P1",
+          "supported": "Scope and assumptions must match claims; reproducibility routes vary with the contribution; uncertainty needs an identified variability source and method; total compute includes preliminary/failed work.",
+          "limitations": "Not a theorem checker, legal authority, mandatory public release rule, or universal repetition/p-value threshold. The page’s illustrative sigma/CI wording is not adopted as a mathematical conversion."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§01"
+        },
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§17"
+        },
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§22"
+        },
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§25"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§01"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§04"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§05"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§06"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§18"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§20"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§21"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§22"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§01"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§02"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§04"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§12"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§16"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§18"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§22"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§21"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§20"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§03"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§06"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§08"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+        "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+        "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+        "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-RECORDS",
+        "MR-THEORY",
+        "MR-SCIPY",
+        "MR-LEDGER"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-RNG",
+      "publisher": "PyTorch",
+      "title": "Reproducibility",
+      "version": "2.14 documentation, page update2026-05-14",
+      "nature": "versioned implementation manual",
+      "url": "https://docs.pytorch.org/docs/2.14/notes/randomness.html",
+      "read_at": "2026-10-23",
+      "read_scope": "intro and Controlling sources of randomness/Avoiding nondeterministic algorithms",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-RNG-P1",
+          "supported": "Seeds control particular random streams; identical seeds do not guarantee identical results across releases/platforms or CPU/GPU. Deterministic algorithm settings have scope and performance costs.",
+          "limitations": "Documentation versions and installed framework versions are separate identities; reproducibility depends on the selected platform and operations."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§08"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§13"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+        "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-TORCH-NUMERIC"
+      ]
+    },
+    {
+      "source_id": "MR-PROVO",
+      "publisher": "W3C",
+      "title": "PROV-O",
+      "version": "Recommendation 2013-04-30",
+      "nature": "W3C Recommendation",
+      "url": "https://www.w3.org/TR/2013/REC-prov-o-20130430/",
+      "read_at": "2026-10-23",
+      "read_scope": "§3.1 and §4.1 entity/activity/agent, generation/derivation/usage",
+      "propositions": [
+        {
+          "claim_id": "MR-PROVO-P1",
+          "supported": "Entities, activities, responsible agents and generation/usage/derivation relations can express provenance.",
+          "limitations": "A provenance relation does not prove rights, scientific truth or causal identification; equivalent non-RDF records remain possible."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§06"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§06"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§20"
+        },
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§06"
+        },
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§02"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+        "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-RECORDS",
+        "MR-DATA"
+      ]
+    },
+    {
+      "source_id": "MR-NIST-RMF",
+      "publisher": "NIST",
+      "title": "AI Risk Management Framework landing page",
+      "version": "AI RMF1.0 named; page observed2026-10-23",
+      "nature": "voluntary framework landing text",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "read_at": "2026-10-23",
+      "read_scope": "voluntary purpose paragraph, observed line133",
+      "propositions": [
+        {
+          "claim_id": "MR-NIST-RMF-P1",
+          "supported": "NIST describes the AI RMF as voluntary and intended to support trustworthiness considerations across design/development/use/evaluation.",
+          "limitations": "Specific research gates are project engineering requirements derived from the cited framework."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§21"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-UML",
+      "publisher": "Shai Shalev-Shwartz and Shai Ben-David",
+      "title": "Understanding Machine Learning: From Theory to Algorithms",
+      "version": "2014 author manuscript, section numbering matches print but bytes/pages not identical",
+      "nature": "author-hosted book manuscript selected mathematical text",
+      "url": "https://www.cs.huji.ac.il/~shais/UnderstandingMachineLearning/understanding-machine-learning-theory-algorithms.pdf",
+      "read_at": "2026-10-23",
+      "read_scope": "rights page; §3.1 Definition3.1 PDFp42; §3.2 Definition3.4 and Remark3.1 PDFp48; earlier handoff selected§3.2/§3.4 read separately",
+      "propositions": [
+        {
+          "claim_id": "MR-UML-P1",
+          "supported": "PAC formulations order the algorithm/sample-complexity existence before accuracy/confidence/distribution choices and state i.i.d./realizability or agnostic-loss conditions; expectations need measurable losses.",
+          "limitations": "PAC is one learning-theory framework; projects state the assumptions and theorem appropriate to their problem. The manuscript remains available from its author."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§20"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§02"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§03"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§04"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§10"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§12"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-THEORY"
+      ]
+    },
+    {
+      "source_id": "MR-LEAN",
+      "publisher": "Lean",
+      "title": "Language Reference Axioms",
+      "version": "Rolling documentation; internal version links identify 4.36.0-rc1 at the recorded citation date.",
+      "nature": "official tool reference selected sections",
+      "url": "https://lean-lang.org/doc/reference/latest/Axioms/",
+      "read_at": "2026-10-23",
+      "read_scope": "§8.1/8.2, standard axioms/sorryAx/native evaluation and Displaying Axiom Dependencies",
+      "propositions": [
+        {
+          "claim_id": "MR-LEAN-P1",
+          "supported": "The dependency command reports transitive axioms; sorryAx is not a completed proof; native evaluation trusts more of the compiler than the kernel-only path.",
+          "limitations": "Acceptable logical axioms are not automatically proof failures; the project fixes its Lean release and checks correspondence with the natural-language statement."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§20"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§15"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§16"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LEAN"
+      ]
+    },
+    {
+      "source_id": "MR-AFP",
+      "publisher": "Archive of Formal Proofs / Bauer and Nipkow",
+      "title": "Flyspeck I Tame Graphs entry",
+      "version": "2006-05-22 entry, history2010/2014; release listIsabelle2025-2 dated2026-02-06",
+      "nature": "author abstract/history metadata only",
+      "url": "https://isa-afp.org/entries/Flyspeck-Tame.html",
+      "read_at": "2026-10-23",
+      "read_scope": "abstract/history/release metadata",
+      "propositions": [
+        {
+          "claim_id": "MR-AFP-P1",
+          "supported": "The authors report verified enumeration; the history records changes to tameness definitions/constants.",
+          "limitations": "The cited work illustrates a formal proof development; applying the method requires the project’s own formal statement and proof objects."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§14"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-THEORY"
+      ]
+    },
+    {
+      "source_id": "MR-HERNAN",
+      "publisher": "Harvard T.H. Chan School of Public Health / Miguel Hernán",
+      "title": "Miguel Hernan faculty profile",
+      "version": "rolling biography observed2026-10-23",
+      "nature": "author explanatory biography only",
+      "url": "https://hsph.harvard.edu/profile/miguel-hernan/",
+      "read_at": "2026-10-23",
+      "read_scope": "Biography",
+      "propositions": [
+        {
+          "claim_id": "MR-HERNAN-P1",
+          "supported": "The author describes well-defined causal questions using observational data, identification assumptions and suitable methods.",
+          "limitations": "A project supplies its causal assumptions and identification argument for its chosen estimand."
+        }
+      ],
+      "supported_clause_references": [],
+      "document_context_references": [
+        "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-TORCH-AMP",
+      "publisher": "PyTorch",
+      "title": "Automatic Mixed Precision examples",
+      "version": "2.14 documentation",
+      "nature": "versioned implementation examples",
+      "url": "https://docs.pytorch.org/docs/2.14/notes/amp_examples.html",
+      "read_at": "2026-10-23",
+      "read_scope": "Working with Unscaled/Scaled Gradients and multiple optimizers",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-AMP-P1",
+          "supported": "Under the documented scaler pattern, accumulate compatible scaled gradients, unscale once before unscaled clipping, and distinguish skipped optimizer steps from scaler/data-loop progress.",
+          "limitations": "The illustrative equal microbatch average does not define every weighted/variable-length objective; multiple optimizers may make separate skip decisions, not a universal global transaction."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§05"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§06"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§08"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§15"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§16"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§10"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§17"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-TORCH-NUMERIC",
+        "MR-DCP"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-NUMERIC",
+      "publisher": "PyTorch",
+      "title": "Numerical accuracy",
+      "version": "2.14 documentation, update2026-06-01",
+      "nature": "versioned implementation note",
+      "url": "https://docs.pytorch.org/docs/2.14/notes/numerical_accuracy.html",
+      "read_at": "2026-10-23",
+      "read_scope": "intro/Batched computations/Extremal values",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-NUMERIC-P1",
+          "supported": "Floating operation order/backend can change results; finite input and representable final magnitude do not ensure finite intermediates.",
+          "limitations": "No precision or safety guarantee for all algorithms. The page’s row/column slice example is not used as an identity or test oracle."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§17"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§11"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§14"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§16"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§07"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§20"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-TORCH-NUMERIC"
+      ]
+    },
+    {
+      "source_id": "MR-SCIPY-MIN",
+      "publisher": "SciPy",
+      "title": "scipy.optimize.minimize",
+      "version": "observed manual1.18.0 at rolling /doc/scipy/ URL",
+      "nature": "official API reference selected parameters/notes",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.optimize.minimize.html",
+      "read_at": "2026-10-23",
+      "read_scope": "jac/bounds/constraints, termination/options/returns and Powell/COBYQA notes",
+      "propositions": [
+        {
+          "claim_id": "MR-SCIPY-MIN-P1",
+          "supported": "Methods have different derivative, constraint, evaluation-count and termination contracts; success describes an exit condition rather than a general global-optimum proof.",
+          "limitations": "Method-specific assumptions, implementation versions and tolerances are fixed by the adopting project."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§02"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§10"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§12"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§19"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-SCIPY"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-BCE",
+      "publisher": "PyTorch",
+      "title": "BCEWithLogitsLoss",
+      "version": "2.14 documentation",
+      "nature": "versioned API reference",
+      "url": "https://docs.pytorch.org/docs/2.14/generated/torch.nn.BCEWithLogitsLoss.html",
+      "read_at": "2026-10-23",
+      "read_scope": "unreduced formula/reduction/parameters",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-BCE-P1",
+          "supported": "The documented element weights are inside individual losses; mean reduction divides their sum by output element count, not necessarily the sum of weights.",
+          "limitations": "This loss contract applies to the cited operation; other objectives may require a different normalization."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§04"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-TORCH-NUMERIC"
+      ]
+    },
+    {
+      "source_id": "MR-SKLEARN",
+      "publisher": "scikit-learn",
+      "title": "Common pitfalls and recommended practices",
+      "version": "observed1.9.1 at rolling stable URL",
+      "nature": "official implementation guide",
+      "url": "https://scikit-learn.org/stable/common_pitfalls.html",
+      "read_at": "2026-10-23",
+      "read_scope": "§12.2/12.2.1 and feature-selection example explanation",
+      "propositions": [
+        {
+          "claim_id": "MR-SKLEARN-P1",
+          "supported": "For the guide’s held-out prediction setting, fitted preprocessing must learn only from training data and then transform both sets.",
+          "limitations": "Not a prohibition of all declared transductive/online designs; no universal group split, ratio, or actual installed version is established."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§07"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§05"
+        },
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§14"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+        "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DATA"
+      ]
+    },
+    {
+      "source_id": "MR-SCIPY-BOOT",
+      "publisher": "SciPy",
+      "title": "scipy.stats.bootstrap",
+      "version": "observed1.18.0 at rolling /doc/scipy/ URL",
+      "nature": "official API reference",
+      "url": "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html",
+      "read_at": "2026-10-23",
+      "read_scope": "paired/rng/method/Warnings/Notes",
+      "propositions": [
+        {
+          "claim_id": "MR-SCIPY-BOOT-P1",
+          "supported": "paired=True applies the same sampled indices across arrays; independent sampling changes that structure. Degenerate BCa distributions may produce NaN intervals and a warning.",
+          "limitations": "Defaults do not establish an appropriate estimand, unit or reliable interval; the package exact enumeration tests pairing, not population coverage."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§12"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-SCIPY"
+      ]
+    },
+    {
+      "source_id": "MR-NIST-DESIGN",
+      "publisher": "NIST/SEMATECH",
+      "title": "e-Handbook Choosing an experimental design and What are the objectives",
+      "version": "rolling official handbook observed2026-10-23",
+      "nature": "engineering design guidance selected sections",
+      "url": "https://www.itl.nist.gov/div898/handbook/pri/section3/pri31.htm",
+      "read_at": "2026-10-23",
+      "read_scope": "§5.3 navigation and §5.3.1 text",
+      "propositions": [
+        {
+          "claim_id": "MR-NIST-DESIGN-P1",
+          "supported": "Experimental objectives and their priorities guide response/factor/design choice.",
+          "limitations": "No mandate to use a particular factorial design or team size; no project design validity established."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§01"
+        },
+        {
+          "path": "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md",
+          "clause": "§03"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/003-实验可复现性与模型评测技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-TORCH-DIST",
+      "publisher": "PyTorch",
+      "title": "Distributed communication package",
+      "version": "2.14 documentation",
+      "nature": "versioned implementation reference",
+      "url": "https://docs.pytorch.org/docs/2.14/distributed.html",
+      "read_at": "2026-10-23",
+      "read_scope": "Groups/new_group, synchronous/asynchronous collective operations",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-DIST-P1",
+          "supported": "Multiple NCCL groups/threads require consistent ordering; CPU and CUDA asynchronous completion/stream visibility have different documented meanings.",
+          "limitations": "Wait semantics depend on the selected backend and operation; uneven-input support and deadlock conditions require operation-specific checks."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§08"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§09"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DISTRIBUTED"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-DCP",
+      "publisher": "PyTorch",
+      "title": "Distributed Checkpoint",
+      "version": "2.14 documentation",
+      "nature": "versioned implementation reference",
+      "url": "https://docs.pytorch.org/docs/2.14/distributed.checkpoint.html",
+      "read_at": "2026-10-23",
+      "read_scope": "AsyncSaveResponse and save warnings",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-DCP-P1",
+          "supported": "The API distinguishes local staging completion from checkpoint upload completion; it warns that saved state_dicts have no guaranteed cross-PyTorch-version backward compatibility.",
+          "limitations": "Neither future alone establishes a complete, durable, atomically published training-state cut; that boundary depends on the project’s storage and publication contract."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§14"
+        },
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§21"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§12"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§14"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§15"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§16"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DCP"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-ELASTIC",
+      "publisher": "PyTorch",
+      "title": "torchrun Elastic Launch",
+      "version": "2.14 documentation",
+      "nature": "versioned launcher reference",
+      "url": "https://docs.pytorch.org/docs/2.14/elastic/run.html",
+      "read_at": "2026-10-23",
+      "read_scope": "Failure Modes/Membership Changes/Important Notices",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-ELASTIC-P1",
+          "supported": "Launcher restart/membership behavior may reassign ranks and world size; ranks are not stable logical identities.",
+          "limitations": "Not a generic scheduler policy, permission to stop jobs, or proof of elasticity for any algorithm."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§11"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§19"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DCP"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-DATA",
+      "publisher": "PyTorch",
+      "title": "torch.utils.data DistributedSampler",
+      "version": "2.14 documentation",
+      "nature": "versioned sampler reference",
+      "url": "https://docs.pytorch.org/docs/2.14/data.html",
+      "read_at": "2026-10-23",
+      "read_scope": "DistributedSampler parameters/warning",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-DATA-P1",
+          "supported": "With drop_last false this sampler pads indices; true drops tail indices; shuffling across epochs requires the documented epoch call.",
+          "limitations": "A sampler’s exclusive-rank description does not mean padding creates new independent observations; no universal all-sampler contract."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§04"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§17"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DISTRIBUTED"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-PIPE",
+      "publisher": "PyTorch",
+      "title": "Pipeline Parallelism",
+      "version": "2.14 documentation",
+      "nature": "versioned schedule reference",
+      "url": "https://docs.pytorch.org/docs/2.14/distributed.pipelining.html",
+      "read_at": "2026-10-23",
+      "read_scope": "PipelineScheduleSingle/Multi",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-PIPE-P1",
+          "supported": "Schedule microbatch gradient scaling has to match the loss contract; full-batch and pre-split microbatch inputs are distinct.",
+          "limitations": "Does not prove a universal variable-length average or in-flight recovery protocol; schedules differ."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§17"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§03"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§06"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DISTRIBUTED"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-TP",
+      "publisher": "PyTorch",
+      "title": "Tensor Parallelism",
+      "version": "2.14 documentation",
+      "nature": "versioned implementation reference",
+      "url": "https://docs.pytorch.org/docs/2.14/distributed.tensor.parallel.html",
+      "read_at": "2026-10-23",
+      "read_scope": "parallelize_module plan",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-TP-P1",
+          "supported": "The plan describes module-specific parallel style and input/output preparation/layout.",
+          "limitations": "Local tensors are not automatically complete logical tensors; sharding and gradient operations must use the selected logical layout."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§02"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§05"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DISTRIBUTED"
+      ]
+    },
+    {
+      "source_id": "MR-ZERO",
+      "publisher": "Rajbhandari et al. / arXiv",
+      "title": "ZeRO",
+      "version": "1910.02054v3,2020-05-13",
+      "nature": "author research preprint selected method text",
+      "url": "https://arxiv.org/html/1910.02054v3",
+      "read_at": "2026-10-23",
+      "read_scope": "§3.1 and §4.1 explanations",
+      "propositions": [
+        {
+          "claim_id": "MR-ZERO-P1",
+          "supported": "The paper distinguishes parameters, gradients and optimizer history and partitions redundant model state across data-parallel processes.",
+          "limitations": "The memory partitioning method does not define checkpoint atomicity or a recovery protocol."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§07"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§07"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-HINTON",
+      "publisher": "Hinton Vinyals Dean / arXiv",
+      "title": "Distilling the Knowledge in a Neural Network",
+      "version": "1503.02531v1,2015-03-09",
+      "nature": "author workshop preprint selected method text",
+      "url": "https://arxiv.org/html/1503.02531v1",
+      "read_at": "2026-10-23",
+      "read_scope": "§2 Distillationabstract metadata",
+      "propositions": [
+        {
+          "claim_id": "MR-HINTON-P1",
+          "supported": "The paper’s method transfers temperature-softened teacher targets and can combine a label objective.",
+          "limitations": "Not every distillation needs logits or this temperature rule; no reported benchmark result adopted as a threshold."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§05"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§08"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§09"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-PEFT"
+      ]
+    },
+    {
+      "source_id": "MR-LORA",
+      "publisher": "Hu et al. / arXiv",
+      "title": "LoRA",
+      "version": "2106.09685v2,2021-10-16",
+      "nature": "author research preprint selected method text",
+      "url": "https://arxiv.org/html/2106.09685v2",
+      "read_at": "2026-10-23",
+      "read_scope": "§4.1 equation3 and scaling/merge explanation",
+      "propositions": [
+        {
+          "claim_id": "MR-LORA-P1",
+          "supported": "The described update freezes the base matrix and learns a scaled low-rank product; the linear inference expression can be folded into the same-coordinate base matrix.",
+          "limitations": "No universal efficiency or quality guarantee; real arithmetic equality does not establish floating/quantized equivalence or nonlinear/router merge support."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§18"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§03"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§04"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§18"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-PEFT"
+      ]
+    },
+    {
+      "source_id": "MR-PEFT-CKPT",
+      "publisher": "Hugging Face PEFT",
+      "title": "PEFT checkpoint format",
+      "version": "versioned0.21.0 docs",
+      "nature": "official implementation guide",
+      "url": "https://huggingface.co/docs/peft/v0.21.0/en/developer_guides/checkpoint",
+      "read_at": "2026-10-23",
+      "read_scope": "PEFT files, adapter_config and Model storage",
+      "propositions": [
+        {
+          "claim_id": "MR-PEFT-CKPT-P1",
+          "supported": "Adapter state omits the base; configuration is needed; some identity fields can be null for non-Transformers bases. merge_and_unload removes PEFT-specific reversibility and some methods/settings cannot merge.",
+          "limitations": "No guarantee that mere successful merge/load preserves quality, rights, full training state or complete joint identity."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/002-学习目标、优化与数值稳定性技术规范--v0.1.0.md",
+          "clause": "§18"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§02"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§04"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§10"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§18"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§21"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§22"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§02"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§14"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§10"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+        "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-PEFT",
+        "MR-LIFECYCLE"
+      ]
+    },
+    {
+      "source_id": "MR-PEFT-MERGE",
+      "publisher": "Hugging Face PEFT",
+      "title": "Model merging",
+      "version": "versioned0.21.0 docs",
+      "nature": "official implementation guide",
+      "url": "https://huggingface.co/docs/peft/v0.21.0/en/developer_guides/model_merging",
+      "read_at": "2026-10-23",
+      "read_scope": "Merge method and vocabulary warning",
+      "propositions": [
+        {
+          "claim_id": "MR-PEFT-MERGE-P1",
+          "supported": "TIES/DARE are distinct merging procedures; independently added tokens can collide at embedding indices.",
+          "limitations": "Not automatic capacity addition or a claim all same-base adapters have vocabulary collisions; algorithm and changed components still matter."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§17"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-PEFT"
+      ]
+    },
+    {
+      "source_id": "MR-SEQKD",
+      "publisher": "Kim and Rush / arXiv",
+      "title": "Sequence-Level Knowledge Distillation",
+      "version": "1606.07947v4,2016-09-22",
+      "nature": "author EMNLP paper preprint selected method text",
+      "url": "https://arxiv.org/html/1606.07947v4",
+      "read_at": "2026-10-23",
+      "read_scope": "§3.2",
+      "propositions": [
+        {
+          "claim_id": "MR-SEQKD-P1",
+          "supported": "The sequence objective differs from word-level distribution matching and the paper approximates it with teacher-generated beam outputs.",
+          "limitations": "Not an exact distribution identity, mandatory beam/logit access or reproduced speedup."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§08"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-PEFT"
+      ]
+    },
+    {
+      "source_id": "MR-SELFINSTRUCT",
+      "publisher": "Wang et al. / arXiv",
+      "title": "Self-Instruct",
+      "version": "2212.10560v2,2023-05-25",
+      "nature": "author ACL paper preprint selected method text",
+      "url": "https://arxiv.org/html/2212.10560v2",
+      "read_at": "2026-10-23",
+      "read_scope": "§2.2 filtering/postprocessing and §2.3abstract",
+      "propositions": [
+        {
+          "claim_id": "MR-SELFINSTRUCT-P1",
+          "supported": "The method generates instruction/input/output material, heuristically filters it and uses accepted instances for supervised adaptation.",
+          "limitations": "Its filters/thresholds are not universal truth, license or quality guarantees; no benchmark result used as an organizational threshold."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§08"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§12"
+        },
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§18"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-COLLAPSE",
+      "publisher": "Shumailov et al. / arXiv",
+      "title": "The Curse of Recursion",
+      "version": "2305.17493v3,2024-04-14",
+      "nature": "author abstract and version metadata only",
+      "url": "https://arxiv.org/abs/2305.17493v3",
+      "read_at": "2026-10-23",
+      "read_scope": "abstract/version record",
+      "propositions": [
+        {
+          "claim_id": "MR-COLLAPSE-P1",
+          "supported": "The authors report recursive generated-data training risks including loss of distribution tails in their studied settings.",
+          "limitations": "The stated assumptions do not imply that every synthetic mixture collapses or establish a universal safe synthetic ratio."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md",
+          "clause": "§15"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/005-微调、适配、蒸馏与合成学习技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-AML",
+      "publisher": "NIST",
+      "title": "Adversarial Machine Learning Taxonomy",
+      "version": "AI100-2 E2025,2025-03; correctedPDF2025-04-01 and potential erratum2025-06-03",
+      "nature": "official publication landing abstract/notes only",
+      "url": "https://csrc.nist.gov/pubs/ai/100/2/e2025/final",
+      "read_at": "2026-10-23",
+      "read_scope": "publication abstract/planning notes",
+      "propositions": [
+        {
+          "claim_id": "MR-AML-P1",
+          "supported": "The taxonomy organizes attacks by learning method/lifecycle stage and attacker goals/capabilities/knowledge.",
+          "limitations": "The cited threat model does not establish a universal defense threshold; implementation decisions must account for the referenced assumptions and errata."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§19"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§01"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§04"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-DP",
+      "publisher": "NIST Near Darais Lefkovitz Howarth",
+      "title": "Guidelines for Evaluating Differential Privacy Guarantees",
+      "version": "SP800-226,March2025",
+      "nature": "NIST guideline selected mathematical and explanatory text",
+      "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-226.pdf",
+      "read_at": "2026-10-23",
+      "read_scope": "§2.1.1/2.1.2 PDFp20–22, compositionp24; §2.4.2 p30–31; §2.6/2.7 p37; AppendixB.1 p84; selected definitions only",
+      "propositions": [
+        {
+          "claim_id": "MR-DP-P1",
+          "supported": "DP guarantees depend on adjacency/unit and parameters; composition and post-processing have hypotheses; experimental privacy auditing cannot replace the proof.",
+          "limitations": "Full visible-transcript and recovery accounting is an engineering requirement derived from the mechanism and trust assumptions. Privacy parameters depend on the selected mechanism and accounting model."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§10"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§11"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§12"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DP"
+      ]
+    },
+    {
+      "source_id": "MR-TORCH-SER",
+      "publisher": "PyTorch",
+      "title": "Serialization semantics",
+      "version": "2.14 documentation",
+      "nature": "versioned security implementation note",
+      "url": "https://docs.pytorch.org/docs/2.14/notes/serialization.html",
+      "read_at": "2026-10-23",
+      "read_scope": "weights_only security and static unsafe-globals caveat",
+      "propositions": [
+        {
+          "claim_id": "MR-TORCH-SER-P1",
+          "supported": "Restricted loading narrows code-execution surface but does not rule out denial of service/memory corruption; static global scanning can miss dynamically built types.",
+          "limitations": "File handling safety depends on the loader, serialization format and execution boundary; format choice alone does not establish a sandbox."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§21"
+        },
+        {
+          "path": "standards/L4/model-research/004-并行训练与可恢复状态技术规范--v0.1.0.md",
+          "clause": "§16"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§15"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LOAD"
+      ]
+    },
+    {
+      "source_id": "MR-SAFETENSORS",
+      "publisher": "Hugging Face",
+      "title": "Safetensors",
+      "version": "rolling main, page displayed0.5.0-rc.0 stable link; not asserted stable release",
+      "nature": "official format introductory documentation",
+      "url": "https://huggingface.co/docs/safetensors/index",
+      "read_at": "2026-10-23",
+      "read_scope": "version banner and introduction/load example",
+      "propositions": [
+        {
+          "claim_id": "MR-SAFETENSORS-P1",
+          "supported": "The format stores tensors without pickle-style arbitrary object serialization.",
+          "limitations": "A format does not vouch for adjacent configuration, loader, dependency, resources, model behavior or rights."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§13"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LOAD"
+      ]
+    },
+    {
+      "source_id": "MR-TRANSFORMERS",
+      "publisher": "Hugging Face",
+      "title": "Customizing models",
+      "version": "rolling docs observed2026-10-23",
+      "nature": "official model customization guide",
+      "url": "https://huggingface.co/docs/transformers/custom_models",
+      "read_at": "2026-10-23",
+      "read_scope": "configuration/model introduction and custom-load warning",
+      "propositions": [
+        {
+          "claim_id": "MR-TRANSFORMERS-P1",
+          "supported": "Model code and configuration jointly participate in custom models; custom loading may require remote-code trust.",
+          "limitations": "Remote-code execution is a separate project decision, bound to the selected Transformers version and the reviewed code identity."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§13"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§14"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LOAD"
+      ]
+    },
+    {
+      "source_id": "MR-CARLINI",
+      "publisher": "Carlini et al. / USENIX",
+      "title": "Extracting Training Data from Large Language Models",
+      "version": "USENIX Security2021 pp2633–2650",
+      "nature": "publisher-hosted author abstract/publication metadata only",
+      "url": "https://www.usenix.org/conference/usenixsecurity21/presentation/carlini-extracting",
+      "read_at": "2026-10-23",
+      "read_scope": "abstract/metadata",
+      "propositions": [
+        {
+          "claim_id": "MR-CARLINI-P1",
+          "supported": "The authors report extraction of training strings in their studied GPT-2 setting.",
+          "limitations": "Leakage depends on the model, data and attack assumptions; prompts already containing text do not by themselves show training extraction."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§07"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§08"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": []
+    },
+    {
+      "source_id": "MR-NIST-DPTRUST",
+      "publisher": "NIST / Joseph Near",
+      "title": "Threat Models for Differential Privacy",
+      "version": "2020-09-15 blog, observed2026-10-23",
+      "nature": "official explanatory blog selected section",
+      "url": "https://www.nist.gov/blogs/cybersecurity-insights/threat-models-differential-privacy",
+      "read_at": "2026-10-23",
+      "read_scope": "Central Differential Privacy",
+      "propositions": [
+        {
+          "claim_id": "MR-NIST-DPTRUST-P1",
+          "supported": "The central model places a privacy boundary between trusted curator and analyst; output privacy and access/security are different.",
+          "limitations": "Not a certification or authority to trust an actual curator; no clinical/policy guidance adopted."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§07"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§11"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§18"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DP"
+      ]
+    },
+    {
+      "source_id": "MR-DP-RNG",
+      "publisher": "Naoise Holohan / arXiv",
+      "title": "Random Number Generators and Seeding for Differential Privacy",
+      "version": "2307.03543v1,2023-07-07",
+      "nature": "author preprint abstract/introduction only",
+      "url": "https://arxiv.org/html/2307.03543v1",
+      "read_at": "2026-10-23",
+      "read_scope": "abstract/§1",
+      "propositions": [
+        {
+          "claim_id": "MR-DP-RNG-P1",
+          "supported": "The author distinguishes sensitive privacy releases from reproducible non-sensitive simulations when discussing random sources and seeds.",
+          "limitations": "Preserving a restricted state is distinct from publicly exposing noise reconstruction information; disclosure follows the selected privacy mechanism and trust model."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§12"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DP"
+      ]
+    },
+    {
+      "source_id": "MR-PROVDM",
+      "publisher": "W3C",
+      "title": "PROV-DM",
+      "version": "Recommendation2013-04-30",
+      "nature": "W3C Recommendation selected definitions",
+      "url": "https://www.w3.org/TR/2013/REC-prov-dm-20130430/",
+      "read_at": "2026-10-23",
+      "read_scope": "overview; §5.1.4 usage and §5.1.8 invalidation",
+      "propositions": [
+        {
+          "claim_id": "MR-PROVDM-P1",
+          "supported": "Provenance distinguishes production/use/derivation and validity-lifetime events; an entity may cease to be valid without all physical bytes disappearing.",
+          "limitations": "A data-model record is not actual deletion, permission, scientific correctness or third-party-copy recall evidence."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§23"
+        },
+        {
+          "path": "standards/L4/model-research/007-研究安全、隐私与模型材料风险技术规范--v0.1.0.md",
+          "clause": "§22"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§12"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§16"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LIFECYCLE"
+      ]
+    },
+    {
+      "source_id": "MR-SLSA",
+      "publisher": "SLSA",
+      "title": "Build Provenance",
+      "version": "v1.2, page statusApproved observed2026-10-23",
+      "nature": "software supply-chain specification selected sections",
+      "url": "https://slsa.dev/spec/v1.2/build-provenance",
+      "read_at": "2026-10-23",
+      "read_scope": "Purpose/Model and resolvedDependencies/runDetails",
+      "propositions": [
+        {
+          "claim_id": "MR-SLSA-P1",
+          "supported": "Provenance distinguishes output subjects, resolved input dependencies and execution details; dependency completeness has stated level-dependent limits.",
+          "limitations": "A manifest alone proves neither SLSA level nor research validity or rights; research material closure is an organization-specific additional contract."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§09"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§20"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§21"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LIFECYCLE"
+      ]
+    },
+    {
+      "source_id": "MR-AWSBUDGET",
+      "publisher": "AWS",
+      "title": "Managing your costs with AWS Budgets",
+      "version": "rolling latest guide observed2026-10-23",
+      "nature": "official product guide selected paragraphs",
+      "url": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html",
+      "read_at": "2026-10-23",
+      "read_scope": "cost/usage monitoring and update cadence",
+      "propositions": [
+        {
+          "claim_id": "MR-AWSBUDGET-P1",
+          "supported": "Budget reporting is not instantaneous and notifications/actions differ in capability.",
+          "limitations": "No cross-provider update-period standard, hard spend-stop guarantee, account access or bill validation adopted."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/006-模型训练与-AI-科研领域通用基线--v0.1.0.md",
+          "clause": "§22"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§03"
+        },
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§04"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LEDGER"
+      ]
+    },
+    {
+      "source_id": "MR-BAGIT",
+      "publisher": "RFC Editor / Kunze et al.",
+      "title": "BagIt File Packaging Format",
+      "version": "RFC8493 V1.0,October2018",
+      "nature": "Informational RFC",
+      "url": "https://www.rfc-editor.org/rfc/rfc8493.html",
+      "read_at": "2026-10-23",
+      "read_scope": "status and §2.1.3 payload manifests",
+      "propositions": [
+        {
+          "claim_id": "MR-BAGIT-P1",
+          "supported": "The described manifest lists payload files/checksums and does not reference files outside its payload.",
+          "limitations": "Not an Internet Standard, required packaging choice, permission to archive/distribute, or proof of file semantics/rights."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md",
+          "clause": "§12"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/008-研究资源、成果制品与生命周期技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-LIFECYCLE"
+      ]
+    },
+    {
+      "source_id": "MR-DATASHEETS",
+      "publisher": "Gebru et al. / arXiv",
+      "title": "Datasheets for Datasets",
+      "version": "1803.09010v8,2021-12-01",
+      "nature": "author CACM paper preprint selected explanatory text",
+      "url": "https://arxiv.org/html/1803.09010v8",
+      "read_at": "2026-10-23",
+      "read_scope": "§3 Questions and Workflowabstract/version metadata",
+      "propositions": [
+        {
+          "claim_id": "MR-DATASHEETS-P1",
+          "supported": "The proposed documentation covers lifecycle questions, allows inapplicable questions and explicitly unknown answers.",
+          "limitations": "Not a universal legal standard or proof of dataset use rights, accuracy or completeness."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§12"
+        },
+        {
+          "path": "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md",
+          "clause": "§24"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/009-训练数据与数据集治理技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-DATA"
+      ]
+    },
+    {
+      "source_id": "MR-PEFT-API",
+      "publisher": "Hugging Face PEFT",
+      "title": "Custom models and LoRA API",
+      "version": "versioned0.21.0 docs",
+      "nature": "official API/implementation examples",
+      "url": "https://huggingface.co/docs/peft/v0.21.0/en/developer_guides/custom_models",
+      "read_at": "2026-10-23",
+      "read_scope": "Custom MLP target_modules/modules_to_save/get_peft_model and Verify parameters and layersLoRA API target_modules lines265–277",
+      "propositions": [
+        {
+          "claim_id": "MR-PEFT-API-P1",
+          "supported": "LoRA can target supported local modules by name; extra trained modules require explicit saving; adapted-module sets can be inspected.",
+          "limitations": "Custom module support depends on the selected implementation; efficiency is evaluated for the project’s actual workload."
+        }
+      ],
+      "supported_clause_references": [],
+      "document_context_references": [],
+      "supported_target_profiles": [
+        "MR-PEFT"
+      ]
+    },
+    {
+      "source_id": "MR-PEARL",
+      "publisher": "Judea Pearl / UCLA author report",
+      "title": "An Introduction to Causal Inference",
+      "version": "IJ Biostatistics6(2)Article7(2010); author-hosted corrected reprintR-354 datedMarch2011",
+      "nature": "author-hosted corrected published-paper reprint selected body, not a whole-paper audit",
+      "url": "https://ftp.cs.ucla.edu/pub/stat_ser/r354-corrected-reprint.pdf",
+      "read_at": "2026-10-23",
+      "read_scope": "§2.1 PDFp3 lines64–91; §3.2.1 and Definition2 PDFp11–13 lines350–413; §4/4.1 PDFp27 lines913–936; §4.3 PDFp29–30 lines991–1028",
+      "propositions": [
+        {
+          "claim_id": "MR-PEARL-P1",
+          "supported": "Associations alone do not identify intervention effects. Identification is relative to causal assumptions and the target query; equal observational distributions must imply equal target values within that assumed model class. Defining, identifying and estimating a query are separate tasks.",
+          "limitations": "The two-model enumeration illustrates Definition 2 under explicit finite assumptions. Actual causal studies require their own model, estimand and identification argument."
+        }
+      ],
+      "supported_clause_references": [
+        {
+          "path": "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md",
+          "clause": "§19"
+        }
+      ],
+      "document_context_references": [
+        "standards/L4/model-research/001-学习理论、证明与研究主张技术规范--v0.1.0.md"
+      ],
+      "supported_target_profiles": [
+        "MR-THEORY"
+      ]
+    }
+  ]
+}

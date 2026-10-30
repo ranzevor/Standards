@@ -1,0 +1,378 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "CLAUDE-M",
+      "url": "https://platform.claude.com/docs/en/agents-and-tools/tool-use/memory-tool",
+      "nature": "滚动厂商工具契约",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 73-91,157-163,184-188,411-436",
+      "supported_claim": "Claude只提出文件操作，由应用处理器执行；/memories是映射到自有存储的逻辑前缀，处理器负责每条路径规范化、边界验证及内容限制。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OPENAI-STATE",
+      "url": "https://developers.openai.com/api/docs/guides/conversation-state",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 2248-2252,2382-2384,2662-2668",
+      "supported_claim": "Response对象默认保存30天且store=false控制该行为；Conversation对象/条目不受该30天TTL；previous_response_id用于续接，不能推所有独立副本同时删除。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-V",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/versioning",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-114",
+      "supported_claim": "2026-07-28；请求自声明版本、无初始化握手；Server实现discover，Client可直接请求；新旧代际分别处理。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-B",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-158",
+      "supported_claim": "请求ID非null字符串/整数且未完成集合不重号；未知resultType无效，缺失按complete向后兼容；协议完成非业务完成。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-T",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/tools",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-56,157-208,240-311,407-419,591-676",
+      "supported_claim": "目录随逐请求授权而非连接历史；注解不作权限；structuredContent允许任意合Schema的JSON值；非法HTTP参数头工具单独排除；工具业务错误有isError。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-M",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/mrtr",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-42,114-118,172-231",
+      "supported_claim": "MRTR重试新RPC ID；requestState原样回传且不能跨并行请求；服务端验证影响权限/业务状态的完整性、主体和有效期，单次消费另靠服务端。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-C",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/patterns/cancellation",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-111",
+      "supported_claim": "stdio发取消通知；StreamableHTTP断开请求流是取消信号；远端可已完成或不可取消，取消不是事务撤销。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-H",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/basic/transports/streamable-http",
+      "nature": "版本化传输绑定",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-110",
+      "supported_claim": "每请求POST、JSON或请求级SSE；头体版本一致；请求流断开按取消；不支持Last-Event-ID续流，不能将A2A断流语义套到MCP。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-R",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/roots",
+      "nature": "弃用中的协议特性",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 24-39,142-167",
+      "supported_claim": "2026-07-28起deprecated；新实现不应采用；roots是相关目录提示，不构成安全沙箱或访问控制。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-S",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/client/sampling",
+      "nature": "弃用中的协议特性",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-98",
+      "supported_claim": "2026-07-28起deprecated；能力声明及sampling.tools独立；人类可拒绝是SHOULD建议，不是全领域每次调用统一审批条款。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-A",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2026-07-28/basic/authorization/security-considerations.mdx",
+      "nature": "条件适用协议安全",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "Git blob b45830c74d4801c04605943b50a86eb17de52025 lines 1-131",
+      "supported_claim": "使用相应HTTP授权时核token受众；上游API使用独立token而非透传；OAuth2.1与CIMD所引仍有draft身份，非业务批准。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-X",
+      "url": "https://tasks.extensions.modelcontextprotocol.io/specification/draft/tasks",
+      "nature": "可选扩展草案",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 19-155",
+      "supported_claim": "Tasks扩展只在能力声明后使用，当前支持tools/call；resultType=task与普通结果并存；completed结果可含isError=true。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-RES",
+      "url": "https://modelcontextprotocol.io/specification/2026-07-28/server/resources",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 25-80,124-157,208-233",
+      "supported_claim": "URI资源、列举分页/缓存、独立read及可选变更订阅；逐请求授权，不因URI或目录缓存自动获得访问权。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "MCP-P",
+      "url": "https://github.com/modelcontextprotocol/modelcontextprotocol/blob/main/docs/specification/2026-07-28/server/prompts.mdx",
+      "nature": "版本化协议",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "Git blob 5a6574be3c16715aaafb1c7973025c1bc3669474 lines 1-120",
+      "supported_claim": "Prompt内容由Server定义，user-controlled指使用选择而非作者权威；声明能力并按请求授权列举，目录可分页缓存。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "A2A",
+      "url": "https://github.com/a2aproject/A2A/blob/3303592588e388e62e0f69f701af531d2f4e3991/docs/specification.md",
+      "nature": "固定协议1.0.1",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "selected lines 147-214,264-312,430-497,565-617,646-765,1257-1276,1871-1963,1982-2057,2117-2135,2213-2228,3069-3168",
+      "supported_claim": "wire取Major.Minor=1.0；SendMessage仅MAY幂等；Task与Message分型；取消不保证成功，流断不终止Task；对象权限全操作适用。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "A2A-P",
+      "url": "https://github.com/a2aproject/A2A/blob/3303592588e388e62e0f69f701af531d2f4e3991/specification/a2a.proto",
+      "nature": "固定协议数据模型",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "lines 143-469,648-725,779-811",
+      "supported_claim": "TaskState中断与终态不同；Part oneof且data可任意JSON值；artifactId在Task内唯一；tenant是所选接口不透明路由值；return_immediately默认false。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "SDK-H",
+      "url": "https://github.com/openai/openai-agents-python/blob/v0.24.0/docs/human_in_the_loop.md",
+      "nature": "固定厂商SDK实现",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "Git blob 07450639fe8a22026e16263ca2666c6bc805869e lines 1-180",
+      "supported_claim": "中断在run级汇总；RunState保存审批；sticky决定可跨恢复留存，但不替代当前业务权限；Session接续保持原后端及session_id。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "SDK-R",
+      "url": "https://github.com/openai/openai-agents-python/blob/v0.24.0/docs/results.md",
+      "nature": "固定厂商SDK实现",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "Git blob cb64b324e2d2778d630a9a51c90a1848a84a9e7f lines 1-220",
+      "supported_claim": "Session批次ACK失败恢复与终态hook后写失败有不同边界；后者不可重用该RunState；流需消费到结束，取消也需消费清理。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "LG-I",
+      "url": "https://github.com/langchain-ai/docs/blob/main/src/oss/langgraph/interrupts.mdx",
+      "nature": "滚动框架实现",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "Git blob 32b562c8c91387fc5aa274700d98181cbcadbf54 lines 1-150",
+      "supported_claim": "interrupt需checkpointer及thread_id；恢复从节点头重执行，中断前副作用不能凭位置假定仅一次；thread_id不是访问凭证。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "LG-S",
+      "url": "https://github.com/langchain-ai/docs/blob/main/src/oss/langgraph/stores.mdx",
+      "nature": "滚动框架实现",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "Git blob f090cba2e8feab03a89c73c164b35631680e44e6 lines 1-120",
+      "supported_claim": "Store跨thread、checkpointer按thread；namespace是数据组织方式；InMemoryStore用于开发/测试，不提供进程持久保证。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OTEL",
+      "url": "https://github.com/open-telemetry/semantic-conventions-genai/blob/547934afa90a34298441caf80c43b27255c3a292/docs/gen-ai/gen-ai-agent-spans.md",
+      "nature": "Development语义约定",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "lines 1-85 and README lines 1-31",
+      "supported_claim": "该固定文本为Development；agent及provider属性用于观测，不提供鉴权/业务完成证据；system instructions内容属性为Opt-In，不要求采全文。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OPENAI-SO",
+      "url": "https://developers.openai.com/api/docs/guides/structured-outputs",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 14176-14179,16223-16267",
+      "supported_claim": "Structured Outputs仅支持Schema子集；拒绝可不匹配业务Schema，需独立处理；结构正确不证明业务值授权。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OPENAI-STREAM",
+      "url": "https://developers.openai.com/api/docs/guides/streaming-responses",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 1195-1203,1506-1515",
+      "supported_claim": "typed events区别output_text.delta、response.completed与error，不能以可见最后Token或网络FIN代替完整结果。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OPENAI-ERR",
+      "url": "https://developers.openai.com/api/docs/guides/error-codes",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 994-1010,1072-1124",
+      "supported_claim": "429包括rate_limit、credit_balance_exhausted及spend/usage限制；503过载独立；按code与Retry-After分类，不一律重试。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OPENAI-EVAL",
+      "url": "https://developers.openai.com/api/docs/guides/evaluation-best-practices",
+      "nature": "厂商实践指南",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 1176-1180",
+      "supported_claim": "模型裁判可有位置和篇幅偏差，须按任务rubric校准；本规范不采用其模型推荐或示例阈值作通用强制。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "OPENAI-COMPACT",
+      "url": "https://developers.openai.com/api/docs/guides/compaction",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 963-980,1364-1379",
+      "supported_claim": "服务端与standalone压缩不同；opaque item非可读授权记录；previous_response_id不手动重复全历史；standalone返回窗口原样续接。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "CLAUDE-C",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/compaction-threshold",
+      "nature": "厂商Beta实现",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 68-105",
+      "supported_claim": "阈值压缩标Beta compact-2026-01-12；返回compaction块，后续带响应时旧块前内容由接口处理；不是各模型通用格式。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "CLAUDE-E",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/context-editing",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 73-97",
+      "supported_claim": "旧tool结果清理与thinking清理分策略；服务端编辑与客户端改历史不同，签名有效性需所选版本核验。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "CLAUDE-STOP",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/handling-stop-reasons",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 74-89,112-138",
+      "supported_claim": "end_turn、max_tokens、tool_use、pause_turn、refusal及context超限含义不同；empty end_turn也可能出现，仍需任务验收。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "GEMINI-C",
+      "url": "https://ai.google.dev/gemini-api/docs/caching",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 88-109",
+      "supported_claim": "当前Interactions仅支持隐式缓存；Gemini4及以后不支持显式cache对象；旧generateContent受模型限制，缓存不作权限与窗口扩容证据。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "GEMINI-L",
+      "url": "https://ai.google.dev/gemini-api/docs/generate-content/long-decode",
+      "nature": "特定模型/接口能力",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 90-116",
+      "supported_claim": "generateContent长输出按续写令牌多hop；CONTINUATION非终止；总max_output_tokens跨hop，SDK自动续写需相应版本。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "GEMINI-I",
+      "url": "https://ai.google.dev/gemini-api/docs/interactions-overview",
+      "nature": "滚动厂商接口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 88-97",
+      "supported_claim": "Interactions默认存请求，可store=false转无状态；具体对象留存和其他副本须另核，不把API行为推广全域。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "HTTP",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+      "nature": "IETF Standards Track",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 1990-1994,2310-2330",
+      "supported_claim": "非幂等请求不能凭连接失败盲自动重试；Retry-After可为HTTP日期或非负整数秒，仍受任务截止限制。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "PROV",
+      "url": "https://www.w3.org/TR/prov-o/",
+      "nature": "W3C Recommendation",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 215-222",
+      "supported_claim": "Entity/Activity/Agent与used/wasGeneratedBy可表达最小来源链；采用其RDF/OWL结构为可选，不授资料权利或事实真实性。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "NIST",
+      "url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "nature": "自愿风险框架入口",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 125-143",
+      "supported_claim": "AI RMF定位为自愿风险管理；该入口说明AI600-1存在及风险补充用途，不据此声称完整风险条款符合。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "SECCOMP",
+      "url": "https://docs.kernel.org/userspace-api/seccomp_filter.html",
+      "nature": "内核接口文档",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 5-29",
+      "supported_claim": "seccomp过滤系统调用且不是完整沙箱；需与其他硬化和LSM等控制组合。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "CGROUP",
+      "url": "https://docs.kernel.org/admin-guide/cgroup-v2.html",
+      "nature": "内核接口文档",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 12-23,756-808",
+      "supported_claim": "cgroup层级资源限制；memory.events的oom_kill是OOM进程计数，不等于单次137足证OOM。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "PLAYWRIGHT",
+      "url": "https://playwright.dev/docs/browser-contexts",
+      "nature": "浏览器SDK实现",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 79-94,120-128",
+      "supported_claim": "BrowserContext隔离cookies/storage；测试runner默认每测试新建，直接库需显式创建；不证明宿主沙箱。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "DOCKER",
+      "url": "https://docs.docker.com/engine/security/",
+      "nature": "容器实现文档",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 29-56,63-80",
+      "supported_claim": "控制daemon及挂载可触达宿主；namespace/cgroup和capabilities分别作用，默认配置可能隔离不完整。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    },
+    {
+      "id": "WASM",
+      "url": "https://docs.wasmtime.dev/security.html",
+      "nature": "运行时实现文档",
+      "read_date_utc": "2026-10-23",
+      "read_scope": "web lines 72-103",
+      "supported_claim": "Wasm经显式imports/exports访问外部；WASI按授予目录能力，宿主导入和终端输出仍需受限。",
+      "support_limit": "only the stated proposition; no SDK/service conformity or production result inferred"
+    }
+  ],
+  "theory": [
+    {
+      "id": "BINOMIAL-ZERO",
+      "claim": "IID Bernoulli: P(no failures)=(1-p)^n; solve at alpha gives p_upper=1-alpha^(1/n). This does not establish sampling independence."
+    }
+  ],
+  "engineering_choices": [
+    "root-budget pre-admission and unknown reservation",
+    "controller/attempt/epoch target fencing",
+    "current authorization and tombstone over historical snapshot",
+    "source-to-claim dependency invalidation",
+    "joint semantic-version recovery"
+  ]
+}

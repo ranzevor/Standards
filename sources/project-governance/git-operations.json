@@ -1,0 +1,546 @@
+{
+  "documents": [
+    {
+      "clause_ids": [
+        "PGW-01",
+        "PGW-02",
+        "PGW-03",
+        "PGW-04",
+        "PGW-05",
+        "PGW-06",
+        "PGW-07",
+        "PGW-08",
+        "PGW-09",
+        "PGW-10"
+      ],
+      "document_id": "STD-PG-007",
+      "path": "standards/project-governance/007-Git工作区与本地操作规范--v0.1.0.md",
+      "status": "adopted",
+      "version": "0.1.0"
+    },
+    {
+      "clause_ids": [
+        "PGB-01",
+        "PGB-02",
+        "PGB-03",
+        "PGB-04",
+        "PGB-05",
+        "PGB-06",
+        "PGB-07",
+        "PGB-08",
+        "PGB-09",
+        "PGB-10",
+        "PGB-11"
+      ],
+      "document_id": "STD-PG-008",
+      "path": "standards/project-governance/008-Git分支同步与冲突处理规范--v0.1.0.md",
+      "status": "adopted",
+      "version": "0.1.0"
+    }
+  ],
+  "executable_entrypoints": [
+    "python examples/project-governance/git_scenarios.py --scenario all",
+    "python -m unittest tests.test_project_git_scenarios -v"
+  ],
+  "schema_version": 1,
+  "source_read_date_utc": "2026-10-24",
+  "source_role": "Finite technical support. Roles, permission, preservation, review and adoption requirements are governance design, not claims that Git grants authority.",
+  "sources": [
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-02"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --bare, --initial-branch"
+      ],
+      "source_id": "GIT-INIT",
+      "supported_claim": "Initialization creates an unborn branch; bare initialization has no ordinary working tree.",
+      "title": "git-init manual",
+      "url": "https://git-scm.com/docs/git-init/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-02"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --local, --no-local"
+      ],
+      "source_id": "GIT-CLONE",
+      "supported_claim": "Clone creates a new repository and initial checkout; --no-local uses transport instead of local hardlink optimization.",
+      "title": "git-clone manual",
+      "url": "https://git-scm.com/docs/git-clone/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.45.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-03"
+      ],
+      "sections_read": [
+        "OUTPUT: Short Format",
+        "OPTIONS: --porcelain, -z"
+      ],
+      "source_id": "GIT-STATUS",
+      "supported_claim": "Ordinary XY status separates index/worktree; unmerged and untracked entries have distinct meanings.",
+      "title": "git-status manual",
+      "url": "https://git-scm.com/docs/git-status/2.45.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-03"
+      ],
+      "sections_read": [
+        "DESCRIPTION: working-tree and --cached forms"
+      ],
+      "source_id": "GIT-DIFF",
+      "supported_claim": "Plain and cached diff compare different layers; cached can show all staged changes with unborn HEAD.",
+      "title": "git-diff manual",
+      "url": "https://git-scm.com/docs/git-diff/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-04",
+        "PGW-05"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --force, --patch"
+      ],
+      "source_id": "GIT-ADD",
+      "supported_claim": "Add snapshots selected content; later edits require restaging; ignored explicit paths normally fail.",
+      "title": "git-add manual",
+      "url": "https://git-scm.com/docs/git-add/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-04"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --all"
+      ],
+      "source_id": "GIT-COMMIT",
+      "supported_claim": "Ordinary commit uses the index; path arguments and -a select content differently. With an attached HEAD, a commit advances the current branch; with a detached HEAD, it advances HEAD without moving a branch.",
+      "title": "git-commit manual",
+      "url": "https://git-scm.com/docs/git-commit/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-05"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "PATTERN FORMAT"
+      ],
+      "source_id": "GIT-IGNORE",
+      "supported_claim": "Ignored tracked files remain tracked; shared/local excludes differ; negation cannot reinclude an excluded parent.",
+      "title": "gitignore manual",
+      "url": "https://git-scm.com/docs/gitignore/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-06",
+        "PGW-07"
+      ],
+      "sections_read": [
+        "COMMANDS: push, pop, apply, branch, drop, clear",
+        "OPTIONS: --all, --include-untracked, --index"
+      ],
+      "source_id": "GIT-STASH",
+      "supported_claim": "Apply retains the saved entry; conflicts need resolution; include-untracked and all differ; --index attempts index restoration.",
+      "title": "git-stash manual",
+      "url": "https://git-scm.com/docs/git-stash/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-08",
+        "PGW-07",
+        "PGB-02"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "COMMANDS: add, remove, repair, prune",
+        "OPTIONS: --force, -b"
+      ],
+      "source_id": "GIT-WORKTREE",
+      "supported_claim": "Linked worktrees share repository data but have per-worktree HEAD/index; occupancy and dirty removal are guarded.",
+      "title": "git-worktree manual",
+      "url": "https://git-scm.com/docs/git-worktree/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.51.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-04",
+        "PGW-09",
+        "PGB-07"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --source, --staged, --worktree, --ours, --theirs"
+      ],
+      "source_id": "GIT-RESTORE",
+      "supported_claim": "Restore destinations/sources differ; absent tracked paths may be removed; rebase sides can appear swapped.",
+      "title": "git-restore manual",
+      "url": "https://git-scm.com/docs/git-restore/2.51.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-03",
+        "PGB-05"
+      ],
+      "sections_read": [
+        "DESCRIPTION"
+      ],
+      "source_id": "GIT-FETCH",
+      "supported_claim": "Fetch acquires objects and updates selected tracking refs/FETCH_HEAD; integration is separate.",
+      "title": "git-fetch manual",
+      "url": "https://git-scm.com/docs/git-fetch/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-04",
+        "PGB-05"
+      ],
+      "sections_read": [
+        "DESCRIPTION"
+      ],
+      "source_id": "GIT-PULL",
+      "supported_claim": "Pull fetches then integrates; ff-only rejects divergence; rebase and merge are explicit alternatives.",
+      "title": "git-pull manual",
+      "url": "https://git-scm.com/docs/git-pull/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-02",
+        "PGB-04",
+        "PGB-06"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --no-commit, --ff-only, --no-ff",
+        "TRUE MERGE"
+      ],
+      "source_id": "GIT-MERGE",
+      "supported_claim": "Merge conflict preserves HEAD and records stage/parent state; abort has dirty-state caveats; no-commit alone cannot stop fast-forward.",
+      "title": "git-merge manual",
+      "url": "https://git-scm.com/docs/git-merge/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-02",
+        "PGB-04",
+        "PGB-07"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "MODE OPTIONS"
+      ],
+      "source_id": "GIT-REBASE",
+      "supported_claim": "Rebase replays commits; continue/skip/abort/quit have different semantics and ORIG_HEAD can change.",
+      "title": "git-rebase manual",
+      "url": "https://git-scm.com/docs/git-rebase/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-08"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: refspec, --force-with-lease, --force"
+      ],
+      "source_id": "GIT-PUSH",
+      "supported_claim": "Push updates destination refs; explicit expected-OID leases guard concurrency while force can discard reachable history.",
+      "title": "git-push manual",
+      "url": "https://git-scm.com/docs/git-push/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.50.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-09",
+        "PGB-09"
+      ],
+      "sections_read": [
+        "SYNOPSIS",
+        "DESCRIPTION",
+        "OPTIONS: --mainline"
+      ],
+      "source_id": "GIT-REVERT",
+      "supported_claim": "Revert appends reversal commits; merge reversal requires mainline selection; continue/abort exist.",
+      "title": "git-revert manual",
+      "url": "https://git-scm.com/docs/git-revert/2.50.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-09"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --annotate"
+      ],
+      "source_id": "GIT-TAG",
+      "supported_claim": "Annotated tags have tag objects; lightweight tags point directly; duplicate names fail unless forced.",
+      "title": "git-tag manual",
+      "url": "https://git-scm.com/docs/git-tag/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-10"
+      ],
+      "sections_read": [
+        "COMMANDS: add, init, update",
+        "OPTIONS: --remote, --checkout"
+      ],
+      "source_id": "GIT-SUBMODULE",
+      "supported_claim": "Submodule checkout uses the recorded commit with detached HEAD; --remote changes target selection and may fetch.",
+      "title": "git-submodule manual",
+      "url": "https://git-scm.com/docs/git-submodule/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-01"
+      ],
+      "sections_read": [
+        "DESCRIPTION"
+      ],
+      "source_id": "GIT-REFNAME",
+      "supported_claim": "Git validates ref syntax; branch validation has its own restrictions and shorthand expansion.",
+      "title": "git-check-ref-format manual",
+      "url": "https://git-scm.com/docs/git-check-ref-format/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-10",
+        "PGB-11"
+      ],
+      "sections_read": [
+        "ENVIRONMENT VARIABLES: GIT_CONFIG_GLOBAL, GIT_CONFIG_SYSTEM, GIT_CONFIG_NOSYSTEM"
+      ],
+      "source_id": "GIT-ENV",
+      "supported_claim": "Environment variables can replace or skip system/global configuration reads.",
+      "title": "git manual",
+      "url": "https://git-scm.com/docs/git/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission or adoption",
+        "Correctness of real project content"
+      ],
+      "effective_manual_version": "2.52.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-10",
+        "PGB-11"
+      ],
+      "sections_read": [
+        "core.hooksPath",
+        "protocol.allow",
+        "protocol.<name>.allow"
+      ],
+      "source_id": "GIT-CONFIG",
+      "supported_claim": "Per-command hook-path and protocol policies support fixture isolation.",
+      "title": "git-config manual",
+      "url": "https://git-scm.com/docs/git-config/2.52.0"
+    },
+    {
+      "does_not_establish": [
+        "Installation, object transfer, quota availability or restore verification",
+        "Permission to enable filters, upload objects or migrate shared history",
+        "Pinned LFS client or service version"
+      ],
+      "effective_manual_version": null,
+      "nature": "Official rolling introduction, not a version-pinned operating manual",
+      "publisher": "Git LFS project",
+      "related_clause_ids": [
+        "PGB-10"
+      ],
+      "sections_read": [
+        "Introduction",
+        "Getting Started steps 1 and 2"
+      ],
+      "source_id": "GIT-LFS",
+      "supported_claim": "LFS is an extension using Git pointer files and separate stored objects; new tracking patterns do not migrate old history.",
+      "title": "Git Large File Storage overview",
+      "url": "https://git-lfs.com/"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission",
+        "Complete manual or platform verification"
+      ],
+      "effective_manual_version": "2.51.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGB-01",
+        "PGB-02"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --show-current, --track"
+      ],
+      "source_id": "GIT-BRANCH",
+      "supported_claim": "Branch creation adds a ref at the selected start point without switching; current-branch reporting is empty when detached; upstream tracking is configured.",
+      "title": "git-branch manual",
+      "url": "https://git-scm.com/docs/git-branch/2.51.0"
+    },
+    {
+      "does_not_establish": [
+        "Project operation permission",
+        "Complete manual or platform verification"
+      ],
+      "effective_manual_version": "2.51.0",
+      "nature": "Official technical command documentation",
+      "publisher": "Git project",
+      "related_clause_ids": [
+        "PGW-06"
+      ],
+      "sections_read": [
+        "DESCRIPTION",
+        "OPTIONS: --create, --discard-changes, --merge"
+      ],
+      "source_id": "GIT-SWITCH",
+      "supported_claim": "Switch updates the index and working tree; conflicting local edits are protected unless explicitly discarded or merged.",
+      "title": "git-switch manual",
+      "url": "https://git-scm.com/docs/git-switch/2.51.0"
+    }
+  ]
+}

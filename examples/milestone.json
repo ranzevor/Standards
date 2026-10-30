@@ -1,0 +1,11 @@
+{
+  "id": "MILESTONE-1",
+  "example_only": true,
+  "required": [
+    "ISSUE-1"
+  ],
+  "exit_criteria": "准确对象通过必要检查且有实际证据",
+  "risks": "独审与权利尚未确认",
+  "status": "open",
+  "committed_date": null
+}

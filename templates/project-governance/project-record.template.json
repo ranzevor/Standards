@@ -1,0 +1,154 @@
+{
+  "acceptance": [],
+  "adoption": {
+    "decision": {
+      "state": "not-decided"
+    },
+    "dependency_bindings": [],
+    "exceptions": [],
+    "history": [],
+    "revision": 0,
+    "scope_ids": [],
+    "selections": [],
+    "state": "not-decided"
+  },
+  "change": {
+    "author_review": "not-run",
+    "base_identity": "new-local-example:no-prior-release",
+    "candidate_identity_state": "capture-at-execution",
+    "findings": [],
+    "id": "fill-change-id",
+    "independent_review": "not-run",
+    "merge_state": "not-applicable",
+    "reason": "填写实际差异和风险 / Describe the actual change and risk",
+    "recovery": "不改现有目标；修正当前候选后重新运行，并保留原失败事件。",
+    "review_units": [],
+    "type": "behavior"
+  },
+  "checks": {
+    "required_ids": [],
+    "results": []
+  },
+  "configuration": {
+    "command_line": {},
+    "defaults": {
+      "encoding": "utf-8",
+      "max_input_bytes": 1048576
+    },
+    "environment": {},
+    "precedence": [
+      "default",
+      "environment",
+      "command-line"
+    ],
+    "reason": "离线合成数据，无账号、网络服务或秘密。",
+    "secret_state": "not-applicable"
+  },
+  "dependencies": {
+    "package_dependencies": [],
+    "records": [],
+    "tools": [
+      {
+        "name": "Python",
+        "resolution_state": "not-run",
+        "source": "执行时记录解释器路径、来源与准确版本",
+        "version_rule": "CPython >= 3.12; exact interpreter/version observed per run"
+      }
+    ]
+  },
+  "deployment": {
+    "applicability": "not-applicable",
+    "execution_state": "not-applicable",
+    "reason": "离线临时目录转换器，无持久服务、数据库或目标部署环境。"
+  },
+  "example_only": true,
+  "id": "fill-project-record-id",
+  "maintenance": {
+    "channel_configured": false,
+    "response_hours": null,
+    "state": "undecided",
+    "supported_versions": []
+  },
+  "materials": {
+    "active_ids": [],
+    "cleanup_state": "not-run",
+    "records": [],
+    "retention": "project.fixtures保留可重建输入和独立预期；运行报告保留原始失败观察及摘要。临时目录只在结果已提取、引用释放且无打开句柄后回收。",
+    "revision": 0
+  },
+  "milestone": {
+    "date_kind": "unset",
+    "goal": "填写必要成果与退出条件 / Required deliverables and exit conditions",
+    "id": "M-LOCAL",
+    "required_ids": [],
+    "state": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "audiences": [],
+    "baseline": {
+      "observation": "未测量真实用户效率；仅有明确输入输出合同。",
+      "state": "unknown"
+    },
+    "fixtures": [],
+    "id": "fill-project-id",
+    "io_contract": {
+      "encoding": "utf-8",
+      "error_policy": "任何坏行均在提交前拒绝，不覆盖输入或现有目标，不留下部分输出",
+      "id_rule": "正十进制整数，无前导零，文件内唯一",
+      "input_columns": [
+        "name",
+        "id"
+      ],
+      "line_ending": "LF",
+      "max_input_bytes": 1048576,
+      "name_rule": "非空Unicode文本，不含NUL；允许CSV引号、逗号及内嵌换行",
+      "output_columns": [
+        "id",
+        "name"
+      ]
+    },
+    "kind": "synthetic",
+    "lifecycle": {
+      "entry_condition": "先补齐范围、必要资源和责任接口 / Define scope, resources and responsibilities",
+      "next_condition": "填写必要需求与验收合同 / Fill required requirements and contracts",
+      "state": "discovery",
+      "unresolved": [
+        "待填写项目事实 / Project facts not yet supplied"
+      ]
+    },
+    "name": "填写项目名称 / Project name",
+    "outcome": "填写业务终点 / Observable outcome",
+    "problem": "填写可观察问题 / Observable problem",
+    "resources": [],
+    "roles": {
+      "decision_owner": "unassigned",
+      "executor": "unassigned",
+      "maintainer": "unassigned",
+      "reviewer": "unassigned"
+    },
+    "scope": {
+      "history": [],
+      "in_scope": [],
+      "out_of_scope": [],
+      "revision": 0
+    },
+    "success_criteria": []
+  },
+  "record_state": "starter",
+  "requirements": [],
+  "schema_version": "standards-governance-project/1",
+  "version": {
+    "candidate": "0.1.0-local",
+    "compatibility": "只承诺本记录的UTF-8、列顺序和1 MiB输入边界；其他平台、编码和大文件未验",
+    "distribution_state": "not-decided",
+    "license_state": "not-decided",
+    "preparation_state": "not-run",
+    "publication_state": "not-applicable",
+    "reason": "可形成可审本地候选；未安排公开发行、真实部署或外部交易。",
+    "required_checks": [],
+    "scheme": "本地示例候选号，不表示正式发行或规范采用",
+    "tag_state": "not-applicable"
+  },
+  "work_items": []
+}

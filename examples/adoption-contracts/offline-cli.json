@@ -1,0 +1,177 @@
+{
+  "decision": {
+    "actor": null,
+    "at": null,
+    "authority_reference": null,
+    "status": "not-decided"
+  },
+  "dependencies": [
+    {
+      "from": {
+        "clause_id": "CLI-PROC-01",
+        "document_id": "STD-L4-CLI-SDK-003"
+      },
+      "interface": "CLI消费Shell的argv边界保持保证，不把文本再拼接为命令。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "STK-02",
+        "document_id": "STD-L5-010"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "CLI-PROC-01",
+        "document_id": "STD-L4-CLI-SDK-003"
+      },
+      "interface": "解析后的值还须经过业务运行时类型与范围检查。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "STK-02",
+        "document_id": "STD-L5-007"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "ADP-04",
+        "document_id": "STD-L6-001"
+      },
+      "interface": "检查合同必须观察完整stdout与独立诊断，不只观察exit code。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "CLI-PROC-03",
+        "document_id": "STD-L4-CLI-SDK-003"
+      }
+    }
+  ],
+  "example_only": true,
+  "id": "synthetic-offline-cli",
+  "implementation": {
+    "environment": "设计环境：Python与Shell；目标运行时由实际采用者固定。",
+    "identity": "synthetic-design:offline-cli:v1 (not a real project or accepted implementation)",
+    "scope": "仅演示argv/动态输入/标准流接口子集；无账号、无网络、无真实文件写入，不是完整符合性清单。",
+    "status": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "id": "合成离线转换器",
+    "kind": "synthetic"
+  },
+  "requirements": [
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest discover -s tests -p test_runtime_examples.py -v",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "合成CLI参数夹具保持参数边界，非法选项明确非零退出；不执行不可信文本。",
+          "id": "offline-cli-argv",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "CLI-PROC-01",
+      "document_id": "STD-L4-CLI-SDK-003",
+      "reason": "命令将用户提供的含空格、分号和Unicode参数作为一个数据参数传递。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest discover -s tests -p test_runtime_examples.py -v",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "并发排空stdout/stderr且输出不混杂；被截断输出不得报完整。",
+          "id": "offline-cli-stream",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "CLI-PROC-03",
+      "document_id": "STD-L4-CLI-SDK-003",
+      "reason": "转换结果和诊断分流，消费者依赖完整标准输出。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python examples/stacks/python_case.py",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "合法整数通过、bool直接失败、边界合法输入不误拒。",
+          "id": "offline-cli-py",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "STK-02",
+      "document_id": "STD-L5-007",
+      "reason": "动态JSON输入中布尔值不能作为业务整数通过。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "bash examples/stacks/shell_case.sh 'a b;中文'",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "输入保持一个argv值，分号不触发第二条命令；缺少或额外参数返回64。",
+          "id": "offline-cli-shell",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "STK-02",
+      "document_id": "STD-L5-010",
+      "reason": "该设计包含Shell调用边界，Shell分词不改变用户数据。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python checks/project_adoption.py",
+          "evidence": [],
+          "evidence_level": "document-structure",
+          "expected": "本记录身份和依赖一致；该结果只证明记录一致，不证明项目运行通过。",
+          "id": "offline-cli-contract",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "ADP-04",
+      "document_id": "STD-L6-001",
+      "reason": "采用者须将实际产品的入口和期望独立固定。"
+    }
+  ],
+  "schema_version": "1.0",
+  "standards": [
+    {
+      "id": "STD-L4-CLI-SDK-003",
+      "path": "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "8ff322d683600f3209d311c91d1fcd4b88546740c36f1c247156419f972f6f75",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L5-007",
+      "path": "standards/L5/007-Python-技术适配规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "62315479e9414a3fae9bb8cccbbf5e3cc7154d2505059cf56b7b222740d5b132",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L5-010",
+      "path": "standards/L5/010-Shell-PowerShell-技术适配规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "2b2fb4f4dc9065a98b52430727f23a83207de777e84539c0aec62831e83073f4",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L6-001",
+      "path": "standards/L6/001-项目采用与实现验收接口规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "7fa991b795e6fb8cc38b0c592927ce5de7cac6a25c7420316dafd317514ffe8c",
+      "version": "0.1.0"
+    }
+  ]
+}

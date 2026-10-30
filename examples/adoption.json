@@ -1,0 +1,27 @@
+{
+  "environment": "local-synthetic",
+  "example_only": true,
+  "operation_authorized": false,
+  "project": "SyntheticReadOnlyProject",
+  "requirements": [
+    {
+      "actual": null,
+      "applicability": "applicable",
+      "check": "compare the selected document identity and unexecuted check result",
+      "clause_id": "PGF-01",
+      "document_id": "STD-PG-001",
+      "expected": "exact selected source identity; no invented actual observation",
+      "object": "one explicit project standard reference",
+      "status": "not-run"
+    }
+  ],
+  "schema_version": "2",
+  "scope": "本地准确规范引用与未执行检查记录",
+  "standards": [
+    {
+      "id": "STD-PG-001",
+      "sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "version": "0.1.0"
+    }
+  ]
+}

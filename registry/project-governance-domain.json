@@ -1,0 +1,4460 @@
+{
+  "adoption": "adopted",
+  "document_ids": [
+    "STD-PG-001",
+    "STD-PG-002",
+    "STD-PG-003",
+    "STD-PG-004",
+    "STD-PG-005",
+    "STD-PG-006",
+    "STD-PG-007",
+    "STD-PG-008",
+    "STD-PG-009",
+    "STD-PG-010",
+    "STD-PG-011",
+    "STD-PG-012",
+    "STD-PG-013",
+    "STD-PG-014",
+    "STD-PG-015",
+    "STD-PG-016",
+    "STD-PG-017",
+    "STD-PG-018",
+    "STD-PG-019",
+    "STD-PG-020"
+  ],
+  "requirements": [
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGF-01",
+      "document_id": "STD-PG-001",
+      "document_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "项目仅锁定准确引用和配置/例外，通用全文没有第二权威"
+      ],
+      "section_sha256": "55cecaefc941a84cee817ed720633564a74bdb56262566ff660757ba9889e5a4",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGF-02",
+      "document_id": "STD-PG-001",
+      "document_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "A/B/C/D职责和仓库自身政策与通用规范不相互替代"
+      ],
+      "section_sha256": "6d9576ddbf1c286087dd064a488d142c320e3d4f99fe8c59daa2f8a147a4d7d5",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGF-03",
+      "document_id": "STD-PG-001",
+      "document_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "修订的义务、ID、来源和当前身份对应，旧决定不传递"
+      ],
+      "section_sha256": "a347750694a3897d40bff486b200f82fbee8772a978a604d883604bb3574c9df",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "aggregate_checks"
+        }
+      ],
+      "clause_id": "PGF-04",
+      "document_id": "STD-PG-001",
+      "document_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "阶段条件与四轴独立，单人流程没有虚构人员或事实"
+      ],
+      "section_sha256": "bf648d531693cbbc03b13ab809a6a137ba3ba6cff34063e43a43c10c7d49e187",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "required_closure"
+        }
+      ],
+      "clause_id": "PGF-05",
+      "document_id": "STD-PG-001",
+      "document_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "必要提供/消费保证与L0–L6责任清楚，无缺边或循环批准"
+      ],
+      "section_sha256": "7df081b96b8081fd69829fff330e0735832cca08fbfaab4e62919e61c7fa7edb",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGF-06",
+      "document_id": "STD-PG-001",
+      "document_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "检查宣称与真实实现吻合，每个手工判断有具体判据"
+      ],
+      "section_sha256": "b18453c9f15d2aab35dba66222fd125e3efd0f4e34790bfc35b0a37ae3b536ac",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGI-01",
+      "document_id": "STD-PG-002",
+      "document_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "受众问题、业务终点和成功条件描述同一可观察任务"
+      ],
+      "section_sha256": "eed10085d714ac62b41f5cf76ae056eddc17cfad7ed6eed9fcd331b104c6f389",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "apply_scope_change"
+        }
+      ],
+      "clause_id": "PGI-02",
+      "document_id": "STD-PG-002",
+      "document_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "资源用途/承诺与范围内外一致，未知不是无限资源"
+      ],
+      "section_sha256": "8f4b0f0557899fe38f1d48bdc61be1a054744500c4d4a57f8384055345147d1a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "aggregate_checks"
+        }
+      ],
+      "clause_id": "PGI-03",
+      "document_id": "STD-PG-002",
+      "document_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "启动/退出和blocked条件真实，取消不被写成成功"
+      ],
+      "section_sha256": "6dc5365bc77b5b953e0ef98e9ff9ed39756a6aa190b42dde086cc77af7ac5b4e",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "apply_scope_change"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGI-04",
+      "document_id": "STD-PG-002",
+      "document_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "范围差异保留原集合，决定绑定准确变更，并发/重试不丢状态"
+      ],
+      "section_sha256": "7b04fc9e8f8d75f24ace45d9951081bca17d1a439e21f4502f01ee7c379c8945",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "required_closure"
+        }
+      ],
+      "clause_id": "PGI-05",
+      "document_id": "STD-PG-002",
+      "document_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "风险的触发/影响/验证/剩余风险和必要依赖可追溯"
+      ],
+      "section_sha256": "56185151163aa66b8703053f62eb1d3cfaa30acd12a9fe4052d99e62834b6162",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGI-06",
+      "document_id": "STD-PG-002",
+      "document_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "章程到需求/工作项及接收接口具体，无虚构接收者"
+      ],
+      "section_sha256": "a7c99ff8f3d3ffe4d197e2226b5a910f16054cf4ae3087f44e79239ce18dd16a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "required_closure"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGT-01",
+      "document_id": "STD-PG-003",
+      "document_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "需求拆解有真实独立判定和来源，不以同义重复凑覆盖"
+      ],
+      "section_sha256": "0a8afd2e0e50777cfdf0bee8431292015a38722c6eb6db1dd4ac834dcf6c7c6d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGT-02",
+      "document_id": "STD-PG-003",
+      "document_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "架构取舍及接口/数据权威、错误/超时/未知的责任落定"
+      ],
+      "section_sha256": "b7581b5555c444ac0492f6136f33be76349ce7c15e976e1631e8189d70a3fc3a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/ARCHITECTURE-DECISION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGT-03",
+      "document_id": "STD-PG-003",
+      "document_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "具体文件/符号/测试/交付引用与被证明要求实际吻合"
+      ],
+      "section_sha256": "7c52c6df78b5d1496a31a49c2b45142d594003913151fb474ad02770477fba66",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "evaluate_check"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGT-04",
+      "document_id": "STD-PG-003",
+      "document_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "预期来自需求或协议，层级/容差和正反边界不从实际反推"
+      ],
+      "section_sha256": "219e807a98379c8b259b2551c41a48f9b2dae1e86d916d8fd78ea7c2aa497736",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "required_closure"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGT-05",
+      "document_id": "STD-PG-003",
+      "document_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "差异的传递消费者与旧证据复用理由完整，没有降必要性绕过"
+      ],
+      "section_sha256": "0aaad41b6bf0e7fa06b19b1cd8a0aff24cd5d8484ce11868bf0d3ede83a7ff3c",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "transition_work_item"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGT-06",
+      "document_id": "STD-PG-003",
+      "document_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "verified/例外/拒绝的事实和移交一致，失败不被删项掩盖"
+      ],
+      "section_sha256": "4225c62e9fed7793e0f8db0687f01f95b3ac172bc64c380b9a1477ce57688796",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_repository_naming -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按所选grammar/角色/例外接受或拒绝",
+          "failure": "版本状态后缀被默认接受、合法品牌/平台例外误拒",
+          "input": "原创仓、正式品牌、角色后缀及平台/fork例外合成正反邻例",
+          "kind": "record-binding",
+          "path": "checks/repository_naming.py",
+          "symbol": "validate_selected_name"
+        }
+      ],
+      "clause_id": "PGR-01",
+      "document_id": "STD-PG-004",
+      "document_sha256": "10dfd4e0230c468fec2abbe3f3e81ac61647a8ed1f52bcd6457e86f79b08c8e8",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "原创仓/包/域名/品牌及平台例外分别约束，语义后缀有用途"
+      ],
+      "section_sha256": "363c490d0d7a4ca65c28f5ed14a2c0cb041d0e74853dd6d90c183f41408bcfc4",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGR-02",
+      "document_id": "STD-PG-004",
+      "document_sha256": "10dfd4e0230c468fec2abbe3f3e81ac61647a8ed1f52bcd6457e86f79b08c8e8",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "权威源码、生成物、临时物和保留职责无冲突"
+      ],
+      "section_sha256": "5c038619fa05552be625afc043b0fd0307d42ca9ffb96b4c73d292fb10ba63cc",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGR-03",
+      "document_id": "STD-PG-004",
+      "document_sha256": "10dfd4e0230c468fec2abbe3f3e81ac61647a8ed1f52bcd6457e86f79b08c8e8",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "只有一个当前入口，旧新身份不凭同名或部分相同认定"
+      ],
+      "section_sha256": "47d58c6b2044b5000f92d1d595fdb9bc1961150b1f29f0cce1530960a26bf150",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGR-04",
+      "document_id": "STD-PG-004",
+      "document_sha256": "10dfd4e0230c468fec2abbe3f3e81ac61647a8ed1f52bcd6457e86f79b08c8e8",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐段及段末按技术用途判断归属，不机械删安全/研究/Agent限制"
+      ],
+      "section_sha256": "a779e9282e7c8aa05e448330dc47060510a9f908e2e43747467d93efb679765c",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGR-05",
+      "document_id": "STD-PG-004",
+      "document_sha256": "10dfd4e0230c468fec2abbe3f3e81ac61647a8ed1f52bcd6457e86f79b08c8e8",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "输入/工具/完整输出和等价标准可重现，没有隐藏附加或截断"
+      ],
+      "section_sha256": "4befeb5a8ab8d02cd25f8c36b38537885d5941612120d1a465729544f5f1a6f4",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGR-06",
+      "document_id": "STD-PG-004",
+      "document_sha256": "10dfd4e0230c468fec2abbe3f3e81ac61647a8ed1f52bcd6457e86f79b08c8e8",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "旧新坐标、安装/导入/Action/部署等实际消费者逐类验收"
+      ],
+      "section_sha256": "9cbe4726a1c6da1a365b64e9fcf44544e9e984899ad49e15583e9ce7ecf2bffd",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-01",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "主读者、任务和最快路径真实一致，导航不代替产品定位"
+      ],
+      "section_sha256": "c22a365d883fbe3f4fc805e90b22dfe5e83b703c6a30147617d01df80d524995",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-02",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "有意义封面替代文字准确，实际320 CSS px阅读不靠尺寸字段推定"
+      ],
+      "section_sha256": "de85d182cd5ec5a9d6d5a20aa8c3d68858090ef744346a6fc5df28092e278884",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S01"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S02"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S05"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-03",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "徽章指标/成熟度/版本对象与链接和更新来源一致"
+      ],
+      "section_sha256": "57b3acc728c556626db19d8ae28891847c88475ebc9e0495aecfb4f0fb8025e5",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-04",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "具名文本、实际目标和锚点明确，不能以近似地址替代"
+      ],
+      "section_sha256": "721f39dce590da8911c7c5d08f9718f54401aab7e5631375e9e4b71c7a5c807b",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S01"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-05",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "前提、命令和独立预期可执行，输入有完整可达入口"
+      ],
+      "section_sha256": "a2dc702b7c26a86e4d49eabd0a8e2c829bd7e1b102d3efd6f2355b1c93bd30e7",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-06",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "成熟度/采用/验收分别登记，README不是过程调度记录"
+      ],
+      "section_sha256": "0b7aaeeae831a5915e105cacd6d08e5b71b65057f4756e7bd0218738c315bf90",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-07",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "中英实际全文同义且可用性准确，没有仅语言切换链接"
+      ],
+      "section_sha256": "73ead4afa3b53eb92dd93e5c9377c4fd9e8da0275933d2f8f3d26aeb9cf1224a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_readmes"
+        }
+      ],
+      "clause_id": "PGE-08",
+      "document_id": "STD-PG-005",
+      "document_sha256": "a8faccbb9efd9b95a82f6f37a7b791dde717976e1f244e1e7aad7ef16116f36d",
+      "example": "README.md",
+      "manual_criteria": [
+        "内容/链接/视觉按影响实际复核，未运行布局不变成通过"
+      ],
+      "section_sha256": "537d519e40335d89f05e6b939a3521c02188b77e09ad671700cb447ad3a615b4",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S02"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S05"
+        }
+      ],
+      "template": "templates/README-ENTRY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-01",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "规范、指南、模板、示例各负其责，中文权威与项目引用不产生第二规范"
+      ],
+      "section_sha256": "d0593a594d6f4af1976188f8473c5af4f4968c8dcf88722ccb8a3668a6034219",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-02",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "术语、英文对照和必须/建议/可选的语义及例外条件一致"
+      ],
+      "section_sha256": "d22939d61d2c092bd7afb68f9cd9b13a8f7e1fad62e9e9d69e3536e670d3976f",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S03"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-BCP14"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-03",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "主体/初态/动作/失败恢复/产物和独立判据足以执行"
+      ],
+      "section_sha256": "9d7cbf891de9637ee5e2bcf7d7405e404b9ff9eb4bf1337ea012121b1b345d62",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-04",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "前言/表格/代码和条款逐段源译对应，不只比较ID数量"
+      ],
+      "section_sha256": "64f810d8987d11f9477593841b1907a87c5acb3438608f4f5215742105c06567",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-05",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "同版本准确源译身份同步，摘要变更不自动等于语义复核"
+      ],
+      "section_sha256": "b1255e0184af947eaad75488b1b2d2c820c15fc3cf06bd787ca0bba2dc2d38ac",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-06",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "例子、命令和链接按准确对象复验，不能只改链接名"
+      ],
+      "section_sha256": "373aa784625a81e33f9577c17f7af3239f64968bf474c8852b0dc20847f635b9",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S01"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-07",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "缺语言/术语有真实回退，文档翻译与界面国际化边界清楚"
+      ],
+      "section_sha256": "a00f31023d1060cc5618275bafbe8467fdb1d5fc1176e349dffc0c449fde9971",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S03"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_readme.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "有限链接/资源/身份/条款顺序与登记一致",
+          "failure": "目标缺失、装饰性伪装、徽章身份或源译摘要/条款漂移",
+          "input": "准确中英文文本及源译/README链接资源合同",
+          "kind": "readme-translation-contract",
+          "path": "checks/project_readme.py",
+          "symbol": "validate_translations"
+        }
+      ],
+      "clause_id": "PGD-08",
+      "document_id": "STD-PG-006",
+      "document_sha256": "96d5d8e0c9482e76c9c27c166c7977b200c19c61202c585b33ed171fccad47df",
+      "example": "translations/en/project-governance/documentation-i18n.md",
+      "manual_criteria": [
+        "作者和独立实读依据分开，维护责任和未决语义实际记录"
+      ],
+      "section_sha256": "165bfc3966a90b301aee7c068b9ec3058d8861cee514fe1264a511cb16a47b60",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/DOCUMENT-TRANSLATION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-01",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“适用、术语与责任接口”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "945d1a9dd503be70499023e7f972234cd4c35bbe4c674ae4d573d0c0ace0c121",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-02",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“创建、克隆与初始身份”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "b7d69787ed4d9f96ff0291fc969ab894fef8c791984171628f575827f047ec01",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-INIT"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-CLONE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-03",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“每次写前分清HEAD、索引和工作区”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "2523156c9c60bcf541db65eecb6fb5fdade4acef3a935b8727e319ed8d82e436",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-STATUS"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-DIFF"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        },
+        {
+          "command": "python -B -m unittest tests.test_git_detached_commit -v",
+          "does_not_establish": "remote writes, real author identity or complete workflow acceptance",
+          "expected": "附着提交前移main和HEAD；游离提交只移HEAD，父与树正确，原main不变，保留分支能达到游离提交",
+          "failure": "错误移动或误认为已移动分支、父/树不符或新提交不可定位",
+          "input": "独占临时合成Git仓；普通无路径commit，分别处于main附着与detached HEAD",
+          "kind": "local-git-runtime",
+          "path": "tests/test_git_detached_commit.py",
+          "symbol": "DetachedCommit.test_attached_and_detached_commit_keep_exact_parent_and_refs"
+        }
+      ],
+      "clause_id": "PGW-04",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“逐路径暂存与提交”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "88d94704a3493737bd34d391cf5fcd94d4b665d17ce6aff7f00a7a869f1d0394",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-ADD"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-COMMIT"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-RESTORE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-05",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“忽略规则不是移除跟踪或保密机制”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "3375600f44a2a4699f3e3c6b9fe6940ceeea255c9f9a8dc72ef4ddb82f519084",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-ADD"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-IGNORE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-06",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“未提交内容保护”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "6582608197fffd93fa4def54be8597ec242ff95015fc1badabdb57f1e8c26822",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-STASH"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-SWITCH"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-07",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“stash保存、应用冲突与恢复”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "3be1910123909af01ba0cd49b18c735f0b3c31204eba9977c55fb78ea4aff1ca",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-STASH"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-WORKTREE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-08",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“worktree并行与回收”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "f97fa51f36e1ca0a854c50b49ba6ee64f7d734a0a542846be922bb910dac4eee",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-WORKTREE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-09",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“路径恢复与失败分类”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "a89891b5e45700a7e93cc6987d8c8c6bd2d11527a7906738e384f663ebc3d272",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-RESTORE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-REVERT"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGW-10",
+      "document_id": "STD-PG-007",
+      "document_sha256": "67b05e6b68a1afb48b2912ac2da0483a69adbb86dd650bb3cf7c931f371dba84",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“可执行验收与证据契约”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "b70b5fe26479d6a1cf78d56954317ef4475d488b33b96f0863de653a8e80ff0b",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-ENV"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-CONFIG"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-01",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“适用、角色、术语与分支命名”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "8a5543710da34d2df0e44a65bcf45d7b4efe685e3ab1f985975898d360ee7235",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-REFNAME"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-BRANCH"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-02",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“集成前冻结可恢复状态”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "b91a366b61339e5e9a633ddce97a50d2a389a803798f3b4f4c2fe90ad55042a0",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-WORKTREE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-MERGE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-REBASE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-BRANCH"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-03",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“fetch只更新所取对象与refs”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "5e5c11f8d0436c56b06eb94dddad75b41d78070017da6d415a255f09835104d7",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-FETCH"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-04",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“显式选择快进、merge或rebase”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "f7fa492c36feb9edb11f7bc4ddfb171769ace4f2602bd0cc0da611c37d1ce546",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-PULL"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-MERGE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-REBASE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-05",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“pull同时抓取和集成”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "855ab061a035c0601dc0721c24447ab1518b32e1694df103e6e5ba8f713a719c",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-FETCH"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-PULL"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-06",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“merge冲突解决与abort”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "6415ddc19113dfe4c7d1e36e1751cd2e2abaad7df5e968cf9c34cd14e36291b3",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-MERGE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-07",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“rebase冲突、continue与abort”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "bce4f34c41c63ae8022d855f35c15f5d06e05f64271ef00973c116fad9913556",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-RESTORE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-REBASE"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-08",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“push范围与共享历史保护”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "53c3629d15411df2140cb6b31abea2979dea569263e20669b90f01102501846f",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-PUSH"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-09",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“revert、标签与失败回退”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "2b4566f7bde343ee38f4fd84267aa2142b01b01b6f676743fabfa8ca4f721390",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-REVERT"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-TAG"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-10",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“子模块与LFS适用性”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "4662e16d6db71b82b6bdff515fdc4c749bbf4f765f1d062cd3372ed679eacf55",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-SUBMODULE"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-LFS"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGB-11",
+      "document_id": "STD-PG-008",
+      "document_sha256": "d2dbfa016149d9fe39b2a5feb944352ed376e0ad5c407306ece0bff0924bdcf6",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "逐句核本条“验收入口、状态与交接”的触发、具体步骤、失败恢复和正常/失败/合法边界；源译和真实阅读/权利判断不可由结构存在代替。"
+      ],
+      "section_sha256": "ff1860f64366228b6b10e6076891fabde16701d776d13e9b50510333f7d514c9",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-ENV"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/git-operations.json",
+          "source_id": "GIT-CONFIG"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "validate_change"
+        }
+      ],
+      "clause_id": "PGC-01",
+      "document_id": "STD-PG-009",
+      "document_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "准确基线和完整差异与真实风险一致，不按行数免审"
+      ],
+      "section_sha256": "2fb7312c25513a55f54c1b19040481b5fd3b51ad45768a6506ec3635a75e505d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/TECHNICAL-REVIEW.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGC-02",
+      "document_id": "STD-PG-009",
+      "document_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "作者交付可审的完整技术对象，缺口与真实自查不冒独审"
+      ],
+      "section_sha256": "b065422bdd11ca7a0db92b594d6865cf4ae73fb1311ed2a06af60920163bbae7",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/TECHNICAL-REVIEW.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "validate_change"
+        }
+      ],
+      "clause_id": "PGC-03",
+      "document_id": "STD-PG-009",
+      "document_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "审查有实际独立依据及完整范围判断，不以名字或数量自证"
+      ],
+      "section_sha256": "103689ebb6b50b3f91610809ae4e21a50c4bb633287b1620fc4094dfe7bb5bbf",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/TECHNICAL-REVIEW.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "validate_change"
+        }
+      ],
+      "clause_id": "PGC-04",
+      "document_id": "STD-PG-009",
+      "document_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "每个原发现全部判据闭合，候选变化真实复核"
+      ],
+      "section_sha256": "188e665c54226c7eed199aedc223f4959b44a2bf13dfececf5b7d4264a5a6990",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/TECHNICAL-REVIEW.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "merge_ready"
+        }
+      ],
+      "clause_id": "PGC-05",
+      "document_id": "STD-PG-009",
+      "document_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "最终集成对象与门禁相同，实际目标HEAD变化或调用未知安全处理"
+      ],
+      "section_sha256": "a55eb50d821c90fc94b34c6ef7c11d78cc877f862fbb1a3e2d4f067994532698",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/TECHNICAL-REVIEW.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "publication_state"
+        }
+      ],
+      "clause_id": "PGC-06",
+      "document_id": "STD-PG-009",
+      "document_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "共享历史恢复、数据恢复和外部效果分开，不用revert概括全部"
+      ],
+      "section_sha256": "ed65f102e84bfeba4753c3e90c7d5c1e4ff589f359822a8bd09ed6cd3f95d30f",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/TECHNICAL-REVIEW.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGK-01",
+      "document_id": "STD-PG-010",
+      "document_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "类型、复现/研究合同、预期实际和接受条件可判断"
+      ],
+      "section_sha256": "d859371cadcfa2be999e891c1237cad53f86b179d832d3793576fec270b13ddb",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "transition_work_item"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGK-02",
+      "document_id": "STD-PG-010",
+      "document_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "状态跃迁与关闭理由准确，未复现不等于已修复"
+      ],
+      "section_sha256": "64228c121043c46fd2c320ae9e1925925e0db70f2bed1e1c75d96f9651ecf1e8",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "milestone_ready"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGK-03",
+      "document_id": "STD-PG-010",
+      "document_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "必要项及传递依赖完成，原集合保留而非删失败提高完成率"
+      ],
+      "section_sha256": "44bb6ccc0a4577ad187b9c8b02096b5ce5332d18a30783c2742c911b4ed647af",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "apply_scope_change"
+        }
+      ],
+      "clause_id": "PGK-04",
+      "document_id": "STD-PG-010",
+      "document_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "写入范围由实际原子机制保护，不靠声明防覆盖"
+      ],
+      "section_sha256": "dd3276e86864efabe5097b6eb7fccddcb5cee59e4def3061677018d1de13226d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SSDF"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGK-05",
+      "document_id": "STD-PG-010",
+      "document_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "移交材料/权限/未知效果和接收范围具体，缺人如实待分配"
+      ],
+      "section_sha256": "f3870f4c484ca8fad10453c13164a78cb004430b90477a03774550d6c8f61fe0",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "aggregate_checks"
+        }
+      ],
+      "clause_id": "PGK-06",
+      "document_id": "STD-PG-010",
+      "document_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "对外状态是可核技术事实，不把在途或未知写成完成"
+      ],
+      "section_sha256": "361852ff2d11458e4015b7301d4ee25c40302c7027e0fc5e33d2b6cbe941a709",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "evaluate_check"
+        }
+      ],
+      "clause_id": "PGQ-01",
+      "document_id": "STD-PG-011",
+      "document_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "初态/输入/独立期望/观察/失败终点足以重放判定"
+      ],
+      "section_sha256": "1ac0d03f72c7601076aa82ae788ca8dac2fd715ca6e7c5765193b40a487dc1cf",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SSDF"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGQ-02",
+      "document_id": "STD-PG-011",
+      "document_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "负例和变异真正破坏目标，合法邻例不过度拒绝"
+      ],
+      "section_sha256": "31be63d0c1df943914406f3fd017febd7d82c2b69615c2442f5d008e57200c15",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "evaluate_check"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGQ-03",
+      "document_id": "STD-PG-011",
+      "document_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "对象/环境/配置和运行前后身份准确，无运行中漂移"
+      ],
+      "section_sha256": "b368e5e98b63098450fb7f80758ac3b8afa5fd40653a84fa31d761ab4800d9ac",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "aggregate_checks"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGQ-04",
+      "document_id": "STD-PG-011",
+      "document_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "未验、跳过、预期错误、测试错误和效果未知不混为通过"
+      ],
+      "section_sha256": "05d548975349b5e3a8cb05937354d7c56038135bec058a31638026a3a0c3e5df",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGQ-05",
+      "document_id": "STD-PG-011",
+      "document_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "原始双流与内层身份可核，失败/修复与脱敏关系保留"
+      ],
+      "section_sha256": "bb29ad44d5fcb12115fd97ae249740a73533fab5effc129467d9ca71f9851308",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SSDF"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGQ-06",
+      "document_id": "STD-PG-011",
+      "document_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "复用有逐对象理由，自动检查与人工充分性分开"
+      ],
+      "section_sha256": "bca53316d5fc4806caeaebf0ff4ec1573042b8312ca06a343513074a7d3be2dd",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "validate_dependencies_config"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGS-01",
+      "document_id": "STD-PG-012",
+      "document_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "运行/开发/传递依赖、解析锁定及内容来源吻合"
+      ],
+      "section_sha256": "55c746787c458433ae62698f00cdc5415cd55c5820b5b6905407ced6c5a6f6d4",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "validate_dependencies_config"
+        }
+      ],
+      "clause_id": "PGS-02",
+      "document_id": "STD-PG-012",
+      "document_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "预期身份具有独立来源，不以下载后自算hash当上游证明"
+      ],
+      "section_sha256": "7199042155d9bbd5a9dfaae2bc91cfbc47973a785e23f3206d52277f6158b87d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "effective_config"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGS-03",
+      "document_id": "STD-PG-012",
+      "document_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "配置优先级/类型/单位/边界明确，缺秘密不降安全"
+      ],
+      "section_sha256": "c040ce158853cc51afeda86a4212818198ac45d7b41fe65c5f8e8f7dd448c3fd",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "rollback_allowed"
+        }
+      ],
+      "clause_id": "PGS-04",
+      "document_id": "STD-PG-012",
+      "document_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "升级比较API/ABI/数据/配置/许可，实际风险和回退可执行"
+      ],
+      "section_sha256": "dafee0857a2cc39dc5cb1f4ccc460e0a0c275dceddf3e5cfa3f19a0bcaec32db",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "reclaim_plan"
+        }
+      ],
+      "clause_id": "PGS-05",
+      "document_id": "STD-PG-012",
+      "document_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "构建隔离和缓存信任/输入身份有效，缓存不替代执行"
+      ],
+      "section_sha256": "8f66f451655f4f13c9ae149c373da8c2cb6206e2c75d48d6044ab93a7234a06f",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "required_closure"
+        }
+      ],
+      "clause_id": "PGS-06",
+      "document_id": "STD-PG-012",
+      "document_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "受影响消费集合及可信替代/隔离可追，事件不靠安装成功结案"
+      ],
+      "section_sha256": "401931a71e36b8df4705f4770b14cedfbd504f70134c7ce800f7f217ed185115",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGP-01",
+      "document_id": "STD-PG-013",
+      "document_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "数据用途/接收/保留/最小化具体，分类和真实依据有效"
+      ],
+      "section_sha256": "e24b663792f3a27ff3d364311a0cf6912c1cb121a4f8a6f09a43d7b5ac1a75bb",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGP-02",
+      "document_id": "STD-PG-013",
+      "document_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "源码/日志/示例无真实秘密，轮换包含旧副本和实际撤销"
+      ],
+      "section_sha256": "73e4abec66b3156fab39dba6ede1fefbd724c162293c0e870fb02f4015dfd2c6",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "operation_allowed"
+        }
+      ],
+      "clause_id": "PGP-03",
+      "document_id": "STD-PG-013",
+      "document_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "准确主体/目标/环境/动作/时间与拒绝/未知恢复在执行点生效"
+      ],
+      "section_sha256": "4638ec04409516a435d940ccfc49f2994309c360aabac9bfdc5fab84d8eb246c",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SSDF"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGP-04",
+      "document_id": "STD-PG-013",
+      "document_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "威胁、信任边界、控制和反例针对实际暴露而非关键词"
+      ],
+      "section_sha256": "e3dfd3eb1b8ef9e84d9004981725c00a7e626b4f2b3efe8e37dd88362b481ec3",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGP-05",
+      "document_id": "STD-PG-013",
+      "document_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "私密渠道、处置/披露与版本事实相符，不制造邮箱或SLA"
+      ],
+      "section_sha256": "d184946b0929e59662e7a35a411dd4b5b20881e336fd6180a1c24ae00a0de30e",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SSDF"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "operation_allowed"
+        }
+      ],
+      "clause_id": "PGP-06",
+      "document_id": "STD-PG-013",
+      "document_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "恢复代码/数据/权限及外部效果分别核，旧状态不复活撤销"
+      ],
+      "section_sha256": "3393eb93914af4142fa636a803be23e7586e4329f5ee07a024a67527581e04f2",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-01",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "自有确认按实际范围有效，第三方/生成/未知材料独立分类"
+      ],
+      "section_sha256": "61e185963f193312cdbb3dfb062db6c7392455271f925e81345c8a3b027a80b9",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S04"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-02",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "逐项来源、版本、许可和通知与实际材料相符"
+      ],
+      "section_sha256": "6500a9778c98603c990e9556f9821ca65e421774a96db8241c7a4d1ac07a032d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S04"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-03",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "根许可真实已选或未选，分发范围及排除项不被访问权限替代"
+      ],
+      "section_sha256": "14baacf5da6901ce5450000a21fb00f68dad2f18cf5f08bb2aba335c90632190",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S04"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-04",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "贡献授权实际成立，模板不代替同意或协议选择"
+      ],
+      "section_sha256": "fed2b454f3128359b70dbf89dfa64337413b31e7bbf9d24ed0647065a503f7b8",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S04"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-05",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "准确材料和修改链可追，原通知及必要源在实际制品内保留"
+      ],
+      "section_sha256": "5253f1694daea61524b754a7d14ea390202e68f27a55ee643ee556c9be3bc70b",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-06",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "品牌/字体/生成输入及分发条件独立核，没有自动独占推论"
+      ],
+      "section_sha256": "788b5c8a322d3d16beb39225e99e15acd834be9d394dcd9fa4c6f229324dc1d0",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-07",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "异议处置范围相称，保留证据且恢复条件可执行"
+      ],
+      "section_sha256": "34c96da66ec0cb65566664174b21cd1acde7d39b104f98f7467be169dde8573f",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S04"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGL-08",
+      "document_id": "STD-PG-014",
+      "document_sha256": "2c6b47e5b91e389ebd86f31c52e80413580b51e3eadccfbc7fefb73f57c386f6",
+      "example": "governance/LICENSING.md",
+      "manual_criteria": [
+        "实际分发清单、许可/通知与责任交接吻合，自动摘要不判法律"
+      ],
+      "section_sha256": "5113f3c32f080c6284af627236fc8c49a4b961d380185e2f61792da4dd61bb22",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/documentation-rights.json",
+          "source_id": "DOC-S04"
+        }
+      ],
+      "template": "templates/RIGHTS-AND-NOTICES.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGV-01",
+      "document_id": "STD-PG-015",
+      "document_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "版本空间和公共API/义务兼容真实，发行身份不可静默替换"
+      ],
+      "section_sha256": "e85f289cecbb3436d4b17c784862fb17da4606575932a2b8e20c9606d694128a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SEMVER"
+        }
+      ],
+      "template": "templates/RELEASE-READINESS.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "release_ready"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGV-02",
+      "document_id": "STD-PG-015",
+      "document_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "清单含必要产物/决定/支持，阻断未解不ready-to-publish"
+      ],
+      "section_sha256": "747ee661b82534ef385b89996e76caa27d3b3849771efd36fc4b1f5b5596bdd1",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RELEASE-READINESS.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python examples/project-governance/git_scenarios.py --scenario all",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "实际索引/工作区/图/冲突中止/revert/标签满足场景独立断言",
+          "failure": "命令意外退出、内容/图不符、保存点丢失或标签错移",
+          "input": "新建临时本地合成仓与file协议bare端点",
+          "kind": "local-git-runtime",
+          "path": "examples/project-governance/git_scenarios.py",
+          "symbol": "run_scenario"
+        }
+      ],
+      "clause_id": "PGV-03",
+      "document_id": "STD-PG-015",
+      "document_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "标签/剥离提交/制品/签名分别对应准确对象"
+      ],
+      "section_sha256": "d329f30251bbae5c2c7f1f1dc58726b241fb0aeb7d0bd1478dd2b2ceadac3fb3",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        },
+        {
+          "kind": "official-finite-claim",
+          "packet": "sources/project-governance/core-governance.json",
+          "source_id": "PG-CORE-SEMVER"
+        }
+      ],
+      "template": "templates/RELEASE-READINESS.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "publication_state"
+        }
+      ],
+      "clause_id": "PGV-04",
+      "document_id": "STD-PG-015",
+      "document_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "发布后实际读回，部分/未知先查权威事实再安全重试"
+      ],
+      "section_sha256": "2e925714fb1104f3111c3c2baa10bebb07ba3f453529ac082ea98501f0790453",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RELEASE-READINESS.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "publication_state"
+        }
+      ],
+      "clause_id": "PGV-05",
+      "document_id": "STD-PG-015",
+      "document_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "撤回与代码/数据/消费者补救分开，原身份不被覆盖"
+      ],
+      "section_sha256": "fd8d16b180908da309a57b463853b3bfb27d37da7dd119fd9be035bc5dae460c",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RELEASE-READINESS.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "upgrade_adoption"
+        }
+      ],
+      "clause_id": "PGV-06",
+      "document_id": "STD-PG-015",
+      "document_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "准确发行、维护、采用和下游升级分别决定"
+      ],
+      "section_sha256": "4e905e861f65cef02a7bd0fc0333c359a855eba3623d1ec231fbe8fe117fa249",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RELEASE-READINESS.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "deployment_safe"
+        }
+      ],
+      "clause_id": "PGU-01",
+      "document_id": "STD-PG-016",
+      "document_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "目标/制品/配置是真实隔离对象，不因名字而推断"
+      ],
+      "section_sha256": "c6333277a52857ef168849c919f0eb4b58b759491cc40c7b6cd34f00c9dfbe7d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/COMPATIBILITY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "deployment_safe"
+        }
+      ],
+      "clause_id": "PGU-02",
+      "document_id": "STD-PG-016",
+      "document_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "旧新读写矩阵和扩展/回填/切换/收缩条件完整"
+      ],
+      "section_sha256": "1db6c00727c37257fe23e93d45b361430a368a3913a4c4f3a95acbc43daddf7b",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/COMPATIBILITY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "deployment_safe"
+        }
+      ],
+      "clause_id": "PGU-03",
+      "document_id": "STD-PG-016",
+      "document_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "不可逆步骤前实际验证恢复点，不只存在备份文件"
+      ],
+      "section_sha256": "03a408c01add1c7d5d8971570d346c9c478e7d651d397cf6aebba57333696f6d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/COMPATIBILITY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "deployment_safe"
+        }
+      ],
+      "clause_id": "PGU-04",
+      "document_id": "STD-PG-016",
+      "document_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "发布顺序、停止阈值/最大等待及并发世代具有来源"
+      ],
+      "section_sha256": "0f696f504d503629b7ba47c70bd8c0ddcc2e6a125ddffbec720ca5700eada4e6",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/COMPATIBILITY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "rollback_allowed"
+        }
+      ],
+      "clause_id": "PGU-05",
+      "document_id": "STD-PG-016",
+      "document_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "旧程序可写性与已观察恢复状态决定回滚或前向修复"
+      ],
+      "section_sha256": "74ca30a82503ccf641cc50b1eea48aac653bc66d0c406495cec3b88bb066fede",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/COMPATIBILITY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "aggregate_checks"
+        }
+      ],
+      "clause_id": "PGU-06",
+      "document_id": "STD-PG-016",
+      "document_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "发布后必要业务/数据/权限与后续维护记录吻合"
+      ],
+      "section_sha256": "d16d4baafc080d5bd0cf2f52ed2062719672af5299928c95cf8f2515af6719ff",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/COMPATIBILITY.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "validate_maintenance"
+        }
+      ],
+      "clause_id": "PGM-01",
+      "document_id": "STD-PG-017",
+      "document_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "维护状态、支持范围、渠道和响应承诺有真实能力"
+      ],
+      "section_sha256": "c1a68e887adf452ce3e46a4ded4623097c7d435c8391dc5d90fe2230f54fa255",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "transition_work_item"
+        }
+      ],
+      "clause_id": "PGM-02",
+      "document_id": "STD-PG-017",
+      "document_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "问题定位保留原输入与未知，缓解与根因修复分开"
+      ],
+      "section_sha256": "8aeb1769dd95e033b16ab0c32cc78aa7b7fd01531d9626b35def1c8d9209200a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "aggregate_checks"
+        }
+      ],
+      "clause_id": "PGM-03",
+      "document_id": "STD-PG-017",
+      "document_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "各支持版本修复与通知按真实验证，不外推未测平台"
+      ],
+      "section_sha256": "0643c0f862b51ed0420a7e811ba96a6028903bbe77130cd88b5fe317135f335c",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGM-04",
+      "document_id": "STD-PG-017",
+      "document_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "源码/二进制/数据/协议/配置兼容维度及窗口明确"
+      ],
+      "section_sha256": "dbc9ac704867afd2b51c79be7dae560fb8bc34fb75444cae3a2c2ef5d9e15607",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "operation_allowed"
+        }
+      ],
+      "clause_id": "PGM-05",
+      "document_id": "STD-PG-017",
+      "document_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "交接取得/撤权实际有效，模板人名不是配置证明"
+      ],
+      "section_sha256": "e963efaca12dbfa709ea71ca4b9c18405bbb974cd62304cc955bf98a34fb99ac",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "retirement_ready"
+        }
+      ],
+      "clause_id": "PGM-06",
+      "document_id": "STD-PG-017",
+      "document_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "停止支持、弃用、归档和删除分别处理并保留责任"
+      ],
+      "section_sha256": "c1147c5ca849caad77dd1385a294114e4d9c0e50e3d0bcd24766ef9b1d8a536a",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "retirement_ready"
+        }
+      ],
+      "clause_id": "PGA-01",
+      "document_id": "STD-PG-018",
+      "document_sha256": "bd4e0fb1eddefc76a199e80e30b0155ae09547abd83c51e0e7b583131400d19e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "已知和未知消费者的识别有依据，替代保证差异明确"
+      ],
+      "section_sha256": "34bf2e2afc124420b7ce1dbd046bab16415c835f55865f84076e2009fdd28d32",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RETIREMENT.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGA-02",
+      "document_id": "STD-PG-018",
+      "document_sha256": "bd4e0fb1eddefc76a199e80e30b0155ae09547abd83c51e0e7b583131400d19e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "旧新义务/坐标/数据转换、窗口和恢复可执行"
+      ],
+      "section_sha256": "d630022a2cc442a7c22d4a9680d6e535ce6ea3b769c3addf0115fb4b3f2c4fcf",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RETIREMENT.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "retirement_ready"
+        }
+      ],
+      "clause_id": "PGA-03",
+      "document_id": "STD-PG-018",
+      "document_sha256": "bd4e0fb1eddefc76a199e80e30b0155ae09547abd83c51e0e7b583131400d19e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "导出可读完整及访问撤销实际验证，保留与隐私条件协调"
+      ],
+      "section_sha256": "44e407e9aea9a0460cab371ceeb250bb5d9497d82a6158653e279d763a0affcf",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RETIREMENT.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "retirement_ready"
+        }
+      ],
+      "clause_id": "PGA-04",
+      "document_id": "STD-PG-018",
+      "document_sha256": "bd4e0fb1eddefc76a199e80e30b0155ae09547abd83c51e0e7b583131400d19e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "归档只改变其实际能力，不声称删除/撤销或改变许可"
+      ],
+      "section_sha256": "9d197ac2eedac50951d6230e5d38da655e96aad5574d67fcb90c5eebb2de25a8",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RETIREMENT.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "reclaim_plan"
+        }
+      ],
+      "clause_id": "PGA-05",
+      "document_id": "STD-PG-018",
+      "document_sha256": "bd4e0fb1eddefc76a199e80e30b0155ae09547abd83c51e0e7b583131400d19e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "不可逆删除前重新核引用、hold和恢复，不扩大未知动作"
+      ],
+      "section_sha256": "02b5ffdacfcf6971f51efaaf740197333607167c46b49778c55c08e4c6389f99",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RETIREMENT.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "retirement_ready"
+        }
+      ],
+      "clause_id": "PGA-06",
+      "document_id": "STD-PG-018",
+      "document_sha256": "bd4e0fb1eddefc76a199e80e30b0155ae09547abd83c51e0e7b583131400d19e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "必要退役任务真正闭合，残留/保留/后续请求如实记录"
+      ],
+      "section_sha256": "f1fa88e544cd10d41468bfe5e117f6069a0b8c6faa03e88f43272099822bf616",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/RETIREMENT.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "reclaim_plan"
+        }
+      ],
+      "clause_id": "PGX-01",
+      "document_id": "STD-PG-019",
+      "document_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "按真实用途/不可替代性/重建能力分类而非目录名"
+      ],
+      "section_sha256": "25b5bbb7445bc98dbcbe35caef222a66cbdab2a59bccf841737266f4769eee67",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGX-02",
+      "document_id": "STD-PG-019",
+      "document_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "一个当前候选配必要证据，副本确有隔离或恢复必要性"
+      ],
+      "section_sha256": "dc270c47897beaf502fa4068ba910a099d351ec2bfa980dd525c60cf8d072821",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "capacity_allowed"
+        }
+      ],
+      "clause_id": "PGX-03",
+      "document_id": "STD-PG-019",
+      "document_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "实际可用/峰值/最低余量与动态传递引用均在操作前核"
+      ],
+      "section_sha256": "9af2c555d502d4dadd2867d8b53bf135ec7522f3957c080481091ae27a91437d",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "reclaim_plan"
+        }
+      ],
+      "clause_id": "PGX-04",
+      "document_id": "STD-PG-019",
+      "document_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "只回收无引用无hold且可重建对象，默认dry-run不删真实文件"
+      ],
+      "section_sha256": "f093fd7096a6737e3a3dffaa680d17dc74b57cb1dfa69cfdc6b1e0f0a4b18bf1",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "dedup_plan"
+        }
+      ],
+      "clause_id": "PGX-05",
+      "document_id": "STD-PG-019",
+      "document_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "字节可共享不等于事件/权限/保留可合并，引用改写后再核"
+      ],
+      "section_sha256": "d0ed56e5978e85b0003adeab7b2ab37d57dbf4012a67625031e7b233d446177e",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        }
+      ],
+      "clause_id": "PGX-06",
+      "document_id": "STD-PG-019",
+      "document_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "原失败和更正保留，丢失限制结论而不重造历史日志"
+      ],
+      "section_sha256": "eb3f464cdcaac1330816c7dd58287745ae5bb01dfd01a797993d51777cda7ccd",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/project-governance/project-record.template.json"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGN-01",
+      "document_id": "STD-PG-020",
+      "document_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "完整文档/版本/路径/hash/条款锁定，草案和实际采用不混"
+      ],
+      "section_sha256": "00d16ff0e762fa5e20c8f76110c8b47cfb3c66cc1d605d5a2a8f7d4275e80a52",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/ADOPTION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "required_closure"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGN-02",
+      "document_id": "STD-PG-020",
+      "document_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "适用性对应真实触发，必要依赖闭包不以未测试改不适用"
+      ],
+      "section_sha256": "33d7afda7f6116415647c0f8e84656f91d340cb1578ba70e8f7aa8b334838d79",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/ADOPTION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python checks/project_governance.py",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "对象、135等实际条款集合、路径和真实Python符号一致；不输出语义通过",
+          "failure": "漏条、重复、错误摘要、无实际入口或缺人工判据",
+          "input": "当前正文、准确registry及逐条检查/人工判据矩阵",
+          "kind": "record-binding",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_domain"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGN-03",
+      "document_id": "STD-PG-020",
+      "document_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "项目配置/操作/验收具体，不改协议常量或复制规范权威"
+      ],
+      "section_sha256": "c9f66c945137b2b9d3e3de9ca56da7c925b4283065a67f2b99f5fff09868d003",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/ADOPTION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "exception_valid"
+        },
+        {
+          "command": "python checks/project_governance.py --project examples/project-governance/project-record.json",
+          "does_not_establish": "business or natural-language correctness, complete applicability analysis, real authority or actual execution",
+          "expected": "有限schema及双向追溯/必要工作闭包/精确身份/状态先决条件一致；starter仍not-ready，未运行仍not-run",
+          "failure": "未知ID、缺必要检查、错身份、范围矛盾、失败被关闭或未决虚构决定",
+          "input": "governance-project/1记录；准确选择、需求/检查/工作项ID、范围、状态、依赖、配置和决定字段",
+          "kind": "project-record",
+          "path": "checks/project_governance.py",
+          "symbol": "validate_project"
+        }
+      ],
+      "clause_id": "PGN-04",
+      "document_id": "STD-PG-020",
+      "document_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "例外范围/补偿/时限/触发和恢复实际可判断"
+      ],
+      "section_sha256": "79a915656838ee9e5829e477c87a7c40a619e200cec1fbe2f67ca13d7a2411b6",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/EXCEPTION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "upgrade_adoption"
+        }
+      ],
+      "clause_id": "PGN-05",
+      "document_id": "STD-PG-020",
+      "document_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "升级显式决定绑定准确差异，revision/历史与旧证据影响完整"
+      ],
+      "section_sha256": "79688c36bbe181b5590f2144cde3f586bfeae6e7c87ba87f6f38d46809098fdb",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/ADOPTION.md"
+    },
+    {
+      "checks": [
+        {
+          "command": "python -m unittest tests.test_governance_models -v",
+          "does_not_establish": "natural-language sufficiency, real decision/role/rights, actual independent process or unexecuted product environment",
+          "expected": "按函数已实现的有限状态/身份/闭包判据接受、拒绝或保留unknown/not-run",
+          "failure": "陈旧或错对象被接受、必要条件缺失却通过、未知被推断完成或合法边界误拒",
+          "input": "对应函数的明确初态、精确身份、动作/观察及直接坏例/合法邻例",
+          "kind": "finite-model",
+          "path": "checks/governance_models.py",
+          "symbol": "publication_state"
+        }
+      ],
+      "clause_id": "PGN-06",
+      "document_id": "STD-PG-020",
+      "document_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+      "example": "examples/project-governance/project-record.json",
+      "manual_criteria": [
+        "拒绝、撤回、废止、失效与既成效果分开，不复活过期例外"
+      ],
+      "section_sha256": "fac6b2772736fbfa72d57a4db38bd11b89e3581ea72f412ee15562a072121de2",
+      "technical_sources": [
+        {
+          "basis": "具体失败机制、合法边界和规范责任接口",
+          "kind": "governance-design"
+        }
+      ],
+      "template": "templates/ADOPTION.md"
+    }
+  ],
+  "schema": "standards-project-governance-domain/1",
+  "scope": "Current governance clauses, executable check entry points, templates and manual acceptance criteria.",
+  "version": "0.1.0"
+}

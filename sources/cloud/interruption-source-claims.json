@@ -1,0 +1,51 @@
+{
+  "schema": "bounded-cloud-supplemental-source-read/1",
+  "records": [
+    {
+      "id": "SECRET-SINGLEUSER",
+      "selected_section": "Rotation strategy: single user and alternating users",
+      "supported": "For the documented database single-user strategy, existing connections are not dropped; new authentication can face a short change/update interval. Alternating users has its own permission/propagation conditions.",
+      "url": "https://docs.aws.amazon.com/secretsmanager/latest/userguide/rotation-strategy.html",
+      "version_scope": "AWS rolling user guide, observed2026-10-23",
+      "application": "Do not claim that single-user rotation universally drops connections or that any temporary interruption itself violates every service contract. Bind observed interruption, controlled recovery, actual agreed window and truthful completion.",
+      "limitations": "Apply the documented strategy only to its supported engine, connection and recovery conditions."
+    },
+    {
+      "id": "K8S-HOOK-BUDGET",
+      "selected_section": "Container hooks, Hook handler execution and delivery guarantees",
+      "supported": "PostStart is concurrent with entrypoint. PreStop and normal stop share the grace period; hooks may be redelivered, not arbitrarily retried on every failure.",
+      "url": "https://kubernetes.io/docs/concepts/containers/container-lifecycle-hooks/",
+      "version_scope": "rolling docs showingv1.37 navigation, selected current text observed2026-10-23; not an installed cluster version",
+      "application": "The shared budget is a technical precondition; mere expiration and force termination does not prove accepted business work was lost.",
+      "limitations": "Apply the documented strategy only to its supported engine, connection and recovery conditions."
+    },
+    {
+      "id": "K8S-FORCED-END",
+      "selected_section": "Pod Termination Flow and Forced Pod termination",
+      "supported": "The documented flow can request a small extension for an outstanding PreStop and forcibly stop remaining processes at expiration. Immediate API removal does not prove the process stopped.",
+      "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/",
+      "version_scope": "same rolling current guide, observed2026-10-23",
+      "application": "A lawful forced stop after accounted work remains possible; completion and durable recovery observations, not the signal alone, determine the bounded request-accounting predicate.",
+      "limitations": "Apply the documented strategy only to its supported engine, connection and recovery conditions."
+    },
+    {
+      "id": "ORACLE-RAC-SHARED",
+      "selected_section": "Overview of Oracle RAC and architecture/processing",
+      "supported": "RAC explicitly coordinates multiple instances accessing one shared database with supported cluster-aware storage and cache/resource coordination.",
+      "url": "https://docs.oracle.com/en/database/oracle/oracle-database/26/racad/introduction-to-oracle-rac.html",
+      "version_scope": "Oracle26 RAC introduction and architecture overview",
+      "application": "Shared storage or multiple physical writers is not universally an error. Require a supported, validated coordination/authority contract; this does not recommend, license or certify RAC, generic NFS or any container deployment.",
+      "limitations": "Apply the documented strategy only to its supported engine, connection and recovery conditions."
+    },
+    {
+      "id": "PG18-ARCHITECTURES",
+      "selected_section": "Shared Disk Failover; Logical Replication; asynchronous/synchronous multimaster",
+      "supported": "The guide distinguishes single-active shared-disk failover from multidirectional logical or middleware/multimaster designs. Its shared-disk standby exclusion is architecture-specific; PostgreSQL does not natively offer the discussed synchronous multimaster mode.",
+      "url": "https://www.postgresql.org/docs/18/different-replication-solutions.html",
+      "version_scope": "PostgreSQL18 documentation §26.1",
+      "application": "Do not extend a single-primary fencing example into a ban on every supported multiwriter architecture. Single-primary scopes still reject old writers; other modes need explicit supported coordination/conflict and business invariants.",
+      "limitations": "Apply the documented strategy only to its supported engine, connection and recovery conditions."
+    }
+  ],
+  "scope": "Service interruption, connection continuity and recovery conditions in the cited official documentation."
+}

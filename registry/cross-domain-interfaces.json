@@ -1,0 +1,101 @@
+[
+  {
+    "direct_failure": "提交后断响应；旧a1未知而新a2未应用，不得清除a1。",
+    "edges": 7,
+    "guarantee": "操作级权威查询、指纹/作用域、防重保留期和旧尝试可继续生效条件；一次传输不是一次新业务意图。",
+    "id": "intent-and-unknown",
+    "legal_neighbor": "已核幂等合同内同意图安全重传，不一律禁止重试。",
+    "responsibility": "消费方保留原意图和全部相关attempt；提供方说明实际事务/查询/拒旧边界。",
+    "title": "逻辑意图、尝试与未知结果"
+  },
+  {
+    "direct_failure": "新租约尚未安装栅栏、旧回包跨账号写入或离线旧控制者重连。",
+    "edges": 5,
+    "guarantee": "当前权限与世代必须在实际受影响目标有效执行；租约发放不自证旧写已被拒。",
+    "id": "epoch-revocation-fence",
+    "legal_neighbor": "当前世代的独立对象可以合法并行，不能靠全局单槽误拒。",
+    "responsibility": "消费方在着陆/执行时绑定主体、对象及世代；目标提供实际拒旧保证。",
+    "title": "控制世代、撤权与目标栅栏"
+  },
+  {
+    "direct_failure": "显示已保存但只持久元数据；回退程序却无法读取新格式。",
+    "edges": 4,
+    "guarantee": "引擎成功点、文件/目录同步与故障等级；恢复需源/配置/密钥/数据/当前覆盖条件闭包。",
+    "id": "durability-recovery",
+    "legal_neighbor": "合法只读、明确前向修复或未承诺掉电持久时按实际合同判定。",
+    "responsibility": "消费方定义用户确认点与可恢复组合；提供方只保证其真实存储合同。",
+    "title": "持久确认、格式与恢复"
+  },
+  {
+    "direct_failure": "同tag异字节却沿用旧批准/摘要、签后字节改变却沿用旧签名、AAB上传身份冒充端上splits、错硬件镜像。",
+    "edges": 5,
+    "guarantee": "准确多文件/平台制品、来源和材料范围；签名身份、许可和消费策略不是同一保证。",
+    "id": "artifact-material-consumer",
+    "legal_neighbor": "多平台或可变频道产物可有不同摘要，只要各自精确绑定目标、材料和当前批准范围。",
+    "responsibility": "构建/来源方给实际subject和材料；消费方核最终安装/启动字节与目标画像。",
+    "title": "制品、材料、签名与消费身份"
+  },
+  {
+    "direct_failure": "TCP/QUIC ACK或WebSocket重连被直接升级为订单完成；0-RTT重放写。",
+    "edges": 3,
+    "guarantee": "帧/消息完整性、协商、安全回退和分层ACK；不提供事务提交或业务终态。",
+    "id": "transport-and-business",
+    "legal_neighbor": "无业务持久承诺的遥测可选合法不可靠传输，不强制业务账。",
+    "responsibility": "传输方说明实际交付层；应用方另定义权威确认、补齐、重放和幂等。",
+    "title": "传输可靠性与业务承诺"
+  },
+  {
+    "direct_failure": "IdP退出被误报为RP已退出而RP仍可用；换账号迟到结果跨主体着陆；页面导航后旧桥缺少当前文档授权却仍可调用。",
+    "edges": 5,
+    "guarantee": "issuer/subject/audience/purpose/租户、当前会话与对象级有效权限分别核对。",
+    "id": "principal-session-object",
+    "legal_neighbor": "RP可有独立会话期限，匿名或机器身份也可合法存在，但每个当前对象/操作合同及撤权范围必须明确。",
+    "responsibility": "服务提供当前授权；客户端/桥/索引按真实主体分区，不把来源名称当权限。",
+    "title": "账户、会话与对象权限"
+  },
+  {
+    "direct_failure": "取消即释放未知费用、重试重置根预算、采样trace冒充精确账单。",
+    "edges": 3,
+    "guarantee": "实际分母、计量单位、估算/预留/未知/结算与采样覆盖；软告警不是绝对硬上限。",
+    "id": "resource-cost-observation",
+    "legal_neighbor": "有限预算研究可有负结果；没有真实调用时不虚构费用事实。",
+    "responsibility": "提供方暴露可控边界与延迟；消费方跨重试/恢复/后代连续归集并保护敏感日志。",
+    "title": "资源、成本、度量与隐私"
+  },
+  {
+    "direct_failure": "旧备份恢复已删除对象后未按当前删除/保留策略隔离处理便重新活跃使用；根目录许可覆盖异授材料；用删除记录证明模型无影响。",
+    "edges": 4,
+    "guarantee": "材料/数据的准确来源与用途、撤回/保留/删除传播范围；删除数据不自动证明模型遗忘。",
+    "id": "rights-provenance-deletion",
+    "legal_neighbor": "合法有依据的有限保留、隔离恢复后的当前策略复核与可撤销引用分别登记，不将所有备份恢复一律视为违规。",
+    "responsibility": "来源方给有限权利条件；消费方处理索引、备份、诊断和派生，不扩根许可。",
+    "title": "数据权利、来源与删除传播"
+  },
+  {
+    "direct_failure": "服务更新即假定旧终端已更新；缓存旧chunk或Schema提前收缩。",
+    "edges": 5,
+    "guarantee": "支持矩阵、持久格式、API/ABI、旧消费者和可行回退/前向修复。",
+    "id": "version-coexistence",
+    "legal_neighbor": "支持窗口内旧客户端合法运行；相容独立分支不被强制最新。",
+    "responsibility": "提供方说明真实兼容窗口；消费方固定运行组合、离线旧端与停止支持条件。",
+    "title": "客户端、协议与平台版本共存"
+  },
+  {
+    "direct_failure": "扫描通过但焦点、组合输入、错误反馈或AT无法完成提交。",
+    "edges": 3,
+    "guarantee": "浏览器语义和原生提供者分别实现用户可完成任务；自动扫描不提供IME/AT实景保证。",
+    "id": "accessible-user-task",
+    "legal_neighbor": "无用户交互层的库不被要求创建UI；不同合法输入方式可完成同一任务。",
+    "responsibility": "领域提供实际输入/语义桥；项目固定平台、用户任务与辅助技术画像。",
+    "title": "可访问性与真实交互"
+  },
+  {
+    "direct_failure": "success页冒充到账；乱序通知重复权益；新尝试未付清除旧未知付款。",
+    "edges": 4,
+    "guarantee": "报价/订单/支付尝试/结算/权益/履约的独立权威状态与不可逆边界。",
+    "id": "commercial-authority",
+    "legal_neighbor": "零价/无支付业务按真实规则成立，不强行创建支付状态或统一禁止零额。",
+    "responsibility": "交易提供明确事实与防重；前端/游戏/工具消费事实，不自行重定义账本。",
+    "title": "商业权威与外部效果"
+  }
+]

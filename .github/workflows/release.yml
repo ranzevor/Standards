@@ -1,0 +1,187 @@
+name: Standards release
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+    paths:
+      - releases/current.json
+  workflow_dispatch:
+    inputs:
+      runner_mode:
+        description: 运行器选择；auto 读取私有仓库额度耗尽标记
+        required: false
+        default: auto
+        type: choice
+        options:
+          - auto
+          - github-hosted
+          - mu-fallback
+      publish:
+        description: Publish the reviewed current main release after verification
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: standards-artifacts-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  SOURCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  verify:
+    runs-on: >-
+      ${{ fromJSON(github.event.repository.private
+          && github.actor_id == github.repository_owner_id
+          && github.triggering_actor == github.repository_owner
+          && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+          && (inputs.runner_mode == 'mu-fallback' || ((inputs.runner_mode == '' || inputs.runner_mode == 'auto') && vars.STANDARDS_PRIVATE_ACTIONS_EXHAUSTED == 'true'))
+          && format('["mu-fallback-linux-x64","mu-run-{0}-{1}","mu-job-verify"]', github.run_id, github.run_attempt)
+          || '["ubuntu-latest"]') }}
+    timeout-minutes: 20
+    steps:
+      - name: Checkout the exact candidate commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Verify source and regression suite
+        run: |
+          python checks/generate_registry.py --check
+          python checks/generate_index.py --check
+          python checks/validate_all.py
+          python -m unittest discover -s tests -v
+      - name: Build and verify the four local artifacts
+        run: |
+          python tools/build_release_bundle.py --output "$RUNNER_TEMP/standards-release" --source-commit "$SOURCE_COMMIT"
+          python tools/verify_release_artifacts.py --artifacts "$RUNNER_TEMP/standards-release" --source-commit "$SOURCE_COMMIT" > "$RUNNER_TEMP/standards-artifacts-verification.json"
+      - name: Exercise the unpacked Agent Skill
+        shell: bash
+        run: |
+          python - <<'PYTHON'
+          import os, pathlib, subprocess, sys, zipfile
+          from tools.verify_release_bundle import verify_zip, verify_directory
+          base = pathlib.Path(os.environ['RUNNER_TEMP'])
+          bundles = list((base / 'standards-release').glob('*-agent-skill.zip'))
+          if len(bundles) != 1:
+              raise SystemExit('expected one Agent Skill archive')
+          verify_zip(bundles[0])
+          with zipfile.ZipFile(bundles[0]) as archive:
+              archive.extractall(base / 'standards-consumer')
+          skill = base / 'standards-consumer' / 'ranzevor-standards'
+          subprocess.run([sys.executable, 'scripts/lookup.py', '--document-id',
+                          'STD-L0-001', '--clause-id', 'ARC-01'], cwd=skill, check=True)
+          verify_directory(skill)
+          PYTHON
+      - name: Preserve the verified candidate artifacts
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: standards-candidate-${{ env.SOURCE_COMMIT }}
+          path: ${{ runner.temp }}/standards-release/*
+          if-no-files-found: error
+          retention-days: 7
+      - name: Record local verification
+        shell: bash
+        run: |
+          python - <<'PYTHON'
+          import json, os, pathlib
+          result = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'standards-artifacts-verification.json').read_text(encoding='utf-8'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+              summary.write(f"## Standards {result['version']} candidate artifacts\n\n")
+              summary.write(f"Status: {result['status']}\n\n")
+              summary.write(f"Source: {result['source_commit']}\n\n")
+              summary.write("These hashes identify the locally verified candidate artifacts.\n\n")
+              for name, digest in result['assets'].items():
+                  summary.write(f"- `{name}`: `{digest}`\n")
+          PYTHON
+
+  publish:
+    needs: verify
+    if: github.repository == 'ranzevor/Standards' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.publish))
+    environment: release
+    runs-on: >-
+      ${{ fromJSON(github.event.repository.private
+          && github.actor_id == github.repository_owner_id
+          && github.triggering_actor == github.repository_owner
+          && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+          && (inputs.runner_mode == 'mu-fallback' || ((inputs.runner_mode == '' || inputs.runner_mode == 'auto') && vars.STANDARDS_PRIVATE_ACTIONS_EXHAUSTED == 'true'))
+          && format('["mu-fallback-linux-x64","mu-run-{0}-{1}","mu-job-publish"]', github.run_id, github.run_attempt)
+          || '["ubuntu-latest"]') }}
+    timeout-minutes: 15
+    permissions:
+      contents: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Require immutable release configuration
+        shell: bash
+        env:
+          IMMUTABLE_RELEASES_ENABLED: ${{ vars.STANDARDS_IMMUTABLE_RELEASES_ENABLED }}
+        run: |
+          if [[ "$IMMUTABLE_RELEASES_ENABLED" != "true" ]]; then
+            echo "::error::Enable immutable releases and set STANDARDS_IMMUTABLE_RELEASES_ENABLED=true in the release environment."
+            exit 1
+          fi
+          gh release verify --help >/dev/null
+          gh release verify-asset --help >/dev/null
+      - name: Checkout the same source commit
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ env.SOURCE_COMMIT }}
+          persist-credentials: false
+      - name: Set up Python 3.12
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.12'
+      - name: Retrieve only this run's verified artifacts
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: standards-candidate-${{ env.SOURCE_COMMIT }}
+          path: ${{ runner.temp }}/standards-release
+      - name: Attest the verified release artifacts
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: ${{ runner.temp }}/standards-release/*
+      - name: Publish and read back the exact release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python tools/publish_release.py --artifacts "$RUNNER_TEMP/standards-release" --source-commit "$SOURCE_COMMIT" --publish | tee "$RUNNER_TEMP/standards-publication.json"
+      - name: Verify the immutable release and downloaded assets
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="$(python - <<'PYTHON'
+          import json, os, pathlib
+          result = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'standards-publication.json').read_text(encoding='utf-8'))
+          print('v' + result['version'])
+          PYTHON
+          )"
+          gh release verify "$tag" --repo "$GITHUB_REPOSITORY"
+          while IFS= read -r -d '' asset; do
+            gh release verify-asset "$tag" "$asset" --repo "$GITHUB_REPOSITORY"
+          done < <(find "$RUNNER_TEMP/standards-release" -maxdepth 1 -type f -print0)
+      - name: Record the observed publication
+        shell: bash
+        run: |
+          python - <<'PYTHON'
+          import json, os, pathlib
+          result = json.loads((pathlib.Path(os.environ['RUNNER_TEMP']) / 'standards-publication.json').read_text(encoding='utf-8'))
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as summary:
+              summary.write(f"## Standards {result['version']} publication\n\n")
+              summary.write(f"Status: {result['status']}\n\n")
+              summary.write(f"Source: {result['source_commit']}\n\n")
+              summary.write(f"[Release]({result['url']})\n")
+          PYTHON

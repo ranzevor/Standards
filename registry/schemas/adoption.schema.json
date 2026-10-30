@@ -1,0 +1,112 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "example_only",
+    "project",
+    "environment",
+    "operation_authorized",
+    "requirements",
+    "standard_id",
+    "standard_version",
+    "standard_sha256",
+    "scope"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "1"
+      ]
+    },
+    "example_only": {
+      "enum": [
+        true
+      ]
+    },
+    "project": {
+      "type": "string",
+      "minLength": 1
+    },
+    "environment": {
+      "enum": [
+        "local-synthetic"
+      ]
+    },
+    "operation_authorized": {
+      "enum": [
+        false
+      ]
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "clause_id",
+          "applicability",
+          "object",
+          "check",
+          "expected",
+          "actual",
+          "status"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "clause_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "applicability": {
+            "enum": [
+              "applicable",
+              "not-applicable",
+              "unknown"
+            ]
+          },
+          "object": {
+            "type": "string",
+            "minLength": 1
+          },
+          "check": {
+            "type": "string",
+            "minLength": 1
+          },
+          "expected": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actual": {
+            "type": "null"
+          },
+          "status": {
+            "enum": [
+              "not-run"
+            ]
+          },
+          "reason": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "standard_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "standard_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "standard_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

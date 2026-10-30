@@ -1,0 +1,160 @@
+{
+  "decision": {
+    "actor": null,
+    "at": null,
+    "authority_reference": null,
+    "status": "not-decided"
+  },
+  "dependencies": [
+    {
+      "from": {
+        "clause_id": "§03",
+        "document_id": "STD-L4-AI-AGENT-009"
+      },
+      "interface": "实际工具执行消费主体/方法/对象级能力，不由模型自行批准。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "§02",
+        "document_id": "STD-L4-AI-AGENT-004"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "§03",
+        "document_id": "STD-L4-AI-AGENT-009"
+      },
+      "interface": "参数进入工具前消费运行时类型/范围验证。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "STK-02",
+        "document_id": "STD-L5-007"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "ADP-06",
+        "document_id": "STD-L6-001"
+      },
+      "interface": "恢复合同消费工具实际效果分类、幂等与权威查询接口。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "§03",
+        "document_id": "STD-L4-AI-AGENT-009"
+      }
+    }
+  ],
+  "example_only": true,
+  "id": "synthetic-ai-tool",
+  "implementation": {
+    "environment": "设计环境：离线工具替身；真实模型/MCP版本待采用者固定。",
+    "identity": "synthetic-design:ai-tool:v1 (not a real project or accepted implementation)",
+    "scope": "仅演示模型意图与真实权限/工具效果分离，无付费模型调用、无外部工具动作或真实用户信息。非完整AI符合性。",
+    "status": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "id": "合成工具型应用",
+    "kind": "synthetic"
+  },
+  "requirements": [
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "离线工具网关：相同工具名分别调用有权与无权对象，注入模型“已批准”文本。",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "网关依据真实能力与对象授权，文本不能提升权限；无权路径没有效果。",
+          "id": "ai-tool-authority",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "§02",
+      "document_id": "STD-L4-AI-AGENT-004",
+      "reason": "模型选择工具不决定真实主体对方法/对象的权限。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "离线工具替身：目录声称只读但实现尝试写入，检查执行边界策略与效果账。",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "不允许声明取代实际动作策略；合法只读工具不被要求虚构写操作审批。",
+          "id": "ai-tool-effect",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "§03",
+      "document_id": "STD-L4-AI-AGENT-009",
+      "reason": "工具的实际读写/外发/计费效果按实现边界分类，不由自然语言简介决定。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python examples/stacks/python_case.py",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "非法类型/范围被拒，合法邻例不误拒；仅证明夹具输入机制。",
+          "id": "ai-tool-input",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "STK-02",
+      "document_id": "STD-L5-007",
+      "reason": "工具参数和模型输出必须在运行时验证，不由类型注解自证。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "合成工具故障：写入权威账后丢回执；新尝试返回未执行；最后交付旧回调。",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "旧未知不被新未执行清除；依实际幂等/查询合同最终确定或继续未知。",
+          "id": "ai-tool-unknown",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "ADP-06",
+      "document_id": "STD-L6-001",
+      "reason": "工具回执丢失时需保持原意图和旧尝试事实。"
+    }
+  ],
+  "schema_version": "1.0",
+  "standards": [
+    {
+      "id": "STD-L4-AI-AGENT-004",
+      "path": "standards/L4/ai-agent/004-Agent-授权、可变更动作与业务副作用技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "5ca219c46d1da7a6f1628548a589ee1a7b8faacb9ff4c004127234c8754353a1",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L4-AI-AGENT-009",
+      "path": "standards/L4/ai-agent/009-工具能力契约与-MCP-互操作技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "786c2a43aaf8845e621760eb2df3d7fd71c6e031fcccc89007b8a7bededdb7f7",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L5-007",
+      "path": "standards/L5/007-Python-技术适配规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "62315479e9414a3fae9bb8cccbbf5e3cc7154d2505059cf56b7b222740d5b132",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L6-001",
+      "path": "standards/L6/001-项目采用与实现验收接口规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "7fa991b795e6fb8cc38b0c592927ce5de7cac6a25c7420316dafd317514ffe8c",
+      "version": "0.1.0"
+    }
+  ]
+}

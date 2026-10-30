@@ -1,0 +1,1178 @@
+[
+  {
+    "id": "RP01",
+    "publisher": "IETF/RFC Editor",
+    "title": "iCalendar",
+    "url": "https://www.rfc-editor.org/rfc/rfc5545.html",
+    "version": "RFC5545, September 2009",
+    "kind": "Standards Track",
+    "sections": "§3.3.5、3.3.6、3.3.10、3.8.5.1–3",
+    "claim": "显式带TZID的重复DATE-TIME用第一次，不存在值用gap前偏移；RRULE生成的无效日期/不存在时刻忽略且不计数；包含集合去重后EXDATE优先，保留DTSTART关联身份。浮动时间、名义/精确持续时间分开。",
+    "not_supported": "业务补跑、期限和日历更新策略由调度器合同规定；RRULE、时区组件及更新链按所选实现处理。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-02",
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-03",
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP02",
+    "publisher": "IETF/RFC Editor",
+    "title": "HTTP Semantics",
+    "url": "https://www.rfc-editor.org/rfc/rfc9110.html",
+    "version": "RFC9110/STD97, June 2022",
+    "kind": "Internet Standard",
+    "sections": "§9.2.2、10.2.3、15.3.3",
+    "claim": "幂等关注重复请求预期作用，不要求相同响应；非幂等自动重试须有幂等语义或未应用依据；202表示已接受但处理未完成，Retry-After解释须按实际状态/服务。",
+    "not_supported": "不定义业务幂等键TTL、操作级查询强度或跨系统恰好一次；这些是组织综合控制。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-05",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-05",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-01",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-04",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-04",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-05",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-06",
+      "standards/L4/automation/001-RPA目标定位、提交核对与维护技术规范--v0.1.0.md#AUT-RPA-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#6",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#6",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#6",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E08"
+    ]
+  },
+  {
+    "id": "RP03",
+    "publisher": "Kubernetes",
+    "title": "CronJob",
+    "url": "https://kubernetes.io/docs/concepts/workloads/controllers/cron-jobs/",
+    "version": "rolling page, version navigation v1.37 observed 2026-10-23",
+    "kind": "Implementation documentation",
+    "sections": "Job creation; Schedule suspension; Time zones",
+    "claim": "官方说明调度近似，可能同一时间创建两个或不创建Job；suspend不影响已启动Job；时区使用timeZone字段而非schedule内TZ/CRON_TZ。",
+    "not_supported": "不强制Kubernetes，不将当前滚动页面套到所有集群；Job创建不是业务完成或全局一次。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-01",
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-04",
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP04",
+    "publisher": "GitHub",
+    "title": "Validating webhook deliveries",
+    "url": "https://docs.github.com/en/webhooks/using-webhooks/validating-webhook-deliveries",
+    "version": "rolling 2026-10-23",
+    "kind": "Product documentation",
+    "sections": "Validating webhook deliveries; Troubleshooting",
+    "claim": "GitHub HMAC-SHA256以原始payload字节计算并安全比较；先JSON重序列化会改变所签材料。",
+    "not_supported": "该HMAC不自动签X-GitHub-Delivery/自定义时间头，不证明当前订阅权限或新鲜度。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#AUT-HOOK-01",
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#AUT-HOOK-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP05",
+    "publisher": "GitHub",
+    "title": "Best practices for using webhooks",
+    "url": "https://docs.github.com/en/webhooks/using-webhooks/best-practices-for-using-webhooks",
+    "version": "rolling 2026-10-23",
+    "kind": "Product guidance",
+    "sections": "Use X-GitHub-Delivery; Check event type and action; Respond within 10 seconds",
+    "claim": "重送保留原X-GitHub-Delivery；需检查事件/action并按产品接收时限及时响应。",
+    "not_supported": "delivery头的命名不构成其被body HMAC认证的证明；10秒非所有Webhook通用常量，文档不提供业务效果恰好一次。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#AUT-HOOK-02",
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#AUT-HOOK-03",
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#AUT-HOOK-04",
+      "standards/L4/automation/001-RPA目标定位、提交核对与维护技术规范--v0.1.0.md#AUT-RPA-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#6",
+      "standards/L4/automation/001-RPA目标定位、提交核对与维护技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP06",
+    "publisher": "Google",
+    "title": "AIP-158 Pagination",
+    "url": "https://google.aip.dev/158",
+    "version": "Approved AIP158; page observed 2026-10-23",
+    "kind": "API design guidance",
+    "sections": "Guidance; Opacity; Expiring page tokens",
+    "claim": "Google该契约允许非末页零结果；next_page_token控制终止，续页其他参数保持，page_size有明确例外；token不授予访问权限，可过期。",
+    "not_supported": "不把Google字段、默认页数/期限或快照能力推广给全部服务；具体连接器仍消费提供方合同。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-06",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-01",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#6",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP07",
+    "publisher": "SQLite",
+    "title": "Atomic Commit In SQLite",
+    "url": "https://www.sqlite.org/atomiccommit.html",
+    "version": "rolling technical explanation observed 2026-10-23",
+    "kind": "Implementation design documentation",
+    "sections": "§2 Hardware assumptions; §3.7–3.11; §4; §9",
+    "claim": "事务原子性依日志/锁/flush顺序及硬件/OS假设；write返回可早于稳定存储，fsync和设备诚实性影响恢复保证。",
+    "not_supported": "不把Python内存模型、单机进程重启或SQLite配置推广为真实断电/分布式耐久；不指定全部项目必须SQLite。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-04",
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#AUT-HOOK-02",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-02",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-05",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-01",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-02",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-03",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-06"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#6",
+      "standards/L4/automation/002-Webhook验证、耐久接收与事件顺序技术规范--v0.1.0.md#6",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#6",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP08",
+    "publisher": "Python Software Foundation",
+    "title": "os",
+    "url": "https://docs.python.org/3.12/library/os.html",
+    "version": "Python3.12 documentation; page3.12.15 observed",
+    "kind": "Runtime API documentation",
+    "sections": "os.replace; os.fsync; file descriptor paths",
+    "claim": "replace在成功条件下给POSIX原子重命名，可因跨文件系统失败；fsync与缓冲文件flush是不同接口层。",
+    "not_supported": "原子可见不等于掉电耐久、跨多文件事务或所有网络FS相同语义；文件/目录持久依平台验证。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-04",
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-02",
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-05",
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#CLI-PKG-04",
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#CLI-EXT-01",
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#CLI-EXT-02",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-05",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#6",
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#6",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#6",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP09",
+    "publisher": "Python Software Foundation",
+    "title": "zoneinfo",
+    "url": "https://docs.python.org/3.12/library/zoneinfo.html",
+    "version": "Python3.12 documentation",
+    "kind": "Runtime API documentation",
+    "sections": "Using ZoneInfo; Data sources; fold example",
+    "claim": "使用系统IANA时区数据或first-party tzdata；fold区分偏移回拨产生的歧义时刻。",
+    "not_supported": "直接给datetime附tzinfo不自动验证不存在时间，更不实现RFC5545；测试需绑定实际时区数据。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-01",
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#AUT-TIME-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/automation/003-日历触发、时区与补跑技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP10",
+    "publisher": "Python Software Foundation",
+    "title": "subprocess",
+    "url": "https://docs.python.org/3.12/library/subprocess.html",
+    "version": "Python3.12 documentation",
+    "kind": "Runtime API documentation",
+    "sections": "Frequently Used Arguments; Security Considerations; Popen.wait/communicate; Windows notes",
+    "claim": "参数序列保留分词；stdout/stderr PIPE需持续排空以免死锁；communicate缓冲内存且超时不自动杀子进程，信号/返回码有平台差异。",
+    "not_supported": "直接argv不消除被调工具选项注入；不认证任意CLI/PowerShell、RPA定位或分布式结果。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-01",
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-03",
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-04",
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-05",
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#CLI-EXT-03",
+      "standards/L4/automation/001-RPA目标定位、提交核对与维护技术规范--v0.1.0.md#AUT-RPA-01",
+      "standards/L4/automation/001-RPA目标定位、提交核对与维护技术规范--v0.1.0.md#AUT-RPA-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#6",
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#6",
+      "standards/L4/automation/001-RPA目标定位、提交核对与维护技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP11",
+    "publisher": "Python Software Foundation",
+    "title": "Coroutines and Tasks",
+    "url": "https://docs.python.org/3.12/library/asyncio-task.html",
+    "version": "Python3.12 documentation",
+    "kind": "Runtime API documentation",
+    "sections": "Task cancellation; Task.cancel; Timeouts",
+    "claim": "cancel请求通过CancelledError注入，协程可清理/延迟甚至抑制；finally清理后通常传播，发cancel并不保证已取消。",
+    "not_supported": "本地Task取消不提供远端撤销/事务回滚，不强制其他运行时同一异常API。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-05",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-02",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP12",
+    "publisher": "SemVer project",
+    "title": "Semantic Versioning",
+    "url": "https://semver.org/spec/v2.0.0.html",
+    "version": "SemVer2.0.0",
+    "kind": "Versioning specification",
+    "sections": "§1–3、6–8",
+    "claim": "采用SemVer者声明公开API，已发行版本内容不修改；主/次/补丁按公开API兼容含义变动。",
+    "not_supported": "不是所有工具必须SemVer，不证明ABI/消费者行为；未发行草案修订不当成已发行制品替换。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#CLI-PKG-01",
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#CLI-PKG-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP13",
+    "publisher": "IETF/RFC Editor",
+    "title": "JSON",
+    "url": "https://www.rfc-editor.org/rfc/rfc8259.html",
+    "version": "RFC8259/STD90, December2017",
+    "kind": "Internet Standard",
+    "sections": "§4–8",
+    "claim": "对象名称唯一性是互操作建议；数组有序，大整数超常见binary64精确范围需独立合同，跨系统JSON使用UTF-8。",
+    "not_supported": "语法合法不证明业务值/权限/精度；本包示例限制JSON输入是模型范围而非全部CLI强制格式。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#CLI-PROC-03",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-01",
+      "standards/L4/automation/006-连接器分页、水位与文件交接技术规范--v0.1.0.md#AUT-SYNC-03",
+      "standards/L4/automation/004-耐久操作账、目标栅栏与未知结果技术规范--v0.1.0.md#AUT-EFFECT-01"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/003-命令进程、配置与标准流技术规范--v0.1.0.md#6",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP14",
+    "publisher": "Microsoft",
+    "title": "Language Server Protocol",
+    "url": "https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/",
+    "version": "LSP3.17 source commit baf2db31b5fb314a8f358f9a839d3c66e9d98734",
+    "kind": "Protocol specification",
+    "sections": "Base protocol; Cancellation; initialize; didChange; shutdown; exit",
+    "claim": "Content-Length是UTF-8内容字节数，头ASCII；initialize先行，取消仍须响应；能力缺省不免除2.x强制基线；文档版本/顺序与位置编码协商；shutdown响应与exit不同。",
+    "not_supported": "适用LSP 3.17及其固定源码；普通CLI仅在提供语言服务协议接口时消费本命题。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#CLI-EXT-04",
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#CLI-EXT-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/005-生成器、插件与编辑器协议技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP15",
+    "publisher": "PyPA",
+    "title": "Platform compatibility tags",
+    "url": "https://packaging.python.org/en/latest/specifications/platform-compatibility-tags/",
+    "version": "rolling specification observed2026-10-23",
+    "kind": "Packaging specification",
+    "sections": "Overview; Python Tag; ABI Tag; Platform Tag",
+    "claim": "wheel兼容标签分别描述Python实现/版本、ABI、平台；none/any不代表带原生代码的任意平台包自然可用。",
+    "not_supported": "只是Python画像，不认证实际包完整、许可或跨生态安装成功。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#CLI-PKG-02",
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#CLI-PKG-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP16",
+    "publisher": "Python Software Foundation",
+    "title": "C API Stability",
+    "url": "https://docs.python.org/3.12/c-api/stable.html",
+    "version": "Python3.12 documentation",
+    "kind": "Runtime ABI specification",
+    "sections": "Stable ABI; Limited C API; Platform Considerations",
+    "claim": "Limited API/Stable ABI有明确边界；编译器、下层库、编译选项、OS/架构是平台条件；源码兼容不等二进制兼容。",
+    "not_supported": "不表示任意FFI安全，不免除分配释放/异常边界或真实消费端测试。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#CLI-PKG-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/cli-sdk/004-工具包发行、原生ABI与消费者兼容技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP17",
+    "publisher": "Godot",
+    "title": "Physics interpolation introduction",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/physics/interpolation/physics_interpolation_introduction.html",
+    "version": "Godot4.5",
+    "kind": "Engine implementation documentation",
+    "sections": "Physics ticks and rendered frames",
+    "claim": "物理tick与渲染frame是不同频率，固定物理步长不保证呈现帧一致；插值用于呈现平滑。",
+    "not_supported": "不提供所有游戏物理确定性、统一帧率或真实设备性能通过。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-01",
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-02",
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-04",
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-02",
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP18",
+    "publisher": "Godot",
+    "title": "Random number generation",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/math/random_number_generation.html",
+    "version": "Godot4.5",
+    "kind": "Engine implementation documentation",
+    "sections": "Global scope versus RandomNumberGenerator; seed/state",
+    "claim": "RandomNumberGenerator可独立实例及seed/state，重设种子和恢复抽样状态不同。",
+    "not_supported": "不承诺跨引擎/版本/并发顺序逐位复现；不能用随机教程证明完整应用确定性。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP19",
+    "publisher": "Box2D",
+    "title": "Simulation / FAQ determinism",
+    "url": "https://box2d.org/documentation/md_simulation.html",
+    "version": "Simulation page3.2.0; FAQ page3.1.0 separately observed2026-10-23",
+    "kind": "Engine documentation",
+    "sections": "Determinism; FAQ Is Box2D deterministic",
+    "claim": "Simulation把64位跨平台确定性联系到创建顺序、精确数学/禁浮点收缩和特定数学实现，并明确应用仍可能非确定；FAQ3.1.0说没有rollback determinism。",
+    "not_supported": "两个页面版头不同，不混成同一版本认证；不把Box2D条件推广到全部Godot/Unity/3D物理，也不推断游戏回滚已验。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-02",
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP20",
+    "publisher": "Godot",
+    "title": "High-level multiplayer",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/networking/high_level_multiplayer.html",
+    "version": "Godot4.5",
+    "kind": "Engine implementation documentation",
+    "sections": "High/low level API; RPC authority; Managing connections",
+    "claim": "高层API抽象不替代具体拓扑/权威和RPC权限选择，平台可用能力有差别。",
+    "not_supported": "不采用页面概括TCP/UDP性能为普遍定律；不证明重连栅栏、耐久结算或真实网络已验。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-02",
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP21",
+    "publisher": "Godot",
+    "title": "Import process",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/assets_pipeline/import_process.html",
+    "version": "Godot4.5",
+    "kind": "Engine implementation documentation",
+    "sections": "Importing assets; Changing import parameters",
+    "claim": "导入派生藏于.godot/imported；导入资源按ResourceLoader加载，直接FileAccess在编辑器能读原件不代表导出包可读。",
+    "not_supported": "不证明素材许可、目标GPU/媒体可用或缓存身份自动满足本规范。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-01",
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-02",
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-05",
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP22",
+    "publisher": "Godot",
+    "title": "Command line tutorial",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/editor/command_line_tutorial.html",
+    "version": "Godot4.5",
+    "kind": "Engine tool documentation",
+    "sections": "Exporting; Running a script; --import/--export-release",
+    "claim": "导出使用editor二进制及匹配导出模板；preset匹配export_presets.cfg，输出相对project.godot目录；headless避免窗口，脚本继承SceneTree/MainLoop。",
+    "not_supported": "命令存在不证明任意项目可构建或发行运行；headless不能验证GUI/音画。旧错误export路径失败保留。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#6",
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP24",
+    "publisher": "Microsoft",
+    "title": "XAG107 Input / Guidelines",
+    "url": "https://learn.microsoft.com/en-us/xbox/accessibility/xbox-accessibility-guidelines/107",
+    "version": "XAG V3.2 index dated2023-06-08; rolling guideline read2026-10-23",
+    "kind": "Accessibility best-practice guidance",
+    "sections": "Goal; Input remapping; Guidelines introduction",
+    "claim": "输入方式可能排除玩家；建议重映射并在提示/教程反映新映射。索引明确XAG不是法律合规清单。",
+    "not_supported": "不把指南建议自动当全部游戏同一强制选项，也不声明真实目标玩家任务或法律符合性已验。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-01",
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-01"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP25",
+    "publisher": "W3C",
+    "title": "WCAG2.2",
+    "url": "https://www.w3.org/TR/2024/REC-WCAG22-20241212/",
+    "version": "W3C Recommendation2024-12-12",
+    "kind": "Recommendation",
+    "sections": "Abstract; §5 conformance scope",
+    "claim": "WCAG2.2针对Web内容的可测试成功准则，完整流程/范围影响符合性声明。",
+    "not_supported": "不能把Web指南合规直接等同原生整款游戏符合性；本包未逐成功准则验收。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-01"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP27",
+    "publisher": "Godot",
+    "title": "Saving games",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/io/saving_games.html",
+    "version": "Godot4.5",
+    "kind": "Engine tutorial",
+    "sections": "Identify persistent objects; Serializing",
+    "claim": "应识别跨会话保存对象及其数据，示例提供序列化/加载入口。",
+    "not_supported": "教程示例不保证原子保存、断电耐久或完整物理求解器快照；这些需要项目独立设计/测试。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-04",
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-02"
+    ],
+    "supported_context_sections": [],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP28",
+    "publisher": "Godot",
+    "title": "Playing videos",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/animation/playing_videos.html",
+    "version": "Godot4.5",
+    "kind": "Engine implementation documentation",
+    "sections": "Supported playback formats; VideoStreamPlayer",
+    "claim": "该版核心VideoStreamPlayer只支持Ogg Theora及可选Vorbis，扩展可提供其他编码；扩展名本身不证明有视频。",
+    "not_supported": "不把格式文档当目标解码/音画验收，不强制所有引擎Theora；版权/专利决定不由本包下结论。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#G-SIM-05",
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-03",
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP29",
+    "publisher": "ISO/Khronos",
+    "title": "glTF2.0 catalogue and registry",
+    "url": "https://www.iso.org/standard/83990.html",
+    "version": "ISO/IEC12113:2022 edition1,2022-07",
+    "kind": "International Standard catalogue; registry",
+    "sections": "Catalogue abstract/status; registry entry",
+    "claim": "官方目录确认glTF2.0是运行时3D资产交付格式；登记入口可定位格式规范。",
+    "not_supported": "只核目录/入口，完整格式正文首次超时，未据此创制字段级要求或宣称glTF一致性；更不证明材料权利。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP30",
+    "publisher": "Khronos",
+    "title": "OpenXR registry",
+    "url": "https://registry.khronos.org/OpenXR/",
+    "version": "OpenXR1.1 family registry observed2026-10-23",
+    "kind": "API registry",
+    "sections": "Registry entries",
+    "claim": "XR API有独立规范/扩展/一致性入口，采用者须绑定实际版本与扩展。",
+    "not_supported": "用作可选格式和API导航；采用方按所选格式版本确定具体算法和实现条件。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/001-内容资产、媒体加载与运行身份技术规范--v0.1.0.md#G-ASSET-04"
+    ],
+    "supported_context_sections": [],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP31",
+    "publisher": "IETF/RFC Editor",
+    "title": "TCP",
+    "url": "https://www.rfc-editor.org/rfc/rfc9293.html",
+    "version": "RFC9293/STD7,August2022",
+    "kind": "Internet Standard",
+    "sections": "§2.2、3.6.1",
+    "claim": "TCP提供可靠有序字节流，不给应用消息边界；正常关闭按方向，接收EOF不意味不能返回最终响应。",
+    "not_supported": "字节确认不提供持久业务提交或应用恰好一次；端点死亡可能使结果未知。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-02",
+      "standards/L4/game/005-玩家输入、联网权威与存档结算技术规范--v0.1.0.md#G-STATE-05",
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-05",
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-01",
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E01",
+      "E02"
+    ]
+  },
+  {
+    "id": "RP32",
+    "publisher": "IETF",
+    "title": "TLS1.3",
+    "url": "https://datatracker.ietf.org/doc/html/rfc9846",
+    "version": "RFC9846 Proposed Standard,July2026",
+    "kind": "Standards Track",
+    "sections": "§1、2.2、6.1、8",
+    "claim": "正式9846废止8446；认证可含PSK但不能低熵口令；TLS写向关闭与应用完整分开；同一0-RTT握手每服务实例最多接受一次，跨实例及客户端重试仍有风险。",
+    "not_supported": "不自动证明目标库实现该版要求或所有部署业务恰好一次；RFC Editor入口429，正式Datatracker正文成功。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-04",
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-03",
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E17",
+      "E18"
+    ]
+  },
+  {
+    "id": "RP33",
+    "publisher": "IETF/RFC Editor",
+    "title": "Service Identity in TLS",
+    "url": "https://www.rfc-editor.org/rfc/rfc9525.html",
+    "version": "RFC9525,November2023",
+    "kind": "Standards Track",
+    "sections": "§1.2–1.3、6",
+    "claim": "基于证书服务身份核预期参考身份与SAN呈现身份；叶证书名字匹配不替代完整路径验证。",
+    "not_supported": "不要求合法PSK/指纹profile提供证书链，也不提供对象授权。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/cli-sdk/002-SDK类型、资源异步与远程效果技术规范--v0.1.0.md#SDK-API-04",
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E19"
+    ]
+  },
+  {
+    "id": "RP34",
+    "publisher": "IETF/RFC Editor",
+    "title": "UDP Usage Guidelines",
+    "url": "https://www.rfc-editor.org/rfc/rfc8085.html",
+    "version": "RFC8085/BCP145,March2017",
+    "kind": "Best Current Practice",
+    "sections": "§3.1–3.5",
+    "claim": "UDP无内建拥塞机制，应用需选择适当拥塞/聚合负载及消息尺寸/可靠性设计；避免超有效MTU导致脆弱分片。",
+    "not_supported": "不同数据量/单播多播有差别，不把某示例速率/算法当全领域统一门槛。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-01",
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-05",
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E03"
+    ]
+  },
+  {
+    "id": "RP35",
+    "publisher": "IETF/RFC Editor",
+    "title": "WebSocket over HTTP2",
+    "url": "https://www.rfc-editor.org/rfc/rfc8441.html",
+    "version": "RFC8441,September2018",
+    "kind": "Standards Track",
+    "sections": "§3–5、7",
+    "claim": "扩展CONNECT须SETTINGS_ENABLE_CONNECT_PROTOCOL启用，h1 Upgrade/101语义不能照搬h2。",
+    "not_supported": "服务端配置一个协议不证明完整代理路径支持；不保证应用恢复。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E12"
+    ]
+  },
+  {
+    "id": "RP36",
+    "publisher": "IETF/RFC Editor",
+    "title": "WebSocket over HTTP3",
+    "url": "https://www.rfc-editor.org/rfc/rfc9220.html",
+    "version": "RFC9220,June2022",
+    "kind": "Standards Track",
+    "sections": "§3、5",
+    "claim": "h3使用相应扩展CONNECT语义及独立注册设置，默认不启用；与h2的适配不是自动全端支持。",
+    "not_supported": "不从启用QUIC推出所有WS客户端/代理兼容。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E13"
+    ]
+  },
+  {
+    "id": "RP37",
+    "publisher": "IETF/RFC Editor",
+    "title": "QUIC DATAGRAM",
+    "url": "https://www.rfc-editor.org/rfc/rfc9221.html",
+    "version": "RFC9221,March2022",
+    "kind": "Standards Track",
+    "sections": "§3、5–5.4",
+    "claim": "扩展需协商，报文不丢失重传，无自身分片；ACK只证明接收端传输处理，不保证应用处理。",
+    "not_supported": "不用于证明业务成功或任意大消息；仍受拥塞和路径尺寸约束。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-05",
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E07"
+    ]
+  },
+  {
+    "id": "RP38",
+    "publisher": "IETF/RFC Editor",
+    "title": "QUIC Transport",
+    "url": "https://www.rfc-editor.org/rfc/rfc9000.html",
+    "version": "RFC9000,May2021",
+    "kind": "Standards Track",
+    "sections": "§2、8.2、9",
+    "claim": "每流可靠有序但跨流不保证顺序；迁移/路径验证有握手/参数前提，NAT重绑定与主动迁移不同。",
+    "not_supported": "对端丢连接状态不能靠迁移重建应用订阅；新路径不是新对象授权。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-05",
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-05"
+    ],
+    "supported_context_sections": [],
+    "baseline_network_aliases": [
+      "E04",
+      "E05"
+    ]
+  },
+  {
+    "id": "RP39",
+    "publisher": "IETF/RFC Editor",
+    "title": "HTTP2",
+    "url": "https://www.rfc-editor.org/rfc/rfc9113.html",
+    "version": "RFC9113,June2022",
+    "kind": "Standards Track",
+    "sections": "§5.2、5.2.2、6.9",
+    "claim": "流/连接窗口逐跳/有方向，只有DATA消耗本版流控窗口；端点及时读处理帧以免WINDOW_UPDATE被饿死。",
+    "not_supported": "流控不自动约束所有代理/应用队列，也不等于拥塞控制。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-01"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E09"
+    ]
+  },
+  {
+    "id": "RP40",
+    "publisher": "IETF/RFC Editor",
+    "title": "QUIC Loss Detection",
+    "url": "https://www.rfc-editor.org/rfc/rfc9002.html",
+    "version": "RFC9002,May2021",
+    "kind": "Standards Track",
+    "sections": "§5–7",
+    "claim": "RTT估计、丢失检测、PTO及拥塞控制是传输对象，PTO退避有协议规则。",
+    "not_supported": "不把PTO/丢包率当业务失败率，不重编协议常量。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E06"
+    ]
+  },
+  {
+    "id": "RP41",
+    "publisher": "IETF/RFC Editor",
+    "title": "WebSocket",
+    "url": "https://www.rfc-editor.org/rfc/rfc6455.html",
+    "version": "RFC6455,December2011",
+    "kind": "Standards Track",
+    "sections": "§7.2.3、7.4.1",
+    "claim": "异常关闭后建议初始随机延迟及递增退避；1006用于本地异常表示，不得放Close帧。",
+    "not_supported": "重连不保证历史已补，1006不证明对端业务拒绝；建议示例区间非全组织强制值。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-03",
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E10",
+      "E11"
+    ]
+  },
+  {
+    "id": "RP42",
+    "publisher": "WHATWG",
+    "title": "HTML SSE",
+    "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html",
+    "version": "Living Standard updated2026-10-22 observed2026-10-23",
+    "kind": "Living Standard; authoring notes informative",
+    "sections": "§9.2.3–9.2.7",
+    "claim": "重连携带非空Last-Event-ID，空id可重置；尾事件缺空行不派发。编写提示涉及代理缓冲/空闲关闭。",
+    "not_supported": "ID不证明日志保留或持久业务消费；作者提示不是普遍固定心跳阈值。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-04",
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E15",
+      "E16"
+    ]
+  },
+  {
+    "id": "RP43",
+    "publisher": "gRPC project",
+    "title": "Deadlines",
+    "url": "https://grpc.io/docs/guides/deadlines/",
+    "version": "rolling guide2026-10-23",
+    "kind": "Implementation guide",
+    "sections": "Deadline Propagation; Cancellation",
+    "claim": "传播期限以扣除已耗时间的timeout避免跨机器墙钟偏差，不同语言默认支持不同。",
+    "not_supported": "不是所有协议的wire格式，不证明截止时外部效果未提交或撤销。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#NET-FLOW-03",
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/004-背压、拥塞与断线恢复技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E20"
+    ]
+  },
+  {
+    "id": "RP44",
+    "publisher": "IETF/RFC Editor",
+    "title": "STUN",
+    "url": "https://www.rfc-editor.org/rfc/rfc8489.html",
+    "version": "RFC8489,February2020",
+    "kind": "Standards Track",
+    "sections": "Abstract; §1–2",
+    "claim": "STUN可发现映射、检查连通、保持绑定，但本身不是完整NAT穿越方案。",
+    "not_supported": "获取地址不证明对端可达、用户有权或媒体完成。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-01"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S08"
+    ]
+  },
+  {
+    "id": "RP45",
+    "publisher": "IETF/RFC Editor",
+    "title": "ICE",
+    "url": "https://www.rfc-editor.org/rfc/rfc8445.html",
+    "version": "RFC8445,July2018",
+    "kind": "Standards Track",
+    "sections": "§2、6–9、11",
+    "claim": "收集、检查、选对、restart分开；restart必须同时更换password与username fragment。",
+    "not_supported": "不以候选收集完成判应用可用；实际适用更新需随profile核。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-01",
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S03"
+    ]
+  },
+  {
+    "id": "RP46",
+    "publisher": "IETF/RFC Editor",
+    "title": "ICE PAC",
+    "url": "https://www.rfc-editor.org/rfc/rfc8863.html",
+    "version": "RFC8863,January2021",
+    "kind": "Standards Track; updates8445/8838",
+    "sections": "§3–5",
+    "claim": "没有候选对时仍须遵适用的最低等待，不能过早宣告ICE失败。",
+    "not_supported": "不使所有路径可达，也不替代媒体/权限测试。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-01"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S03"
+    ]
+  },
+  {
+    "id": "RP47",
+    "publisher": "IETF/RFC Editor",
+    "title": "TURN",
+    "url": "https://www.rfc-editor.org/rfc/rfc8656.html",
+    "version": "RFC8656,February2020",
+    "kind": "Standards Track",
+    "sections": "§3、7–12",
+    "claim": "allocation、permission、channel独立；数据不刷新allocation，permission固定300秒并由相应请求刷新，按IP不是用户授权。",
+    "not_supported": "不允许L6随意改协议常量；不证明具体中继权限/费用/真实可达。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-02"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S04"
+    ]
+  },
+  {
+    "id": "RP48",
+    "publisher": "IETF/RFC Editor",
+    "title": "Consent Freshness",
+    "url": "https://www.rfc-editor.org/rfc/rfc7675.html",
+    "version": "RFC7675,October2015",
+    "kind": "Standards Track",
+    "sections": "§5.1–5.2",
+    "claim": "30秒未有效响应须停相应发送；到期旧响应不重建consent；同ICE凭据不得再用于受影响5-tuple，须新session/restart；不发应用数据者的发送consent要求有区别。",
+    "not_supported": "设备许可/业务授权/NAT保持都不是consent替代；不是统一心跳间隔。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S05"
+    ]
+  },
+  {
+    "id": "RP49",
+    "publisher": "IETF/RFC Editor",
+    "title": "WebRTC Security Architecture",
+    "url": "https://www.rfc-editor.org/rfc/rfc8827.html",
+    "version": "RFC8827,January2021",
+    "kind": "Standards Track",
+    "sections": "§4、6.2–6.5、7.4.1",
+    "claim": "设备权限、接收consent、信令信任及DTLS指纹绑定有不同作用；实际证书需匹配受信断言指纹。",
+    "not_supported": "不从链路加密推出平台不可解密E2EE，不把文中历史算法直接当所有当今profile。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S02"
+    ]
+  },
+  {
+    "id": "RP50",
+    "publisher": "IETF/RFC Editor",
+    "title": "WebRTC Data Channels",
+    "url": "https://www.rfc-editor.org/rfc/rfc8831.html",
+    "version": "RFC8831,January2021",
+    "kind": "Standards Track",
+    "sections": "§5–6.6",
+    "claim": "SCTP over DTLS支持有序/无序、可靠/部分可靠，通道/关联生命周期及消息约束独立。",
+    "not_supported": "不保证业务恰好一次/任意文件完整；不从内部历史SCTP引用断言当前通用SCTP版本。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S06"
+    ]
+  },
+  {
+    "id": "RP51",
+    "publisher": "W3C",
+    "title": "WebRTC",
+    "url": "https://www.w3.org/TR/2025/REC-webrtc-20250313/",
+    "version": "Recommendation2025-03-13; candidate amendments distinguished",
+    "kind": "Recommendation",
+    "sections": "RTCPeerConnection; RTCDataChannel",
+    "claim": "信令/ICE/连接状态不同；DataChannel的ordered、重传策略和bufferedAmount描述各自API语义，排队字节不含全部OS/网络缓冲。",
+    "not_supported": "不把candidate amendments当全部已生效，不证明任意浏览器/中继/音画支持。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-01",
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-04"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "S07"
+    ]
+  },
+  {
+    "id": "RP52",
+    "publisher": "IETF/RFC Editor",
+    "title": "RTP",
+    "url": "https://www.rfc-editor.org/rfc/rfc3550.html",
+    "version": "RFC3550,July2003",
+    "kind": "Standards Track",
+    "sections": "Abstract; §1",
+    "claim": "RTP不保证及时/可靠/有序交付或QoS，RTCP用于监测；实时预算需实际端到端证据。",
+    "not_supported": "延迟和实时性取决于所选编解码、媒体profile、传输和目标环境。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-05"
+    ],
+    "supported_context_sections": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": [
+      "E22"
+    ]
+  },
+  {
+    "id": "RP53",
+    "publisher": "IETF/RFC Editor",
+    "title": "DTLS1.3",
+    "url": "https://www.rfc-editor.org/rfc/rfc9147.html",
+    "version": "RFC9147,April2022",
+    "kind": "Standards Track",
+    "sections": "§3–4、8",
+    "claim": "DTLS保留报文语义，不提供应用可靠/有序；记录重放检测可选，与0-RTT重放或业务排重不同。",
+    "not_supported": "不要求所有WebRTC立即采用DTLS1.3，也不把可选检测写成每实现已有。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/001-字节分帧、协议协商与连接生命周期技术规范--v0.1.0.md#NET-WIRE-05"
+    ],
+    "supported_context_sections": [],
+    "baseline_network_aliases": [
+      "S01"
+    ]
+  },
+  {
+    "id": "RP54",
+    "publisher": "W3C",
+    "title": "High Resolution Time",
+    "url": "https://www.w3.org/TR/2026/WD-hr-time-3-20260901/",
+    "version": "Working Draft2026-09-01",
+    "kind": "Working Draft",
+    "sections": "§2.1–2.2、7",
+    "claim": "单调时钟不受系统时间调整且限定执行上下文；不能直接比较不同机器/执行的performance.now。",
+    "not_supported": "草案不是全平台稳定标准；高精度不保证定时器准时或硬实时。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/network-realtime/002-实时媒体、路径维护与诊断技术规范--v0.1.0.md#NET-MEDIA-05"
+    ],
+    "supported_context_sections": [],
+    "baseline_network_aliases": [
+      "E21"
+    ]
+  },
+  {
+    "id": "RP55",
+    "publisher": "Godot",
+    "title": "GDScript reference",
+    "url": "https://docs.godotengine.org/en/4.6/tutorials/scripting/gdscript/gdscript_basics.html",
+    "version": "Godot4.6",
+    "kind": "Engine implementation documentation",
+    "sections": "Assert keyword; Awaiting signals or coroutines",
+    "claim": "release导出忽略assert且不求值表达式；await信号/协程会交回控制并在完成后恢复。",
+    "not_supported": "版本4.6与本包4.5画像分开；不把debug断言作为release输入门禁或调用await就当动作完成。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [],
+    "supported_context_sections": [
+      "standards/L4/game/004-游戏模拟时序、确定性与回放技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP56",
+    "publisher": "Godot",
+    "title": "The Profiler",
+    "url": "https://docs.godotengine.org/en/4.5/tutorials/scripting/debug/the_profiler.html",
+    "version": "Godot4.5",
+    "kind": "Engine tooling documentation",
+    "sections": "The measured data; Scope of measurement",
+    "claim": "Profiler区分frame/physics/idle及测量窗口，自身有开销且不同脚本语言支持有界。",
+    "not_supported": "单工具读数不证明目标GPU/设备热态或所有发行版本；不把平均值当全帧预算。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#G-DELIVERY-03"
+    ],
+    "supported_context_sections": [
+      "standards/L4/game/002-游戏交互、性能与消费端发行技术规范--v0.1.0.md#6"
+    ],
+    "baseline_network_aliases": []
+  },
+  {
+    "id": "RP23",
+    "publisher": "WHATWG",
+    "title": "WebSockets API",
+    "url": "https://websockets.spec.whatwg.org/",
+    "version": "Living Standard updated2026-10-19 observed2026-10-23",
+    "kind": "Living Standard",
+    "sections": "§3、5",
+    "claim": "bufferedAmount表示本地待发送应用数据，Ping/Pong不直接暴露给浏览器API。",
+    "not_supported": "缓冲变化不是对端应用提交；原生socket能力不能套浏览器。",
+    "read_date": "2026-10-23",
+    "supported_clauses": [],
+    "supported_context_sections": [],
+    "baseline_network_aliases": [
+      "E14"
+    ]
+  }
+]

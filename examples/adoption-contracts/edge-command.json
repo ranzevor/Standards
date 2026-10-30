@@ -1,0 +1,131 @@
+{
+  "decision": {
+    "actor": null,
+    "at": null,
+    "authority_reference": null,
+    "status": "not-decided"
+  },
+  "dependencies": [
+    {
+      "from": {
+        "clause_id": "EDG-L01",
+        "document_id": "STD-L4-EMBEDDED-EDGE-004"
+      },
+      "interface": "离线发送前消费当前允许控制代际与可验证时间/权限边界。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "EDG-L02",
+        "document_id": "STD-L4-EMBEDDED-EDGE-004"
+      }
+    },
+    {
+      "from": {
+        "clause_id": "EDG-L01",
+        "document_id": "STD-L4-EMBEDDED-EDGE-004"
+      },
+      "interface": "固件命令消费被验证manifest授权序号、digest和中断恢复条件。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "EDG-F03",
+        "document_id": "STD-L4-EMBEDDED-EDGE-002"
+      }
+    }
+  ],
+  "example_only": true,
+  "id": "synthetic-edge-command",
+  "implementation": {
+    "environment": "设计环境：有限设备状态与文件夹具；无真实设备和云控制面。",
+    "identity": "synthetic-design:edge-command:v1 (not a real project or accepted implementation)",
+    "scope": "有限进程内的命令有效期/可信时间区间、受限离线租约、重连控制同步、已观察epoch/对象授权和意图回执，以及固件manifest序号/digest；输入控制/时钟观察受信，不证明真实签名、设备持久账、崩溃边界或物理效果恰好一次。",
+    "status": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "id": "合成离线设备命令",
+    "kind": "synthetic"
+  },
+  "requirements": [
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest tests.test_offline_edge_commands.OfflineQueueCases -v",
+          "evidence": [],
+          "evidence_level": "finite-model",
+          "expected": "有限进程内：恢复时过期/时间未知/对象无权命令无新输出；同意图参数漂移拒绝、准确重复仅历史回执，丢ACK保持原未知；独立低风险意图可合法相同参数。",
+          "id": "edge-command-queue",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "EDG-L01",
+      "document_id": "STD-L4-EMBEDDED-EDGE-004",
+      "reason": "断连队列恢复后必须重新检查执行时设备/主体/有效范围。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest tests.test_offline_edge_commands.OfflineAuthorityCases -v",
+          "evidence": [],
+          "evidence_level": "finite-model",
+          "expected": "有限观察：重连未同步控制先保持held；安装新epoch拒旧命令，离线租约/时钟不确定不续期；尚未观察的新撤销不能登记为已传播，历史回执不授予当前权限。",
+          "id": "edge-command-epoch",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "EDG-L02",
+      "document_id": "STD-L4-EMBEDDED-EDGE-004",
+      "reason": "离线命令存在控制权代际与时钟不确定性，旧控制面不能重新获权。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "python -m unittest tests.test_sec_edge_commerce_models.SecurityEdgeTests.test_old_sequence_rejected_higher_authorized_display_rollback_allowed tests.test_sec_edge_commerce_models.SecurityEdgeTests.test_equal_same_resume_preserves_attempt_count tests.test_sec_edge_commerce_models.SecurityEdgeTests.test_equal_sequence_different_content_rejected -v",
+          "evidence": [],
+          "evidence_level": "finite-model",
+          "expected": "较小序号被拒，相同序号相同digest的中断恢复不误拒；镜像旧版不等同授权序号回退。",
+          "id": "edge-command-manifest",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "EDG-F03",
+      "document_id": "STD-L4-EMBEDDED-EDGE-002",
+      "reason": "本例命令是固件安装，消费单调授权序号和允许的恢复规则。"
+    },
+    {
+      "applicability": "undetermined",
+      "checks": [],
+      "clause_id": "STK-03",
+      "document_id": "STD-L5-001",
+      "reason": "真实设备版本需落实ISR/DMA与内存顺序；当前未指定MCU及工具链，不可由文件夹具推断。"
+    }
+  ],
+  "schema_version": "1.0",
+  "standards": [
+    {
+      "id": "STD-L4-EMBEDDED-EDGE-004",
+      "path": "standards/L4/embedded-edge/004-离线命令、舰队升级与设备退役技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "e1a5ff72f83384627d4b10caf3c2967b1500af3a8018fe9b67d9656f287ce71d",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L4-EMBEDDED-EDGE-002",
+      "path": "standards/L4/embedded-edge/002-掉电持久化、固件验证与引导恢复技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "f15dafa866a16283daf3b6f42d3a27fd1df840972382a79ff9f2d117fb86812a",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L5-001",
+      "path": "standards/L5/001-C-CPlusPlus-技术适配规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "f42a0ec7e5de4a9419f191f45300d4a0ae0c84b909b9955654780f871ad69527",
+      "version": "0.1.0"
+    }
+  ]
+}

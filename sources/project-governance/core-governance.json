@@ -1,0 +1,79 @@
+{
+  "schema": "standards-governance-core-sources/1",
+  "read_date": "2026-10-24",
+  "sources": [
+    {
+      "id": "PG-CORE-BCP14",
+      "publisher": "IETF / RFC Editor",
+      "url": "https://www.rfc-editor.org/rfc/rfc2119.html",
+      "version": "RFC 2119 (1997), updated by RFC 8174 (2017)",
+      "sections": [
+        "RFC 2119 §§1–6",
+        "RFC 8174 §2"
+      ],
+      "read_scope": "selected complete keyword definitions and capitalization clarification, not an IETF governance certification",
+      "additional_url": "https://www.rfc-editor.org/rfc/rfc8174.html",
+      "supported_claims": [
+        "Necessary, recommended and optional requirements are distinct; valid recommendation deviations require considering consequences.",
+        "RFC 8174 keyword meanings apply to uppercase English usage; other text can still be normative."
+      ],
+      "unsupported_inferences": [
+        "No IETF-prescribed Chinese translation, project role assignment or adoption decision."
+      ],
+      "consumed_by": [
+        "STD-PG-001::scope-and-terms",
+        "STD-PG-006"
+      ]
+    },
+    {
+      "id": "PG-CORE-SEMVER",
+      "publisher": "Semantic Versioning specification",
+      "url": "https://semver.org/spec/v2.0.0.html",
+      "version": "2.0.0",
+      "sections": [
+        "§§1–4",
+        "§§6–9"
+      ],
+      "read_scope": "selected specification clauses on public API, immutable released contents, version increments and prereleases",
+      "supported_claims": [
+        "A SemVer user declares a public API; incompatible API changes, compatible additions and compatible fixes have different increments.",
+        "Released version contents are not replaced; initial-development and prerelease status have their stated limits."
+      ],
+      "unsupported_inferences": [
+        "No mandatory SemVer for every research/document identity; no automatic adoption, deployment or permanent compatibility guarantee."
+      ],
+      "consumed_by": [
+        "STD-PG-015::PGV-01",
+        "STD-PG-015::PGV-03"
+      ]
+    },
+    {
+      "id": "PG-CORE-SSDF",
+      "publisher": "NIST",
+      "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-218.pdf",
+      "version": "SP 800-218 / SSDF 1.1, February 2022",
+      "sections": [
+        "Table 1 PO.2.1",
+        "PO.4.1–2",
+        "PS.1.1",
+        "RV.1.1, RV.1.3"
+      ],
+      "read_scope": "selected Table 1 tasks and adjacent notional-example distinction; not the entire publication or cited secondary frameworks",
+      "supported_claims": [
+        "Maintain SDLC roles and responsibilities; define security-check criteria and safeguard supporting information.",
+        "Code access follows least privilege; credible vulnerability reports are investigated and disclosure/remediation roles and policy are implemented."
+      ],
+      "unsupported_inferences": [
+        "Not a required team size, fixed SLA, actual platform configuration, general legal rule or product security certification."
+      ],
+      "consumed_by": [
+        "STD-PG-010::PGK-04",
+        "STD-PG-011::PGQ-01",
+        "STD-PG-011::PGQ-05",
+        "STD-PG-013::PGP-03",
+        "STD-PG-013::PGP-05"
+      ]
+    }
+  ],
+  "organization_rule_basis": "Other governance procedures are Standards design choices justified by their failure models and acceptance contracts, not attributed wholesale to these sources."
+}

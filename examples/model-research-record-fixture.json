@@ -1,0 +1,109 @@
+{
+  "fixture_kind": "synthetic-research-contract-records",
+  "claims": [
+    {
+      "id": "C-finite",
+      "statement": "For x in {0,1,2,3}, x*x >= x",
+      "proof_or_result_ref": "model_research_examples.py finite_proof",
+      "support_status": "finite-domain-only"
+    }
+  ],
+  "runs": [
+    {
+      "id": "A",
+      "state": "success",
+      "score": "4/5"
+    },
+    {
+      "id": "B",
+      "state": "success",
+      "score": "1"
+    },
+    {
+      "id": "C",
+      "state": "failure",
+      "reason": "synthetic OOM state only"
+    },
+    {
+      "id": "D",
+      "state": "pending",
+      "reason": "synthetic authority not yet observed"
+    }
+  ],
+  "split": [
+    {
+      "group": "subject-demo",
+      "role": "train",
+      "event_at": 3,
+      "available_at": 4,
+      "label_available_at": 5
+    },
+    {
+      "group": "subject-demo",
+      "role": "test",
+      "event_at": 12,
+      "available_at": 12,
+      "prediction_at": 13
+    }
+  ],
+  "costs": [
+    {
+      "target": "goal-A",
+      "meter": "attempt-1",
+      "revision": 1,
+      "status": "estimate",
+      "amount": "2",
+      "currency": "USD"
+    },
+    {
+      "target": "goal-A",
+      "meter": "attempt-1",
+      "revision": 2,
+      "status": "settled",
+      "amount": "3",
+      "currency": "USD"
+    },
+    {
+      "target": "goal-A",
+      "meter": "attempt-2",
+      "revision": 1,
+      "status": "settled",
+      "amount": "4",
+      "currency": "USD"
+    },
+    {
+      "target": "goal-A",
+      "meter": "storage-tail",
+      "revision": 1,
+      "status": "unknown",
+      "amount": null,
+      "currency": "USD"
+    }
+  ],
+  "privacy_releases": [
+    {
+      "id": "candidate-1",
+      "visible_to": [
+        "analyst"
+      ],
+      "epsilon": "1/2",
+      "unit": "record"
+    },
+    {
+      "id": "candidate-2",
+      "visible_to": [
+        "analyst"
+      ],
+      "epsilon": "1/2",
+      "unit": "record"
+    },
+    {
+      "id": "copy-1",
+      "visible_to": [
+        "analyst"
+      ],
+      "same_preexisting_release": "candidate-1",
+      "new_private_access": false
+    }
+  ]
+}

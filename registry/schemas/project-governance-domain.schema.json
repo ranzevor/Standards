@@ -1,0 +1,181 @@
+{
+  "type": "object",
+  "required": [
+    "schema",
+    "version",
+    "adoption",
+    "document_ids",
+    "requirements",
+    "scope"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "enum": [
+        "standards-project-governance-domain/1"
+      ]
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^0\\.1\\.(0|[1-9][0-9]*)$"
+    },
+    "adoption": {
+      "enum": [
+        "adopted"
+      ]
+    },
+    "document_ids": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "document_id",
+          "clause_id",
+          "document_sha256",
+          "section_sha256",
+          "checks",
+          "manual_criteria",
+          "template",
+          "example",
+          "technical_sources"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "clause_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "document_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "section_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "checks": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "path",
+                "symbol",
+                "command",
+                "input",
+                "expected",
+                "failure",
+                "does_not_establish"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "record-binding",
+                    "finite-model",
+                    "local-git-runtime",
+                    "readme-translation-contract",
+                    "project-record"
+                  ]
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "symbol": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "command": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "input": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "expected": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "failure": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "does_not_establish": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          },
+          "manual_criteria": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "template": {
+            "type": "string",
+            "minLength": 1
+          },
+          "example": {
+            "type": "string",
+            "minLength": 1
+          },
+          "technical_sources": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "kind"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "kind": {
+                  "enum": [
+                    "governance-design",
+                    "official-finite-claim"
+                  ]
+                },
+                "basis": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "packet": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "source_id": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

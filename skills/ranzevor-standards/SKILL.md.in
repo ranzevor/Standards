@@ -1,0 +1,34 @@
+---
+name: ranzevor-standards
+description: Select adopted Ranzevor engineering and organizational standards for project governance, development, AI agents, research, security, and acceptance. Provides offline Chinese normative text, stable identities and clause lookup.
+compatibility: Offline Markdown and JSON with Python 3.12 standard-library verification and lookup.
+metadata:
+  author: Ranzevor
+  version: "0.1.0"
+  normative_language: zh-Hans
+---
+
+# Standards · Offline normative reference
+
+Use this release’s **162 adopted Chinese standards** at their individually registered versions. Resolve each standard by its stable ID, exact version, path and SHA-256 in `references/registry/standards.json`; the Skill metadata identifies the distribution version, not the version of every normative document.
+
+## Select applicable requirements
+
+1. Read `references/INDEX.md` and `references/governance/ADOPTION.md` to locate the relevant domains.
+2. Run `python scripts/lookup.py --query "Agent"` or use a stable ID, for example `python scripts/lookup.py --document-id STD-L0-001 --clause-id ARC-01`.
+3. Read the selected Chinese text, applicability conditions and necessary cross-domain dependencies.
+4. Record the chosen clauses, parameters, exclusions and acceptance criteria in the target project's adoption record. Evaluate the implementation using observations from that project.
+
+## Optional behavior profiles
+
+When the project has selected an AI behavior profile, start with `references/guides/ai-behavior/QUICKSTART.md` and load the relevant topic and necessary dependencies. Record the selected profile and scenario identities in the project adoption record. The optional profiles do not automatically apply to every task or existing adoption.
+
+## Verify and navigate
+
+- Run `python scripts/verify_bundle.py` in the unpacked Skill directory.
+- The `references/` directory contains the current source tree, indexes, guides, templates, examples and checks.
+- Lookup supports `--query`, `--document-id`, `--clause-id`, `--domain` and `--limit`; clause results include exact source lines and section digests.
+- Chinese normative text is authoritative. English project-governance translations provide supplementary access.
+- See `references/guides/OFFLINE.md` for package verification and source usage.
+
+This Skill package is multi-licensed by material type. Project-authored normative text, documentation and data use CC BY 4.0; software, validators and executable scripts use Apache-2.0. Public redistribution and commercial use follow the applicable terms in `references/LICENSE`. Third-party materials retain their own terms.

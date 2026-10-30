@@ -1,0 +1,3392 @@
+{
+  "claims": [
+    {
+      "does_not_support": "描述文件不是实现、实际对象授权、事务成功或业务兼容认证",
+      "id": "OAS",
+      "official_object": "3.2.1，2026-09-10",
+      "publisher": "OpenAPI Initiative",
+      "read_date": "2026-10-23",
+      "sections_read": "Introduction;Operation;Schema;4.30 Security Requirement Object",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "描述HTTP接口及安全方案：同一Security Requirement对象内多方案为AND，security列表不同对象为OR，空对象可表达匿名",
+      "title": "OpenAPI Specification",
+      "url": "https://spec.openapis.org/oas/v3.2.1.html"
+    },
+    {
+      "does_not_support": "不规定项目幂等、框架事件重放或服务端业务成功",
+      "id": "HTML",
+      "official_object": "2026-10-22 Living Standard",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4.10.21;4.10.22.2–4;Forms 4.10.3",
+      "source_nature": "living-standard",
+      "supported_proposition": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "title": "HTML Living Standard",
+      "url": "https://html.spec.whatwg.org/multipage/form-control-infrastructure.html"
+    },
+    {
+      "does_not_support": "不抢占任意JS、撤销已完成Promise或回滚远端提交",
+      "id": "DOM",
+      "official_object": "2026-10-23读取的main blob 98924dcad6840129f13f29f8fb887880ce20cb53",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "source_object": {
+        "blob_sha": "98924dcad6840129f13f29f8fb887880ce20cb53",
+        "official_alternative": "https://github.com/whatwg/dom/blob/main/dom.bs",
+        "path": "dom.bs",
+        "ref_seen": "main",
+        "repository": "whatwg/dom"
+      },
+      "sections_read": "Events;Aborting ongoing activities;AbortSignal signal abort",
+      "source_nature": "living-standard-source-snapshot",
+      "supported_proposition": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "title": "DOM Living Standard",
+      "url": "https://dom.spec.whatwg.org/"
+    },
+    {
+      "does_not_support": "不支持用合成dispatchEvent冒充真实系统IME或统一所有平台时序",
+      "id": "INPUT",
+      "official_object": "2026-02-21 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "3.6 composition events;4.3.3 IME",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "组合输入与键盘事件非一对一，compositionend结束/取消时派发，IME实现可抑制部分按键",
+      "title": "UI Events",
+      "url": "https://www.w3.org/TR/2026/WD-uievents-20260221/"
+    },
+    {
+      "additional_read_urls": [
+        "https://html.spec.whatwg.org/multipage/browsing-the-web.html#url-and-history-update-steps"
+      ],
+      "does_not_support": "不提供业务事务提交或框架路由取消/草稿恢复保证",
+      "id": "HISTORY",
+      "official_object": "2026-10-22 Living Standard",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "7.2.5 shared history push/replace state steps;7.4.4 URL/history update and 7.4 traversal document update",
+      "source_nature": "living-standard",
+      "supported_proposition": "push/replace修改历史状态和URL，遍历与普通导航是不同路径；pushState自身不派发popstate，历史遍历另走更新/事件路径",
+      "title": "HTML History API",
+      "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html"
+    },
+    {
+      "does_not_support": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生",
+      "id": "FETCH",
+      "official_object": "2026-10-19 Living Standard",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "5.6 fetch method steps 4/11/12;abort fetch;3.3 CORS",
+      "source_nature": "living-standard",
+      "supported_proposition": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "title": "Fetch Standard",
+      "url": "https://fetch.spec.whatwg.org/"
+    },
+    {
+      "does_not_support": "不决定业务授权、查询语义、Canonical业务政策或重定向许可",
+      "id": "URL",
+      "official_object": "2026-10-19 Living Standard",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4 URL parsing/serializing;5 form-urlencoded;6.2 URLSearchParams",
+      "source_nature": "living-standard",
+      "supported_proposition": "URL解析/序列化和查询多值有规范接口",
+      "title": "URL Standard",
+      "url": "https://url.spec.whatwg.org/"
+    },
+    {
+      "does_not_support": "不证明部分字节已形成完整文件或外部业务完成",
+      "id": "STREAMS",
+      "official_object": "2026-10-19 Living Standard",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "2.4 pipe chains and backpressure;2.6 locking;4 readable streams",
+      "source_nature": "living-standard",
+      "supported_proposition": "流、队列、背压、读取器锁和取消属于各自平台边界",
+      "title": "Streams Standard",
+      "url": "https://streams.spec.whatwg.org/"
+    },
+    {
+      "does_not_support": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离",
+      "id": "STORAGE",
+      "official_object": "2026-10-19 Living Standard",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4 buckets;5 persistence permission;6 usage/quota;7 management;8 API",
+      "source_nature": "living-standard",
+      "supported_proposition": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "title": "Storage Standard",
+      "url": "https://storage.spec.whatwg.org/"
+    },
+    {
+      "does_not_support": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同",
+      "id": "IDB",
+      "official_object": "2025-08-13 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "2.7 transaction lifecycle/durability;4.10 IDBTransaction;5.1 opening;5.4 committing",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "title": "Indexed Database API 3.0",
+      "url": "https://www.w3.org/TR/2025/WD-IndexedDB-3-20250813/"
+    },
+    {
+      "does_not_support": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行",
+      "id": "SW",
+      "official_object": "2026-09-17 Candidate Recommendation Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "2 worker/registration/client;4.1.4 skipWaiting;Clients.claim;Cache/CacheStorage",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "title": "Service Workers",
+      "url": "https://www.w3.org/TR/2026/CRD-service-workers-20260917/"
+    },
+    {
+      "does_not_support": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断",
+      "id": "WCAG",
+      "official_object": "2024-12-12 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "2.1 keyboard;2.4 navigation/focus;3.3 input;5 Conformance",
+      "source_nature": "recommendation",
+      "supported_proposition": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "title": "Web Content Accessibility Guidelines 2.2",
+      "url": "https://www.w3.org/TR/2024/REC-WCAG22-20241212/"
+    },
+    {
+      "does_not_support": "role或aria-modal本身不实现键盘行为/背景隔离或服务端授权",
+      "id": "ARIA",
+      "official_object": "2023-06-06 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "4.3 managing focus/aria-activedescendant;roles/states",
+      "source_nature": "recommendation",
+      "supported_proposition": "aria-activedescendant不移走宿主DOM焦点，作者负责有效关系和视觉活动项",
+      "title": "WAI-ARIA 1.2",
+      "url": "https://www.w3.org/TR/2023/REC-wai-aria-1.2-20230606/"
+    },
+    {
+      "additional_read_urls": [
+        "https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/",
+        "https://www.w3.org/WAI/ARIA/apg/patterns/combobox/"
+      ],
+      "does_not_support": "不是把每个示例所有可选行为强制到所有组件的规范",
+      "id": "APG",
+      "official_object": "2026-10-23读取的动态指导文档",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "Dialog Modal Pattern keyboard/focus;Combobox patterns and optional behavior",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "模态与非模态焦点不同；组合框有可输入/只选等合法模式，按实际任务选择",
+      "title": "ARIA Authoring Practices Guide",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/"
+    },
+    {
+      "does_not_support": "不保证具体AT语音体验或仅存在aria-label就符合完整任务",
+      "id": "ACC",
+      "official_object": "2018-12-18 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "4 name/description computation",
+      "source_nature": "recommendation",
+      "supported_proposition": "浏览器由内容/关系计算名称和描述并暴露给辅助技术",
+      "title": "Accessible Name and Description Computation 1.1",
+      "url": "https://www.w3.org/TR/2018/REC-accname-1.1-20181218/"
+    },
+    {
+      "does_not_support": "不证明任意组件主题和焦点样式已通过实际浏览器验证",
+      "id": "CASCADE",
+      "official_object": "2022-01-13 Candidate Recommendation Snapshot",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "6.1 cascade sorting;6.3 important;6.4 layers",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "普通跨层声明后层优先，important跨层声明前层优先，来源/封装优先级不可只靠特异性解释",
+      "title": "CSS Cascading and Inheritance Level 5",
+      "url": "https://www.w3.org/TR/2022/CR-css-cascade-5-20220113/"
+    },
+    {
+      "does_not_support": "不主张所有布局都改Flex，不把视觉order当DOM阅读顺序",
+      "id": "FLEX",
+      "official_object": "2025-10-14 Candidate Recommendation Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "4.5 automatic minimum size;layout order",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "自动最小尺寸受内容/overflow等条件影响，不能假定flex总能无限收缩",
+      "title": "CSS Flexible Box Layout Level 1",
+      "url": "https://www.w3.org/TR/2025/CRD-css-flexbox-1-20251014/"
+    },
+    {
+      "does_not_support": "不支持仅改dvh即宣称所有移动软键盘遮挡已解决",
+      "id": "VIEWPORT",
+      "official_object": "2024-03-12 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "6.1.2 viewport-relative lengths",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "sv/lv/dv视口含义不同；部分覆盖式界面例如软键盘可能不影响这些单位",
+      "title": "CSS Values and Units Level 4",
+      "url": "https://www.w3.org/TR/2024/WD-css-values-4-20240312/"
+    },
+    {
+      "does_not_support": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为",
+      "id": "HYDRATE",
+      "official_object": "页面v19.3；2026-10-23读取",
+      "publisher": "React project",
+      "read_date": "2026-10-23",
+      "sections_read": "Reference caveats;hydrating server-rendered HTML;error logging",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "title": "React hydrateRoot",
+      "url": "https://react.dev/reference/react-dom/client/hydrateRoot"
+    },
+    {
+      "does_not_support": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过",
+      "id": "VITALS",
+      "official_object": "2024-10-31更新；2026-10-23读取的Google指导",
+      "publisher": "Google / web.dev",
+      "read_date": "2026-10-23",
+      "sections_read": "Core Web Vitals;field and lab measurement",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "title": "Web Vitals",
+      "url": "https://web.dev/articles/vitals"
+    },
+    {
+      "does_not_support": "不支持仅WebKit自动化就声明真实iOS Safari/AT/企业策略通过",
+      "id": "PLAYWRIGHT",
+      "official_object": "2026-10-23读取的动态产品文档",
+      "publisher": "Microsoft / Playwright",
+      "read_date": "2026-10-23",
+      "sections_read": "Introduction;Firefox;WebKit;Branded browsers",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "工具发行与特定浏览器二进制配套；修补版引擎与品牌Safari/Firefox及真机并不等价",
+      "title": "Playwright Browsers",
+      "url": "https://playwright.dev/docs/browsers"
+    },
+    {
+      "does_not_support": "不把OAuth授权令牌等同所有对象的当前业务权利",
+      "id": "OAUTH",
+      "official_object": "RFC9700/BCP240，2025-01",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "2 best practices;4 attacks/mitigations",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "title": "OAuth 2.0 Security BCP",
+      "url": "https://www.rfc-editor.org/rfc/rfc9700.html"
+    },
+    {
+      "does_not_support": "不主张所有项目必须同一架构，也不认为HttpOnly防止同源脚本代发请求",
+      "id": "BROWSER-OAUTH",
+      "official_object": "RFC10017/BCP212，2026-08",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "5 malicious JavaScript;6 architecture patterns",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "恶意同源JS威胁和BFF/令牌中介/浏览器公共客户端有不同安全边界",
+      "title": "OAuth 2.0 for Browser-Based Applications",
+      "url": "https://www.rfc-editor.org/rfc/rfc10017.html"
+    },
+    {
+      "does_not_support": "签名正确不等于对象权限、当前权益或跨租户许可",
+      "id": "JWT",
+      "official_object": "RFC8725/BCP225，2020-02",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "3.1 algorithm verification;3.8 issuer;3.9 audience;3.11 explicit typing;3.12 validation rules",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "title": "JWT Best Current Practices",
+      "url": "https://www.rfc-editor.org/rfc/rfc8725.html"
+    },
+    {
+      "does_not_support": "不主张所有Bearer API已有发送方约束或证明可替代业务授权",
+      "id": "DPOP",
+      "official_object": "RFC9449，2023-09 Standards Track",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "4.2 proof syntax;4.3 checking proofs;11 security",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "DPoP证明绑定方法/URI/密钥/时间和标识，需真实防重放策略",
+      "title": "OAuth DPoP",
+      "url": "https://www.rfc-editor.org/rfc/rfc9449.html"
+    },
+    {
+      "does_not_support": "浏览器凭据API成功不等于后端认证或自动授予高权角色",
+      "id": "WEBAUTHN",
+      "official_object": "2026-08-25 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "7.1 registration;7.2 assertion verification;13.4.9 origin",
+      "source_nature": "recommendation",
+      "supported_proposition": "RP验证challenge、origin、rpIdHash、必要用户验证和签名/账户绑定",
+      "title": "Web Authentication Level 3",
+      "url": "https://www.w3.org/TR/2026/REC-webauthn-3-20260825/"
+    },
+    {
+      "does_not_support": "创建直通policy不使输入变安全；发布为WD不代表所有旧浏览器支持",
+      "id": "TT",
+      "official_object": "2026-10-07 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "2 injection sinks/policies;2.3.1 sanitizer;2.4 CSP",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "Trusted Types通过类型/策略限制sink；净化器与策略内容的安全性仍需独立保证",
+      "title": "Trusted Types",
+      "url": "https://www.w3.org/TR/2026/WD-trusted-types-20261007/"
+    },
+    {
+      "does_not_support": "hash文件名不是SRI，摘要不证明许可证、供应商权限或无漏洞",
+      "id": "SRI",
+      "official_object": "2016-06-23 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "3 integrity metadata;3.3 verification;3.5 cross-origin",
+      "source_nature": "recommendation",
+      "supported_proposition": "浏览器对适用脚本/样式响应按完整性元数据检查，跨源依赖相应CORS条件",
+      "title": "Subresource Integrity",
+      "url": "https://www.w3.org/TR/2016/REC-SRI-20160623/"
+    },
+    {
+      "does_not_support": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性",
+      "id": "HTTP",
+      "official_object": "RFC9110/STD97，2022-06",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "9.2 safety/idempotence;10.2.3 Retry-After;13 preconditions;14 Range;15.3.3 202",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "title": "HTTP Semantics",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+    },
+    {
+      "does_not_support": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本",
+      "id": "CACHE",
+      "official_object": "RFC9111/STD98，2022-06",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "3 storing;4.1 Vary;4.3 validation;4.4 invalidation;5.2.2 directives",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "title": "HTTP Caching",
+      "url": "https://www.rfc-editor.org/rfc/rfc9111.html"
+    },
+    {
+      "does_not_support": "不强制全部API改格式，正文status不能覆盖中间代理的真实HTTP状态",
+      "id": "PROBLEM",
+      "official_object": "RFC9457，2023-07，取代7807",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "3.1 type/status/title/detail;5 security",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "type URI是主要问题类型身份；status为建议但生成方须与实际HTTP状态协调，title可本地化",
+      "title": "Problem Details for HTTP APIs",
+      "url": "https://www.rfc-editor.org/rfc/rfc9457.html"
+    },
+    {
+      "does_not_support": "不宣称所有补丁幂等或任意partial JSON都符合特定PATCH媒体格式",
+      "id": "PATCH",
+      "official_object": "RFC5789，2010-03 Standards Track",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "2 PATCH method;2.2 error handling",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "一个补丁文档的整组修改需原子应用，失败不留部分更改",
+      "title": "PATCH Method for HTTP",
+      "url": "https://www.rfc-editor.org/rfc/rfc5789.html"
+    },
+    {
+      "does_not_support": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头",
+      "id": "KEY",
+      "official_object": "-08，2026-10-22；Active Internet-Draft；2027-04-25到期",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "Document status;2 key/fingerprint/responsibilities",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "title": "Idempotency-Key HTTP Header Field",
+      "url": "https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-idempotency-key-header-08"
+    },
+    {
+      "does_not_support": "不代表替代服务已实现、通知已送达或允许立即停服务",
+      "id": "DEPRECATION",
+      "official_object": "RFC9745，2025-03 Standards Track",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "2 field;5 resource behavior",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "废弃标记用于提示消费者，不因标记本身改变资源行为",
+      "title": "Deprecation HTTP Response Header",
+      "url": "https://www.rfc-editor.org/rfc/rfc9745.html"
+    },
+    {
+      "does_not_support": "不是Standards Track，也不保证该时刻前必可用或自动执行下线",
+      "id": "SUNSET",
+      "official_object": "RFC8594，2019-05 Informational",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-24",
+      "sections_read": "3 Sunset header;4 caching;5 scope",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "表达资源预计未来不可响应时刻的提示",
+      "title": "Sunset HTTP Header Field",
+      "url": "https://www.rfc-editor.org/rfc/rfc8594.html"
+    },
+    {
+      "additional_read_urls": [
+        "https://grpc.io/docs/guides/cancellation/"
+      ],
+      "does_not_support": "不将DEADLINE_EXCEEDED/Cancel解释为事务未提交或外部副作用被回滚",
+      "id": "GRPC",
+      "official_object": "2026-10-23读取的官方产品指南",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "Deadlines on client/server;deadline propagation;Cancellation overview",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "默认可能无deadline；传播按SDK支持扣除已耗时间；服务应用须停止自身派生工作",
+      "title": "gRPC Deadlines and Cancellation",
+      "url": "https://grpc.io/docs/guides/deadlines/"
+    },
+    {
+      "does_not_support": "不提供业务ACK、不保证本地无限缓冲安全，也不套用于unary手动流控",
+      "id": "GRPC-FLOW",
+      "official_object": "页面2023-10-05更新；2026-10-23读取",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "Overview;Warning",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "write返回仅交给框架不等于出网；双方大量写不读可能死锁，流控用于streaming",
+      "title": "gRPC Flow Control",
+      "url": "https://grpc.io/docs/guides/flow-control/"
+    },
+    {
+      "does_not_support": "不依据单一UNAVAILABLE就证明付款未执行，不代替目标端业务去重",
+      "id": "GRPC-RETRY",
+      "official_object": "2026-10-23读取的官方产品指南",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "How gRPC client retry works;transparent retry;retry configuration",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "透明重试与策略重试条件不同，存在尝试历史、退避和重试限制",
+      "title": "gRPC Retry",
+      "url": "https://grpc.io/docs/guides/retry/"
+    },
+    {
+      "does_not_support": "wire可解析不代表单位/默认/权限/历史业务语义不变",
+      "id": "PROTO",
+      "official_object": "2026-10-23读取的动态语言指南",
+      "publisher": "Protocol Buffers project",
+      "read_date": "2026-10-23",
+      "sections_read": "Deleting fields;Updating a message;Tag reuse issues",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "title": "Protocol Buffers proto3 guide",
+      "url": "https://protobuf.dev/programming-guides/proto3/"
+    },
+    {
+      "does_not_support": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子",
+      "id": "PG",
+      "official_object": "PostgreSQL18固定版本",
+      "publisher": "PostgreSQL Global Development Group",
+      "read_date": "2026-10-23",
+      "sections_read": "13.2.1 RC;13.2.2 RR;13.2.3 Serializable",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "title": "PostgreSQL Transaction Isolation",
+      "url": "https://www.postgresql.org/docs/18/transaction-iso.html"
+    },
+    {
+      "does_not_support": "不能把普通SELECT快照或PG RR行为直接当InnoDB全部写入语义",
+      "id": "MYSQL",
+      "official_object": "MySQL8.4固定版本",
+      "publisher": "Oracle MySQL",
+      "read_date": "2026-10-23",
+      "sections_read": "17.7.2.1 RR/RC/Serializable",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "一致性读快照与锁定读/UPDATE边界不同；唯一点查与范围查锁定不同",
+      "title": "InnoDB Transaction Isolation Levels",
+      "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html"
+    },
+    {
+      "does_not_support": "有限本地进程崩溃不证明硬件掉电/分布式隔离或PG/InnoDB异常行为",
+      "id": "SQLITE",
+      "official_object": "2026-10-23读取；具体实跑引擎版本另记",
+      "publisher": "SQLite project",
+      "read_date": "2026-10-23",
+      "sections_read": "Isolation Between Connections;Isolation And Concurrency",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "写者串行；WAL读事务保持快照；旧快照升级写可能SQLITE_BUSY_SNAPSHOT需释放后新事务",
+      "title": "Isolation in SQLite",
+      "url": "https://www.sqlite.org/isolation.html"
+    },
+    {
+      "does_not_support": "不保证持久化、授权、消息顺序或跨系统exactly-once",
+      "id": "CE",
+      "official_object": "v1.0.2；blob03fa928fa7457c54918425db7f1d5487bb95fe3e",
+      "publisher": "CNCF CloudEvents project",
+      "read_date": "2026-10-23",
+      "source_object": {
+        "blob_sha": "03fa928fa7457c54918425db7f1d5487bb95fe3e",
+        "path": "cloudevents/spec.md",
+        "ref_seen": "v1.0.2",
+        "repository": "cloudevents/spec"
+      },
+      "sections_read": "Required attributes source/id/specversion;data attributes",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "title": "CloudEvents Core",
+      "url": "https://github.com/cloudevents/spec/blob/v1.0.2/cloudevents/spec.md"
+    },
+    {
+      "does_not_support": "描述有效不代表实际Broker ACL、耐久和业务处理已实现",
+      "id": "ASYNC",
+      "official_object": "v3.1.0；同时核对v3.0.0固定入口",
+      "publisher": "AsyncAPI Initiative",
+      "read_date": "2026-10-23",
+      "sections_read": "Definitions;Operation Object;Channel;Message",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "send/receive由应用视角定义，描述Channel/Message/Operation及绑定",
+      "title": "AsyncAPI Specification",
+      "url": "https://www.asyncapi.com/docs/reference/specification/v3.1.0"
+    },
+    {
+      "does_not_support": "厂商架构指南不是通用协议，不代表本地事务包围外部付款",
+      "id": "OUTBOX",
+      "official_object": "2026-10-23读取；AWS Prescriptive Guidance",
+      "publisher": "AWS",
+      "read_date": "2026-10-23",
+      "sections_read": "Intent;Issues;Implementation relational databases",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "title": "Transactional outbox pattern",
+      "url": "https://docs.aws.amazon.com/prescriptive-guidance/latest/cloud-design-patterns/transactional-outbox.html"
+    },
+    {
+      "does_not_support": "Confirm不等于消费者处理或用户完成；其他队列类型和版本另核",
+      "id": "RABBIT",
+      "official_object": "页面RabbitMQ4.4；2026-10-23读取",
+      "publisher": "RabbitMQ project",
+      "read_date": "2026-10-23",
+      "sections_read": "Basics;Are publisher confirms related;automatic requeueing",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "发布Confirm和消费ACK彼此独立；消息连接失联有重投风险，应用负责处理边界",
+      "title": "RabbitMQ acknowledgements and publisher confirms",
+      "url": "https://www.rabbitmq.com/docs/confirms"
+    },
+    {
+      "does_not_support": "不扩张为跨数据库/银行/邮件恰好一次或所有消费者配置相同",
+      "id": "KAFKA",
+      "official_object": "Kafka4.0.X固定文档",
+      "publisher": "Apache Kafka project",
+      "read_date": "2026-10-23",
+      "sections_read": "Message Delivery Semantics;transactions;replication",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "Kafka事务消费/产生需对应配置和中止恢复，外部存储效果不自动进入同一事务",
+      "title": "Apache Kafka Design",
+      "url": "https://kafka.apache.org/40/design/design/"
+    },
+    {
+      "does_not_support": "不主张一切业务都必须最终一致，也不证明实际退款已完成",
+      "id": "COMP",
+      "official_object": "2026-10-23读取；Microsoft架构指导",
+      "publisher": "Microsoft",
+      "read_date": "2026-10-23",
+      "sections_read": "Solution;Problems and considerations",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "title": "Compensating Transaction pattern",
+      "url": "https://learn.microsoft.com/en-us/azure/architecture/patterns/compensating-transaction"
+    },
+    {
+      "additional_read_urls": [
+        "https://docs.temporal.io/workflow-execution"
+      ],
+      "does_not_support": "不一概拒绝合法早到信号，不把引擎完成当外部业务完成或Activities永不重复",
+      "id": "TEMPORAL",
+      "official_object": "2026-10-23读取的产品合同",
+      "publisher": "Temporal",
+      "read_date": "2026-10-23",
+      "sections_read": "Initializing workflow first;waiting;message IDs;workflow-execution Replays",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "消息可在主方法前到达，处理器需初始化/等待；Signals需自定义去重；重放命令与历史匹配",
+      "title": "Temporal Workflow Execution and message handling",
+      "url": "https://docs.temporal.io/handling-messages"
+    },
+    {
+      "does_not_support": "不保证自动重放、及时撤权或缓存读后填充无竞态",
+      "id": "REDIS",
+      "official_object": "2026-10-23读取的动态产品资料",
+      "publisher": "Redis",
+      "read_date": "2026-10-23",
+      "sections_read": "Overview note;Type of events",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "Redis Pub/Sub断线期间事件丢失，不能唯一依赖其证明全局失效",
+      "title": "Redis Keyspace Notifications",
+      "url": "https://redis.io/docs/latest/develop/pubsub/keyspace-notifications/"
+    },
+    {
+      "does_not_support": "不把产品资源计数等同通用Closed/Open/Half-Open状态机或严格全局连接硬上限",
+      "id": "ENVOY",
+      "official_object": "页面1.41.0-dev-58934f；2026-10-23读取",
+      "publisher": "Envoy project",
+      "read_date": "2026-10-23",
+      "sections_read": "cluster max connections/pending requests/max requests",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "按资源计数限制与协调式全局配额不同，连接保留等例外须核实际版本",
+      "title": "Envoy Circuit Breaking",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/circuit_breaking"
+    },
+    {
+      "does_not_support": "不标为正式RFC，不推断自定义X-RateLimit字段普遍等价",
+      "id": "RATELIMIT",
+      "official_object": "-11，2026-05-23；Active Internet-Draft；2026-11-24到期",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "Document status;RateLimit/RateLimit-Policy fields",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "当前仍为草案，实际字段和目标支持须按协议锁定",
+      "title": "RateLimit header fields",
+      "url": "https://datatracker.ietf.org/doc/html/draft-ietf-httpapi-ratelimit-headers-11"
+    },
+    {
+      "does_not_support": "TraceId不是对象身份、业务操作去重键或授权凭据",
+      "id": "TRACE",
+      "official_object": "2021-11-23 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "3 traceparent/tracestate;6 privacy;7 security",
+      "source_nature": "recommendation",
+      "supported_proposition": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "title": "Trace Context",
+      "url": "https://www.w3.org/TR/2021/REC-trace-context-1-20211123/"
+    },
+    {
+      "does_not_support": "不能平均各实例P99得到总体P99，采样数据不是自动完整SLI分母",
+      "id": "OTEL",
+      "official_object": "页面OTel1.61.0；2026-10-23读取",
+      "publisher": "OpenTelemetry project",
+      "read_date": "2026-10-23",
+      "sections_read": "Sums;Histograms;Temporality;resets/gaps",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "delta/cumulative窗口与起始时间不同，直方图合并需保留相容分布语义",
+      "title": "OTel Metrics Data Model",
+      "url": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/"
+    },
+    {
+      "does_not_support": "Export ACK不证明耐久落盘，不能用旧1.11.0标题冒当前动态索引",
+      "id": "OTLP",
+      "official_object": "1.11.1；trace/metrics/log Stable，profiles Development",
+      "publisher": "OpenTelemetry project",
+      "read_date": "2026-10-23",
+      "sections_read": "Status;Partial Success;retry;delivery guarantees",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "partial_success填充时客户端不得整体重试该请求；接受阶段与最终存储不同",
+      "title": "OpenTelemetry Protocol",
+      "url": "https://opentelemetry.io/docs/specs/otlp/"
+    },
+    {
+      "does_not_support": "不是所有项目的统一法定阈值或外部SLA",
+      "id": "SLO",
+      "official_object": "2026-10-23读取；维护方工程实践",
+      "publisher": "Google SRE",
+      "read_date": "2026-10-23",
+      "sections_read": "SLI specifications;choosing objectives;error budgets",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "SLO围绕用户服务目标和可定义SLI/预算迭代，示例有适用前提",
+      "title": "Google SRE Workbook Implementing SLOs",
+      "url": "https://sre.google/workbook/implementing-slos/"
+    },
+    {
+      "does_not_support": "不是单一模型适用所有业务，未发出的负载不能装作已施加",
+      "id": "LOAD",
+      "official_object": "2026-10-23读取；工具维护方说明",
+      "publisher": "Grafana Labs",
+      "read_date": "2026-10-23",
+      "sections_read": "Closed model;open model;coordinated omission",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "封闭迭代受响应时长影响到达率，开放arrival-rate独立调度；发生器资源仍需报告",
+      "title": "Grafana k6 Open and Closed Models",
+      "url": "https://grafana.com/docs/k6/latest/using-k6/scenarios/concepts/open-vs-closed/"
+    },
+    {
+      "does_not_support": "不证明Pod Ready就是客户业务成功，当前动态资料不替代部署版本核对",
+      "id": "K8S",
+      "official_object": "页面v1.37文档；2026-10-23读取",
+      "publisher": "Kubernetes project",
+      "read_date": "2026-10-23",
+      "sections_read": "Progress deadline;Rolling back;Operating on failed deployment",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "Deployment回滚对象是Pod template；进度超时报告不代表数据与外部效果自动回退",
+      "title": "Kubernetes Deployments",
+      "url": "https://kubernetes.io/docs/concepts/workloads/controllers/deployment/"
+    },
+    {
+      "does_not_support": "数据库恢复点不包含外部支付/Broker/对象存储的一致全局恢复",
+      "id": "PITR",
+      "official_object": "PostgreSQL18固定版本",
+      "publisher": "PostgreSQL Global Development Group",
+      "read_date": "2026-10-23",
+      "sections_read": "25.3 base backup/WAL/recovery/timelines",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "PITR依赖合适基础备份和连续WAL及恢复依赖，逻辑pg_dump不是该物理回放基础",
+      "title": "PostgreSQL Continuous Archiving and PITR",
+      "url": "https://www.postgresql.org/docs/18/continuous-archiving.html"
+    },
+    {
+      "does_not_support": "视觉排序不重排默认键盘/非视觉次序，不保证所有长内容均能收缩",
+      "id": "GRID",
+      "official_object": "2025-03-26 Candidate Recommendation Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "4 reordering/accessibility;6.6 automatic minimum size",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "order/grid placement只做视觉重排；自动最小尺寸有overflow、跨轨与轨道类型前提",
+      "title": "CSS Grid Layout Module Level 2",
+      "url": "https://www.w3.org/TR/2025/CRD-css-grid-2-20250326/"
+    },
+    {
+      "does_not_support": "overflow裁切不能证明内容已删除或可被实际用户取得",
+      "id": "OVERFLOW",
+      "official_object": "2025-10-07 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "3.1 overflow values;3.1.3 print/static media",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "hidden仍允许程序滚动；clip禁止滚动且不建立scroll container，打印需独立处理可见内容",
+      "title": "CSS Overflow Module Level 3",
+      "url": "https://www.w3.org/TR/2025/WD-css-overflow-3-20251007/"
+    },
+    {
+      "does_not_support": "容器查询不是窗口媒体查询；WD全部特性不默认获得目标浏览器实现",
+      "id": "CONTAINER",
+      "official_object": "2025-10-30 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "5.1 container-type;5.2 container-name",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "size/inline-size建立相应size query container及包含条件，命名筛选目标容器",
+      "title": "CSS Conditional Rules Level 5",
+      "url": "https://www.w3.org/TR/2025/WD-css-conditional-5-20251030/"
+    },
+    {
+      "does_not_support": "不是所有新偏好API都已实现；匹配偏好不自动完成可访问性验收",
+      "id": "MEDIA",
+      "official_object": "2026-02-19 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "12.1 prefers-reduced-motion;12.4 forced-colors",
+      "source_nature": "working-or-candidate-draft",
+      "supported_proposition": "媒体查询检测非必要运动偏好和强制有限调色板等环境条件",
+      "title": "Media Queries Level 5",
+      "url": "https://www.w3.org/TR/2026/WD-mediaqueries-5-20260219/"
+    },
+    {
+      "does_not_support": "原生标签不自动使任意自定义弹层语义正确，需实际焦点/键盘/AT验证",
+      "id": "DIALOG",
+      "official_object": "HTML Living Standard 2026-10-22",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4.11 dialog interface;show/showModal/requestClose;focus",
+      "source_nature": "living-standard",
+      "supported_proposition": "showModal与show不同；初始焦点需按任务选择，requestClose可触发cancel；不要手动移除open代替关闭算法",
+      "title": "HTML dialog",
+      "url": "https://html.spec.whatwg.org/multipage/interactive-elements.html#the-dialog-element"
+    },
+    {
+      "does_not_support": "ARIA状态不实现原生失能、约束验证或领域权限，不靠任意role改写HTML内容模型",
+      "id": "HTML-ARIA",
+      "official_object": "2026-08-11 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "4.2 native semantics and allowed ARIA attributes",
+      "source_nature": "recommendation",
+      "supported_proposition": "原生checked/disabled/readonly/required等与ARIA不能产生被禁止的冲突值；按元素允许角色和属性",
+      "title": "ARIA in HTML",
+      "url": "https://www.w3.org/TR/2026/REC-html-aria-20260811/"
+    },
+    {
+      "does_not_support": "浏览器重连不证明服务器有完整历史重放或业务已经完成",
+      "id": "SSE",
+      "official_object": "HTML Living Standard 2026-10-22",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "9.2.4 Last-Event-ID;9.2.5 parsing;9.2.6 interpreting",
+      "source_nature": "living-standard",
+      "supported_proposition": "UTF-8逐行处理，空行触发事件派发，EOF前未完事件丢弃；重连可携Last-Event-ID",
+      "title": "HTML Server-sent Events",
+      "url": "https://html.spec.whatwg.org/multipage/server-sent-events.html"
+    },
+    {
+      "does_not_support": "连接/帧/Ping成功不等于消息已耐久处理，Origin不是非浏览器客户端身份凭据",
+      "id": "WS",
+      "official_object": "RFC6455，2011-12 Standards Track",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "1.3 opening handshake/subprotocol;4 client/server handshake",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "WebSocket子协议承载应用协议，浏览器握手Origin用于服务端拒绝非法跨源连接",
+      "title": "The WebSocket Protocol",
+      "url": "https://www.rfc-editor.org/rfc/rfc6455.html"
+    },
+    {
+      "does_not_support": "不能把H1握手原样放入H2或假定所有代理支持",
+      "id": "WS-H2",
+      "official_object": "RFC8441，2018-09 Standards Track",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "1 introduction;4 extended CONNECT;5.1 example",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "H2不用H1连接级Upgrade/101，扩展CONNECT依服务端能力设置并在单流承载WebSocket",
+      "title": "Bootstrapping WebSockets with HTTP/2",
+      "url": "https://www.rfc-editor.org/rfc/rfc8441.html"
+    },
+    {
+      "does_not_support": "不从H2支持推断任何客户端/代理已有H3实现",
+      "id": "WS-H3",
+      "official_object": "RFC9220，2022-06 Standards Track",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "3 WebSockets Upgrade over HTTP/3",
+      "source_nature": "IETF-RFC/BCP-with-stated-category",
+      "supported_proposition": "扩展CONNECT语义适配H3，SETTINGS_ENABLE_CONNECT_PROTOCOL需独立H3注册，流终止对应独立错误语义",
+      "title": "Bootstrapping WebSockets with HTTP/3",
+      "url": "https://www.rfc-editor.org/rfc/rfc9220.html"
+    },
+    {
+      "does_not_support": "不是业务持久提交证明，也不能假定代理不剥离trailers",
+      "id": "GRPC-WIRE",
+      "official_object": "Git blob 835c044f0ab766b43f14be91195d8b94fe9a42c1",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "source_object": {
+        "blob_sha": "835c044f0ab766b43f14be91195d8b94fe9a42c1",
+        "path": "doc/PROTOCOL-HTTP2.md",
+        "repository": "grpc/grpc"
+      },
+      "sections_read": "L1–145 Requests/Responses/Trailers",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "响应可含Trailers-Only，grpc-status是RPC终态；HTTP200本身不代表RPC成功；消息长度前缀与DATA帧不同",
+      "title": "gRPC over HTTP2",
+      "url": "https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md"
+    },
+    {
+      "does_not_support": "不是全部第三方浏览器RPC库的永久限制，不能将教程旧依赖版本当项目锁文件",
+      "id": "GRPC-WEB",
+      "official_object": "Git blob 729865fb69082500c012be342ecbb0256192347d",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "source_object": {
+        "blob_sha": "729865fb69082500c012be342ecbb0256192347d",
+        "path": "README.md",
+        "repository": "grpc/grpc-web"
+      },
+      "sections_read": "L1–100 Streaming Support；另读官方Web Basics Envoy proxy段",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "所读实现支持unary与grpcwebtext服务端流，不支持客户端/双向流；浏览器通常经相应代理",
+      "title": "gRPC-Web Streaming Support",
+      "url": "https://github.com/grpc/grpc-web/blob/master/README.md"
+    },
+    {
+      "does_not_support": "不把Alpha信号和Stable传输混同，也不保证剖析零开销或精确业务计数",
+      "id": "PROFILES",
+      "official_object": "所见OTel1.61.0，signal Status Alpha",
+      "publisher": "OpenTelemetry project",
+      "read_date": "2026-10-23",
+      "sections_read": "Overview;Status;Design goals",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "Profiles信号规范为Alpha；采样栈与资源消耗用于剖析，和OTLP传输Development是不同对象状态",
+      "title": "OpenTelemetry Profiles",
+      "url": "https://opentelemetry.io/docs/specs/otel/profiles/"
+    },
+    {
+      "does_not_support": "项目主页不是全部控制逐项实读，也不证明项目已认证或所有风险已覆盖",
+      "id": "ASVS",
+      "official_object": "所见Stable5.0.0，2025-05-30发布",
+      "publisher": "OWASP Foundation",
+      "read_date": "2026-10-23",
+      "sections_read": "Overview;What is ASVS;How To Reference ASVS Requirements",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "ASVS提供Web应用技术安全验证要求；引用控制需含版本，因为编号可能随版本变化",
+      "title": "OWASP Application Security Verification Standard",
+      "url": "https://asvs.owasp.org/"
+    },
+    {
+      "does_not_support": "稳定功能不是所有部署已启用或任意分位可直接合并的证明",
+      "id": "PROM-HIST",
+      "official_object": "2026-10-23动态官方产品资料；v3.8.0起stable",
+      "publisher": "Prometheus project",
+      "read_date": "2026-10-23",
+      "sections_read": "Introduction前版本/配置段与Introduction",
+      "source_nature": "versioned-project-specification-or-official-product-guidance",
+      "supported_proposition": "native histogram自3.8.0稳定但scrape/remote-write启用条件另定；分布样本有实际结构",
+      "title": "Prometheus Native Histograms",
+      "url": "https://prometheus.io/docs/specs/native_histograms/"
+    },
+    {
+      "does_not_support": "使用规则格式不意味着覆盖全部WCAG成功准则或完成产品符合性验收",
+      "id": "ACT",
+      "official_object": "2026-02-05 Recommendation",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "1 introduction;2 scope;2.1 backward compatibility",
+      "source_nature": "recommendation",
+      "supported_proposition": "规则格式记录适用、测试和预期以支持一致性；手动与自动方法均可，1.1与1.0非完全兼容",
+      "title": "ACT Rules Format 1.1",
+      "url": "https://www.w3.org/TR/2026/REC-act-rules-format-1.1-20260205/"
+    },
+    {
+      "does_not_support": "不覆盖后续SameSite、__Host-、Partitioned或具体浏览器第三方政策，不替代服务端会话/对象授权。",
+      "id": "COOKIE",
+      "official_object": "RFC6265,2011-04",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "4.1.2.3–6;4.2.2;8.2",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Domain/Path、Secure和HttpOnly各有限定作用；HttpOnly不禁止HTTP自动附带Cookie；环境式认证有CSRF风险。",
+      "title": "HTTP State Management Mechanism",
+      "url": "https://www.rfc-editor.org/rfc/rfc6265.html"
+    },
+    {
+      "does_not_support": "不证明线程越多越快、消息就是业务完成、旧结果可写入新身份或远端效果被回滚。",
+      "id": "WORKERS",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "10.1.1;10.1.2;10.2.4;10.2.6.3;10.2.1.1 WorkerGlobalScope",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Worker有独立后台脚本与消息边界、启动/内存成本；terminate可丢弃待执行任务并中断脚本。",
+      "title": "HTML Web workers",
+      "url": "https://html.spec.whatwg.org/multipage/workers.html"
+    },
+    {
+      "does_not_support": "不是Recommendation、安装提示保证、Service Worker scope或后端权限授予。",
+      "id": "MANIFEST",
+      "official_object": "2026-10-16 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "1;1.6;4;5",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "JSON清单描述启动元数据和导航scope；安装是用户代理可提供的交互，scope与跨scope导航有专门规则。",
+      "title": "Web Application Manifest",
+      "url": "https://www.w3.org/TR/2026/WD-appmanifest-20261016/"
+    },
+    {
+      "does_not_support": "不证明循环不会发生、Observer数量稳定或任意调度/性能目标已经通过。",
+      "id": "DOM-MUTATION",
+      "official_object": "official dom.bs blob98924dcad6840129f13f29f8fb887880ce20cb53",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4.3;source3978–4058,4127–4238,4328–4353",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "观察条件由observe设置；记录经微任务通知；disconnect移除注册并清空记录，takeRecords取出当前记录。",
+      "title": "DOM Mutation observers",
+      "url": "https://dom.spec.whatwg.org/#mutation-observers"
+    },
+    {
+      "does_not_support": "不是closed shadowRoot保密保证、所有框架等价生命周期或全部浏览器实现证明。",
+      "id": "HTML-CUSTOM",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4.13.2;4.13.5;4.13.6",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "构造、升级和reaction各有约束；connectedCallback可多次调用，排队后执行时节点也可能已断开。",
+      "title": "HTML Custom elements",
+      "url": "https://html.spec.whatwg.org/multipage/custom-elements.html"
+    },
+    {
+      "does_not_support": "不证明所有恢复一定重载、不替代当前会话/数据权威或真实浏览器恢复测试。",
+      "id": "HTML-LIFECYCLE",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "7.2.7.6",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "pageshow/pagehide的persisted区分新加载、可能重用的文档路径；文档可能被保存在历史项。",
+      "title": "HTML PageTransitionEvent",
+      "url": "https://html.spec.whatwg.org/multipage/nav-history-apis.html#the-pagetransitionevent-interface"
+    },
+    {
+      "does_not_support": "origin字符串不独立证明当前窗口、业务相关性、当前授权或支付已完成。",
+      "id": "HTML-MESSAGE",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "9.3.2.1;9.3.3",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "接收者核对origin和数据格式；包含秘密的发送不得使用不受限targetOrigin。",
+      "title": "HTML Cross-document messaging",
+      "url": "https://html.spec.whatwg.org/multipage/web-messaging.html#security-postmsg"
+    },
+    {
+      "does_not_support": "不是性能必然提升、全部浏览器优先级保证、资源已被业务消费或预取授权。",
+      "id": "HTML-LINK-HINTS",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4.6.8.12;4.6.8.18;4.6.8.20",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "modulepreload准备模块图但不等于执行；预加载复用涉及URL、destination、mode、credentials及完整性条件；preconnect预先连接。",
+      "title": "HTML resource link types",
+      "url": "https://html.spec.whatwg.org/multipage/links.html"
+    },
+    {
+      "does_not_support": "不保证所有品牌支持、所有规则都会触发、prerender实现相同或预取可执行未授权业务写入。",
+      "id": "HTML-SPECULATION",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "7.6.1;7.6.6.1",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "规则描述期望的预加载，实际执行有用户代理可选步骤和环境/隐私条件。",
+      "title": "HTML Speculative loading",
+      "url": "https://html.spec.whatwg.org/multipage/speculative-loading.html"
+    },
+    {
+      "does_not_support": "不是目标API健康、用户认证、同步或业务成功的证明。",
+      "id": "HTML-NETSTATE",
+      "official_object": "Living Standard last updated2026-10-22; observed2026-10-23",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "8.10.1.3",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "onLine=true仅表示可能在线；连接网络不等于存在互联网访问，值变化对应online/offline事件。",
+      "title": "HTML NavigatorOnLine",
+      "url": "https://html.spec.whatwg.org/multipage/system-state.html#navigator.online"
+    },
+    {
+      "does_not_support": "不使数据库外支付/邮件进入本地事务，不将教程简化耐久叙述替代实际配置、故障模型和同步确认。",
+      "id": "PG-TRANSACTIONS",
+      "official_object": "PostgreSQL18",
+      "publisher": "PostgreSQL Global Development Group",
+      "read_date": "2026-10-23",
+      "sections_read": "3.4",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "BEGIN/COMMIT/ROLLBACK组成事务边界；Savepoint回滚/释放发生在外层事务内，整体可见性和提交不同于内层动作结束。",
+      "title": "PostgreSQL Transactions",
+      "url": "https://www.postgresql.org/docs/18/tutorial-transactions.html"
+    },
+    {
+      "does_not_support": "不证明任意ORM注解等价或跨引擎/外部副作用可回滚。",
+      "id": "SQLITE-SAVEPOINT",
+      "official_object": "rolling official page observed2026-10-23; actual engine fixed separately",
+      "publisher": "SQLite project",
+      "read_date": "2026-10-23",
+      "sections_read": "2;3",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "内层RELEASE可被外层ROLLBACK撤销；最外层提交与清空事务栈有独立语义；ROLLBACK TO保留对应标记。",
+      "title": "SQLite Savepoints",
+      "url": "https://www.sqlite.org/lang_savepoint.html"
+    },
+    {
+      "does_not_support": "不将某种行锁泛化为所有未来行、其他引擎或整个业务的全局隔离。",
+      "id": "PG-LOCKING",
+      "official_object": "PostgreSQL18",
+      "publisher": "PostgreSQL Global Development Group",
+      "read_date": "2026-10-23",
+      "sections_read": "13.3.1;13.3.2;13.3.4",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "表/行锁模式和冲突范围不同，通常持有至事务结束；死锁可中止某个事务，申请顺序与长时间等待须按实际场景考虑。",
+      "title": "PostgreSQL Explicit Locking",
+      "url": "https://www.postgresql.org/docs/18/explicit-locking.html"
+    },
+    {
+      "does_not_support": "不将PostgreSQL特有条件码作为所有数据库通用含义或安全重试许可。",
+      "id": "PG-SQLSTATE",
+      "official_object": "PostgreSQL 18 manual; cited page identifies 18.6",
+      "publisher": "PostgreSQL Global Development Group",
+      "read_date": "2026-10-23",
+      "sections_read": "AppendixA,Class40",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "40001为serialization_failure、40P01为deadlock_detected；SQLSTATE与本地化文本分开。",
+      "title": "PostgreSQL Error Codes",
+      "url": "https://www.postgresql.org/docs/18/errcodes-appendix.html"
+    },
+    {
+      "does_not_support": "不定义货币、精度、字段默认业务含义或所有媒体类型都须支持。",
+      "id": "HTTP-MEDIA",
+      "official_object": "RFC9110/STD97,2022-06",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "8.3;8.3.1;15.5.7",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Content-Type标识表示类型；Accept参与媒体协商；406有实际表示与协商前提。",
+      "title": "HTTP representation media types",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+    },
+    {
+      "does_not_support": "不使全部4xx永久不可恢复、不证明远端交易未提交、不规定业务是否必须公开资源。",
+      "id": "HTTP-STATUS",
+      "official_object": "RFC9110/STD97,2022-06",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "15.4.5;15.5.2;15.5.4;15.5.5",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "304为条件验证且无响应内容；401、403、404有不同条件，403可按标准选择隐藏资源存在。",
+      "title": "HTTP response and refusal status",
+      "url": "https://www.rfc-editor.org/rfc/rfc9110.html"
+    },
+    {
+      "does_not_support": "不将某个字节串无上下文判为所有协议非法，不证明WAF、代理授权或真实服务验收完成。",
+      "id": "HTTP-FRAMING",
+      "official_object": "RFC9112/STD99,2022-06",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "6.1;6.2;6.3",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "消息长度有优先规则；TE/CL并存存在请求走私风险，转发与连接关闭按相应收发角色算法处理。",
+      "title": "HTTP/1.1 message framing",
+      "url": "https://www.rfc-editor.org/rfc/rfc9112.html"
+    },
+    {
+      "does_not_support": "不规定业务游标、稳定排序、分页快照或资源授权。",
+      "id": "HTTP-LINK",
+      "official_object": "RFC8288,2017-10",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "3.1;3.2;3.3",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Link字段区分target、context和relation；相对目标按规定基准解析。",
+      "title": "Web Linking",
+      "url": "https://www.rfc-editor.org/rfc/rfc8288.html"
+    },
+    {
+      "does_not_support": "不规定所有URL永久保留、不自动解决旧客户端依赖或CDN全局同步。",
+      "id": "HTTP-IMMUTABLE",
+      "official_object": "RFC8246,2017-09",
+      "publisher": "IETF / RFC Editor",
+      "read_date": "2026-10-23",
+      "sections_read": "2",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "immutable扩展限于响应新鲜期，不等于永久不可变；新鲜期内与过期后的重新验证有不同规则。",
+      "title": "HTTP Immutable Responses",
+      "url": "https://www.rfc-editor.org/rfc/rfc8246.html"
+    },
+    {
+      "does_not_support": "不是Recommendation、全部浏览器实现或CDN共享缓存清理，也不是物理撤回已交付字节。",
+      "id": "CLEAR-SITE-DATA",
+      "official_object": "2017-11-30 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "3.1;4.2.3",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "响应头指示用户代理清理选定类型的本地站点数据；缓存、Cookie和存储有各自范围。",
+      "title": "Clear Site Data",
+      "url": "https://www.w3.org/TR/2017/WD-clear-site-data-20171130/"
+    },
+    {
+      "does_not_support": "不推出跨RPC全局排序、所有浏览器原生支持或客户商业终局。",
+      "id": "GRPC-CORE",
+      "official_object": "rolling official guide observed2026-10-23",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "Service definition;RPC life cycle",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "定义四类方法，单RPC内消息有顺序；双向流两方向独立，客户端流写完后仍等待服务端响应。",
+      "title": "gRPC core concepts",
+      "url": "https://grpc.io/docs/what-is-grpc/core-concepts/"
+    },
+    {
+      "does_not_support": "不是HTTP状态数值换算、任意UNKNOWN都可重试或数据库未提交证明。",
+      "id": "GRPC-STATUS",
+      "official_object": "rolling official guide observed2026-10-23",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "Overview;full status table",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "RPC有独立Status，部分码仅由应用返回；DEADLINE_EXCEEDED也可能在已成功完成的状态变更后观察到。",
+      "title": "gRPC Status Codes",
+      "url": "https://grpc.io/docs/guides/status-codes/"
+    },
+    {
+      "does_not_support": "不承诺业务健康或要求统一心跳常量；流关闭不撤回已产生业务效果。",
+      "id": "GRPC-KEEPALIVE",
+      "official_object": "rolling official guide observed2026-10-23",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "Background;service-owner support;effect on calls",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "HTTP/2 PING检测连接，不等同Health；服务所有者可限制或不支持Ping，过多Ping可收到GOAWAY。",
+      "title": "gRPC Keepalive",
+      "url": "https://grpc.io/docs/guides/keepalive/"
+    },
+    {
+      "does_not_support": "不等于连接Ping、所有客户端自动启用或每项异步履约已完成。",
+      "id": "GRPC-HEALTH",
+      "official_object": "rolling official guide observed2026-10-23",
+      "publisher": "gRPC project",
+      "read_date": "2026-10-23",
+      "sections_read": "Server side health service;client health checking",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Check/Watch报告服务状态，应用负责更新SERVING/NOT_SERVING；客户端按实际配置和负载均衡支持使用。",
+      "title": "gRPC Health Checking",
+      "url": "https://grpc.io/docs/guides/health-checking/"
+    },
+    {
+      "does_not_support": "不证明具体业务完成、所有失败都应重启或任意安装集群版本已验。",
+      "id": "K8S-PROBES",
+      "official_object": "rolling guide showingv1.37 navigation; observed2026-10-23",
+      "publisher": "Kubernetes project",
+      "read_date": "2026-10-23",
+      "sections_read": "Types of probe;Startup;Liveness;Readiness",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Startup、Liveness、Readiness职责不同；错误Liveness可造成级联失败，Readiness影响接流端点。",
+      "title": "Kubernetes container probes",
+      "url": "https://kubernetes.io/docs/concepts/workloads/pods/probes/"
+    },
+    {
+      "does_not_support": "不是API删除等同进程已停、自动业务恢复或所有架构必须零中断。",
+      "id": "K8S-TERMINATION",
+      "official_object": "rolling guide showingv1.37 navigation; observed2026-10-23",
+      "publisher": "Kubernetes project",
+      "read_date": "2026-10-23",
+      "sections_read": "Pod Termination Flow",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "终止时端点条件、进程信号和业务连接排水不是单一时刻；期限到可强制结束，既有连接/任务仍需应用记账。",
+      "title": "Kubernetes Pod termination",
+      "url": "https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/"
+    },
+    {
+      "does_not_support": "不将Pod/Resource身份当领域对象授权，不把新增实体能力或所有语义约定都称稳定。",
+      "id": "OTEL-RESOURCE",
+      "official_object": "page navigationOTel1.62.0,observed2026-10-23; original1.61 reading retained separately",
+      "publisher": "OpenTelemetry project",
+      "read_date": "2026-10-23",
+      "sections_read": "Resource SDK definition;provider association;Entities status",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Resource关联被观测实体和遥测Provider；实体扩展标为Development，与稳定部分区分。",
+      "title": "OTel Resource SDK",
+      "url": "https://opentelemetry.io/docs/specs/otel/resource/sdk/"
+    },
+    {
+      "does_not_support": "不替代端到端客户延迟、隐私保留、费用政策或全体Semantic Conventions稳定性。",
+      "id": "OTEL-METRIC-ID",
+      "official_object": "page navigationOTel1.62.0,observed2026-10-23; original1.61 reading retained separately",
+      "publisher": "OpenTelemetry project",
+      "read_date": "2026-10-23",
+      "sections_read": "OTLP data model,metric identity,producer recommendations",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Resource、Scope、name以及类型/单位/固有属性参与指标身份；description非同等身份项，单位冲突需有明确处理。",
+      "title": "OTel metric identity",
+      "url": "https://opentelemetry.io/docs/specs/otel/metrics/data-model/"
+    },
+    {
+      "does_not_support": "不保证全部浏览器、永久后台、精确时间或Periodic Background Sync同等支持。",
+      "id": "BG-SYNC",
+      "official_object": "2021-11-10 Draft Community Group Report,observed2026-10-23",
+      "publisher": "WICG",
+      "read_date": "2026-10-23",
+      "sections_read": "Status;§5.1;§5.2;§6.2 register prerequisites/rejections;§6.3 The sync event, selected renderer lines313–407 read2026-10-24",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "这是非W3C标准的孵化报告；用户代理可禁用，重试次数与事件持续时间受限制，注册有前提和拒绝。",
+      "title": "Web Background Synchronization",
+      "url": "https://wicg.github.io/background-sync/spec/"
+    },
+    {
+      "does_not_support": "不是Recommendation、每条消息按时到达、用户必定看到或安装即具有业务权限。",
+      "id": "PUSH-API",
+      "official_object": "2026-10-05 Working Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "3.4.1–3;permission integration",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "订阅有Scope/关联注册、刷新及失效生命周期；撤销订阅后不得继续向该订阅交付，用户代理权限独立存在。",
+      "title": "Push API",
+      "url": "https://www.w3.org/TR/2026/WD-push-api-20261005/"
+    },
+    {
+      "does_not_support": "不把指导示例可选行为推广为所有控件的强制规则或真实AT已通过。",
+      "id": "APG-TABS",
+      "official_object": "rolling informative authoring guide observed2026-10-23",
+      "publisher": "W3C WAI",
+      "read_date": "2026-10-23",
+      "sections_read": "Keyboard Interaction;roles/states",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Tabs允许自动或手动激活，焦点、选中和面板关系按模式协调；部分按键行为明确可选。",
+      "title": "APG Tabs pattern",
+      "url": "https://www.w3.org/WAI/ARIA/apg/patterns/tabs/"
+    },
+    {
+      "does_not_support": "不保证每次重渲染必播报、不要求所有消息assertive，也不替代真实AT交互。",
+      "id": "ARIA-LIVE",
+      "official_object": "WAI-ARIA1.2 Recommendation2023-06-06",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "6.6.2;6.7 aria-live;status role",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "live region表达动态更新，polite/assertive有不同建议优先级且用户/AT可调整；status有隐含polite/atomic值。",
+      "title": "WAI-ARIA live regions",
+      "url": "https://www.w3.org/TR/2023/REC-wai-aria-1.2-20230606/#aria-live"
+    },
+    {
+      "does_not_support": "不是任意异步时刻都能接管、所有离线请求自动成功或业务已经提交。",
+      "id": "SW-FETCH",
+      "official_object": "2026-09-17 Candidate Recommendation Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "§4.6.7 event.respondWith(r), method steps1–8; selected renderer lines1584–1604 on2026-10-23",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "respondWith在事件派发有效阶段同步调用且只能使用一次；传入的响应Promise扩展事件生命周期，响应结果仍受相应条件限制。",
+      "title": "Service Workers FetchEvent.respondWith",
+      "url": "https://www.w3.org/TR/2026/CRD-service-workers-20260917/"
+    },
+    {
+      "does_not_support": "不是按登录账号自动隔离、永久存储、自动遵守HTTP所有缓存新鲜策略或全局CDN失效。",
+      "id": "SW-CACHE",
+      "official_object": "2026-09-17 Candidate Recommendation Draft",
+      "publisher": "W3C",
+      "read_date": "2026-10-23",
+      "sections_read": "5.1;5.2,selected1746–1758",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Cache显式存储Request/Response，区别于HTTP缓存；按origin可共享，Worker更新不自动迁移或删除Cache。",
+      "title": "Service Workers Cache/CacheStorage",
+      "url": "https://www.w3.org/TR/2026/CRD-service-workers-20260917/"
+    },
+    {
+      "does_not_support": "不是所有4xx均摘除、永久删除实例、严格全局熔断或所有版本固定默认。",
+      "id": "ENVOY-OUTLIER",
+      "official_object": "rolling page identifies1.41.0-dev-32adf0,observed2026-10-23",
+      "publisher": "Envoy project",
+      "read_date": "2026-10-23",
+      "sections_read": "Introduction;Ejection algorithm;Consecutive5xx",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "被动异常摘除区分本地/外部错误有配置条件，摘除数量与时长有限；集群共享和panic路径会影响实际选择。",
+      "title": "Envoy Outlier detection",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/upstream/outlier"
+    },
+    {
+      "does_not_support": "不定义全租户配额、自动保全已承诺业务或统一Closed/Open/Half-Open状态机。",
+      "id": "ENVOY-OVERLOAD",
+      "official_object": "rolling page identifies1.41.0-dev-3e4766,observed2026-10-23",
+      "publisher": "Envoy project",
+      "read_date": "2026-10-23",
+      "sections_read": "Introduction;Architecture;Resources;Triggers;Actions",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Overload Manager按本地系统资源压力与触发器驱动动作，和主要保护上游的circuit breaking不同。",
+      "title": "Envoy Overload manager",
+      "url": "https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/overload_manager"
+    },
+    {
+      "does_not_support": "不把Span视为业务权威、保证跨队列恰好一次或用TraceContext协议替代SpanLink/采样定义。",
+      "id": "OTEL-TRACE-API",
+      "official_object": "page navigationOTel1.62.0,observed2026-10-23",
+      "publisher": "OpenTelemetry project",
+      "read_date": "2026-10-23",
+      "sections_read": "Span;Span Creation;Specifying links;SpanKind;Link",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Span表示操作且含上下文/时间/状态/事件，Link可关联其他SpanContext；Producer/Consumer与同步调用方向不同，创建后新增Link未必参与初始采样。",
+      "title": "OTel Tracing API Span and Link",
+      "url": "https://opentelemetry.io/docs/specs/otel/trace/api/"
+    },
+    {
+      "does_not_support": "不是所有Worker API都无平台扩展、结构化克隆或OffscreenCanvas不可用，也不证明旧结果可写当前账号。",
+      "id": "DOM-DOCUMENT-EXPOSURE",
+      "official_object": "official dom.bs blob98924dcad6840129f13f29f8fb887880ce20cb53",
+      "publisher": "WHATWG",
+      "read_date": "2026-10-23",
+      "sections_read": "4.5 Document,source5672–5683;HTML10.2.1.1 WorkerGlobalScope",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "Document接口暴露于Window，Worker的全局是WorkerGlobalScope；页面Document的直接DOM变更应由页面侧执行并接收Worker消息。",
+      "title": "DOM Document exposure",
+      "url": "https://dom.spec.whatwg.org/#interface-document"
+    },
+    {
+      "does_not_support": "不证明任何目标浏览器已实现、跨平台普遍可用、固定时刻必达、业务已提交，或与一次性Background Sync具有相同支持和权限。",
+      "id": "PERIODIC-SYNC",
+      "official_object": "Draft Community Group Report,12April2021,observed2026-10-24;living publication URL",
+      "publisher": "WICG",
+      "read_date": "2026-10-24",
+      "sections_read": "Status;§4.1 minimum interval;§4.2 scheduler;§5.1 permission;§7.1 scheduling;§7.2 revocation;§8.3 register,selected renderer0–18,92–139,149–184,273–312",
+      "source_nature": "bounded-official-selected-reading",
+      "supported_proposition": "独立Periodic孵化报告不是W3C标准；minInterval是最小间隔建议，调度另有用户代理决定的因素；权限授予/撤销、活动Worker与注册状态有独立前提，注册不保证精确固定周期。",
+      "title": "Web Periodic Background Synchronization",
+      "url": "https://wicg.github.io/periodic-background-sync/"
+    }
+  ],
+  "date": "2026-10-23",
+  "document_claim_mapping": [
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DOM",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不抢占任意JS、撤销已完成Promise或回滚远端提交"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "WCAG",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断"
+    },
+    {
+      "allowed_support": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "VITALS",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DOM",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "不抢占任意JS、撤销已完成Promise或回滚远端提交"
+    },
+    {
+      "allowed_support": "组合输入与键盘事件非一对一，compositionend结束/取消时派发，IME实现可抑制部分按键",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "INPUT",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "不支持用合成dispatchEvent冒充真实系统IME或统一所有平台时序"
+    },
+    {
+      "allowed_support": "aria-activedescendant不移走宿主DOM焦点，作者负责有效关系和视觉活动项",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ARIA",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "role或aria-modal本身不实现键盘行为/背景隔离或服务端授权"
+    },
+    {
+      "allowed_support": "模态与非模态焦点不同；组合框有可输入/只选等合法模式，按实际任务选择",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "APG",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "不是把每个示例所有可选行为强制到所有组件的规范"
+    },
+    {
+      "allowed_support": "浏览器由内容/关系计算名称和描述并暴露给辅助技术",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ACC",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "不保证具体AT语音体验或仅存在aria-label就符合完整任务"
+    },
+    {
+      "allowed_support": "普通跨层声明后层优先，important跨层声明前层优先，来源/封装优先级不可只靠特异性解释",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CASCADE",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "不证明任意组件主题和焦点样式已通过实际浏览器验证"
+    },
+    {
+      "allowed_support": "自动最小尺寸受内容/overflow等条件影响，不能假定flex总能无限收缩",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "FLEX",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "不主张所有布局都改Flex，不把视觉order当DOM阅读顺序"
+    },
+    {
+      "allowed_support": "sv/lv/dv视口含义不同；部分覆盖式界面例如软键盘可能不影响这些单位",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "VIEWPORT",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "不支持仅改dvh即宣称所有移动软键盘遮挡已解决"
+    },
+    {
+      "allowed_support": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "WCAG",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "push/replace修改历史状态和URL，遍历与普通导航是不同路径；pushState自身不派发popstate，历史遍历另走更新/事件路径",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HISTORY",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不提供业务事务提交或框架路由取消/草稿恢复保证"
+    },
+    {
+      "allowed_support": "URL解析/序列化和查询多值有规范接口",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "URL",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不决定业务授权、查询语义、Canonical业务政策或重定向许可"
+    },
+    {
+      "allowed_support": "流、队列、背压、读取器锁和取消属于各自平台边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "STREAMS",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不证明部分字节已形成完整文件或外部业务完成"
+    },
+    {
+      "allowed_support": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HYDRATE",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DOM",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不抢占任意JS、撤销已完成Promise或回滚远端提交"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "type URI是主要问题类型身份；status为建议但生成方须与实际HTTP状态协调，title可本地化",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PROBLEM",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不强制全部API改格式，正文status不能覆盖中间代理的真实HTTP状态"
+    },
+    {
+      "allowed_support": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "STORAGE",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离"
+    },
+    {
+      "allowed_support": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "IDB",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "恶意同源JS威胁和BFF/令牌中介/浏览器公共客户端有不同安全边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "BROWSER-OAUTH",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不主张所有项目必须同一架构，也不认为HttpOnly防止同源脚本代发请求"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "RP验证challenge、origin、rpIdHash、必要用户验证和签名/账户绑定",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "WEBAUTHN",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "浏览器凭据API成功不等于后端认证或自动授予高权角色"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "Trusted Types通过类型/策略限制sink；净化器与策略内容的安全性仍需独立保证",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "TT",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "创建直通policy不使输入变安全；发布为WD不代表所有旧浏览器支持"
+    },
+    {
+      "allowed_support": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SW",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行"
+    },
+    {
+      "allowed_support": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "STORAGE",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离"
+    },
+    {
+      "allowed_support": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "IDB",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "WCAG",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断"
+    },
+    {
+      "allowed_support": "aria-activedescendant不移走宿主DOM焦点，作者负责有效关系和视觉活动项",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ARIA",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "role或aria-modal本身不实现键盘行为/背景隔离或服务端授权"
+    },
+    {
+      "allowed_support": "模态与非模态焦点不同；组合框有可输入/只选等合法模式，按实际任务选择",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "APG",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "不是把每个示例所有可选行为强制到所有组件的规范"
+    },
+    {
+      "allowed_support": "浏览器由内容/关系计算名称和描述并暴露给辅助技术",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ACC",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "不保证具体AT语音体验或仅存在aria-label就符合完整任务"
+    },
+    {
+      "allowed_support": "组合输入与键盘事件非一对一，compositionend结束/取消时派发，IME实现可抑制部分按键",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "INPUT",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "不支持用合成dispatchEvent冒充真实系统IME或统一所有平台时序"
+    },
+    {
+      "allowed_support": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "VITALS",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "STORAGE",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离"
+    },
+    {
+      "allowed_support": "流、队列、背压、读取器锁和取消属于各自平台边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "STREAMS",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不证明部分字节已形成完整文件或外部业务完成"
+    },
+    {
+      "allowed_support": "工具发行与特定浏览器二进制配套；修补版引擎与品牌Safari/Firefox及真机并不等价",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PLAYWRIGHT",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不支持仅WebKit自动化就声明真实iOS Safari/AT/企业策略通过"
+    },
+    {
+      "allowed_support": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "WCAG",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断"
+    },
+    {
+      "allowed_support": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DOM",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不抢占任意JS、撤销已完成Promise或回滚远端提交"
+    },
+    {
+      "allowed_support": "组合输入与键盘事件非一对一，compositionend结束/取消时派发，IME实现可抑制部分按键",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "INPUT",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不支持用合成dispatchEvent冒充真实系统IME或统一所有平台时序"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SW",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行"
+    },
+    {
+      "allowed_support": "浏览器对适用脚本/样式响应按完整性元数据检查，跨源依赖相应CORS条件",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SRI",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "hash文件名不是SRI，摘要不证明许可证、供应商权限或无漏洞"
+    },
+    {
+      "allowed_support": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HYDRATE",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "type URI是主要问题类型身份；status为建议但生成方须与实际HTTP状态协调，title可本地化",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PROBLEM",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不强制全部API改格式，正文status不能覆盖中间代理的真实HTTP状态"
+    },
+    {
+      "allowed_support": "描述HTTP接口及安全方案：同一Security Requirement对象内多方案为AND，security列表不同对象为OR，空对象可表达匿名",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OAS",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "描述文件不是实现、实际对象授权、事务成功或业务兼容认证"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "默认可能无deadline；传播按SDK支持扣除已耗时间；服务应用须停止自身派生工作",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不将DEADLINE_EXCEEDED/Cancel解释为事务未提交或外部副作用被回滚"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-013",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "描述HTTP接口及安全方案：同一Security Requirement对象内多方案为AND，security列表不同对象为OR，空对象可表达匿名",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OAS",
+      "document_id": "STD-L4-BACKEND-013",
+      "excluded_inference": "描述文件不是实现、实际对象授权、事务成功或业务兼容认证"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-013",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-BACKEND-013",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "type URI是主要问题类型身份；status为建议但生成方须与实际HTTP状态协调，title可本地化",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PROBLEM",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不强制全部API改格式，正文status不能覆盖中间代理的真实HTTP状态"
+    },
+    {
+      "allowed_support": "一个补丁文档的整组修改需原子应用，失败不留部分更改",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PATCH",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不宣称所有补丁幂等或任意partial JSON都符合特定PATCH媒体格式"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "描述HTTP接口及安全方案：同一Security Requirement对象内多方案为AND，security列表不同对象为OR，空对象可表达匿名",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OAS",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "描述文件不是实现、实际对象授权、事务成功或业务兼容认证"
+    },
+    {
+      "allowed_support": "废弃标记用于提示消费者，不因标记本身改变资源行为",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DEPRECATION",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不代表替代服务已实现、通知已送达或允许立即停服务"
+    },
+    {
+      "allowed_support": "表达资源预计未来不可响应时刻的提示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SUNSET",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不是Standards Track，也不保证该时刻前必可用或自动执行下线"
+    },
+    {
+      "allowed_support": "默认可能无deadline；传播按SDK支持扣除已耗时间；服务应用须停止自身派生工作",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不将DEADLINE_EXCEEDED/Cancel解释为事务未提交或外部副作用被回滚"
+    },
+    {
+      "allowed_support": "write返回仅交给框架不等于出网；双方大量写不读可能死锁，流控用于streaming",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC-FLOW",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不提供业务ACK、不保证本地无限缓冲安全，也不套用于unary手动流控"
+    },
+    {
+      "allowed_support": "透明重试与策略重试条件不同，存在尝试历史、退避和重试限制",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC-RETRY",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不依据单一UNAVAILABLE就证明付款未执行，不代替目标端业务去重"
+    },
+    {
+      "allowed_support": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PROTO",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "wire可解析不代表单位/默认/权限/历史业务语义不变"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "DPoP证明绑定方法/URI/密钥/时间和标识，需真实防重放策略",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DPOP",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "不主张所有Bearer API已有发送方约束或证明可替代业务授权"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "一致性读快照与锁定读/UPDATE边界不同；唯一点查与范围查锁定不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "MYSQL",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "不能把普通SELECT快照或PG RR行为直接当InnoDB全部写入语义"
+    },
+    {
+      "allowed_support": "写者串行；WAL读事务保持快照；旧快照升级写可能SQLITE_BUSY_SNAPSHOT需释放后新事务",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SQLITE",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "有限本地进程崩溃不证明硬件掉电/分布式隔离或PG/InnoDB异常行为"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "send/receive由应用视角定义，描述Channel/Message/Operation及绑定",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ASYNC",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "描述有效不代表实际Broker ACL、耐久和业务处理已实现"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "发布Confirm和消费ACK彼此独立；消息连接失联有重投风险，应用负责处理边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "RABBIT",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "Confirm不等于消费者处理或用户完成；其他队列类型和版本另核"
+    },
+    {
+      "allowed_support": "Kafka事务消费/产生需对应配置和中止恢复，外部存储效果不自动进入同一事务",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "KAFKA",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "不扩张为跨数据库/银行/邮件恰好一次或所有消费者配置相同"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-004",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-BACKEND-004",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "消息可在主方法前到达，处理器需初始化/等待；Signals需自定义去重；重放命令与历史匹配",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "TEMPORAL",
+      "document_id": "STD-L4-BACKEND-004",
+      "excluded_inference": "不一概拒绝合法早到信号，不把引擎完成当外部业务完成或Activities永不重复"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "Redis Pub/Sub断线期间事件丢失，不能唯一依赖其证明全局失效",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "REDIS",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "不保证自动重放、及时撤权或缓存读后填充无竞态"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "默认可能无deadline；传播按SDK支持扣除已耗时间；服务应用须停止自身派生工作",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不将DEADLINE_EXCEEDED/Cancel解释为事务未提交或外部副作用被回滚"
+    },
+    {
+      "allowed_support": "透明重试与策略重试条件不同，存在尝试历史、退避和重试限制",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC-RETRY",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不依据单一UNAVAILABLE就证明付款未执行，不代替目标端业务去重"
+    },
+    {
+      "allowed_support": "write返回仅交给框架不等于出网；双方大量写不读可能死锁，流控用于streaming",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC-FLOW",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不提供业务ACK、不保证本地无限缓冲安全，也不套用于unary手动流控"
+    },
+    {
+      "allowed_support": "按资源计数限制与协调式全局配额不同，连接保留等例外须核实际版本",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ENVOY",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不把产品资源计数等同通用Closed/Open/Half-Open状态机或严格全局连接硬上限"
+    },
+    {
+      "allowed_support": "当前仍为草案，实际字段和目标支持须按协议锁定",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "RATELIMIT",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不标为正式RFC，不推断自定义X-RateLimit字段普遍等价"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "delta/cumulative窗口与起始时间不同，直方图合并需保留相容分布语义",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OTEL",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不能平均各实例P99得到总体P99，采样数据不是自动完整SLI分母"
+    },
+    {
+      "allowed_support": "partial_success填充时客户端不得整体重试该请求；接受阶段与最终存储不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OTLP",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "Export ACK不证明耐久落盘，不能用旧1.11.0标题冒当前动态索引"
+    },
+    {
+      "allowed_support": "SLO围绕用户服务目标和可定义SLI/预算迭代，示例有适用前提",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SLO",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不是所有项目的统一法定阈值或外部SLA"
+    },
+    {
+      "allowed_support": "封闭迭代受响应时长影响到达率，开放arrival-rate独立调度；发生器资源仍需报告",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "LOAD",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不是单一模型适用所有业务，未发出的负载不能装作已施加"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "废弃标记用于提示消费者，不因标记本身改变资源行为",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "DEPRECATION",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不代表替代服务已实现、通知已送达或允许立即停服务"
+    },
+    {
+      "allowed_support": "表达资源预计未来不可响应时刻的提示",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "SUNSET",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不是Standards Track，也不保证该时刻前必可用或自动执行下线"
+    },
+    {
+      "allowed_support": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PROTO",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "wire可解析不代表单位/默认/权限/历史业务语义不变"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "Deployment回滚对象是Pod template；进度超时报告不代表数据与外部效果自动回退",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "K8S",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不证明Pod Ready就是客户业务成功，当前动态资料不替代部署版本核对"
+    },
+    {
+      "allowed_support": "PITR依赖合适基础备份和连续WAL及恢复依赖，逻辑pg_dump不是该物理回放基础",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "PITR",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "数据库恢复点不包含外部支付/Broker/对象存储的一致全局恢复"
+    },
+    {
+      "allowed_support": "描述HTTP接口及安全方案：同一Security Requirement对象内多方案为AND，security列表不同对象为OR，空对象可表达匿名",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OAS",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "描述文件不是实现、实际对象授权、事务成功或业务兼容认证"
+    },
+    {
+      "allowed_support": "send/receive由应用视角定义，描述Channel/Message/Operation及绑定",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "ASYNC",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "描述有效不代表实际Broker ACL、耐久和业务处理已实现"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "默认可能无deadline；传播按SDK支持扣除已耗时间；服务应用须停止自身派生工作",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不将DEADLINE_EXCEEDED/Cancel解释为事务未提交或外部副作用被回滚"
+    },
+    {
+      "allowed_support": "透明重试与策略重试条件不同，存在尝试历史、退避和重试限制",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "GRPC-RETRY",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不依据单一UNAVAILABLE就证明付款未执行，不代替目标端业务去重"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "partial_success填充时客户端不得整体重试该请求；接受阶段与最终存储不同",
+      "binding": "仅原文涉及该来源命题的条款；正文跨组件恢复、案例与门禁属于组织工程合成",
+      "claim_id": "OTLP",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "Export ACK不证明耐久落盘，不能用旧1.11.0标题冒当前动态索引"
+    },
+    {
+      "allowed_support": "push/replace修改历史状态和URL，遍历与普通导航是不同路径；pushState自身不派发popstate，历史遍历另走更新/事件路径",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HISTORY",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不提供业务事务提交或框架路由取消/草稿恢复保证"
+    },
+    {
+      "allowed_support": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "STORAGE",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离"
+    },
+    {
+      "allowed_support": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SW",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行"
+    },
+    {
+      "allowed_support": "工具发行与特定浏览器二进制配套；修补版引擎与品牌Safari/Firefox及真机并不等价",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PLAYWRIGHT",
+      "document_id": "STD-L4-WEB-002",
+      "excluded_inference": "不支持仅WebKit自动化就声明真实iOS Safari/AT/企业策略通过"
+    },
+    {
+      "allowed_support": "原生checked/disabled/readonly/required等与ARIA不能产生被禁止的冲突值；按元素允许角色和属性",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML-ARIA",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "ARIA状态不实现原生失能、约束验证或领域权限，不靠任意role改写HTML内容模型"
+    },
+    {
+      "allowed_support": "showModal与show不同；初始焦点需按任务选择，requestClose可触发cancel；不要手动移除open代替关闭算法",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "DIALOG",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "原生标签不自动使任意自定义弹层语义正确，需实际焦点/键盘/AT验证"
+    },
+    {
+      "allowed_support": "Trusted Types通过类型/策略限制sink；净化器与策略内容的安全性仍需独立保证",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TT",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "创建直通policy不使输入变安全；发布为WD不代表所有旧浏览器支持"
+    },
+    {
+      "allowed_support": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HYDRATE",
+      "document_id": "STD-L4-WEB-007",
+      "excluded_inference": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为"
+    },
+    {
+      "allowed_support": "order/grid placement只做视觉重排；自动最小尺寸有overflow、跨轨与轨道类型前提",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRID",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "视觉排序不重排默认键盘/非视觉次序，不保证所有长内容均能收缩"
+    },
+    {
+      "allowed_support": "size/inline-size建立相应size query container及包含条件，命名筛选目标容器",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CONTAINER",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "容器查询不是窗口媒体查询；WD全部特性不默认获得目标浏览器实现"
+    },
+    {
+      "allowed_support": "媒体查询检测非必要运动偏好和强制有限调色板等环境条件",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "MEDIA",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "不是所有新偏好API都已实现；匹配偏好不自动完成可访问性验收"
+    },
+    {
+      "allowed_support": "showModal与show不同；初始焦点需按任务选择，requestClose可触发cancel；不要手动移除open代替关闭算法",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "DIALOG",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "原生标签不自动使任意自定义弹层语义正确，需实际焦点/键盘/AT验证"
+    },
+    {
+      "allowed_support": "hidden仍允许程序滚动；clip禁止滚动且不建立scroll container，打印需独立处理可见内容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OVERFLOW",
+      "document_id": "STD-L4-WEB-001",
+      "excluded_inference": "overflow裁切不能证明内容已删除或可被实际用户取得"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "DOM",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不抢占任意JS、撤销已完成Promise或回滚远端提交"
+    },
+    {
+      "allowed_support": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WCAG",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断"
+    },
+    {
+      "allowed_support": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "VITALS",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过"
+    },
+    {
+      "allowed_support": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SW",
+      "document_id": "STD-L4-WEB-009",
+      "excluded_inference": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CE",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "组合输入与键盘事件非一对一，compositionend结束/取消时派发，IME实现可抑制部分按键",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "INPUT",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不支持用合成dispatchEvent冒充真实系统IME或统一所有平台时序"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "URL解析/序列化和查询多值有规范接口",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "URL",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不决定业务授权、查询语义、Canonical业务政策或重定向许可"
+    },
+    {
+      "allowed_support": "UTF-8逐行处理，空行触发事件派发，EOF前未完事件丢弃；重连可携Last-Event-ID",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SSE",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "浏览器重连不证明服务器有完整历史重放或业务已经完成"
+    },
+    {
+      "allowed_support": "WebSocket子协议承载应用协议，浏览器握手Origin用于服务端拒绝非法跨源连接",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WS",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "连接/帧/Ping成功不等于消息已耐久处理，Origin不是非浏览器客户端身份凭据"
+    },
+    {
+      "allowed_support": "流、队列、背压、读取器锁和取消属于各自平台边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "STREAMS",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不证明部分字节已形成完整文件或外部业务完成"
+    },
+    {
+      "allowed_support": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "VITALS",
+      "document_id": "STD-L4-WEB-006",
+      "excluded_inference": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "浏览器对适用脚本/样式响应按完整性元数据检查，跨源依赖相应CORS条件",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SRI",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "hash文件名不是SRI，摘要不证明许可证、供应商权限或无漏洞"
+    },
+    {
+      "allowed_support": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "STORAGE",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离"
+    },
+    {
+      "allowed_support": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "IDB",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "ASVS提供Web应用技术安全验证要求；引用控制需含版本，因为编号可能随版本变化",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "ASVS",
+      "document_id": "STD-L4-WEB-008",
+      "excluded_inference": "项目主页不是全部控制逐项实读，也不证明项目已认证或所有风险已覆盖"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "VITALS",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过"
+    },
+    {
+      "allowed_support": "原生checked/disabled/readonly/required等与ARIA不能产生被禁止的冲突值；按元素允许角色和属性",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML-ARIA",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "ARIA状态不实现原生失能、约束验证或领域权限，不靠任意role改写HTML内容模型"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "showModal与show不同；初始焦点需按任务选择，requestClose可触发cancel；不要手动移除open代替关闭算法",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "DIALOG",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "原生标签不自动使任意自定义弹层语义正确，需实际焦点/键盘/AT验证"
+    },
+    {
+      "allowed_support": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HYDRATE",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为"
+    },
+    {
+      "allowed_support": "工具发行与特定浏览器二进制配套；修补版引擎与品牌Safari/Firefox及真机并不等价",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PLAYWRIGHT",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "不支持仅WebKit自动化就声明真实iOS Safari/AT/企业策略通过"
+    },
+    {
+      "allowed_support": "规则格式记录适用、测试和预期以支持一致性；手动与自动方法均可，1.1与1.0非完全兼容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "ACT",
+      "document_id": "STD-L4-WEB-005",
+      "excluded_inference": "使用规则格式不意味着覆盖全部WCAG成功准则或完成产品符合性验收"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HYDRATE",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为"
+    },
+    {
+      "allowed_support": "事件传播/默认取消不同；AbortSignal需API消费，重复abort不重新运行其已清空算法",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "DOM",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不抢占任意JS、撤销已完成Promise或回滚远端提交"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "自动最小尺寸受内容/overflow等条件影响，不能假定flex总能无限收缩",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "FLEX",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不主张所有布局都改Flex，不把视觉order当DOM阅读顺序"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "符合性按所选等级、完整网页和完整流程判定，具体成功准则适用范围须核对",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WCAG",
+      "document_id": "STD-L4-WEB-004",
+      "excluded_inference": "不以扫描均分/首页样本授予全产品认证，不替代法律适用判断"
+    },
+    {
+      "allowed_support": "自动最小尺寸受内容/overflow等条件影响，不能假定flex总能无限收缩",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "FLEX",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不主张所有布局都改Flex，不把视觉order当DOM阅读顺序"
+    },
+    {
+      "allowed_support": "order/grid placement只做视觉重排；自动最小尺寸有overflow、跨轨与轨道类型前提",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRID",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "视觉排序不重排默认键盘/非视觉次序，不保证所有长内容均能收缩"
+    },
+    {
+      "allowed_support": "size/inline-size建立相应size query container及包含条件，命名筛选目标容器",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CONTAINER",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "容器查询不是窗口媒体查询；WD全部特性不默认获得目标浏览器实现"
+    },
+    {
+      "allowed_support": "sv/lv/dv视口含义不同；部分覆盖式界面例如软键盘可能不影响这些单位",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "VIEWPORT",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不支持仅改dvh即宣称所有移动软键盘遮挡已解决"
+    },
+    {
+      "allowed_support": "hydrateRoot要求已有服务端HTML并期望首轮内容相同；不保证修补所有属性错配；纯CSR使用createRoot",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HYDRATE",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "仅支持React此接口的有限命题，不推广到所有框架的事件重放和恢复行为"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "WebSocket子协议承载应用协议，浏览器握手Origin用于服务端拒绝非法跨源连接",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WS",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "连接/帧/Ping成功不等于消息已耐久处理，Origin不是非浏览器客户端身份凭据"
+    },
+    {
+      "allowed_support": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "IDB",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同"
+    },
+    {
+      "allowed_support": "存储桶有best-effort/persistent差别，usage/quota为估算，持久化需依平台批准",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "STORAGE",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不承诺设备损坏、用户清理后永不丢失或按登录账号自动隔离"
+    },
+    {
+      "allowed_support": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SW",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行"
+    },
+    {
+      "allowed_support": "原生checked/disabled/readonly/required等与ARIA不能产生被禁止的冲突值；按元素允许角色和属性",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML-ARIA",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "ARIA状态不实现原生失能、约束验证或领域权限，不靠任意role改写HTML内容模型"
+    },
+    {
+      "allowed_support": "aria-activedescendant不移走宿主DOM焦点，作者负责有效关系和视觉活动项",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "ARIA",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "role或aria-modal本身不实现键盘行为/背景隔离或服务端授权"
+    },
+    {
+      "allowed_support": "良好参考值LCP2.5s/INP200ms/CLS0.1，以真实访问p75按移动/桌面分组评估",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "VITALS",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不是W3C强制预算，不把单次Lab得分当真实用户分位通过"
+    },
+    {
+      "allowed_support": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "IDB",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同"
+    },
+    {
+      "allowed_support": "原生验证/submit与entry list分别有算法；disabled、未选项和submitter影响提交内容",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTML",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不规定项目幂等、框架事件重放或服务端业务成功"
+    },
+    {
+      "allowed_support": "Trusted Types通过类型/策略限制sink；净化器与策略内容的安全性仍需独立保证",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TT",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "创建直通policy不使输入变安全；发布为WD不代表所有旧浏览器支持"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-WEB-003",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "write返回仅交给框架不等于出网；双方大量写不读可能死锁，流控用于streaming",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-FLOW",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不提供业务ACK、不保证本地无限缓冲安全，也不套用于unary手动流控"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "发布Confirm和消费ACK彼此独立；消息连接失联有重投风险，应用负责处理边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "RABBIT",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "Confirm不等于消费者处理或用户完成；其他队列类型和版本另核"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "delta/cumulative窗口与起始时间不同，直方图合并需保留相容分布语义",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OTEL",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "不能平均各实例P99得到总体P99，采样数据不是自动完整SLI分母"
+    },
+    {
+      "allowed_support": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROTO",
+      "document_id": "STD-L4-BACKEND-007",
+      "excluded_inference": "wire可解析不代表单位/默认/权限/历史业务语义不变"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-013",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-013",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "URL解析/序列化和查询多值有规范接口",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "URL",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不决定业务授权、查询语义、Canonical业务政策或重定向许可"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "network error拒绝Promise，其他响应可resolve；abort处理本地Promise及流，CORS凭据另有条件",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "FETCH",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "不证明4xx/5xx自动throw，不证明取消/跨源拒读使目标写入未发生"
+    },
+    {
+      "allowed_support": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROTO",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "wire可解析不代表单位/默认/权限/历史业务语义不变"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-001",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "响应可含Trailers-Only，grpc-status是RPC终态；HTTP200本身不代表RPC成功；消息长度前缀与DATA帧不同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-WIRE",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不是业务持久提交证明，也不能假定代理不剥离trailers"
+    },
+    {
+      "allowed_support": "WebSocket子协议承载应用协议，浏览器握手Origin用于服务端拒绝非法跨源连接",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WS",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "连接/帧/Ping成功不等于消息已耐久处理，Origin不是非浏览器客户端身份凭据"
+    },
+    {
+      "allowed_support": "H2不用H1连接级Upgrade/101，扩展CONNECT依服务端能力设置并在单流承载WebSocket",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WS-H2",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不能把H1握手原样放入H2或假定所有代理支持"
+    },
+    {
+      "allowed_support": "扩展CONNECT语义适配H3，SETTINGS_ENABLE_CONNECT_PROTOCOL需独立H3注册，流终止对应独立错误语义",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "WS-H3",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不从H2支持推断任何客户端/代理已有H3实现"
+    },
+    {
+      "allowed_support": "UTF-8逐行处理，空行触发事件派发，EOF前未完事件丢弃；重连可携Last-Event-ID",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SSE",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "浏览器重连不证明服务器有完整历史重放或业务已经完成"
+    },
+    {
+      "allowed_support": "所读实现支持unary与grpcwebtext服务端流，不支持客户端/双向流；浏览器通常经相应代理",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-WEB",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "不是全部第三方浏览器RPC库的永久限制，不能将教程旧依赖版本当项目锁文件"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-002",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "ASVS提供Web应用技术安全验证要求；引用控制需含版本，因为编号可能随版本变化",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "ASVS",
+      "document_id": "STD-L4-BACKEND-009",
+      "excluded_inference": "项目主页不是全部控制逐项实读，也不证明项目已认证或所有风险已覆盖"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "发布Confirm和消费ACK彼此独立；消息连接失联有重投风险，应用负责处理边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "RABBIT",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "Confirm不等于消费者处理或用户完成；其他队列类型和版本另核"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-003",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "write返回仅交给框架不等于出网；双方大量写不读可能死锁，流控用于streaming",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-FLOW",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "不提供业务ACK、不保证本地无限缓冲安全，也不套用于unary手动流控"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-010",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-004",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-BACKEND-004",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-BACKEND-004",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "不同事件source+id唯一；specversion为1.0，封套与data schema不同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CE",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "不保证持久化、授权、消息顺序或跨系统exactly-once"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROTO",
+      "document_id": "STD-L4-BACKEND-011",
+      "excluded_inference": "wire可解析不代表单位/默认/权限/历史业务语义不变"
+    },
+    {
+      "allowed_support": "SLO围绕用户服务目标和可定义SLI/预算迭代，示例有适用前提",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SLO",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不是所有项目的统一法定阈值或外部SLA"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "Deployment回滚对象是Pod template；进度超时报告不代表数据与外部效果自动回退",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "K8S",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不证明Pod Ready就是客户业务成功，当前动态资料不替代部署版本核对"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "封闭迭代受响应时长影响到达率，开放arrival-rate独立调度；发生器资源仍需报告",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "LOAD",
+      "document_id": "STD-L4-BACKEND-008",
+      "excluded_inference": "不是单一模型适用所有业务，未发出的负载不能装作已施加"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "native histogram自3.8.0稳定但scrape/remote-write启用条件另定；分布样本有实际结构",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROM-HIST",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "稳定功能不是所有部署已启用或任意分位可直接合并的证明"
+    },
+    {
+      "allowed_support": "Profiles信号规范为Alpha；采样栈与资源消耗用于剖析，和OTLP传输Development是不同对象状态",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROFILES",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不把Alpha信号和Stable传输混同，也不保证剖析零开销或精确业务计数"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "Kafka事务消费/产生需对应配置和中止恢复，外部存储效果不自动进入同一事务",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KAFKA",
+      "document_id": "STD-L4-BACKEND-005",
+      "excluded_inference": "不扩张为跨数据库/银行/邮件恰好一次或所有消费者配置相同"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "业务与outbox同本地事务，派发可能重复所以消费者需幂等",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OUTBOX",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "厂商架构指南不是通用协议，不代表本地事务包围外部付款"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "等待/激活/实际控制不同；skipWaiting可让旧客户端存在时激活；Cache是脚本管理存储",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SW",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不保证页面JS同步替换、跨账号私有隔离、全局缓存清理或永久后台运行"
+    },
+    {
+      "allowed_support": "单request success后事务仍可能失败；事务complete标识成功提交，durability为hint；升级可被旧连接阻塞",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "IDB",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不证明浏览器本地数据是永久账本或所有引擎掉电耐久等级相同"
+    },
+    {
+      "allowed_support": "默认可能无deadline；传播按SDK支持扣除已耗时间；服务应用须停止自身派生工作",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不将DEADLINE_EXCEEDED/Cancel解释为事务未提交或外部副作用被回滚"
+    },
+    {
+      "allowed_support": "SLO围绕用户服务目标和可定义SLI/预算迭代，示例有适用前提",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "SLO",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不是所有项目的统一法定阈值或外部SLA"
+    },
+    {
+      "allowed_support": "delta/cumulative窗口与起始时间不同，直方图合并需保留相容分布语义",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OTEL",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "不能平均各实例P99得到总体P99，采样数据不是自动完整SLI分母"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-012",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "type URI是主要问题类型身份；status为建议但生成方须与实际HTTP状态协调，title可本地化",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROBLEM",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不强制全部API改格式，正文status不能覆盖中间代理的真实HTTP状态"
+    },
+    {
+      "allowed_support": "响应可含Trailers-Only，grpc-status是RPC终态；HTTP200本身不代表RPC成功；消息长度前缀与DATA帧不同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-WIRE",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不是业务持久提交证明，也不能假定代理不剥离trailers"
+    },
+    {
+      "allowed_support": "所读实现支持unary与grpcwebtext服务端流，不支持客户端/双向流；浏览器通常经相应代理",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-WEB",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不是全部第三方浏览器RPC库的永久限制，不能将教程旧依赖版本当项目锁文件"
+    },
+    {
+      "allowed_support": "字段号/保留、wire与JSON兼容有不同约束；删除后不能随意复用已发布tag",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PROTO",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "wire可解析不代表单位/默认/权限/历史业务语义不变"
+    },
+    {
+      "allowed_support": "验证算法白名单、密钥/issuer、audience和不同JWT用途的规则边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "JWT",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "签名正确不等于对象权限、当前权益或跨租户许可"
+    },
+    {
+      "allowed_support": "OAuth安全配置须按客户端/提供方核PKCE、重定向、颁发者及重放风险",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "OAUTH",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不把OAuth授权令牌等同所有对象的当前业务权利"
+    },
+    {
+      "allowed_support": "PG RR阻止幻读仍可序列化异常；Serializable可失败并需整事务重试；序列变化不回滚",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PG",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不是InnoDB/SQLite同名隔离的统一语义，不使事务外副作用原子"
+    },
+    {
+      "allowed_support": "当前-08不是已发布RFC；项目/目标须明确唯一键、指纹、保留与并发响应合同",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KEY",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "-07历史过期不意味着当前草案也已过期；草案不能保证所有目标支持同名头"
+    },
+    {
+      "allowed_support": "Kafka事务消费/产生需对应配置和中止恢复，外部存储效果不自动进入同一事务",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "KAFKA",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不扩张为跨数据库/银行/邮件恰好一次或所有消费者配置相同"
+    },
+    {
+      "allowed_support": "补偿是业务相关新动作，不能覆盖并发他者新状态；可非严格逆序、可失败并需幂等恢复",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "COMP",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不主张一切业务都必须最终一致，也不证明实际退款已完成"
+    },
+    {
+      "allowed_support": "no-cache需重验证，no-store限制存储，private限制共享缓存；Vary区分表示",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "CACHE",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不自动清除全部关联业务键、CacheStorage、客户端内存或全球CDN副本"
+    },
+    {
+      "allowed_support": "安全/幂等限于用户预期请求效果；非幂等自动重试须有实际幂等或原请求未应用依据；条件与202语义独立",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "HTTP",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不保证付款/发信exactly-once或传输ACK代表业务提交，旁效应日志不自动违反安全性"
+    },
+    {
+      "allowed_support": "跨服务传播追踪上下文，格式及隐私/不可信输入有边界",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "TRACE",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "TraceId不是对象身份、业务操作去重键或授权凭据"
+    },
+    {
+      "allowed_support": "write返回仅交给框架不等于出网；双方大量写不读可能死锁，流控用于streaming",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "GRPC-FLOW",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不提供业务ACK、不保证本地无限缓冲安全，也不套用于unary手动流控"
+    },
+    {
+      "allowed_support": "PITR依赖合适基础备份和连续WAL及恢复依赖，逻辑pg_dump不是该物理回放基础",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PITR",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "数据库恢复点不包含外部支付/Broker/对象存储的一致全局恢复"
+    },
+    {
+      "allowed_support": "工具发行与特定浏览器二进制配套；修补版引擎与品牌Safari/Firefox及真机并不等价",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "PLAYWRIGHT",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不支持仅WebKit自动化就声明真实iOS Safari/AT/企业策略通过"
+    },
+    {
+      "allowed_support": "封闭迭代受响应时长影响到达率，开放arrival-rate独立调度；发生器资源仍需报告",
+      "binding": "按mechanism-claims中列出的章与有限命题适用；不对整篇组织义务作外部归因",
+      "claim_id": "LOAD",
+      "document_id": "STD-L4-BACKEND-006",
+      "excluded_inference": "不是单一模型适用所有业务，未发出的负载不能装作已施加"
+    },
+    {
+      "allowed_support": "独立Periodic孵化报告不是W3C标准；minInterval是最小间隔建议，调度另有用户代理决定的因素；权限授予/撤销、活动Worker与注册状态有独立前提，注册不保证精确固定周期。",
+      "binding": "仅WEB-012中明确的Periodic孵化、权限和调度有限事实；恢复/授权/幂等/验收是工程合成。",
+      "claim_id": "PERIODIC-SYNC",
+      "document_id": "STD-L4-WEB-010",
+      "excluded_inference": "不证明任何目标浏览器已实现、跨平台普遍可用、固定时刻必达、业务已提交，或与一次性Background Sync具有相同支持和权限。"
+    },
+    {
+      "allowed_support": "独立Periodic孵化报告不是W3C标准；minInterval是最小间隔建议，调度另有用户代理决定的因素；权限授予/撤销、活动Worker与注册状态有独立前提，注册不保证精确固定周期。",
+      "binding": "仅WEB-012中明确的Periodic孵化、权限和调度有限事实；恢复/授权/幂等/验收是工程合成。",
+      "claim_id": "PERIODIC-SYNC",
+      "document_id": "STD-L4-WEB-011",
+      "excluded_inference": "不证明任何目标浏览器已实现、跨平台普遍可用、固定时刻必达、业务已提交，或与一次性Background Sync具有相同支持和权限。"
+    }
+  ]
+}

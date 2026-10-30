@@ -1,0 +1,8 @@
+# Repository ownership for review routing.
+* @ranzevor
+/.github/ @ranzevor
+/checks/ @ranzevor
+/registry/ @ranzevor
+/standards/ @ranzevor
+/tools/ @ranzevor
+/tests/ @ranzevor

@@ -1,0 +1,43 @@
+# Standards licensing
+
+Copyright © 2026 Ranzevor
+
+Standards is a multi-licensed repository. Unless a file carries a more specific notice, the following allocation applies.
+
+## Creative Commons Attribution 4.0 International (CC BY 4.0)
+
+The project-authored normative standards, documentation, translations, templates, release documentation, visual assets, machine-readable normative/administrative data, Agent Skill instructions, and project-authored source-reference metadata are licensed under the **Creative Commons Attribution 4.0 International Public License (CC BY 4.0)**.
+
+This allocation includes, in particular:
+
+- `standards/`, `guides/`, `governance/`, `translations/`, `templates/`, `releases/`, and `assets/`;
+- `registry/` except `registry/schemas/`;
+- `skills/` except executable scripts copied from Apache-2.0 software during packaging;
+- repository documentation and metadata such as `README*.md`, `CHANGELOG.md`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, `LICENSE-NOTICE.md`, `NOTICE.md`, and `project.json`;
+- project-authored annotations, provenance metadata, bounded paraphrases, and source-reference records under `sources/`.
+
+The full CC BY 4.0 legal text is in `LICENSES/CC-BY-4.0.txt`.
+
+## Apache License 2.0
+
+Software source code, validation and generation tooling, tests, repository automation/configuration, executable examples/fixtures, and machine-readable software schemas are licensed under the **Apache License, Version 2.0 (Apache-2.0)**.
+
+This allocation includes, in particular:
+
+- `checks/`, `tools/`, `tests/`, `.github/`, and `examples/`;
+- `registry/schemas/`;
+- release-bundle verifier/lookup scripts copied from those Apache-2.0 paths.
+
+The full Apache-2.0 text is in `LICENSES/Apache-2.0.txt`.
+
+## Exclusions and third-party material
+
+These grants apply only to rights Ranzevor is authorized to license. Third-party standards, specifications, documentation, code, trademarks, quotations, and other third-party material remain subject to their own terms. A URL, source record, hash, bounded paraphrase, or attribution does not relicense the underlying third-party work. See `NOTICE.md`, `LICENSE-NOTICE.md`, `governance/LICENSING.md`, and `sources/README.md`.
+
+The canonical license texts in `LICENSES/` are provided under their own applicable terms and are not relicensed by this allocation.
+
+## Public redistribution and official identity
+
+Ranzevor authorizes public redistribution, commercial use, and modification of the repository materials and official Source/Agent Skill consumption bundles to the extent permitted by the applicable license above and any third-party terms that independently apply.
+
+The licenses do not grant trademark rights or permission to imply endorsement. Modified or third-party distributions must not represent themselves as an official Ranzevor release unless their exact release identity and integrity manifest match an official release published by Ranzevor.

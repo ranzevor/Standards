@@ -1,0 +1,1918 @@
+{
+  "acceptance": [
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "input_unchanged": true,
+        "output_text": "id,name\n1,安\n2,Bo\n",
+        "temporary_files": 0
+      },
+      "failure_reason": "输出列顺序、UTF-8或字节不符",
+      "id": "CSV-01",
+      "layer": "isolated-runtime",
+      "proves": [
+        "csv-column-output"
+      ],
+      "recovery": "保留输入；修转换器后在新目标路径复验",
+      "requirement_id": "REQ-01",
+      "scenario": "normal"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "row-width",
+        "input_unchanged": true,
+        "output_exists": false,
+        "temporary_files": 0
+      },
+      "failure_reason": "坏行列数不是2，必须在输出提交前拒绝",
+      "id": "CSV-02",
+      "layer": "isolated-runtime",
+      "proves": [
+        "csv-malformed-refusal"
+      ],
+      "recovery": "修正合成输入的坏行，在新文件另存并按新摘要重跑",
+      "requirement_id": "REQ-02",
+      "scenario": "bad-row"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "input-identity",
+        "input_unchanged": true,
+        "output_exists": false,
+        "temporary_files": 0
+      },
+      "failure_reason": "实际输入与预先选择摘要不同",
+      "id": "CSV-03",
+      "layer": "isolated-runtime",
+      "proves": [
+        "csv-input-identity"
+      ],
+      "recovery": "重读来源和原始选择；不得仅更新摘要跳过审查",
+      "requirement_id": "REQ-02",
+      "scenario": "wrong-input-identity"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "output-identity",
+        "input_unchanged": true,
+        "output_exists": false,
+        "temporary_files": 0
+      },
+      "failure_reason": "完整转换字节与预设输出不符",
+      "id": "CSV-04",
+      "layer": "isolated-runtime",
+      "proves": [
+        "csv-output-identity"
+      ],
+      "recovery": "比较需求期望与完整输出；修实现或经审查修合同后复验",
+      "requirement_id": "REQ-02",
+      "scenario": "wrong-output-identity"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "target-exists",
+        "existing_unchanged": true,
+        "input_unchanged": true,
+        "temporary_files": 0
+      },
+      "failure_reason": "目标已存在，不得覆盖",
+      "id": "CSV-05",
+      "layer": "isolated-runtime",
+      "proves": [
+        "csv-no-overwrite"
+      ],
+      "recovery": "保留现有文件，选择新的空目标名称",
+      "requirement_id": "REQ-02",
+      "scenario": "existing-output"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "input_unchanged": true,
+        "output_text": "id,name\n1,\"安,宁\"\n2,\"line\nbreak\"\n",
+        "temporary_files": 0
+      },
+      "failure_reason": "合法引号、逗号、内嵌换行或CRLF被误拒",
+      "id": "CSV-06",
+      "layer": "isolated-runtime",
+      "proves": [
+        "csv-quoted-neighbor"
+      ],
+      "recovery": "修复CSV解析而非禁止合法字段",
+      "requirement_id": "REQ-01",
+      "scenario": "quoted-neighbor"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "state": "partial"
+      },
+      "failure_reason": "必要检查缺失不能聚合通过",
+      "id": "GOV-01",
+      "layer": "finite-model",
+      "proves": [
+        "aggregate-missing"
+      ],
+      "recovery": "按原required集合补运行缺项；不删必要ID",
+      "requirement_id": "REQ-03",
+      "scenario": "missing-check"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "state": "fail"
+      },
+      "failure_reason": "失败子项不能被通过子项覆盖",
+      "id": "GOV-02",
+      "layer": "finite-model",
+      "proves": [
+        "aggregate-fail"
+      ],
+      "recovery": "保留失败并修复后生成新结果",
+      "requirement_id": "REQ-03",
+      "scenario": "failed-check"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "state": "unknown"
+      },
+      "failure_reason": "已发起但未核实效果不能视为通过",
+      "id": "GOV-03",
+      "layer": "finite-model",
+      "proves": [
+        "aggregate-unknown"
+      ],
+      "recovery": "先核实际终点，再决定恢复或重试",
+      "requirement_id": "REQ-03",
+      "scenario": "unknown-check"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "stale scope revision",
+        "unchanged": true
+      },
+      "failure_reason": "旧revision不能覆盖新范围",
+      "id": "GOV-04",
+      "layer": "finite-model",
+      "proves": [
+        "stale-scope-revision"
+      ],
+      "recovery": "重新读取范围、比较差异并取得对应决定后再试",
+      "requirement_id": "REQ-03",
+      "scenario": "stale-revision"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "adoption scope outside project scope",
+        "unchanged": true
+      },
+      "failure_reason": "采用范围含本项目显式排除项",
+      "id": "GOV-05",
+      "layer": "finite-model",
+      "proves": [
+        "adoption-scope"
+      ],
+      "recovery": "恢复正确范围；真实扩张另行形成范围和采用决定",
+      "requirement_id": "REQ-03",
+      "scenario": "wrong-adoption-scope"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 2,
+      "expected_value": {
+        "error": "missing required dependency missing-item"
+      },
+      "failure_reason": "必要依赖不存在",
+      "id": "GOV-06",
+      "layer": "finite-model",
+      "proves": [
+        "required-work-dependency"
+      ],
+      "recovery": "补齐依赖及其验收，不能降为参考绕过",
+      "requirement_id": "REQ-03",
+      "scenario": "unresolved-dependency"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "files_deleted": 0,
+        "retained_reason": "active-reference"
+      },
+      "failure_reason": "仍由活动成果传递引用的材料不可回收",
+      "id": "GOV-07",
+      "layer": "finite-model",
+      "proves": [
+        "active-material-reference"
+      ],
+      "recovery": "结束使用并更新引用revision，再重新计划",
+      "requirement_id": "REQ-04",
+      "scenario": "active-material"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "original_state": "unknown",
+        "state": "pass"
+      },
+      "failure_reason": "未知旧结果不得被覆盖或自动改成通过",
+      "id": "GOV-08",
+      "layer": "finite-model",
+      "proves": [
+        "event-outcome-recovery"
+      ],
+      "recovery": "保留旧事件；核终点后另建当前完成事件",
+      "requirement_id": "REQ-03",
+      "scenario": "recovery"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "limited_without_sla": true,
+        "normal": true,
+        "unbacked_commitment_rejected": true
+      },
+      "failure_reason": "没有真实渠道/责任却承诺响应时限。",
+      "id": "GOV-09",
+      "layer": "finite-model",
+      "proves": [
+        "maintenance-commitment"
+      ],
+      "recovery": "保持undecided或无SLA的limited；取得真实能力与决定后再改承诺。",
+      "requirement_id": "REQ-03",
+      "scenario": "maintenance-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "history_retained": true,
+        "nonverified_not_milestone": true,
+        "unknown_rejected": true,
+        "verified_resolution": "verified-delivery"
+      },
+      "failure_reason": "未知验收关闭为verified，或重复关闭被算作交付。",
+      "id": "GOV-10",
+      "layer": "finite-model",
+      "proves": [
+        "work-state-closure"
+      ],
+      "recovery": "保留旧事件，重新进入verification并核准确接受条件。",
+      "requirement_id": "REQ-03",
+      "scenario": "work-state-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "boolean_rejected": true,
+        "boundary_value": 1,
+        "origin": "command-line",
+        "unknown_rejected": true,
+        "value": 10
+      },
+      "failure_reason": "配置优先级错误、布尔冒充整数或未知键被放行。",
+      "id": "GOV-11",
+      "layer": "finite-model",
+      "proves": [
+        "configuration-precedence-types"
+      ],
+      "recovery": "保持旧有效配置；修覆盖顺序/类型/边界后复验。",
+      "requirement_id": "REQ-03",
+      "scenario": "configuration-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "equivalent_copy": true,
+        "normal": true,
+        "wrong_hash_rejected": true
+      },
+      "failure_reason": "同名规范的错误摘要仍被使用。",
+      "id": "GOV-12",
+      "layer": "finite-model",
+      "proves": [
+        "exact-reference-identity"
+      ],
+      "recovery": "保留原锁定并核准确登记与正文；不静默换latest。",
+      "requirement_id": "REQ-03",
+      "scenario": "reference-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "normal": true,
+        "wording_neighbor": true,
+        "wrong_reverse_rejected": true
+      },
+      "failure_reason": "合同反向引用不是所证明的需求。",
+      "id": "GOV-13",
+      "layer": "finite-model",
+      "proves": [
+        "traceability-closure"
+      ],
+      "recovery": "修准确需求/合同关联并复核受影响运行。",
+      "requirement_id": "REQ-03",
+      "scenario": "traceability-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "bad_axis_rejected": true,
+        "normal": {
+          "adoption": "not-decided",
+          "document": "draft",
+          "implementation": "not-run",
+          "technical_review": "not-run"
+        },
+        "review_pass_keeps_adoption": "not-decided",
+        "review_pass_keeps_implementation": "not-run"
+      },
+      "failure_reason": "用文档/独审状态替代采用或实现结果。",
+      "id": "GOV-14",
+      "layer": "finite-model",
+      "proves": [
+        "four-axis-separation"
+      ],
+      "recovery": "分别恢复四轴；只依真实对象与证据更新对应轴。",
+      "requirement_id": "REQ-03",
+      "scenario": "four-axis-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "duplicate_not_verified": true,
+        "open_dependency_blocks": true,
+        "verified_closure": true
+      },
+      "failure_reason": "未验或duplicate依赖被计入已验证里程碑。",
+      "id": "GOV-15",
+      "layer": "finite-model",
+      "proves": [
+        "milestone-verified-closure"
+      ],
+      "recovery": "保留必要闭包及关闭理由，复验实际必要成果。",
+      "requirement_id": "REQ-03",
+      "scenario": "milestone-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "empty_optional_set": true,
+        "normal": true,
+        "wrong_hash_rejected": true,
+        "wrong_version_rejected": true
+      },
+      "failure_reason": "解析对象不同于锁定内容或版本。",
+      "id": "GOV-16",
+      "layer": "finite-model",
+      "proves": [
+        "dependency-content-lock"
+      ],
+      "recovery": "保持旧有效锁定，核来源和取得对象再运行。",
+      "requirement_id": "REQ-03",
+      "scenario": "dependency-lock-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "stale_rejected": true,
+        "synthetic_ready": true,
+        "unknown_rejected": true,
+        "unselected_license_rejected": true
+      },
+      "failure_reason": "陈旧/未知检查或未决许可被当作可分发。",
+      "id": "GOV-17",
+      "layer": "finite-model",
+      "proves": [
+        "release-blockers"
+      ],
+      "recovery": "保留实际未决状态；重新绑定候选及必要检查，不触发发布。",
+      "requirement_id": "REQ-03",
+      "scenario": "release-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "exact_boundary": true,
+        "one_byte_short_rejected": true,
+        "read_only_small": true
+      },
+      "failure_reason": "预算忽略待写峰值或最低余量。",
+      "id": "GOV-18",
+      "layer": "finite-model",
+      "proves": [
+        "capacity-boundary"
+      ],
+      "recovery": "重新观察可用字节和增量；核闲置可重建项后再规划。",
+      "requirement_id": "REQ-04",
+      "scenario": "capacity-boundary"
+    },
+    {
+      "command": "python -B examples/project-governance/project_example.py",
+      "expectation_origin": "requirement",
+      "expected_exit": 0,
+      "expected_value": {
+        "equivalent_copy": true,
+        "missing_provider_rejected": true,
+        "normal": true
+      },
+      "failure_reason": "适用消费接口缺少准确提供方条款。",
+      "id": "GOV-19",
+      "layer": "finite-model",
+      "proves": [
+        "required-standard-closure"
+      ],
+      "recovery": "恢复所需规范选择、条件判断及相应验收合同。",
+      "requirement_id": "REQ-03",
+      "scenario": "standard-closure-boundary"
+    }
+  ],
+  "adoption": {
+    "decision": {
+      "state": "not-decided"
+    },
+    "dependency_bindings": [
+      {
+        "applicability": "applies",
+        "condition": "登记文档、独审、项目选择或实现结论时",
+        "from_clause": "PGF-04",
+        "from_document": "STD-PG-001",
+        "interface": "governance/four-independent-lifecycle-axes",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "GG-05",
+        "to_document": "STD-L1-001"
+      },
+      {
+        "applicability": "applies",
+        "condition": "需求连接具体文件、测试和交付物时",
+        "from_clause": "PGT-03",
+        "from_document": "STD-PG-003",
+        "interface": "governance/file-test-delivery-contract",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "PGQ-01",
+        "to_document": "STD-PG-011"
+      },
+      {
+        "applicability": "applies",
+        "condition": "需求验收汇总模型、隔离实现或真实目标结果时",
+        "from_clause": "PGT-04",
+        "from_document": "STD-PG-003",
+        "interface": "governance/implementation-evidence-layer",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "ADP-05",
+        "to_document": "STD-L6-001"
+      },
+      {
+        "applicability": "undetermined",
+        "condition": "独审需核原始检查和派生摘要的对象与结论时",
+        "from_clause": "PGC-03",
+        "from_document": "STD-PG-009",
+        "interface": "governance/review-original-observation",
+        "reason": "尚无实际独立审查安排；作者自查不替代独审。",
+        "to_clause": "PGQ-05",
+        "to_document": "STD-PG-011"
+      },
+      {
+        "applicability": "applies",
+        "condition": "里程碑要求存在传递必要依赖或范围变动时",
+        "from_clause": "PGK-03",
+        "from_document": "STD-PG-010",
+        "interface": "governance/milestone-necessary-impact",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "PGT-05",
+        "to_document": "STD-PG-003"
+      },
+      {
+        "applicability": "not-triggered",
+        "condition": "配置包含令牌、私钥、密码或其他受限值时",
+        "from_clause": "PGS-03",
+        "from_document": "STD-PG-012",
+        "interface": "governance/secret-configuration-boundary",
+        "reason": "本例配置仅encoding/max_input_bytes，不包含秘密或受限值。",
+        "to_clause": "PGP-02",
+        "to_document": "STD-PG-013"
+      },
+      {
+        "applicability": "not-triggered",
+        "condition": "操作会触及受限对象或产生外部副作用时",
+        "from_clause": "PGP-03",
+        "from_document": "STD-PG-013",
+        "interface": "governance/actual-authorization-boundary",
+        "reason": "仅本例拥有的独占临时目录和合成数据，无受限对象或外部副作用。",
+        "to_clause": "GG-04",
+        "to_document": "STD-L1-001"
+      },
+      {
+        "applicability": "not-triggered",
+        "condition": "发行需要向所定受众授予具体材料使用范围时",
+        "from_clause": "PGV-02",
+        "from_document": "STD-PG-015",
+        "interface": "governance/release-license-scope",
+        "reason": "仅本地可审准备，没有向受众授予发行或使用权的操作。",
+        "to_clause": "PGL-03",
+        "to_document": "STD-PG-014"
+      },
+      {
+        "applicability": "applies",
+        "condition": "根据必要检查决定发行准备状态时",
+        "from_clause": "PGV-02",
+        "from_document": "STD-PG-015",
+        "interface": "governance/release-required-result-state",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "PGQ-04",
+        "to_document": "STD-PG-011"
+      },
+      {
+        "applicability": "not-triggered",
+        "condition": "向不同运行环境投放代码、配置或测试请求时",
+        "from_clause": "PGU-01",
+        "from_document": "STD-PG-016",
+        "interface": "governance/actual-environment-isolation",
+        "reason": "无外部分发、运行环境或例外申请；不制造相应批准或执行事实。",
+        "to_clause": "CE-14",
+        "to_document": "STD-L3-001"
+      },
+      {
+        "applicability": "applies",
+        "condition": "回收会改变实际文件、依赖目录或受限存储对象时",
+        "from_clause": "PGX-04",
+        "from_document": "STD-PG-019",
+        "interface": "governance/reclaim-actual-scope",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "PGP-03",
+        "to_document": "STD-PG-013"
+      },
+      {
+        "applicability": "applies",
+        "condition": "项目技术参考、试用或正式采用规范时",
+        "from_clause": "PGN-01",
+        "from_document": "STD-PG-020",
+        "interface": "governance/exact-standard-selection",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "ADP-01",
+        "to_document": "STD-L6-001"
+      },
+      {
+        "applicability": "applies",
+        "condition": "所选适用条款消费其他规范的必要保证时",
+        "from_clause": "PGN-02",
+        "from_document": "STD-PG-020",
+        "interface": "governance/applicability-required-closure",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "ADP-02",
+        "to_document": "STD-L6-001"
+      },
+      {
+        "applicability": "not-triggered",
+        "condition": "对项目已有效采用的义务提出临时偏离时；单纯草案试用偏离记录试用选择",
+        "from_clause": "PGN-04",
+        "from_document": "STD-PG-020",
+        "interface": "governance/formal-exception-versus-trial",
+        "reason": "无外部分发、运行环境或例外申请；不制造相应批准或执行事实。",
+        "to_clause": "GG-06",
+        "to_document": "STD-L1-001"
+      },
+      {
+        "applicability": "applies",
+        "condition": "固定规范选择或汇总文档、独审、采用与实现结论时",
+        "from_clause": "ADP-01",
+        "from_document": "STD-L6-001",
+        "interface": "adoption/four-independent-lifecycle-axes",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "GG-05",
+        "to_document": "STD-L1-001"
+      },
+      {
+        "applicability": "applies",
+        "condition": "固定规范选择或汇总文档、独审、采用与实现结论时",
+        "from_clause": "ADP-05",
+        "from_document": "STD-L6-001",
+        "interface": "adoption/four-independent-lifecycle-axes",
+        "reason": "本例实际记录准确规范、必要工作、四轴或结果分层，消费所列保证；人工准则仍需核触发事实。",
+        "to_clause": "GG-05",
+        "to_document": "STD-L1-001"
+      }
+    ],
+    "exceptions": [],
+    "history": [
+      {
+        "change_reason": "术语澄清：镜像制品与下载镜像站区分；义务和6个条款ID不变。",
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-06"
+            ],
+            "applicability": "applicable",
+            "id": "PGS-01",
+            "reason": "本项目仅作合成离线转换与有限记录演练，使用所列合同核相应接口。"
+          },
+          {
+            "acceptance_ids": [
+              "CSV-01"
+            ],
+            "applicability": "applicable",
+            "id": "PGS-03",
+            "reason": "本项目仅作合成离线转换与有限记录演练，使用所列合同核相应接口。"
+          }
+        ],
+        "document_id": "STD-PG-012",
+        "path": "standards/project-governance/012-依赖配置与供应链规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+        "version": "0.1.0"
+      },
+      {
+        "after_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+        "before_sha256": "37f87c724cc7056c7643043efc8d13ac3844c45868376a2ffe57894418173792",
+        "document_id": "STD-PG-020",
+        "kind": "technical-reference-correction",
+        "reason": "align exception prerequisites with L1 GG-06; all selections remain undecided technical references"
+      }
+    ],
+    "revision": 2,
+    "scope_ids": [
+      "offline-csv"
+    ],
+    "selections": [
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-12"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "exact-reference-identity"
+            ],
+            "id": "PGF-01",
+            "manual_criteria": [
+              "实读项目记录只含准确规范引用及项目特有配置，没有复制通用正文形成第二权威。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：实读项目记录只含准确规范引用及项目特有配置，没有复制通用正文形成第二权威。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-14"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "four-axis-separation"
+            ],
+            "id": "PGF-04",
+            "manual_criteria": [
+              "核立项至退役各阶段进入/退出条件、当前未决事实与真实责任接口；单人流程仍可分辨决定、执行和复核。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核立项至退役各阶段进入/退出条件、当前未决事实与真实责任接口；单人流程仍可分辨决定、执行和复核。"
+          }
+        ],
+        "document_id": "STD-PG-001",
+        "path": "standards/project-governance/001-项目治理领域总则与职责接口--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "CSV-01"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "csv-column-output"
+            ],
+            "id": "PGI-01",
+            "manual_criteria": [
+              "实读问题、受众、基线unknown和取得方法、非目标及成功条件；CSV输出观察是否对应用户业务终点。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：实读问题、受众、基线unknown和取得方法、非目标及成功条件；CSV输出观察是否对应用户业务终点。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-04"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "stale-scope-revision"
+            ],
+            "id": "PGI-04",
+            "manual_criteria": [
+              "核范围差异的理由、影响、旧新集合和决定来源；合成revision拒绝不认证真实批准。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核范围差异的理由、影响、旧新集合和决定来源；合成revision拒绝不认证真实批准。"
+          }
+        ],
+        "document_id": "STD-PG-002",
+        "path": "standards/project-governance/002-项目立项定位与范围规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-13"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "traceability-closure"
+            ],
+            "id": "PGT-03",
+            "manual_criteria": [
+              "逐需求核实际文件/符号、测试观察及交付物是否真正实现需求，不能只因引用互相匹配认为语义充分。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：逐需求核实际文件/符号、测试观察及交付物是否真正实现需求，不能只因引用互相匹配认为语义充分。"
+          },
+          {
+            "acceptance_ids": [
+              "CSV-02",
+              "GOV-08"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "csv-malformed-refusal",
+              "event-outcome-recovery"
+            ],
+            "id": "PGT-04",
+            "manual_criteria": [
+              "核预期来自需求而非actual反填；层级、环境、真实运行与模型观察分开，专业期望有依据。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核预期来自需求而非actual反填；层级、环境、真实运行与模型观察分开，专业期望有依据。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-06",
+              "GOV-15"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "required-work-dependency",
+              "milestone-verified-closure"
+            ],
+            "id": "PGT-05",
+            "manual_criteria": [
+              "核范围、文件/接口、依赖和运行变化的实际影响；不得删除必要失败项提高完成率。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核范围、文件/接口、依赖和运行变化的实际影响；不得删除必要失败项提高完成率。"
+          }
+        ],
+        "document_id": "STD-PG-003",
+        "path": "standards/project-governance/003-需求设计与验收追溯规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-12",
+              "GOV-17"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "exact-reference-identity",
+              "release-blockers"
+            ],
+            "id": "PGC-02",
+            "manual_criteria": [
+              "核准确基线、完整差异、风险、失败/未验与原始观察可达；候选准备不等于独审或合并许可。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核准确基线、完整差异、风险、失败/未验与原始观察可达；候选准备不等于独审或合并许可。"
+          },
+          {
+            "acceptance_ids": [],
+            "applicability": "undetermined",
+            "automated_scope": [],
+            "id": "PGC-03",
+            "manual_criteria": [
+              "尚未安排实际项目独审；需真实审查者核冻结对象、判断依据和缺陷闭合，不从作者名字或工具字段推独立。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "尚无实际独立审查安排；作者自查不替代独审。"
+          }
+        ],
+        "document_id": "STD-PG-009",
+        "path": "standards/project-governance/009-变更提案审查与合并规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-10"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "work-state-closure"
+            ],
+            "id": "PGK-02",
+            "manual_criteria": [
+              "核关闭理由、实际验收对象与证据；重新打开保留旧事件，取消工作项不推外部效果已撤销。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核关闭理由、实际验收对象与证据；重新打开保留旧事件，取消工作项不推外部效果已撤销。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-06",
+              "GOV-15"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "required-work-dependency",
+              "milestone-verified-closure"
+            ],
+            "id": "PGK-03",
+            "manual_criteria": [
+              "核依赖确为必要而非参考、里程碑阻断和范围变更依据；估计日期不得改称实际承诺。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核依赖确为必要而非参考、里程碑阻断和范围变更依据；估计日期不得改称实际承诺。"
+          }
+        ],
+        "document_id": "STD-PG-010",
+        "path": "standards/project-governance/010-工作项里程碑与协作职责规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "CSV-01"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "csv-column-output"
+            ],
+            "id": "PGQ-01",
+            "manual_criteria": [
+              "核每项合同初态、输入、完整独立期望、允许副作用、失败终点及比较规则；实际执行前已经固定。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核每项合同初态、输入、完整独立期望、允许副作用、失败终点及比较规则；实际执行前已经固定。"
+          },
+          {
+            "acceptance_ids": [
+              "CSV-02",
+              "CSV-06"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "csv-malformed-refusal",
+              "csv-quoted-neighbor"
+            ],
+            "id": "PGQ-02",
+            "manual_criteria": [
+              "核正反与合法邻例是否击中重要失效机制，变异是否在目标断言失败而不是导入或整文摘要先行失败。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核正反与合法邻例是否击中重要失效机制，变异是否在目标断言失败而不是导入或整文摘要先行失败。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-01",
+              "GOV-02",
+              "GOV-03",
+              "GOV-08"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "aggregate-missing",
+              "aggregate-fail",
+              "aggregate-unknown",
+              "event-outcome-recovery"
+            ],
+            "id": "PGQ-04",
+            "manual_criteria": [
+              "核实际事件和原始输出真实性、超时捕获及目标权威状态；缺项/环境未启动不计实现通过。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核实际事件和原始输出真实性、超时捕获及目标权威状态；缺项/环境未启动不计实现通过。"
+          }
+        ],
+        "document_id": "STD-PG-011",
+        "path": "standards/project-governance/011-测试质量门禁与证据规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-16"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "dependency-content-lock"
+            ],
+            "id": "PGS-01",
+            "manual_criteria": [
+              "核规范、Python标准库和实际解释器依赖分类、版本、来源和取得方法；不把合成哈希比较当生态供应链审计。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核规范、Python标准库和实际解释器依赖分类、版本、来源和取得方法；不把合成哈希比较当生态供应链审计。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-11"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "configuration-precedence-types"
+            ],
+            "id": "PGS-03",
+            "manual_criteria": [
+              "核本例仅encoding/max_input_bytes，配置来源与边界明确且无真实秘密；真实秘密接口另按触发条件验收。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核本例仅encoding/max_input_bytes，配置来源与边界明确且无真实秘密；真实秘密接口另按触发条件验收。"
+          }
+        ],
+        "document_id": "STD-PG-012",
+        "path": "standards/project-governance/012-依赖配置与供应链规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-17"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "release-blockers"
+            ],
+            "id": "PGV-02",
+            "manual_criteria": [
+              "核实际完整文件清单、变更、工具、支持与恢复、未决许可/维护/独审；本地检查结果用于判断ready-for-review，发布条件由发行合同确定。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核实际完整文件清单、变更、工具、支持与恢复、未决许可/维护/独审；本地检查结果用于判断ready-for-review，发布条件由发行合同确定。"
+          },
+          {
+            "acceptance_ids": [],
+            "applicability": "not-applicable",
+            "automated_scope": [],
+            "id": "PGV-04",
+            "manual_criteria": [
+              "没有外部分发任务或正式发布目标；如后来触发发布，须另核权限、目标读回与未知结果恢复。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "无外部分发、运行环境或例外申请；不制造相应批准或执行事实。"
+          }
+        ],
+        "document_id": "STD-PG-015",
+        "path": "standards/project-governance/015-版本标签与发行规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [],
+            "applicability": "not-applicable",
+            "automated_scope": [],
+            "id": "PGU-01",
+            "manual_criteria": [
+              "离线独占合成目录没有部署目标或环境投放；新增部署时重新判适用并核真实隔离、制品和权限。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "无外部分发、运行环境或例外申请；不制造相应批准或执行事实。"
+          }
+        ],
+        "document_id": "STD-PG-016",
+        "path": "standards/project-governance/016-部署配置迁移与回滚规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-09"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "maintenance-commitment"
+            ],
+            "id": "PGM-01",
+            "manual_criteria": [
+              "核真实维护者、支持版本/平台/配置、接收渠道、排除范围与承诺能力；本例undecided没有虚构SLA。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核真实维护者、支持版本/平台/配置、接收渠道、排除范围与承诺能力；本例undecided没有虚构SLA。"
+          }
+        ],
+        "document_id": "STD-PG-017",
+        "path": "standards/project-governance/017-维护响应与兼容承诺规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-07",
+              "GOV-18"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "active-material-reference",
+              "capacity-boundary"
+            ],
+            "id": "PGX-03",
+            "manual_criteria": [
+              "核当次实际df/增量/峰值与活动引用；合成预算和引用模型不替代现场占用与并发引用观察。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核当次实际df/增量/峰值与活动引用；合成预算和引用模型不替代现场占用与并发引用观察。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-07"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "active-material-reference"
+            ],
+            "id": "PGX-04",
+            "manual_criteria": [
+              "核实际回收路径、分类、hold、当前引用revision及可重建入口；只回收独占合成临时物，保留必要原始观察。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核实际回收路径、分类、hold、当前引用revision及可重建入口；只回收独占合成临时物，保留必要原始观察。"
+          }
+        ],
+        "document_id": "STD-PG-019",
+        "path": "standards/project-governance/019-文件缓存构建物与证据生命周期规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-12"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "exact-reference-identity"
+            ],
+            "id": "PGN-01",
+            "manual_criteria": [
+              "核technical-reference与实际采用决定分离，未决不填真实批准人/时间，同版本不同摘要不继承批准。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核technical-reference与实际采用决定分离，未决不填真实批准人/时间，同版本不同摘要不继承批准。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-05",
+              "GOV-19"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "adoption-scope",
+              "required-standard-closure"
+            ],
+            "id": "PGN-02",
+            "manual_criteria": [
+              "实读项目功能/数据/环境与必要保证的触发事实和依赖条件；not-applicable不是未测试，条件不确定保持undetermined。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：实读项目功能/数据/环境与必要保证的触发事实和依赖条件；not-applicable不是未测试，条件不确定保持undetermined。"
+          },
+          {
+            "acceptance_ids": [],
+            "applicability": "not-applicable",
+            "automated_scope": [],
+            "id": "PGN-04",
+            "manual_criteria": [
+              "没有已正式采用义务的偏离申请；草案技术选择不造正式例外，未来申请须具体补偿、期限和有权决定。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "无外部分发、运行环境或例外申请；不制造相应批准或执行事实。"
+          }
+        ],
+        "document_id": "STD-PG-020",
+        "path": "standards/project-governance/020-规范采用例外与升级规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-14"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "four-axis-separation"
+            ],
+            "id": "GG-05",
+            "manual_criteria": [
+              "核每轴真实对象和决定/审查/运行原件，字段枚举及不同轴组合合法不证明真实过程。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核每轴真实对象和决定/审查/运行原件，字段枚举及不同轴组合合法不证明真实过程。"
+          }
+        ],
+        "document_id": "STD-L1-001",
+        "path": "standards/L1/001-全局治理补充规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "66fae9c0e724e94e1cb5af712c69d46b9cf89c05f30ad45b9185411a5532e701",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [
+              "GOV-12",
+              "GOV-05"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "exact-reference-identity",
+              "adoption-scope"
+            ],
+            "id": "ADP-01",
+            "manual_criteria": [
+              "核准确项目对象、规范版本/摘要/条款、适用范围与真实有权决定；本例只技术参考。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核准确项目对象、规范版本/摘要/条款、适用范围与真实有权决定；本例只技术参考。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-19"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "required-standard-closure"
+            ],
+            "id": "ADP-02",
+            "manual_criteria": [
+              "实读必要接口、条件和保证是否符合实际功能；闭包可解析不证明适用性判断真实。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：实读必要接口、条件和保证是否符合实际功能；闭包可解析不证明适用性判断真实。"
+          },
+          {
+            "acceptance_ids": [
+              "GOV-01",
+              "GOV-02",
+              "GOV-03",
+              "GOV-08"
+            ],
+            "applicability": "applicable",
+            "automated_scope": [
+              "aggregate-missing",
+              "aggregate-fail",
+              "aggregate-unknown",
+              "event-outcome-recovery"
+            ],
+            "id": "ADP-05",
+            "manual_criteria": [
+              "核原始输出可访问且与实际执行/对象/环境/层级一致，有限模型不能认证实质独审、权限或真实业务结果。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核原始输出可访问且与实际执行/对象/环境/层级一致，有限模型不能认证实质独审、权限或真实业务结果。"
+          }
+        ],
+        "document_id": "STD-L6-001",
+        "path": "standards/L6/001-项目采用与实现验收接口规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "7fa991b795e6fb8cc38b0c592927ce5de7cac6a25c7420316dafd317514ffe8c",
+        "version": "0.1.0"
+      },
+      {
+        "clauses": [
+          {
+            "acceptance_ids": [],
+            "applicability": "applicable",
+            "automated_scope": [],
+            "id": "PGP-03",
+            "manual_criteria": [
+              "核本例临时目录实际独占、合成数据、无远端/秘密/受限对象；真正回收前完成观察保全与活动引用释放。"
+            ],
+            "manual_evidence": [],
+            "manual_state": "not-run",
+            "reason": "离线合成CSV项目中的具体适用对象：核本例临时目录实际独占、合成数据、无远端/秘密/受限对象；真正回收前完成观察保全与活动引用释放。"
+          }
+        ],
+        "document_id": "STD-PG-013",
+        "path": "standards/project-governance/013-安全隐私与操作边界规范--v0.1.0.md",
+        "selection": "technical-reference",
+        "sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+        "version": "0.1.0"
+      }
+    ],
+    "state": "not-decided"
+  },
+  "change": {
+    "author_review": "not-run",
+    "base_identity": "new-local-example:no-prior-release",
+    "candidate_identity_state": "capture-at-execution",
+    "findings": [],
+    "id": "CHANGE-CSV-01",
+    "independent_review": "not-run",
+    "merge_state": "not-applicable",
+    "reason": "建立具有失败保护的合成转换器及治理记录",
+    "recovery": "不改现有目标；修正当前候选后重新运行，并保留原失败事件。",
+    "review_units": [
+      "input-output-contract",
+      "failure-preservation",
+      "record-traceability"
+    ],
+    "type": "behavior"
+  },
+  "checks": {
+    "required_ids": [
+      "CSV-01",
+      "CSV-02",
+      "CSV-03",
+      "CSV-04",
+      "CSV-05",
+      "CSV-06",
+      "GOV-01",
+      "GOV-02",
+      "GOV-03",
+      "GOV-04",
+      "GOV-05",
+      "GOV-06",
+      "GOV-07",
+      "GOV-08",
+      "GOV-09",
+      "GOV-10",
+      "GOV-11",
+      "GOV-12",
+      "GOV-13",
+      "GOV-14",
+      "GOV-15",
+      "GOV-16",
+      "GOV-17",
+      "GOV-18",
+      "GOV-19"
+    ],
+    "results": []
+  },
+  "configuration": {
+    "command_line": {},
+    "defaults": {
+      "encoding": "utf-8",
+      "max_input_bytes": 1048576
+    },
+    "environment": {},
+    "precedence": [
+      "default",
+      "environment",
+      "command-line"
+    ],
+    "reason": "离线合成数据，无账号、网络服务或秘密。",
+    "secret_state": "not-applicable"
+  },
+  "dependencies": {
+    "package_dependencies": [],
+    "records": [
+      {
+        "expected_sha256": "0ece949523e7f87ed006b7e4eb9c100292a85600a63ab6d37b7f55839f107700",
+        "id": "STD-PG-001",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/001-项目治理领域总则与职责接口--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/001-项目治理领域总则与职责接口--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "0cb5ade3490f63157f47e605e79e895d66e5c73a237377eaf612f253b3d810ec",
+        "id": "STD-PG-002",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/002-项目立项定位与范围规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/002-项目立项定位与范围规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "59ecb41602915e7e08da00d2183414d8da5a250e8a6dca87cd4dd5659318ae58",
+        "id": "STD-PG-003",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/003-需求设计与验收追溯规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/003-需求设计与验收追溯规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "799e65332866a5f7bade51142e3847c384b74b5f16eed165e671a4aae5ae7fdd",
+        "id": "STD-PG-009",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/009-变更提案审查与合并规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/009-变更提案审查与合并规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "d1db150d192dd9fed843ad0b287e94dc5617cb26e4adc6eceb279297c72b6bee",
+        "id": "STD-PG-010",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/010-工作项里程碑与协作职责规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/010-工作项里程碑与协作职责规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "303697b951949c18a3d7b1303e25df61452129a41f17ef30357b00015a276c46",
+        "id": "STD-PG-011",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/011-测试质量门禁与证据规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/011-测试质量门禁与证据规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "f3595e4f4bf4ffbaa58949f02ee22200bd1c5deb955d8251ffc3da937199651c",
+        "id": "STD-PG-012",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/012-依赖配置与供应链规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/012-依赖配置与供应链规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "3f257cdd88e799be43eb65f287ebce2186aa1bf7ea73718748c4603c8119e85f",
+        "id": "STD-PG-015",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/015-版本标签与发行规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/015-版本标签与发行规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "e9f9b8be72144a1806087bdd68b25e304b1839403f20dad17e125e62114bcbef",
+        "id": "STD-PG-016",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/016-部署配置迁移与回滚规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/016-部署配置迁移与回滚规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "98631c639c99a1b0a258940fdd2912a532eb35b1f8cfa77df0252ab5bff63e8d",
+        "id": "STD-PG-017",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/017-维护响应与兼容承诺规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/017-维护响应与兼容承诺规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "acda3123e8379edc01508137d60e00d1b0516066dae94067ea0c2b7cc88f21b0",
+        "id": "STD-PG-019",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/019-文件缓存构建物与证据生命周期规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/019-文件缓存构建物与证据生命周期规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "e36ff6cbe523dd9b5cd6127fb382099367e5447b2933307f3e23f71bc97a803e",
+        "id": "STD-PG-020",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/020-规范采用例外与升级规范--v0.1.0.md",
+        "purpose": "准确条款技术参考",
+        "source": "standards/project-governance/020-规范采用例外与升级规范--v0.1.0.md"
+      },
+      {
+        "expected_sha256": "66fae9c0e724e94e1cb5af712c69d46b9cf89c05f30ad45b9185411a5532e701",
+        "id": "STD-L1-001",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/L1/001-全局治理补充规范--v0.1.0.md",
+        "purpose": "规范接口技术参考，不声明采用",
+        "source": "registry/standards.json"
+      },
+      {
+        "expected_sha256": "7fa991b795e6fb8cc38b0c592927ce5de7cac6a25c7420316dafd317514ffe8c",
+        "id": "STD-L6-001",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/L6/001-项目采用与实现验收接口规范--v0.1.0.md",
+        "purpose": "规范接口技术参考，不声明采用",
+        "source": "registry/standards.json"
+      },
+      {
+        "expected_sha256": "e65c06c70f85f712420eaf5da5536974d0a32c91807a4a6d9aef574aaef7d6a2",
+        "id": "STD-PG-013",
+        "kind": "standard",
+        "locked_version": "0.1.0",
+        "path": "standards/project-governance/013-安全隐私与操作边界规范--v0.1.0.md",
+        "purpose": "规范接口技术参考，不声明采用",
+        "source": "registry/standards.json"
+      }
+    ],
+    "tools": [
+      {
+        "name": "Python",
+        "resolution_state": "not-run",
+        "source": "执行时记录解释器路径、来源与准确版本",
+        "version_rule": "CPython >= 3.12; exact interpreter/version observed per run"
+      }
+    ]
+  },
+  "deployment": {
+    "applicability": "not-applicable",
+    "execution_state": "not-applicable",
+    "reason": "离线临时目录转换器，无持久服务、数据库或目标部署环境。"
+  },
+  "example_only": true,
+  "id": "synthetic-offline-csv-governance",
+  "maintenance": {
+    "channel_configured": false,
+    "response_hours": null,
+    "state": "undecided",
+    "supported_versions": []
+  },
+  "materials": {
+    "active_ids": [],
+    "cleanup_state": "not-run",
+    "records": [],
+    "retention": "project.fixtures保留可重建输入和独立预期；运行报告保留原始失败观察及摘要。临时目录只在结果已提取、引用释放且无打开句柄后回收。",
+    "revision": 0
+  },
+  "milestone": {
+    "date_kind": "unset",
+    "goal": "合成CSV及有限治理合同全部得到当前结果",
+    "id": "M-LOCAL",
+    "required_ids": [
+      "WORK-01",
+      "WORK-02",
+      "WORK-03",
+      "WORK-04"
+    ],
+    "state": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "audiences": [
+      "中文开发者",
+      "离线数据整理者"
+    ],
+    "baseline": {
+      "observation": "未测量真实用户效率；仅有明确输入输出合同。",
+      "state": "unknown"
+    },
+    "fixtures": [
+      {
+        "expected_output_text": "id,name\n1,安\n2,Bo\n",
+        "id": "normal",
+        "input_text": "name,id\n安,1\nBo,2\n"
+      },
+      {
+        "expected_output_text": "",
+        "id": "bad-row",
+        "input_text": "name,id\n安,1\nbroken\n"
+      },
+      {
+        "expected_output_text": "id,name\n1,\"安,宁\"\n2,\"line\nbreak\"\n",
+        "id": "quoted-neighbor",
+        "input_text": "name,id\r\n\"安,宁\",1\r\n\"line\nbreak\",2\r\n"
+      }
+    ],
+    "id": "offline-csv",
+    "io_contract": {
+      "encoding": "utf-8",
+      "error_policy": "任何坏行均在提交前拒绝，不覆盖输入或现有目标，不留下部分输出",
+      "id_rule": "正十进制整数，无前导零，文件内唯一",
+      "input_columns": [
+        "name",
+        "id"
+      ],
+      "line_ending": "LF",
+      "max_input_bytes": 1048576,
+      "name_rule": "非空Unicode文本，不含NUL；允许CSV引号、逗号及内嵌换行",
+      "output_columns": [
+        "id",
+        "name"
+      ]
+    },
+    "kind": "synthetic",
+    "lifecycle": {
+      "entry_condition": "合成输入与独立期望已定义，运行前检查本地资源。",
+      "next_condition": "执行全部合同，保存准确结果并安排实质复核。",
+      "state": "discovery",
+      "unresolved": [
+        "真实业务价值未测量",
+        "未作实际项目采用决定",
+        "实质独立审查未执行"
+      ]
+    },
+    "name": "合成离线CSV转换器",
+    "outcome": "在一次隔离运行中取得完整规范化CSV或明确拒绝，原输入保持不变。",
+    "problem": "将合成本地UTF-8 CSV转换为约定列顺序，同时避免损坏输入或覆盖现有成果。",
+    "resources": [
+      {
+        "allowed_use": "临时目录内的合成转换和检查",
+        "id": "synthetic-input",
+        "missing_impact": "缺失则不执行相应合同",
+        "provider": "project.fixtures",
+        "state": "available"
+      },
+      {
+        "allowed_use": "仅标准库离线执行",
+        "id": "python",
+        "missing_impact": "缺少Python 3.12及以上版本则不能运行",
+        "provider": "当前本地Python解释器",
+        "state": "available"
+      }
+    ],
+    "roles": {
+      "decision_owner": "unassigned",
+      "executor": "local-example-runner",
+      "maintainer": "unassigned",
+      "reviewer": "unassigned"
+    },
+    "scope": {
+      "history": [],
+      "in_scope": [
+        "offline-csv"
+      ],
+      "out_of_scope": [
+        "cloud-sync",
+        "production-deployment",
+        "public-release",
+        "external-transactions"
+      ],
+      "revision": 0
+    },
+    "success_criteria": [
+      {
+        "acceptance_ids": [
+          "CSV-01",
+          "CSV-06"
+        ],
+        "id": "SC-01",
+        "measurement": "执行引用合同并比较独立预期与实际观察；全体必要项均通过。",
+        "state": "not-run",
+        "window": "本次临时合成目录的单次执行"
+      },
+      {
+        "acceptance_ids": [
+          "CSV-02",
+          "CSV-03",
+          "CSV-04",
+          "CSV-05"
+        ],
+        "id": "SC-02",
+        "measurement": "执行引用合同并比较独立预期与实际观察；全体必要项均通过。",
+        "state": "not-run",
+        "window": "本次临时合成目录的单次执行"
+      },
+      {
+        "acceptance_ids": [
+          "GOV-01",
+          "GOV-02",
+          "GOV-03",
+          "GOV-04",
+          "GOV-05",
+          "GOV-06",
+          "GOV-08",
+          "GOV-09",
+          "GOV-10",
+          "GOV-11",
+          "GOV-12",
+          "GOV-13",
+          "GOV-14",
+          "GOV-15",
+          "GOV-16",
+          "GOV-17",
+          "GOV-19"
+        ],
+        "id": "SC-03",
+        "measurement": "执行引用合同并比较独立预期与实际观察；全体必要项均通过。",
+        "state": "not-run",
+        "window": "本次临时合成目录的单次执行"
+      },
+      {
+        "acceptance_ids": [
+          "GOV-07",
+          "GOV-18"
+        ],
+        "id": "SC-04",
+        "measurement": "执行引用合同并比较独立预期与实际观察；全体必要项均通过。",
+        "state": "not-run",
+        "window": "本次临时合成目录的单次执行"
+      }
+    ]
+  },
+  "record_state": "planned",
+  "requirements": [
+    {
+      "acceptance_ids": [
+        "CSV-01",
+        "CSV-06"
+      ],
+      "design": "标准库csv严格解析；固定表头和LF输出；引号按CSV规则写入。",
+      "id": "REQ-01",
+      "implementation_path": "examples/project-governance/project_example.py",
+      "implementation_symbol": "convert_csv",
+      "scope_id": "offline-csv",
+      "source": "合成离线CSV转换任务合同",
+      "state": "implemented",
+      "statement": "UTF-8 CSV按id,name列顺序输出，保留字段值。",
+      "success_criterion_id": "SC-01",
+      "work_item_ids": [
+        "WORK-01"
+      ]
+    },
+    {
+      "acceptance_ids": [
+        "CSV-02",
+        "CSV-03",
+        "CSV-04",
+        "CSV-05"
+      ],
+      "design": "全部解析和身份核对在提交前；同目录临时完整文件经硬链接无覆盖提交。",
+      "id": "REQ-02",
+      "implementation_path": "examples/project-governance/project_example.py",
+      "implementation_symbol": "convert_csv",
+      "scope_id": "offline-csv",
+      "source": "合成离线CSV转换任务合同",
+      "state": "implemented",
+      "statement": "输入保持原字节；坏行、身份漂移和已有目标均拒绝且不留部分输出。",
+      "success_criterion_id": "SC-02",
+      "work_item_ids": [
+        "WORK-02"
+      ]
+    },
+    {
+      "acceptance_ids": [
+        "GOV-01",
+        "GOV-02",
+        "GOV-03",
+        "GOV-04",
+        "GOV-05",
+        "GOV-06",
+        "GOV-08",
+        "GOV-09",
+        "GOV-10",
+        "GOV-11",
+        "GOV-12",
+        "GOV-13",
+        "GOV-14",
+        "GOV-15",
+        "GOV-16",
+        "GOV-17",
+        "GOV-19"
+      ],
+      "design": "真实结果调用既有有限模型；项目适配层核范围和追溯。",
+      "id": "REQ-03",
+      "implementation_path": "examples/project-governance/project_example.py",
+      "implementation_symbol": "validate_record",
+      "scope_id": "offline-csv",
+      "source": "合成离线CSV转换任务合同",
+      "state": "implemented",
+      "statement": "必要检查、范围、规范/工作依赖、配置、维护和准备状态准确，缺项、失败、未知及无依据承诺不计通过。",
+      "success_criterion_id": "SC-03",
+      "work_item_ids": [
+        "WORK-03"
+      ]
+    },
+    {
+      "acceptance_ids": [
+        "GOV-07",
+        "GOV-18"
+      ],
+      "design": "reclaim_plan生成计划，独占临时目录在证据提取及引用释放后回收。",
+      "id": "REQ-04",
+      "implementation_path": "examples/project-governance/project_example.py",
+      "implementation_symbol": "run_example",
+      "scope_id": "offline-csv",
+      "source": "合成离线CSV转换任务合同",
+      "state": "implemented",
+      "statement": "材料回收必须核当前引用闭包，保留原始执行证据。",
+      "success_criterion_id": "SC-04",
+      "work_item_ids": [
+        "WORK-04"
+      ]
+    }
+  ],
+  "schema_version": "standards-governance-project/1",
+  "version": {
+    "candidate": "0.1.0-local",
+    "compatibility": "只承诺本记录的UTF-8、列顺序和1 MiB输入边界；其他平台、编码和大文件未验",
+    "distribution_state": "not-decided",
+    "license_state": "not-decided",
+    "preparation_state": "not-run",
+    "publication_state": "not-applicable",
+    "reason": "可形成可审本地候选；未安排公开发行、真实部署或外部交易。",
+    "required_checks": [
+      "CSV-01",
+      "CSV-02",
+      "CSV-03",
+      "CSV-04",
+      "CSV-05",
+      "CSV-06",
+      "GOV-01",
+      "GOV-02",
+      "GOV-03",
+      "GOV-04",
+      "GOV-05",
+      "GOV-06",
+      "GOV-07",
+      "GOV-08",
+      "GOV-09",
+      "GOV-10",
+      "GOV-11",
+      "GOV-12",
+      "GOV-13",
+      "GOV-14",
+      "GOV-15",
+      "GOV-16",
+      "GOV-17",
+      "GOV-18",
+      "GOV-19"
+    ],
+    "scheme": "本地示例候选号，不表示正式发行或规范采用",
+    "tag_state": "not-applicable"
+  },
+  "work_items": [
+    {
+      "acceptance_ids": [
+        "CSV-01",
+        "CSV-06"
+      ],
+      "dependencies": [],
+      "history": [],
+      "id": "WORK-01",
+      "owner": "local-example-runner",
+      "resolution": null,
+      "revision": 0,
+      "state": "open",
+      "type": "feature"
+    },
+    {
+      "acceptance_ids": [
+        "CSV-02",
+        "CSV-03",
+        "CSV-04",
+        "CSV-05"
+      ],
+      "dependencies": [
+        "WORK-01"
+      ],
+      "history": [],
+      "id": "WORK-02",
+      "owner": "local-example-runner",
+      "resolution": null,
+      "revision": 0,
+      "state": "open",
+      "type": "feature"
+    },
+    {
+      "acceptance_ids": [
+        "GOV-01",
+        "GOV-02",
+        "GOV-03",
+        "GOV-04",
+        "GOV-05",
+        "GOV-06",
+        "GOV-08",
+        "GOV-09",
+        "GOV-10",
+        "GOV-11",
+        "GOV-12",
+        "GOV-13",
+        "GOV-14",
+        "GOV-15",
+        "GOV-16",
+        "GOV-17",
+        "GOV-19"
+      ],
+      "dependencies": [],
+      "history": [],
+      "id": "WORK-03",
+      "owner": "local-example-runner",
+      "resolution": null,
+      "revision": 0,
+      "state": "open",
+      "type": "documentation"
+    },
+    {
+      "acceptance_ids": [
+        "GOV-07",
+        "GOV-18"
+      ],
+      "dependencies": [],
+      "history": [],
+      "id": "WORK-04",
+      "owner": "local-example-runner",
+      "resolution": null,
+      "revision": 0,
+      "state": "open",
+      "type": "documentation"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "schema": "standards-behavior-execution/1",
+  "model": {
+    "requested_id": "",
+    "observed_id": null,
+    "identity_source": "",
+    "immutable": false
+  },
+  "host": {"name": "", "version": ""},
+  "executor_id": "",
+  "project_instructions": "",
+  "tool_configuration": {},
+  "parameters": {},
+  "identity_limitations": ""
+}

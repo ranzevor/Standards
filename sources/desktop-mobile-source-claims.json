@@ -1,0 +1,1940 @@
+{
+  "read_at": "2026-10-23",
+  "claims": [
+    {
+      "id": "DM01",
+      "publisher": "Microsoft",
+      "title": "Known Folders",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/shell/known-folders",
+      "version": "动态 Win32 指南；页面更新 2026-07-17",
+      "section": "Known Folders advantages",
+      "read_date": "2026-10-23",
+      "limited_proposition": "标准用户目录可被重定向，包括网络位置；目录名不能代替实际解析结果。",
+      "not_supported": "不据此统一其他 OS 的目录，也不推导所有 Known Folder 调用的实现前提。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S01"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S11"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D05"
+        }
+      ]
+    },
+    {
+      "id": "DM02",
+      "publisher": "freedesktop.org",
+      "title": "XDG Base Directory Specification",
+      "url": "https://specifications.freedesktop.org/basedir/0.8/",
+      "version": "固定 0.8，2021-05-08",
+      "section": "§2 Basics；§3 Environment variables",
+      "read_date": "2026-10-23",
+      "limited_proposition": "数据、配置、状态、缓存、运行目录分工不同；环境目录须为绝对路径，运行目录不能跨完整注销或重启保留。",
+      "not_supported": "仅采用 XDG 的实现；不提供网络文件系统持久性保证。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S01"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S20"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D05"
+        }
+      ]
+    },
+    {
+      "id": "DM03",
+      "publisher": "Microsoft",
+      "title": "GetFileInformationByHandleEx",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getfileinformationbyhandleex",
+      "version": "动态 Win32 API；实际 SDK 由采用方锁定",
+      "section": "Syntax；Parameters；Remarks",
+      "read_date": "2026-10-23",
+      "limited_proposition": "接口以实际文件句柄和信息类取得对象资料；对象检查不能只看路径字符串。",
+      "not_supported": "文件 ID 不因此永久稳定，也不是业务访问授权；信息类支持依目标核实。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I06"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S03"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S04"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D06"
+        }
+      ]
+    },
+    {
+      "id": "DM04",
+      "publisher": "Linux man-pages project",
+      "title": "fsync(2)",
+      "url": "https://man7.org/linux/man-pages/man2/fsync.2.html",
+      "version": "动态 Linux man-pages；核读日版本所见；STANDARDS 标 POSIX.1-2024",
+      "section": "DESCRIPTION；RETURN VALUE；ERRORS",
+      "read_date": "2026-10-23",
+      "limited_proposition": "文件同步与包含它的目录项同步不同；同步可能报错，文件 rename 可见性不是全部掉电持久性。",
+      "not_supported": "不是全平台持久算法或真实硬件断电证明。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S06"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S13"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D07"
+        }
+      ]
+    },
+    {
+      "id": "DM05",
+      "publisher": "Microsoft",
+      "title": "FlushFileBuffers",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-flushfilebuffers",
+      "version": "动态 Win32 API；页面更新 2021-10-13",
+      "section": "Parameters；Return value；Remarks",
+      "read_date": "2026-10-23",
+      "limited_proposition": "flush 的对象种类、写权限和返回失败各有条件，不能只凭写操作结束确认持久。",
+      "not_supported": "不要求普通应用管理员全卷 flush；不保证任意硬件真实断电行为。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S06"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S13"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D07"
+        }
+      ]
+    },
+    {
+      "id": "DM06",
+      "publisher": "Microsoft",
+      "title": "ReplaceFileW",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-replacefilew",
+      "version": "动态 Win32 API；SDK/OS 按项目锁定",
+      "section": "dwReplaceFlags；Return value",
+      "read_date": "2026-10-23",
+      "limited_proposition": "1176、1177 等失败可留下不同路径状态；忽略 ACL 合并错误可能丢失保护。",
+      "not_supported": "失败回读要求是组织补充，不提供未经目标实验的替换算法。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S07"
+        }
+      ]
+    },
+    {
+      "id": "DM07",
+      "publisher": "Qt Project",
+      "title": "QSaveFile",
+      "url": "https://doc.qt.io/qt-6/qsavefile.html",
+      "version": "qt-6 滚动文档；页面标识 Qt 6.12.0；引用日期 2026-10-23",
+      "section": "Detailed Description；cancelWriting；commit",
+      "read_date": "2026-10-23",
+      "limited_proposition": "临时文件提交与 direct-write fallback 的取消保护不同；实际直写时 cancelWriting 不能恢复原内容。",
+      "not_supported": "只在采用该 API 时激活；页面版本标签不证明发布状态或任意文件系统掉电保证。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S05"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S08"
+        }
+      ]
+    },
+    {
+      "id": "DM08",
+      "publisher": "Apple",
+      "title": "The Role of File Coordinators and Presenters",
+      "url": "https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileCoordinators/FileCoordinators.html",
+      "version": "官方 Documentation Archive；macOS 10.7+ 机制说明",
+      "section": "开篇；Using NSDocument and UIDocument",
+      "read_date": "2026-10-23",
+      "limited_proposition": "协调者、呈现者以及文档对象协作处理共享文件的变更。",
+      "not_supported": "不保证拦截所有不参与协议的外部写者；现代 API availability 不由档案决定。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S09"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S10"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D08"
+        }
+      ]
+    },
+    {
+      "id": "DM09",
+      "publisher": "SQLite",
+      "title": "Write-Ahead Logging",
+      "url": "https://www.sqlite.org/wal.html",
+      "version": "官方滚动引擎文档；机制始于 SQLite 3.7.0，实际引擎另锁",
+      "section": "§1；§2；§4",
+      "read_date": "2026-10-23",
+      "limited_proposition": "WAL 中可包含已提交而尚未回主文件的数据；WAL 的共享内存前提不适合跨主机网络文件系统。",
+      "not_supported": "不把单复制主 db 当活跃引擎完整备份；不采用页面未核的版本漏洞结论。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-02"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-05"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S11"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S12"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S14"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S15"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S16"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S17"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S18"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S19"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S20"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D09"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D19"
+        }
+      ]
+    },
+    {
+      "id": "DM10",
+      "publisher": "Microsoft",
+      "title": "Named Pipe Security and Access Rights",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/ipc/named-pipe-security-and-access-rights",
+      "version": "动态 Win32 指南；页面更新 2021-01-07",
+      "section": "默认 security descriptor；access checks；logon SID",
+      "read_date": "2026-10-23",
+      "limited_proposition": "默认命名管道 DACL 不等于私有；客户端和服务端访问均受实际安全描述符控制。",
+      "not_supported": "管道名或自报 PID 不构成业务授权；跨会话策略由具体合同决定。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I03"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I04"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I06"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I07"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I15"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D02"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D03"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D11"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-03"
+        }
+      ]
+    },
+    {
+      "id": "DM11",
+      "publisher": "Electron Project / OpenJS",
+      "title": "Security",
+      "url": "https://www.electronjs.org/docs/latest/tutorial/security",
+      "version": "滚动 latest 指南，核读 2026-10-23；实际 Electron 版本另锁",
+      "section": "§17 Validate the sender of all IPC messages；§20",
+      "read_date": "2026-10-23",
+      "limited_proposition": "IPC 来自帧与子窗口，需以可信发送上下文限制原生能力；URL 外观不足以证明文档控制者。",
+      "not_supported": "示例不是跨平台身份协议；不据页面承诺当前框架已无漏洞。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I01"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I02"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I11"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I12"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I13"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D02"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D12"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-06"
+        }
+      ]
+    },
+    {
+      "id": "DM12",
+      "publisher": "Microsoft",
+      "title": "Develop secure WebView2 apps",
+      "url": "https://learn.microsoft.com/en-us/microsoft-edge/webview2/concepts/security",
+      "version": "动态 WebView2 指南；运行时版本另锁",
+      "section": "Web content and host isolation；source validation",
+      "read_date": "2026-10-23",
+      "limited_proposition": "WebView 宿主具有浏览器之外的原生资源，宿主与网页隔离和最小桥面是独立边界。",
+      "not_supported": "每次回包绑定文档/账号代际是组织补充；不是保证所有 WebView 同一 API。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I01"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I07"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I11"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I12"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I14"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D02"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D12"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-06"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-07"
+        }
+      ]
+    },
+    {
+      "id": "DM13",
+      "publisher": "freedesktop.org",
+      "title": "D-Bus Specification",
+      "url": "https://dbus.freedesktop.org/doc/dbus-specification.html",
+      "version": "页面标 Version 0.43，revision 2024-10-29；滚动末后修改另核",
+      "section": "GetConnectionCredentials；NameOwnerChanged",
+      "read_date": "2026-10-23",
+      "limited_proposition": "凭证字段可因不可得而省略；总线名称所有者会改变，缺失字段不能当匹配。",
+      "not_supported": "使用真实连接身份的动作授权是组织补充；不把总线名字当永续主体。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I03"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I04"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I05"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I08"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I15"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D11"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-03"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-06"
+        }
+      ]
+    },
+    {
+      "id": "DM14",
+      "publisher": "Flatpak Project",
+      "title": "Sandbox Permissions",
+      "url": "https://docs.flatpak.org/en/latest/sandbox-permissions.html",
+      "version": "滚动 latest 指南；实际 Flatpak/runtime 另锁",
+      "section": "Portals；Permissions guidelines；D-Bus access",
+      "read_date": "2026-10-23",
+      "limited_proposition": "静态 finish-args 与 portal 选择资源不同；广泛总线/主目录权限会扩大有效能力。",
+      "not_supported": "仅 Flatpak 实现；不把某一包模式套到全部 Linux 桌面。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I09"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I10"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D04"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D06"
+        }
+      ]
+    },
+    {
+      "id": "DM15",
+      "publisher": "Microsoft",
+      "title": "Handle file activation in a Windows app",
+      "url": "https://learn.microsoft.com/en-us/windows/apps/develop/launch/handle-file-activation",
+      "version": "动态 Windows Apps 文档；页面更新 2026-09-26",
+      "section": "In this article；Step 1；Step 3；Remarks",
+      "read_date": "2026-10-23",
+      "limited_proposition": "文件关联需用户选择，清单与运行激活入口分开；来自激活的文件仍可不可信。",
+      "not_supported": "不是所有桌面应用必须用 UWP/WinUI 清单；不决定业务去重规则。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-06"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D10"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D13"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D23"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-01"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-02"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-04"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-05"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-07"
+        }
+      ]
+    },
+    {
+      "id": "DM16",
+      "publisher": "freedesktop.org",
+      "title": "Desktop Entry Specification",
+      "url": "https://specifications.freedesktop.org/desktop-entry/1.5/exec-variables.html",
+      "version": "固定 1.5",
+      "section": "§7 The Exec key",
+      "read_date": "2026-10-23",
+      "limited_proposition": "Exec 引用、字段码和单参数/多参数展开有明确规则；空格、非 ASCII 不得被拆坏。",
+      "not_supported": "不是 shell 命令语言；不推广到全部桌面会话或平台。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D10"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-01"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-02"
+        },
+        {
+          "path": "standards/L4/desktop/008-系统集成、激活与桌面生命周期技术规范--v0.1.0.md",
+          "clause": "DT3-04"
+        }
+      ]
+    },
+    {
+      "id": "DM17",
+      "publisher": "Microsoft",
+      "title": "WM_IME_COMPOSITION",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/intl/wm-ime-composition",
+      "version": "动态 Win32 API；页面更新 2021-01-07",
+      "section": "Parameters；Remarks",
+      "read_date": "2026-10-23",
+      "limited_proposition": "组合串、结果串与取消标记不同，自绘输入须处理或正确转交 IME 消息。",
+      "not_supported": "不把每个按键认定已确认文本；TSF/现代框架适配另按实际 API。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-03"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D14"
+        }
+      ]
+    },
+    {
+      "id": "DM18",
+      "publisher": "Microsoft",
+      "title": "UI Automation Providers Overview",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/winauto/uiauto-providersoverview",
+      "version": "动态 UI Automation 指南；采用方锁 SDK",
+      "section": "In this article",
+      "read_date": "2026-10-23",
+      "limited_proposition": "UIA provider 暴露控件信息与操作；标准控件有平台 provider，自绘需确保实际语义。",
+      "not_supported": "树存在不等于整条读屏任务通过；不是要求所有平台实现 UIA。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-01"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-02"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-04"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-07"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D14"
+        }
+      ]
+    },
+    {
+      "id": "DM19",
+      "publisher": "Microsoft",
+      "title": "High DPI desktop application development on Windows",
+      "url": "https://learn.microsoft.com/en-us/windows/win32/hidpi/high-dpi-desktop-application-development-on-windows",
+      "version": "动态指南；页面更新 2026-09-10；PMv2 自 Windows 10 1703",
+      "section": "Per Monitor DPI Awareness；Testing Your Changes；Common Pitfalls",
+      "read_date": "2026-10-23",
+      "limited_proposition": "DPI awareness、坐标空间和重排职责不同；多屏动态变化需要真实混合 DPI 验证。",
+      "not_supported": "框架历史支持表不是当前全部框架的支持断言；不统一像素阈值。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-05"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D14"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-03"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-07"
+        }
+      ]
+    },
+    {
+      "id": "DM20",
+      "publisher": "Microsoft",
+      "title": "Sign an MSIX package",
+      "url": "https://learn.microsoft.com/en-us/windows/msix/package/signing-package-overview",
+      "version": "动态 MSIX 指南；页面更新 2026-04-15",
+      "section": "开篇；Timestamping；Package Integrity Enforcement",
+      "read_date": "2026-10-23",
+      "limited_proposition": "MSIX 签名与设备信任链不同；时间戳/证书过期与安装后的继续运行需分别解释。",
+      "not_supported": "不泛化全部 EXE；不将签名变为功能正确或平台全部完整性保护的证明。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-01"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-02"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-03"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-04"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-05"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-06"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-07"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-01"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-03"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-04"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-07"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D03"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D16"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D17"
+        }
+      ]
+    },
+    {
+      "id": "DM21",
+      "publisher": "Apple",
+      "title": "Gatekeeper and runtime protection in macOS",
+      "url": "https://support.apple.com/guide/security/gatekeeper-and-runtime-protection-sec5599b66df/web",
+      "version": "Apple Platform Security；发布 2024-12-19",
+      "section": "Gatekeeper；Runtime protection",
+      "read_date": "2026-10-23",
+      "limited_proposition": "外部分发的开发者身份、公证、完整性检查与 App Store 沙箱/审核不是相同事实。",
+      "not_supported": "不据公证推断无未知恶意或无漏洞；不把系统允许的绕过作为正常安装验收。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-01"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-02"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-05"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-07"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-05"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I09"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D17"
+        }
+      ]
+    },
+    {
+      "id": "DM22",
+      "publisher": "Microsoft",
+      "title": "Configure update settings in the App Installer file",
+      "url": "https://learn.microsoft.com/en-us/windows/msix/app-installer/update-settings",
+      "version": "动态 App Installer 指南；页面更新 2021-12-30",
+      "section": "UpdateSettings 表；OnLaunch；ForceUpdateFromAnyVersion",
+      "read_date": "2026-10-23",
+      "limited_proposition": "更新选项有最低系统版本和组合前提；允许降级的包设置不证明数据兼容。",
+      "not_supported": "未规定设备管理策略优先级；有效策略应由目标观测，不凭此表虚构优先顺序。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-01"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-02"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-03"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-04"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-05"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-06"
+        },
+        {
+          "path": "standards/L4/desktop/004-更新协调、版本共存与退役技术规范--v0.1.0.md",
+          "clause": "DT6-07"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S19"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D18"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D19"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D26"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D28"
+        }
+      ]
+    },
+    {
+      "id": "DM23",
+      "publisher": "Microsoft",
+      "title": "How emulation works on Arm",
+      "url": "https://learn.microsoft.com/en-us/windows/arm/apps-on-arm-x86-emulation",
+      "version": "动态 Windows 指南；页面更新 2025-11-07",
+      "section": "开篇；How emulation works；Detecting emulation",
+      "read_date": "2026-10-23",
+      "limited_proposition": "Windows 10/11 Arm 的用户态仿真范围不同；内核驱动需匹配 Arm64，宿主和进程架构应分开。",
+      "not_supported": "不证明某应用或驱动已兼容；不自动要求 ARM 发行。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-03"
+        },
+        {
+          "path": "standards/L4/desktop/002-安装制品、平台信任与分发技术规范--v0.1.0.md",
+          "clause": "DT5-07"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D01"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D15"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D27"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-01"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-02"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-03"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-07"
+        }
+      ]
+    },
+    {
+      "id": "DM24",
+      "publisher": "Microsoft",
+      "title": "Symbols and Symbol Files",
+      "url": "https://learn.microsoft.com/en-us/windows-hardware/drivers/debugger/symbols-and-symbol-files",
+      "version": "动态 Debugger 指南；页面更新 2021-12-15",
+      "section": "开篇；Windows Symbols",
+      "read_date": "2026-10-23",
+      "limited_proposition": "调试现场或转储需匹配被测二进制/系统构建的符号。",
+      "not_supported": "有函数名不等于符号正确；不要求上传私有源代码或全内存。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-01"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-02"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-03"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-04"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-05"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-06"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-07"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D24"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D25"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-06"
+        }
+      ]
+    },
+    {
+      "id": "DM25",
+      "publisher": "GNU GDB Project",
+      "title": "Debugging Information in Separate Files",
+      "url": "https://sourceware.org/gdb/current/onlinedocs/gdb.html/Separate-Debug-Files.html",
+      "version": "滚动 current 手册；实际 GDB/Binutils 版本另锁",
+      "section": "§18.3",
+      "read_date": "2026-10-23",
+      "limited_proposition": "独立调试文件可通过 debuglink/CRC 或 build ID 关联构建，不能只按产品版本字符串选符号。",
+      "not_supported": "该身份链不是发行签名或权限证据；未启用下载也可离线符号化。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-01"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-02"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-06"
+        },
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-07"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D24"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D25"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-02"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-06"
+        }
+      ]
+    },
+    {
+      "id": "DM26",
+      "publisher": "Android Developers",
+      "title": "Processes and app lifecycle",
+      "url": "https://developer.android.com/guide/components/activities/process-lifecycle",
+      "version": "滚动 Android 指南；实际 API level/targetSdk 另锁",
+      "section": "进程重要性与回收",
+      "read_date": "2026-10-23",
+      "limited_proposition": "系统可回收进程，组件/线程内存不能作为跨进程死亡保存承诺。",
+      "not_supported": "不把 force-stop、普通回收、重启或取消视为等价。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-01"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-05"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M01"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M02"
+        }
+      ]
+    },
+    {
+      "id": "DM27",
+      "publisher": "Android Developers",
+      "title": "Save UI states",
+      "url": "https://developer.android.com/topic/libraries/architecture/saving-states",
+      "version": "滚动 Android 架构指南；具体库另锁",
+      "section": "Options for preserving UI state；saved state",
+      "read_date": "2026-10-23",
+      "limited_proposition": "ViewModel、saved state、持久存储的恢复范围不同；大业务数据不应依赖 UI snapshot。",
+      "not_supported": "具体 Compose 新增 API 不写为统一要求；saved state 不承诺所有退出方式均保留。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-02"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-03"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-04"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-05"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M02"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M03"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M14"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-05"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-01"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-05"
+        }
+      ]
+    },
+    {
+      "id": "DM28",
+      "publisher": "Apple",
+      "title": "Introducing Multiple Windows on iPad",
+      "url": "https://developer.apple.com/videos/play/wwdc2019/212/",
+      "version": "WWDC19 session 212；iOS/iPadOS 13 引入机制的官方演讲",
+      "section": "Transcript：UIWindowScene / SceneSession；state restoration",
+      "read_date": "2026-10-23",
+      "limited_proposition": "scene 可与 session 断接，界面状态与应用进程状态不同；恢复应绑定对应会话而非全局当前窗口。",
+      "not_supported": "不以 2019 演讲决定当前 SDK availability 或强制多窗口；恢复正确性要求是组织补充。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-01"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-02"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M02"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-03"
+        }
+      ]
+    },
+    {
+      "id": "DM29",
+      "publisher": "Android Developers",
+      "title": "Task scheduling",
+      "url": "https://developer.android.com/develop/background-work/background-tasks/persistent",
+      "version": "滚动指南；页面更新 2026-02-26；实际 WorkManager 另锁",
+      "section": "Work constraints；Robust scheduling；Use WorkManager for reliable work",
+      "read_date": "2026-10-23",
+      "limited_proposition": "WorkManager 有约束和持久调度，非全部即时工作通用机制，排队不等于业务结果。",
+      "not_supported": "不承诺强停后即时运行或精确时刻；应用的操作账与 OS 作业 ID 分离是组织补充。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-01"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-02"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-03"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-04"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-05"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-06"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M04"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-02"
+        }
+      ]
+    },
+    {
+      "id": "DM30",
+      "publisher": "Apple",
+      "title": "Advances in App Background Execution",
+      "url": "https://developer.apple.com/videos/play/wwdc2019/707/",
+      "version": "WWDC19 session 707；iOS 13 BGTask 机制的官方演讲",
+      "section": "Transcript：expiration / completion；earliest begin；debug launch",
+      "read_date": "2026-10-23",
+      "limited_proposition": "有限执行机会要求处理到期与完成回报；最早时间非必达承诺，调试触发不能替代自然调度。",
+      "not_supported": "不固定当前配额、后台时限或照抄私有调试选择子；采用方锁定当前 SDK 机制。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-01"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-02"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-04"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-05"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-06"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M04"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M12"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-04"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-04"
+        }
+      ]
+    },
+    {
+      "id": "DM31",
+      "publisher": "Android Developers",
+      "title": "Request runtime permissions",
+      "url": "https://developer.android.com/training/permissions/requesting",
+      "version": "滚动指南；危险权限流程适用于 Android 6/API23+；特殊权限分立",
+      "section": "Basic principles；Workflow",
+      "read_date": "2026-10-23",
+      "limited_proposition": "上下文请求、每次受保护操作前检查、拒绝后相关功能降级；权限组不是稳定授权单元。",
+      "not_supported": "不证明特定权限所有版本行为；账号、scene、对象授权仍独立。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-01"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-02"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-03"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-04"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-07"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-05"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M05"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M06"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M12"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-04"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-04"
+        }
+      ]
+    },
+    {
+      "id": "DM32",
+      "publisher": "Android Developers",
+      "title": "Minimize your permission requests",
+      "url": "https://developer.android.com/privacy-and-security/minimize-permission-requests",
+      "version": "滚动隐私指南，核读 2026-10-23",
+      "section": "开篇；alternative ways",
+      "read_date": "2026-10-23",
+      "limited_proposition": "选择器、较低精度和免权限代理可缩小访问面。",
+      "not_supported": "不禁止真实功能必需且获准的广泛访问。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-01"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-03"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M05"
+        }
+      ]
+    },
+    {
+      "id": "DM33",
+      "publisher": "Android Developers",
+      "title": "Build an offline-first app",
+      "url": "https://developer.android.com/topic/architecture/data-layer/offline-first",
+      "version": "滚动架构实施指南；非跨平台强制框架",
+      "section": "Design；local/network data source；Error handling",
+      "read_date": "2026-10-23",
+      "limited_proposition": "本地可见数据与远端状态可暂时不同；离线读写、重试和冲突需要明确数据层合同。",
+      "not_supported": "不强制所有应用 offline-first；远端效果权威、去重与原账号绑定由后端合同和组织补充。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D20"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M09"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M10"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M19"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-01"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-02"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-03"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-04"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-05"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-06"
+        },
+        {
+          "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+          "clause": "MB4-07"
+        }
+      ]
+    },
+    {
+      "id": "DM34",
+      "publisher": "Apple",
+      "title": "Keychain data protection",
+      "url": "https://support.apple.com/guide/security/keychain-data-protection-secb0694df1a/web",
+      "version": "Apple Platform Security 滚动页面，核读 2026-10-23",
+      "section": "Overview；accessibility classes / This device only",
+      "read_date": "2026-10-23",
+      "limited_proposition": "密钥链访问组、锁定可用性和迁移保护类有不同边界。",
+      "not_supported": "macOS 与移动 Data Protection 机制不同；不统一选择某一类，不承诺解锁等于服务授权。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/003-故障诊断、恢复模式与支持交付技术规范--v0.1.0.md",
+          "clause": "DT8-03"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I10"
+        },
+        {
+          "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+          "clause": "I14"
+        },
+        {
+          "path": "standards/L4/desktop/006-本地文档、存储与数据演进技术规范--v0.1.0.md",
+          "clause": "S02"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D21"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-05"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-07"
+        },
+        {
+          "path": "standards/L4/mobile/002-后台调度、检查点与可恢复操作技术规范--v0.1.0.md",
+          "clause": "MB2-05"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-03"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-06"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-06"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M08"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-05"
+        }
+      ]
+    },
+    {
+      "id": "DM35",
+      "publisher": "Android Developers",
+      "title": "Android Keystore system",
+      "url": "https://developer.android.com/privacy-and-security/keystore",
+      "version": "滚动指南；KeyInfo 查询依目标 SDK 分支",
+      "section": "Extraction prevention；StrongBox；Key use authorizations",
+      "read_date": "2026-10-23",
+      "limited_proposition": "非导出密钥仍可能被受攻陷应用调用；硬件支持依设备、算法和配置确认。",
+      "not_supported": "不要求所有设备 StrongBox；不声明密钥不可用即可清空业务数据。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D21"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-05"
+        },
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M08"
+        }
+      ]
+    },
+    {
+      "id": "DM36",
+      "publisher": "Android Developers",
+      "title": "Verify App Links",
+      "url": "https://developer.android.com/training/app-links/verify-applinks",
+      "version": "滚动指南；手动域验证流程 Android 12+",
+      "section": "Auto verification；Manual verification；Review results",
+      "read_date": "2026-10-23",
+      "limited_proposition": "域关联状态可验证，none/verified/approved 等不同；域关联不是业务对象授权。",
+      "not_supported": "不将测试强制 approved 冒称域名验证；不统一所有系统的深链规则。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M11"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-01"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-02"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-03"
+        }
+      ]
+    },
+    {
+      "id": "DM37",
+      "publisher": "Apple",
+      "title": "What's new in Universal Links",
+      "url": "https://developer.apple.com/videos/play/wwdc2020/10098/",
+      "version": "WWDC20 session 10098；2020 机制说明",
+      "section": "Transcript：two-way association",
+      "read_date": "2026-10-23",
+      "limited_proposition": "应用 entitlement 与网站关联文件共同建立域关联，验证链接的交付入口。",
+      "not_supported": "不证明链接对象当前有权或所有当前平台路径规则；缓存传播按采用版本核实。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M11"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-01"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-02"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-03"
+        }
+      ]
+    },
+    {
+      "id": "DM38",
+      "publisher": "Android Developers",
+      "title": "WebView – Native bridges",
+      "url": "https://developer.android.com/privacy-and-security/risks/insecure-webview-native-bridges",
+      "version": "滚动安全指南；风险文档非跨平台 API 标准",
+      "section": "Overview；Mitigations",
+      "read_date": "2026-10-23",
+      "limited_proposition": "addJavascriptInterface 向所有帧暴露对象且不能验证调用帧 origin；消息通道亦需正确来源边界。",
+      "not_supported": "不能写出平台不可能提供的可信帧验证；无法验证时须隔离内容/取消敏感桥而非自报 URL。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M13"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-06"
+        },
+        {
+          "path": "standards/L4/mobile/006-系统入口、深链、通知与原生桥技术规范--v0.1.0.md",
+          "clause": "MB5-07"
+        }
+      ]
+    },
+    {
+      "id": "DM39",
+      "publisher": "Android Developers",
+      "title": "Sign your app",
+      "url": "https://developer.android.com/studio/publish/app-signing",
+      "version": "滚动签名指南，核读 2026-10-23",
+      "section": "Play App Signing；Keystores；key upgrade",
+      "read_date": "2026-10-23",
+      "limited_proposition": "Play 上传密钥与设备 APK 应用签名密钥职责不同；AAB 上传物与渠道派生 APK 不是同一字节对象。",
+      "not_supported": "密钥轮换条件依 OS/渠道核；不把相同 key 绝对化，也不提供密钥操作授权。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-01"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-02"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-03"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-04"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-05"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-06"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M17"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M18"
+        }
+      ]
+    },
+    {
+      "id": "DM40",
+      "publisher": "Android Developers",
+      "title": "apksigner",
+      "url": "https://developer.android.com/tools/apksigner",
+      "version": "SDK Build Tools 接口；页面更新 2026-03-05；实际工具另锁",
+      "section": "Verify command",
+      "read_date": "2026-10-23",
+      "limited_proposition": "verify 与 print-certs 可检查 APK 签名与证书，API范围须与支持合同一致。",
+      "not_supported": "不能代替渠道资格、对象授权或真机安装；不读取私钥。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-01"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-02"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M17"
+        }
+      ]
+    },
+    {
+      "id": "DM41",
+      "publisher": "Apple",
+      "title": "Choose a build to submit",
+      "url": "https://developer.apple.com/help/app-store-connect/manage-builds/choose-a-build-to-submit",
+      "version": "滚动 App Store Connect Help，核读 2026-10-23",
+      "section": "Choose a build to submit",
+      "read_date": "2026-10-23",
+      "limited_proposition": "上传构建、版本选择和提交审核是不同步骤/状态。",
+      "not_supported": "不据此认定真实账号具资格或端上安装成功；其他渠道规则另按采用路径核。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-01"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-02"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-05"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M17"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M21"
+        }
+      ]
+    },
+    {
+      "id": "DM42",
+      "publisher": "Android Developers",
+      "title": "Back up user data with Auto Backup",
+      "url": "https://developer.android.com/identity/data/autobackup",
+      "version": "滚动 Android 指南；有效规则须按 OS/targetSdk/厂商固定",
+      "section": "Files that are backed up；Backup/Restore schedule",
+      "read_date": "2026-10-23",
+      "limited_proposition": "缓存/代码缓存/no-backup 与业务数据的备份范围不同；系统恢复与账号/密钥恢复需分别核。",
+      "not_supported": "不统一全部厂商迁移行为，不许诺每夜成功或所有数据已备份。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-03"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-06"
+        },
+        {
+          "path": "standards/L4/mobile/003-界面场景、进程恢复与本地状态技术规范--v0.1.0.md",
+          "clause": "MB1-07"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-04"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-06"
+        },
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M18"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M21"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-05"
+        }
+      ]
+    },
+    {
+      "id": "DM43",
+      "publisher": "Android Developers",
+      "title": "Test your app's accessibility",
+      "url": "https://developer.android.com/guide/topics/ui/accessibility/testing",
+      "version": "滚动指南，当前页面含 Compose/Views 分流",
+      "section": "Testing approaches；Manual testing；TalkBack",
+      "read_date": "2026-10-23",
+      "limited_proposition": "真实辅助技术任务与自动化/扫描是互补层；检查可达元素、播报和核心工作流。",
+      "not_supported": "不把标签或扫描结果等同等级符合；不强制采用 Compose。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-01"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-06"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-07"
+        },
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D27"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M14"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M15"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M22"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-01"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-02"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-07"
+        }
+      ]
+    },
+    {
+      "id": "DM44",
+      "publisher": "Apple",
+      "title": "Perform accessibility audits for your app",
+      "url": "https://developer.apple.com/videos/play/wwdc2023/10035/",
+      "version": "WWDC23 session 10035；Xcode 15 时代演示",
+      "section": "Discover audits；Considerations；identifier/label",
+      "read_date": "2026-10-23",
+      "limited_proposition": "Inspector/XCTest 审计检查当前视图常见问题；测试 identifier 与给用户的 label 用途不同。",
+      "not_supported": "不证明整条任务或全部 AT 通过；具体 API availability 由实际 SDK 决定。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-01"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-02"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-06"
+        },
+        {
+          "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+          "clause": "DT4-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M15"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M22"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-02"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-07"
+        }
+      ]
+    },
+    {
+      "id": "DM45",
+      "publisher": "Android Developers",
+      "title": "Profile battery usage with Batterystats and Battery Historian",
+      "url": "https://developer.android.com/topic/performance/power/setup-battery-historian",
+      "version": "滚动指南；页面更新 2026-05-19",
+      "section": "Warning；Gather data；View data",
+      "read_date": "2026-10-23",
+      "limited_proposition": "设备统计和轨迹用于能耗诊断；活动时间图不是组件耗电量，Battery Historian 已不积极维护。",
+      "not_supported": "不以模拟器/单次采样证明真机能耗；优先按实际目标选 system tracing/Power Profiler。",
+      "supports": [
+        {
+          "path": "standards/L4/desktop/007-桌面与跨平台软件领域通用基线--v0.1.0.md",
+          "clause": "D22"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-04"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-05"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-06"
+        },
+        {
+          "path": "standards/L4/desktop/009-跨平台兼容、性能与资源调度技术规范--v0.1.0.md",
+          "clause": "DT7-07"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M16"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M22"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-03"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-04"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-05"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-07"
+        }
+      ]
+    },
+    {
+      "id": "DM46",
+      "publisher": "Apple",
+      "title": "Third-party SDK requirements",
+      "url": "https://developer.apple.com/support/third-party-SDK-requirements/",
+      "version": "滚动渠道要求，核读 2026-10-23；名单不复制固化",
+      "section": "Privacy Manifests；Signatures；SDK requirements",
+      "read_date": "2026-10-23",
+      "limited_proposition": "应用仍对 SDK 代码和数据实践负责；隐私清单、合并报告与 SDK 签名各证不同事实。",
+      "not_supported": "不把当前名单用于未选渠道或推断全面隐私合规。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-03"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M20"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-06"
+        }
+      ]
+    },
+    {
+      "id": "DM47",
+      "publisher": "Google Play",
+      "title": "Provide information for Data safety",
+      "url": "https://support.google.com/googleplay/android-developer/answer/10787469?hl=en",
+      "version": "滚动 Play Console 政策说明，核读 2026-10-23",
+      "section": "Overview",
+      "read_date": "2026-10-23",
+      "limited_proposition": "所选 Play 渠道触发的数据申报涵盖第三方 SDK 实际收集/处理。",
+      "not_supported": "适用例外与当前政策另核；不是全 Android 发行或法律合规结论。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/004-移动制品身份、渠道更新与数据兼容技术规范--v0.1.0.md",
+          "clause": "MB6-03"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M20"
+        }
+      ]
+    },
+    {
+      "id": "DM48",
+      "publisher": "Apple",
+      "title": "Preventing Sensitive Information From Appearing In The Task Switcher",
+      "url": "https://developer.apple.com/library/archive/qa/qa1838/_index.html",
+      "version": "官方 QA1838，2014-05-12；历史单窗口回调示例",
+      "section": "Q/A；Note",
+      "read_date": "2026-10-23",
+      "limited_proposition": "任务切换快照会传播可见内容，应在对应生命周期边界保护敏感显示。",
+      "not_supported": "不把旧 app-delegate 示例直接用于全部 scene；不能撤回外部已捕获副本。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-06"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M20"
+        }
+      ]
+    },
+    {
+      "id": "DM49",
+      "publisher": "Android Developers",
+      "title": "Secure Clipboard Handling",
+      "url": "https://developer.android.com/privacy-and-security/risks/secure-clipboard-handling",
+      "version": "滚动指南，核读 2026-10-23；编译 API33 常量分支",
+      "section": "Overview；Flag Sensitive Data",
+      "read_date": "2026-10-23",
+      "limited_proposition": "敏感标记遮蔽预览；剪贴板跨进程传播仍有权限与版本边界。",
+      "not_supported": "不把预览遮蔽等于全面阻止读取，也不要求按指南更改所有项目最低版本。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-06"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M20"
+        }
+      ]
+    },
+    {
+      "id": "DM50",
+      "publisher": "Android Developers",
+      "title": "Secure sensitive activities",
+      "url": "https://developer.android.com/security/fraud-prevention/activities",
+      "version": "滚动安全指南；页面更新 2026-03-06",
+      "section": "FLAG_SECURE；Best practices",
+      "read_date": "2026-10-23",
+      "limited_proposition": "FLAG_SECURE 限制截图和非安全显示，但不能当成所有录屏/覆盖/物理拍摄的绝对防护。",
+      "not_supported": "按目标系统和真实任务测试，不泛化到全部平台。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/001-动态权限、设备会话与秘密可用性技术规范--v0.1.0.md",
+          "clause": "MB3-06"
+        },
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M20"
+        }
+      ]
+    },
+    {
+      "id": "DM51",
+      "publisher": "OWASP MAS Project",
+      "title": "Assessment and Certification",
+      "url": "https://mas.owasp.org/MASVS/04-Assessment_and_Certification/",
+      "version": "滚动采用指南，核读 2026-10-23；未采纳某一 MASVS 控制版本",
+      "section": "OWASP stance；Guidance for Certifying Mobile Apps",
+      "read_date": "2026-10-23",
+      "limited_proposition": "OWASP 不认证软件/评估者；移动客户端安全范围不包括全部远端接口，单工具不够证明评估。",
+      "not_supported": "仅作为评估边界；不是本包完成安全认证或逐控制符合审查。",
+      "supports": [
+        {
+          "path": "standards/L4/mobile/005-移动应用领域通用基线--v0.1.0.md",
+          "clause": "M22"
+        },
+        {
+          "path": "standards/L4/mobile/007-设备适配、可访问任务与能耗诊断技术规范--v0.1.0.md",
+          "clause": "MB7-07"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": [
+      "id",
+      "clause_id",
+      "document_id",
+      "document",
+      "path",
+      "version",
+      "document_sha256",
+      "title",
+      "heading",
+      "line",
+      "end_line",
+      "section_sha256",
+      "normative_start_line",
+      "normative_end_line",
+      "normative_sha256",
+      "fields",
+      "acceptance_fields",
+      "kind",
+      "check_scope"
+    ],
+    "additionalProperties": false,
+    "properties": {
+      "id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "clause_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "document_id": {
+        "type": "string",
+        "minLength": 1
+      },
+      "document": {
+        "type": "string",
+        "minLength": 1
+      },
+      "path": {
+        "type": "string",
+        "minLength": 1
+      },
+      "version": {
+        "type": "string",
+        "minLength": 1
+      },
+      "document_sha256": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "title": {
+        "type": "string",
+        "minLength": 1
+      },
+      "heading": {
+        "type": "string",
+        "minLength": 1
+      },
+      "line": {
+        "type": "integer"
+      },
+      "end_line": {
+        "type": "integer"
+      },
+      "section_sha256": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "normative_start_line": {
+        "type": "integer"
+      },
+      "normative_end_line": {
+        "type": "integer"
+      },
+      "normative_sha256": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      },
+      "fields": {
+        "type": "object"
+      },
+      "acceptance_fields": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "kind": {
+        "enum": [
+          "labelled-clause",
+          "narrative-section"
+        ]
+      },
+      "check_scope": {
+        "enum": [
+          "identity-and-structure"
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<title>Native browser contract fixture</title>
+<style>button,input{font:inherit;margin:.2em} dialog{border:2px solid}</style>
+<h1>原生交互与异步落地合同</h1>
+<form id="edit" action="/native" method="get">
+ <label>标题 <input id="title" name="title" required></label>
+ <input name="readonly" value="kept" readonly aria-label="只读字段">
+ <input name="disabled" value="absent" disabled aria-label="禁用字段">
+ <input name="unchecked" value="absent" type="checkbox" aria-label="未选字段">
+ <button id="save" name="intent" value="save">保存</button>
+ <button id="publish" name="intent" value="publish">发布</button>
+</form>
+<button id="open" type="button">打开对话框</button>
+<dialog id="dialog" aria-labelledby="dialog-title">
+ <h2 id="dialog-title">修改草稿</h2>
+ <label>草稿 <input id="draft"></label><button id="close" type="button">关闭</button>
+</dialog>
+<div id="outer"><a id="link" href="#destination">默认导航</a></div>
+<p id="destination">锚点目标</p>
+<button id="route-a">路径 A</button><button id="route-b">路径 B</button>
+<button id="switch">切换为账号 B</button><output id="view">B-empty</output>
+<script>
+'use strict';
+window.events=[];
+const log=(type,detail={})=>events.push({type,...detail});
+const edit=document.getElementById('edit');
+edit.addEventListener('invalid',e=>log('invalid',{field:e.target.name}),true);
+edit.addEventListener('submit',e=>{
+ e.preventDefault();
+ // Capture successful controls and the actual submitter BEFORE any pending UI disables them.
+ const entries=[...new FormData(edit,e.submitter).entries()];
+ log('submit',{submitter:e.submitter?.id??null,entries,trusted:e.isTrusted});
+});
+const modal=document.getElementById('dialog');
+document.getElementById('open').onclick=()=>modal.showModal();
+document.getElementById('close').onclick=()=>modal.close();
+modal.addEventListener('cancel',()=>log('dialog-cancel'));
+modal.addEventListener('close',()=>log('dialog-close',{focus:document.activeElement.id}));
+window.eventMode='stop';
+document.getElementById('outer').addEventListener('click',()=>log('outer-click'));
+document.getElementById('link').addEventListener('click',e=>{
+ log('link-click',{trusted:e.isTrusted});
+ if(eventMode==='stop')e.stopPropagation();
+ if(eventMode==='prevent')e.preventDefault();
+});
+window.onpopstate=e=>log('popstate',{url:location.pathname,state:e.state});
+document.getElementById('route-a').onclick=()=>history.pushState({route:'a'},'', '/route/a');
+document.getElementById('route-b').onclick=()=>history.pushState({route:'b'},'', '/route/b');
+window.account='A'; window.accountEpoch=1; window.querySeq=0;
+window.pending=new Map();
+window.begin=(label,{guard=true}={})=>{
+ const snapshot={account,epoch:accountEpoch,query:++querySeq};
+ return new Promise(resolve=>pending.set(label,resolve)).then(value=>{
+  const accepted=!guard||(account===snapshot.account&&accountEpoch===snapshot.epoch&&querySeq===snapshot.query);
+  if(accepted)document.getElementById('view').value=value;
+  log('landing',{label,accepted,snapshot,current:{account,epoch:accountEpoch,query:querySeq},value});
+  return accepted;
+ });
+};
+window.complete=(label,value)=>{pending.get(label)(value);pending.delete(label)};
+document.getElementById('switch').onclick=()=>{
+ account='B';accountEpoch++;querySeq++;document.getElementById('view').value='B-empty';
+ log('identity',{account,accountEpoch});
+};
+</script>
+</html>

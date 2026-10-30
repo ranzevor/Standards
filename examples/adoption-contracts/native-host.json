@@ -1,0 +1,126 @@
+{
+  "decision": {
+    "actor": null,
+    "at": null,
+    "authority_reference": null,
+    "status": "not-decided"
+  },
+  "dependencies": [
+    {
+      "from": {
+        "clause_id": "MB4-04",
+        "document_id": "STD-L4-MOBILE-008"
+      },
+      "interface": "跨账号回调落地消费宿主异步代次与对象身份守卫。",
+      "kind": "required-consumption",
+      "to": {
+        "clause_id": "STK-03",
+        "document_id": "STD-L5-006"
+      }
+    }
+  ],
+  "example_only": true,
+  "id": "synthetic-native-host",
+  "implementation": {
+    "environment": "设计环境：桌面IPC与移动队列合成宿主；实际平台未选定。",
+    "identity": "synthetic-design:native-host:v1 (not a real project or accepted implementation)",
+    "scope": "仅演示IPC执行入口、移动跨账号队列与异步代次，未验真实OS、辅助技术或设备。不是完整采用。",
+    "status": "not-run"
+  },
+  "operation_authorized": false,
+  "project": {
+    "id": "合成原生宿主",
+    "kind": "synthetic"
+  },
+  "requirements": [
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "目标IPC测试客户端：在已认证连接上替换对象ID/方法；分别发送有权与越权请求。",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "有权请求按对象执行，越权请求拒绝且不产生副作用；服务不能仅凭连接曾认证放行。",
+          "id": "native-host-ipc",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "I04",
+      "document_id": "STD-L4-DESKTOP-005",
+      "reason": "可信连接身份并不替代每条敏感IPC请求对象和方法授权。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "目标移动测试：账号A发起慢任务，切到B或撤权，再释放A的回调并检查存储与界面。",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "A结果不能写B空间；旧外部效果仍按原意图核状态而非静默清空未知。",
+          "id": "native-host-queue",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "MB4-04",
+      "document_id": "STD-L4-MOBILE-008",
+      "reason": "队列中在途结果可能在账号切换或撤权后到达。"
+    },
+    {
+      "applicability": "applicable",
+      "checks": [
+        {
+          "actual": null,
+          "command": "node examples/stacks/javascript_case.mjs",
+          "evidence": [],
+          "evidence_level": "isolated-implementation",
+          "expected": "旧epoch响应被隔离，独立合法对象不被单一全局epoch误拒；取消不代表远端停止。",
+          "id": "native-host-js",
+          "status": "not-run"
+        }
+      ],
+      "clause_id": "STK-03",
+      "document_id": "STD-L5-006",
+      "reason": "该合成宿主使用JavaScript异步桥，需要着陆时校验身份与代次。"
+    },
+    {
+      "applicability": "undetermined",
+      "checks": [],
+      "clause_id": "DT4-01",
+      "document_id": "STD-L4-DESKTOP-001",
+      "reason": "辅助技术目标/版本尚未选定，不能把未运行当不适用。"
+    }
+  ],
+  "schema_version": "1.0",
+  "standards": [
+    {
+      "id": "STD-L4-DESKTOP-005",
+      "path": "standards/L4/desktop/005-本地应用架构、进程通信与权限边界技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "01345cdc9f8074c2ad5a594e78ae5f6b6b29af7934e8d0353c2bee89ea7fa436",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L4-MOBILE-008",
+      "path": "standards/L4/mobile/008-账号隔离、离线队列与同步结果技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "cc1d3f5eb35b622ca8063b07de563e00243df44e5b44fb00aa4c6eb4870e5d1f",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L5-006",
+      "path": "standards/L5/006-JavaScript-TypeScript-技术适配规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "d87ab4e75289a2e0ea4aeb0d12c90f655eb5e0e7ec3a4189831812d7d3c9fbc1",
+      "version": "0.1.0"
+    },
+    {
+      "id": "STD-L4-DESKTOP-001",
+      "path": "standards/L4/desktop/001-原生交互、输入与辅助技术互操作技术规范--v0.1.0.md",
+      "selection": "technical-reference",
+      "sha256": "d9b3b16ff00e5715077f6c5dad078d3f7fa98509b30adbbd39c5b194f5d9cbcd",
+      "version": "0.1.0"
+    }
+  ]
+}

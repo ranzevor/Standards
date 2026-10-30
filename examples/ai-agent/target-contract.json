@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "target_kind": "unconfigured-real-target",
+  "implementation_acceptance": "not-run",
+  "adapter_module": null,
+  "run_command": null,
+  "endpoint": null,
+  "exact_versions": {},
+  "authenticated_subject_source": null,
+  "input_schema": null,
+  "output_schema": null,
+  "authority_query": null,
+  "idempotency_scope_and_window": null,
+  "current_authorization_and_fence_acceptance_point": null,
+  "logical_task_attempt_epoch_mapping": null,
+  "budget_bound_and_usage_source": null,
+  "cancellation_and_unknown_result_contract": null,
+  "evidence_receipts": [],
+  "test_layers": {
+    "finite_reference_model": "separate-local-evidence",
+    "actual_model_behavior": "not-run",
+    "actual_sdk_protocol": "not-run",
+    "actual_storage_auth_isolation": "not-run",
+    "actual_business_result": "not-run"
+  }
+}

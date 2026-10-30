@@ -1,0 +1,66 @@
+{
+  "items": {
+    "additionalProperties": true,
+    "properties": {
+      "condition": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "from_clause": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "from_document": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "interface": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "required": {
+        "type": "boolean"
+      },
+      "state": {
+        "enum": [
+          "adopted-technical-reference"
+        ]
+      },
+      "to_clause": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "to_document": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "to_sha256": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "to_version": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "verification_owner": {
+        "minLength": 1,
+        "type": "string"
+      }
+    },
+    "required": [
+      "from_document",
+      "from_clause",
+      "to_document",
+      "to_clause",
+      "to_version",
+      "to_sha256",
+      "interface",
+      "condition",
+      "state",
+      "verification_owner",
+      "required"
+    ],
+    "type": "object"
+  },
+  "type": "array"
+}

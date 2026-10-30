@@ -1,0 +1,184 @@
+{
+  "schema_version": 1,
+  "target_kind": "synthetic-example",
+  "implementation_acceptance": "not-run",
+  "adapter_module": "examples.ai_target_adapter",
+  "run_command": [
+    "python",
+    "-m",
+    "examples.ai_target_adapter",
+    "run",
+    "--request",
+    "request.json",
+    "--receipt",
+    "receipt.json"
+  ],
+  "endpoint": "https://agent-contract.example.invalid/v1/tasks",
+  "exact_versions": {
+    "adapter": "0.1.0-example",
+    "protocol": "2025-11-25-example",
+    "model": "synthetic-fixed-output-1"
+  },
+  "authenticated_subject_source": {
+    "authority": "synthetic local identity fixture; not a real service credential",
+    "input_claims": [
+      "subject",
+      "tenant",
+      "audience",
+      "expires_at"
+    ],
+    "validation_command": [
+      "python",
+      "-m",
+      "examples.ai_target_adapter",
+      "verify-subject",
+      "--fixture",
+      "identity.json"
+    ]
+  },
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "task_id": {
+        "type": "string"
+      },
+      "attempt": {
+        "type": "integer"
+      },
+      "epoch": {
+        "type": "integer"
+      },
+      "operation_key": {
+        "type": "string"
+      },
+      "payload_digest": {
+        "type": "string"
+      }
+    },
+    "required": [
+      "task_id",
+      "attempt",
+      "epoch",
+      "operation_key",
+      "payload_digest"
+    ],
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "type": "object",
+    "properties": {
+      "operation_key": {
+        "type": "string"
+      },
+      "state": {
+        "enum": [
+          "pending",
+          "succeeded",
+          "failed",
+          "cancelled",
+          "unknown"
+        ]
+      },
+      "authority_receipt": {
+        "type": "string"
+      },
+      "usage_units": {
+        "type": "integer"
+      }
+    },
+    "required": [
+      "operation_key",
+      "state",
+      "authority_receipt",
+      "usage_units"
+    ],
+    "additionalProperties": false
+  },
+  "authority_query": {
+    "command": [
+      "python",
+      "-m",
+      "examples.ai_target_adapter",
+      "query",
+      "--operation-key",
+      "example-operation-1"
+    ],
+    "result_fields": [
+      "operation_key",
+      "state",
+      "accepted_epoch",
+      "usage_units",
+      "receipt_digest"
+    ],
+    "unavailable_action": "retain unknown and reservation; do not infer failure or submit a new billable operation"
+  },
+  "idempotency_scope_and_window": {
+    "key_fields": [
+      "tenant",
+      "task_id",
+      "logical_operation",
+      "payload_digest"
+    ],
+    "retention_seconds": 86400,
+    "authority": "synthetic operation ledger; payload conflicts reject instead of reusing a receipt"
+  },
+  "current_authorization_and_fence_acceptance_point": {
+    "authenticated_subject_fields": [
+      "subject",
+      "tenant",
+      "audience",
+      "expires_at"
+    ],
+    "permission_source": "synthetic policy snapshot version referenced by the operation ledger",
+    "fence_field": "epoch",
+    "atomic_acceptance_point": "compare epoch and authorization inside the transaction recording accepted operation_key",
+    "denial_action": "reject without starting a side effect or releasing an unknown reservation"
+  },
+  "logical_task_attempt_epoch_mapping": {
+    "task_field": "task_id",
+    "attempt_field": "attempt",
+    "epoch_field": "epoch",
+    "stale_result_action": "append as stale evidence; never overwrite current accepted state"
+  },
+  "budget_bound_and_usage_source": {
+    "maximum_units": 1000,
+    "unit": "synthetic-token-unit",
+    "reservation_authority": "synthetic ledger reserve transaction before submission",
+    "usage_authority": "authority query receipt associated with operation_key",
+    "unknown_result_action": "keep reservation until authority confirms terminal result or reconciled usage"
+  },
+  "cancellation_and_unknown_result_contract": {
+    "cancel_command": [
+      "python",
+      "-m",
+      "examples.ai_target_adapter",
+      "cancel",
+      "--operation-key",
+      "example-operation-1"
+    ],
+    "query_command": [
+      "python",
+      "-m",
+      "examples.ai_target_adapter",
+      "query",
+      "--operation-key",
+      "example-operation-1"
+    ],
+    "terminal_states": [
+      "succeeded",
+      "failed",
+      "cancelled"
+    ],
+    "unknown_action": "retain unknown; cancellation acknowledgement is not terminal and does not prove refund",
+    "retry_condition": "only query is repeatable while unknown; resubmission requires same idempotency key and authoritative acceptance policy",
+    "timeout_seconds": 30
+  },
+  "evidence_receipts": [],
+  "test_layers": {
+    "finite_reference_model": "separate-local-evidence",
+    "actual_model_behavior": "not-run",
+    "actual_sdk_protocol": "not-run",
+    "actual_storage_auth_isolation": "not-run",
+    "actual_business_result": "not-run"
+  }
+}

@@ -1,0 +1,965 @@
+[
+  {
+    "id": "PG-C",
+    "url": "https://www.postgresql.org/docs/18/ddl-constraints.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "5.5 CHECK/NOT NULL/UNIQUE/PK/FK",
+    "claim_scope": "CHECK允许UNKNOWN、UNIQUE空值规则及引用约束是不同条件。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-W",
+    "url": "https://www.postgresql.org/docs/18/runtime-config-wal.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "19.5 fsync/full_page_writes/synchronous_commit; recovery targets",
+    "claim_scope": "同步参数、远端阶段及空同步名单需联合审查；恢复目标另有包含性和timeline。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-I",
+    "url": "https://www.postgresql.org/docs/18/transaction-iso.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "13.2 Read Committed/Repeatable Read/Serializable",
+    "claim_scope": "同名隔离级别不能跨引擎外推，快照与可串行化不同。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-R",
+    "url": "https://www.postgresql.org/docs/18/mvcc-serialization-failure-handling.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "13.5 Serialization Failure Handling",
+    "claim_scope": "40001应重放完整事务；唯一冲突仅在具体并发模式下可重试。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-D",
+    "url": "https://www.postgresql.org/docs/18/sql-altertable.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "ADD NOT VALID/VALIDATE; Notes on rewrite/locks",
+    "claim_scope": "18允许FK/CHECK/not-null的NOT VALID；存量验证、锁与后续写约束分开。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-P",
+    "url": "https://www.postgresql.org/docs/18/ddl-partitioning.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "5.12 Overview/Declarative Partitioning/Limitations/Pruning",
+    "claim_scope": "分区有性能及生命周期收益，唯一约束/裁剪/路由依声明规则。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-X",
+    "url": "https://www.postgresql.org/docs/18/sql-explain.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "Description; ANALYZE/BUFFERS/WAL/MEMORY/GENERIC_PLAN",
+    "claim_scope": "cost是估计单位；ANALYZE真正执行，诊断开销和副作用需分开。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-MI",
+    "url": "https://www.postgresql.org/docs/18/indexes-multicolumn.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "11.3 Multicolumn Indexes",
+    "claim_scope": "前导等值/范围影响B-tree，18 skip scan与GIN/BRIN规则不同。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-PI",
+    "url": "https://www.postgresql.org/docs/18/indexes-partial.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "11.8 predicate implication",
+    "claim_scope": "查询谓词需在规划时蕴涵部分索引谓词，不能由任意参数保证。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-L",
+    "url": "https://www.postgresql.org/docs/18/logicaldecoding-explanation.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "47.2 slots/logical decoding",
+    "claim_scope": "逻辑槽进度checkpoint后可能回退重发；事件身份与位点分离。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-HA",
+    "url": "https://www.postgresql.org/docs/18/warm-standby.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "26.2 log shipping/streaming/synchronous/cascading/failover",
+    "claim_scope": "流复制接收、落盘、回放和提升条件独立；异步存在丢失窗口。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-B",
+    "url": "https://www.postgresql.org/docs/18/continuous-archiving.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "25.3 continuous archiving/base backup/recovery/timelines",
+    "claim_scope": "PITR需要基线及连续WAL，不能由逻辑dump或文件存在推定。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-VB",
+    "url": "https://www.postgresql.org/docs/18/app-pgverifybackup.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "Description four stages/limitations",
+    "claim_scope": "Manifest及WAL校验不是实际恢复和正确业务数据的证明。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-CB",
+    "url": "https://www.postgresql.org/docs/18/app-pgcombinebackup.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "Description; Options --no-sync; Limitations",
+    "claim_scope": "增量合成需要所有前置备份；链合法不等于每份完整。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-S",
+    "url": "https://www.postgresql.org/docs/18/sql-select.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "SELECT stages; DISTINCT; GROUP BY; WINDOW; ORDER BY/LIMIT",
+    "claim_scope": "结果形状、bag/set、帧与排序不同，分页唯一排序不等于固定快照。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-WF",
+    "url": "https://www.postgresql.org/docs/18/functions-window.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "9.22 frame/last_value/NULL handling",
+    "claim_scope": "last_value使用当前帧，默认帧并非整个分区。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-COPY",
+    "url": "https://www.postgresql.org/docs/18/sql-copy.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "Description; ON_ERROR; REJECT_LIMIT",
+    "claim_scope": "服务端文件与STDIN不同，ignore/reject_limit限制转换错误而非所有业务校验。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PG-ACL",
+    "url": "https://www.postgresql.org/docs/18/ddl-rowsecurity.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "5.9 bypass/default-deny/USING/WITH CHECK",
+    "claim_scope": "owner/superuser/BYPASSRLS边界及策略组合需真实身份验证。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-I",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-transaction-isolation-levels.html",
+    "version_scope": "MySQL 8.4 InnoDB",
+    "sections_read": "17.7.2.1 RR/RC; consistent/locking reads",
+    "claim_scope": "普通一致读、锁定读及范围锁语义不同，不能混为同一快照。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-W",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-parameters.html",
+    "version_scope": "MySQL 8.4 InnoDB",
+    "sections_read": "17.14 innodb_flush_log_at_trx_commit/timeout/flush_method/rollback_on_timeout",
+    "claim_scope": "0/1/2日志同步与binlog配置分别控制耐久；超时回滚范围另有配置。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-D",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-online-ddl-operations.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "17.12.1 INSTANT/INPLACE/COPY; TOTAL_ROW_VERSIONS; VARCHAR byte boundary",
+    "claim_scope": "在线DDL仍有算法/资源限制，255到256需按最大字节数判断。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-PK",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/partitioning-limitations-partitioning-keys-unique-keys.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "26.6.1",
+    "claim_scope": "每个唯一键要包含分区表达式所有列；不是跨分片通用唯一性。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-PF",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/partitioning-limitations-storage-engines.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "26.6.2",
+    "claim_scope": "InnoDB用户分区与外键不兼容，不能推广NDB规则。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-HA",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/replication-semisync.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "19.4.10 commit/ack/timeout",
+    "claim_scope": "半同步ACK在relay log刷盘之后，可超时退异步，不表示已回放业务。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MY-GR",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/group-replication-configuring-consistency-guarantees.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "20.5.3.2 EVENTUAL/BEFORE_ON_PRIMARY_FAILOVER/BEFORE/AFTER",
+    "claim_scope": "读写等待保证依选项作用范围，不由组副本数自动产生。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-W",
+    "url": "https://www.sqlite.org/wal.html",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "WAL file/checkpoint/shared-memory; concurrency and persistence",
+    "claim_scope": "未checkpoint提交可能只在WAL；SHM可重建，备份需一致入口。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-P",
+    "url": "https://www.sqlite.org/pragma.html#pragma_synchronous",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "PRAGMA synchronous WAL/rollback matrix; unknown PRAGMAs",
+    "claim_scope": "FULL/NORMAL/EXTRA依journal模式区分，设置需读回。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-I",
+    "url": "https://www.sqlite.org/isolation.html",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "Isolation and concurrency; WAL snapshot upgrade",
+    "claim_scope": "WAL快照读者升级可能BUSY_SNAPSHOT，须重新开始事务。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-B",
+    "url": "https://www.sqlite.org/backup.html",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "Online Backup API; basic/advanced usage",
+    "claim_scope": "Backup API是在线一致复制入口，成功不测试硬件掉电。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-D",
+    "url": "https://www.sqlite.org/lang_altertable.html",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "ALTER TABLE; Making Other Kinds Of Table Schema Changes",
+    "claim_scope": "支持的原生ALTER与一般12步重建不同，依实际版本核对。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-F",
+    "url": "https://www.sqlite.org/foreignkeys.html",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "2 enabling; 3 indexes; 4 deferred/actions",
+    "claim_scope": "FK需要逐连接启用，NULL引用与NOT NULL是不同规则。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-E",
+    "url": "https://www.sqlite.org/lang_expr.html",
+    "version_scope": "SQLite dynamic; actual runtime logged independently",
+    "sections_read": "8 IN/NOT IN; 10 EXISTS; 11 scalar subquery; 13 CAST",
+    "claim_scope": "SQLite标量子查询取首行，不能期待多行自动报错。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SQ-Q",
+    "url": "https://www.sqlite.org/eqp.html",
+    "version_scope": "SQLite dynamic; diagnostic text not an API",
+    "sections_read": "1 EQP output warning; 1.1 scan/search/covering",
+    "claim_scope": "EQP文本可能变化，不应作为稳定应用接口。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MO-C",
+    "url": "https://www.mongodb.com/docs/v8.0/reference/method/db.collection.watch/",
+    "version_scope": "MongoDB 8.0",
+    "sections_read": "resumeAfter/startAfter/invalidate and retention",
+    "claim_scope": "恢复token受oplog和失效事件约束，不能无限恢复。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MO-V",
+    "url": "https://www.mongodb.com/docs/manual/core/schema-validation/specify-validation-level/",
+    "version_scope": "MongoDB 9.0 dynamic page; not MongoDB 8.0 capability",
+    "sections_read": "strict/moderate/constraint; prepareConstraintValidationLevel",
+    "claim_scope": "constraint新增于9.0且有准备/扫描/validationAction前置；strict不追认历史全合法。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MO-S",
+    "url": "https://www.mongodb.com/docs/v8.0/core/sharding-shard-key/",
+    "version_scope": "MongoDB 8.0",
+    "sections_read": "Unique indexes/missing shard key",
+    "claim_scope": "唯一键要有shard key前缀，非shard key的_id仅本片唯一。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "MO-R",
+    "url": "https://www.mongodb.com/docs/v8.0/reference/read-concern-majority/",
+    "version_scope": "MongoDB 8.0",
+    "sections_read": "majority/transactions/latency/causally consistent sessions",
+    "claim_scope": "majority读不等于最新；事务保证依majority写关注。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SS-I",
+    "url": "https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver16",
+    "version_scope": "SQL Server 2022 target; dynamic Learn content",
+    "sections_read": "row-versioning isolation comparison and enablement",
+    "claim_scope": "RCSI与SNAPSHOT分别依数据库选项及语句/事务视图。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SS-HA",
+    "url": "https://learn.microsoft.com/en-us/sql/database-engine/availability-groups/windows/availability-modes-always-on-availability-groups?view=sql-server-ver16",
+    "version_scope": "SQL Server 2022 target; dynamic Learn content",
+    "sections_read": "synchronous-commit/asynchronous-commit and failover",
+    "claim_scope": "同步状态和quorum联合决定无损切换资格；断连可暴露风险。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "CR-D",
+    "url": "https://docs.cockroachlabs.com/docs/v26.2/online-schema-changes",
+    "version_scope": "CockroachDB 26.2",
+    "sections_read": "schema change jobs; known rollback/prepared statement limitations",
+    "claim_scope": "在线变更有异步完成和回退限制；SQL返回不等于全部数据变换。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "FW-H",
+    "url": "https://documentation.red-gate.com/flyway/flyway-concepts/migrations/flyway-schema-history-table",
+    "version_scope": "Flyway dynamic; actual tool version required",
+    "sections_read": "Validate/Repair; history checksums",
+    "claim_scope": "应用后改写迁移能引发checksum冲突，repair不是证明数据库状态正确。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "DB-PG",
+    "url": "https://debezium.io/documentation/reference/3.7/connectors/postgresql.html",
+    "version_scope": "Debezium 3.7",
+    "sections_read": "snapshots/incremental snapshots; duplicate events; source structure",
+    "claim_scope": "快照-流衔接与完整source offset、重发窗口必须受控。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "KA-C",
+    "url": "https://kafka.apache.org/41/javadoc/org/apache/kafka/clients/consumer/KafkaConsumer.html",
+    "version_scope": "Kafka API 4.1 (4.1.2 page)",
+    "sections_read": "Offsets and Consumer Position; Storing Offsets Outside Kafka",
+    "claim_scope": "broker offset与业务提交不同，可同存目标事务；offset数字不保证连续。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "FL-W",
+    "url": "https://nightlies.apache.org/flink/flink-docs-release-2.3/docs/dev/datastream/event-time/generating_watermarks/",
+    "version_scope": "Flink 2.3",
+    "sections_read": "Dealing With Idle Sources; Watermark Alignment",
+    "claim_scope": "空闲源可排除最小水位，恢复旧事件需迟到策略；alignment有连接器条件。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SP-S",
+    "url": "https://spark.apache.org/docs/4.2.0/streaming/apis-on-dataframes-and-datasets.html",
+    "version_scope": "Spark 4.2.0",
+    "sections_read": "watermarks/multiple watermarks/stream joins/deduplication",
+    "claim_scope": "事件时间、状态保留、触发及多输入水位有明确作用域。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "SP-C",
+    "url": "https://spark.apache.org/docs/4.2.0/sql-data-sources-csv.html",
+    "version_scope": "Spark 4.2.0",
+    "sections_read": "mode/column pruning/extra and fewer tokens",
+    "claim_scope": "多/少token不自动算corrupt，FAILFAST不能代替列完整性合同。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AW-S",
+    "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html",
+    "version_scope": "DynamoDB dynamic service contract",
+    "sections_read": "Reading and processing a stream; 24-hour lifetime",
+    "claim_scope": "父shard先于子shard，同item排序不是全表全序，超24小时可能断档。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AW-B",
+    "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Point-in-time-recovery.html",
+    "version_scope": "DynamoDB dynamic service contract",
+    "sections_read": "Before you begin",
+    "claim_scope": "1—35天窗口按配置，恢复成独立表且不自动恢复global table关系。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AW-G",
+    "url": "https://docs.aws.amazon.com/glue/latest/dg/monitor-continuations.html",
+    "version_scope": "AWS Glue dynamic service contract",
+    "sections_read": "bookmark rewind/reset; operational details",
+    "claim_scope": "bookmark reset不清理目标，历史重跑要治理重复输出。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "GO-B",
+    "url": "https://docs.cloud.google.com/spanner/docs/pitr",
+    "version_scope": "Spanner dynamic service contract",
+    "sections_read": "Ways to recover/performance/earliest_version_time",
+    "claim_scope": "保留1小时至7日；延长窗口不能补过去历史，不保护整库误删。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "VI-T",
+    "url": "https://vitess.io/docs/23.0/user-guides/configuration-advanced/shard-isolation-atomicity/",
+    "version_scope": "Vitess 23",
+    "sections_read": "Cross-shard isolation; MULTI; TWOPC",
+    "claim_scope": "MULTI可能部分提交，TWOPC原子性不等于跨片隔离。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "TI-P",
+    "url": "https://docs.pingcap.com/tidb/stable/partitioned-table/",
+    "version_scope": "TiDB dynamic stable; actual version required",
+    "sections_read": "partitioning keys and global indexes",
+    "claim_scope": "global indexes可改变local unique键约束，不能套MySQL固定规则。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "CA-D",
+    "url": "https://cassandra.apache.org/doc/latest/cassandra/architecture/dynamo.html",
+    "version_scope": "Cassandra 5.0 page, dynamic latest alias",
+    "sections_read": "Dynamo architecture / replication / consistency",
+    "claim_scope": "多主接受mutation，冲突和副本协议不能由单主Fencing规则取代。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "RE-W",
+    "url": "https://redis.io/docs/latest/commands/wait/",
+    "version_scope": "Redis dynamic command documentation",
+    "sections_read": "Consistency and WAIT / Implementation",
+    "claim_scope": "WAIT统计当前连接复制ACK，仍可能丢写，不构成强一致存储。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "RO-W",
+    "url": "https://github.com/facebook/rocksdb/blob/v11.8.1/include/rocksdb/options.h",
+    "version_scope": "RocksDB 11.8.1; blob cb7c4709ba1f1af94befccf54cf643dffce9e3aa",
+    "sections_read": "WriteOptions::sync/disableWAL; WALRecoveryMode",
+    "claim_scope": "sync/disableWAL和恢复容损模式不同；sync=false不承诺机器重启耐久。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PA-F",
+    "url": "https://parquet.apache.org/docs/file-format/",
+    "version_scope": "Parquet dynamic format specification",
+    "sections_read": "File layout/footer/row group/column chunks",
+    "claim_scope": "Footer和数据分开，必须读取引用结构而非凭扩展名/目录猜测。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PA-B",
+    "url": "https://parquet.apache.org/docs/file-format/bloomfilter/",
+    "version_scope": "Parquet dynamic format specification",
+    "sections_read": "Split Block Bloom Filter/sizing/file format",
+    "claim_scope": "Bloom命中可假阳性，不能据命中返回不存在的行。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AR-F",
+    "url": "https://arrow.apache.org/docs/format/Columnar.html",
+    "version_scope": "Arrow docs 26.0.0; format and library version separate",
+    "sections_read": "physical memory layout/null bitmap/offset/IPC",
+    "claim_scope": "内存与IPC、磁盘列式格式不同，缓冲/偏移必须核边界。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AR-C",
+    "url": "https://arrow.apache.org/docs/format/CDataInterface.html",
+    "version_scope": "Arrow docs 26.0.0; ABI contract",
+    "sections_read": "Semantics / Memory management / Release callback",
+    "claim_scope": "消费者仅释放base，producer负责children；released后不能再访问。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "IC-S",
+    "url": "https://iceberg.apache.org/spec/",
+    "version_scope": "Iceberg v1/v2/v3 adopted; v4 development",
+    "sections_read": "Format versions / snapshots / manifests / sequence numbers / deletes",
+    "claim_scope": "v4未正式采用；快照可达性和删除版本规则需按格式区分。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "IC-M",
+    "url": "https://iceberg.apache.org/docs/latest/maintenance/",
+    "version_scope": "Iceberg Java 1.12.0 page; latest alias",
+    "sections_read": "Expire snapshots / orphan files / retention interval",
+    "claim_scope": "清理间隔短于在途写入可能损坏表，历史引用和路径身份需保全。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "DE-P",
+    "url": "https://github.com/delta-io/delta/blob/b9f7966184d6f4d7ff7c1df30fec1a47b51a0c05/PROTOCOL.md",
+    "version_scope": "Delta commit b9f7966184d6f4d7ff7c1df30fec1a47b51a0c05; blob 4bb4e2f347ab3bf9188cd1e193cc83c894eb55d3",
+    "sections_read": "Protocol Evolution / Checkpoints / Table Features / Column Mapping / Deletion Vectors",
+    "claim_scope": "日志/checkpoint引用、reader/writer feature门禁及DV过滤共同定义快照。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "HU-T",
+    "url": "https://hudi.apache.org/docs/timeline/",
+    "version_scope": "Hudi 1.2.1",
+    "sections_read": "Action Types / State Transitions",
+    "claim_scope": "REQUESTED/INFLIGHT/COMPLETED与compaction/clustering/cleaner是不同状态。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PV-O",
+    "url": "https://www.w3.org/TR/2013/REC-prov-o-20130430/",
+    "version_scope": "W3C Recommendation 2013-04-30",
+    "sections_read": "Starting Point Terms Entity/Activity/Agent and derivation",
+    "claim_scope": "来源模型描述责任关系，不授予使用权或证明业务事实真实。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "OL-O",
+    "url": "https://openlineage.io/docs/spec/object-model/",
+    "version_scope": "OpenLineage 1.54.0 page; schemaURL/SDK separately pinned",
+    "sections_read": "RunEvent/JobEvent/DatasetEvent; Job/Run/Dataset",
+    "claim_scope": "设计血缘不关联Run，运行观测与静态声明分开。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "OL-C",
+    "url": "https://openlineage.io/docs/spec/facets/dataset-facets/column_lineage_facet/",
+    "version_scope": "OpenLineage 1.54.0 page",
+    "sections_read": "inputFields/transformations DIRECT/INDIRECT example",
+    "claim_scope": "列可有多个输入，过滤控制依赖和值依赖不同。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "OL-Q",
+    "url": "https://openlineage.io/docs/spec/facets/dataset-facets/data_quality_assertions/",
+    "version_scope": "OpenLineage 1.54.0 page",
+    "sections_read": "assertion/name/success/severity",
+    "claim_scope": "success与severity分离，warn不是自动成功。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "DB-A",
+    "url": "https://docs.getdbt.com/reference/artifacts/manifest-json",
+    "version_scope": "dbt dynamic documentation; artifact schema is authoritative",
+    "sections_read": "Manifest representation/metadata/version; companion catalog/run-results pages",
+    "claim_scope": "声明全体、仓库采集和已执行节点三类对象不同；查询version参数非固定内容证明。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "DB-T",
+    "url": "https://docs.getdbt.com/docs/build/data-tests",
+    "version_scope": "dbt dynamic documentation; actual adapter required",
+    "sections_read": "generic/singular tests; failing rows",
+    "claim_scope": "数据测试用查询返回反例，零行只证明选定断言及本次范围。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AF-B",
+    "url": "https://airflow.apache.org/docs/apache-airflow/3.3.2/best-practices.html",
+    "version_scope": "Airflow 3.3.2",
+    "sections_read": "Writing a Dag / Creating a task",
+    "claim_scope": "重试要求同一输入分区、幂等输出；DAG调度本身不原子提交外部副作用。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PR-N",
+    "url": "https://prometheus.io/docs/practices/naming/",
+    "version_scope": "Prometheus dynamic practices, not mandatory universal standard",
+    "sections_read": "metric units and label cardinality",
+    "claim_scope": "指标单位/范围一致，高基数身份不宜直接成为无限标签。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "PB-3",
+    "url": "https://protobuf.dev/programming-guides/proto3/",
+    "version_scope": "Protobuf proto3 dynamic language guide",
+    "sections_read": "Updating a Message Type / reserved / unknown fields and enums",
+    "claim_scope": "删除字段/枚举编号不能复用，旧数据/unknown字段仍需兼容验证。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "AV-S",
+    "url": "https://avro.apache.org/docs/1.12.0/specification/",
+    "version_scope": "Avro 1.12.0",
+    "sections_read": "Schema Resolution / writer schema / defaults",
+    "claim_scope": "reader/writer resolution有方向；default处理缺失读取，不自动补写所有旧数据。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "JS-V",
+    "url": "https://json-schema.org/draft/2020-12/json-schema-validation",
+    "version_scope": "JSON Schema 2020-12 validation vocabulary",
+    "sections_read": "6 validation; 7 format; 9.2 default",
+    "claim_scope": "default是注解；format断言能力不能由名称存在推定。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "S3-L",
+    "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lock.html",
+    "version_scope": "S3 dynamic service contract",
+    "sections_read": "Legal holds / How deletes work / Governance and Compliance",
+    "claim_scope": "简单DELETE可200加marker而不删受保护版本；hold与retention独立。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "GC-L",
+    "url": "https://docs.cloud.google.com/storage/docs/bucket-lock",
+    "version_scope": "Cloud Storage dynamic service contract",
+    "sections_read": "Overview/retention policy locks/interactions",
+    "claim_scope": "锁定不可撤销或缩期；对象版本/hold/密钥删除依赖共同约束。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "NI-K",
+    "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-57pt1r5.pdf",
+    "version_scope": "NIST SP800-57 Part1 Rev5, 2020",
+    "sections_read": "8.2.2.2 / 8.3.1 / 9.5 / Appendix B",
+    "claim_scope": "密钥恢复是否需要逐类型决定，恢复材料及权限需与密文生命周期协调。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "NI-E",
+    "url": "https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-88r2.pdf",
+    "version_scope": "NIST SP800-88 Rev2, September 2025",
+    "sections_read": "3.1 methods; 3.2.2-3.2.5 CE applicability/keys/traceability; 4.5 verification",
+    "claim_scope": "加密擦除要求真实加密覆盖、密钥副本与可追溯证据，不是普通DELETE。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "EU-R",
+    "url": "https://www.edpb.europa.eu/sme/be-compliant/respect-individuals-rights_en",
+    "version_scope": "EDPB dynamic official guide; not a replacement for applicable law text",
+    "sections_read": "rights by legal basis; erasure/restriction/portability; request handling",
+    "claim_scope": "权利适用有条件，身份核验、例外、接收方传播及拒绝理由分别记录。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "JW-B",
+    "url": "https://www.rfc-editor.org/info/rfc8725/",
+    "version_scope": "RFC8725 BCP",
+    "sections_read": "3.8 issuer/subject; 3.9 audience; 3.10 claims; 3.12 distinct rules",
+    "claim_scope": "JWT签名通过不自动授予特定接收方和业务对象权限。",
+    "read_date": "2026-10-23",
+    "limits": "仅支持所列实现事实/模型；组织验收阈值、真实权限及硬件/服务符合性不能由来源链接推定。"
+  },
+  {
+    "id": "EU-GDPR",
+    "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj/eng",
+    "version_scope": "Regulation (EU) 2016/679, original OJ text; applicability must be reviewed",
+    "sections_read": [],
+    "claim_scope": "原文入口用于定位适用条文；技术请求流程参考EU-R，法域、适用例外和具体义务由项目按原文确认。",
+    "read_date": "2026-10-23",
+    "limits": "原文核读是明确未完成的法律来源证据边界；不得据此认证合规。"
+  },
+  {
+    "id": "AW-P",
+    "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.Partitions.html",
+    "version_scope": "DynamoDB dynamic",
+    "sections_read": "Partitions; partition key and sort key",
+    "claim_scope": "物理分区自动管理，逻辑键路由与AZ副本是不同概念。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "GO-P",
+    "url": "https://docs.cloud.google.com/spanner/docs/schema-and-data-model",
+    "version_scope": "Spanner dynamic",
+    "sections_read": "Splits and load-based splitting",
+    "claim_scope": "split按键范围及负载变化，自动split不能解决所有单行热点。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "YU-P",
+    "url": "https://docs.yugabyte.com/stable/explore/going-beyond-sql/data-sharding/",
+    "version_scope": "YugabyteDB stable dynamic",
+    "sections_read": "Hash/Range sharding comparison; tablet mapping",
+    "claim_scope": "hash与range的tablet映射和范围查询成本不同。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "PG-IT",
+    "url": "https://www.postgresql.org/docs/18/indexes-types.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "11.2 B-tree/Hash/GiST/SP-GiST/GIN/BRIN",
+    "claim_scope": "访问方法与operator class匹配，不是所有谓词都能使用任意索引。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "SS-D",
+    "url": "https://learn.microsoft.com/en-us/sql/relational-databases/indexes/guidelines-for-online-index-operations?view=sql-server-ver16",
+    "version_scope": "SQL Server target 2022; dynamic Learn",
+    "sections_read": "performance/final Sch-M; resumable prerequisites and restrictions",
+    "claim_scope": "ONLINE仍有结束锁；resumable依ONLINE且有对象/选项限制。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "SS-B",
+    "url": "https://learn.microsoft.com/en-us/sql/relational-databases/backup-restore/apply-transaction-log-backups-sql-server?view=sql-server-ver15",
+    "version_scope": "SQL Server target 2019; verify adopted version separately",
+    "sections_read": "apply logs with NORECOVERY; final RECOVERY",
+    "claim_scope": "日志顺序和最终恢复分开，过早RECOVERY会破坏继续应用当前恢复序列。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "SS-W",
+    "url": "https://learn.microsoft.com/en-us/sql/relational-databases/logs/control-transaction-durability?view=sql-server-ver16",
+    "version_scope": "SQL Server target 2022; dynamic Learn",
+    "sections_read": "Full/Delayed; database overrides; AG/CDC/log backup interactions",
+    "claim_scope": "延迟耐久返回早于刷盘，不能由同步AG配置宣称其提交已持久；CDC不支持该组合。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "MY-B",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/point-in-time-recovery-binlog.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "9.5.1 binlog position/restore; single connection across logs",
+    "claim_scope": "恢复需要完整备份后binlog，mysqlbinlog重执行真实改动，不自动回避外部业务重复。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "MO-B",
+    "url": "https://www.mongodb.com/docs/v8.0/administration/backup-sharded-clusters/",
+    "version_scope": "MongoDB 8.0",
+    "sections_read": "coordinated backup/restore and dump/snapshot alternatives",
+    "claim_scope": "跨shard备份需要受支持协调流程，不能仅独立dump各片宣称全局一致。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "AW-R",
+    "url": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html",
+    "version_scope": "DynamoDB dynamic",
+    "sections_read": "eventual/strong; MREC/MRSC global table modes",
+    "claim_scope": "表/LSI与GSI/Stream读支持不同；全局MREC与MRSC不能混用承诺。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "GO-R",
+    "url": "https://docs.cloud.google.com/spanner/docs/reads",
+    "version_scope": "Spanner dynamic",
+    "sections_read": "Read types; strong/stale/exact-staleness",
+    "claim_scope": "强读与历史时间戳读的可见性和性能合同不同。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "PG-ST",
+    "url": "https://www.postgresql.org/docs/18/sql-createstatistics.html",
+    "version_scope": "PostgreSQL 18",
+    "sections_read": "Notes; dependencies/ndistinct/MCV examples",
+    "claim_scope": "扩展统计需ANALYZE；18不用于join选择率估计。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "MY-ST",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/analyze-table.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "15.7.3.1 Histogram sampling and type/index restrictions",
+    "claim_scope": "histogram不支持JSON/geometry及单列unique覆盖等场景，采样可能漏重要值。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "DU-I",
+    "url": "https://duckdb.org/docs/2.0/guides/performance/indexing",
+    "version_scope": "DuckDB 2.0 LTS page",
+    "sections_read": "Zonemaps/ART/index scans and memory",
+    "claim_scope": "ART通常不直接加速join/aggregate/sort；动态join过滤可能辅助单列索引扫描，仍需实际plan。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "SS-C",
+    "url": "https://learn.microsoft.com/en-us/sql/relational-databases/track-changes/work-with-change-data-sql-server?view=sql-server-ver17",
+    "version_scope": "SQL Server target 2025",
+    "sections_read": "validity interval/closed LSN queries/increment_lsn",
+    "claim_scope": "LSN查询是闭区间，下一次起点需increment_lsn；超有效区间报错。",
+    "read_date": "2026-10-23",
+    "limits": "来源仅支撑所列实现事实；实际部署、权限及运行符合性独立验证。"
+  },
+  {
+    "id": "MY-LOAD",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/load-data.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "15.2.9 LOCAL/security/charset/error handling",
+    "claim_scope": "LOCAL改变位置/权限/错误处理，REPLACE与IGNORE影响冲突，SET NAMES不决定文件编码。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "BQ-LOAD",
+    "url": "https://docs.cloud.google.com/bigquery/docs/loading-data-cloud-storage-csv",
+    "version_scope": "BigQuery dynamic",
+    "sections_read": "sourceColumnMatch/skipLeadingRows/maxBadRecords",
+    "claim_scope": "NAME/POSITION及header策略依schema提供方式，坏行容忍需真实任务配置。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "SN-LOAD",
+    "url": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table",
+    "version_scope": "Snowflake dynamic",
+    "sections_read": "ON_ERROR/VALIDATION_MODE/usage limitations",
+    "claim_scope": "CONTINUE允许部分加载，验证模式和加载历史有真实限制，不等于业务整批成功。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "DU-CSV",
+    "url": "https://duckdb.org/docs/2.0/data/csv/auto_detection",
+    "version_scope": "DuckDB 2.0 LTS",
+    "sections_read": "Sample Size/sniff_csv/named parameters",
+    "claim_scope": "sample_size控制推断样本，-1全采样；采样不等于全部语义已验证。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "MY-DW",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/innodb-doublewrite-buffer.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "17.6.4 DETECT_AND_RECOVER/DETECT_ONLY",
+    "claim_scope": "DETECT_ONLY只记元数据不能用doublewrite修页；ON与原子写例外需实际设备证明。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "BQ-ACL",
+    "url": "https://docs.cloud.google.com/bigquery/docs/row-level-security-intro",
+    "version_scope": "BigQuery dynamic",
+    "sections_read": "introduction/limitations",
+    "claim_scope": "行策略和可用入口/功能存在真实限制，应按实际身份逐路径测试。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "SN-ACL",
+    "url": "https://docs.snowflake.com/en/user-guide/security-row-intro",
+    "version_scope": "Snowflake dynamic",
+    "sections_read": "Enterprise requirement/row access policies",
+    "claim_scope": "行策略须有真实Enterprise及以上许可与正确角色，不由规范自动启用。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "MY-ACL",
+    "url": "https://dev.mysql.com/doc/refman/8.4/en/privilege-changes.html",
+    "version_scope": "MySQL 8.4",
+    "sections_read": "8.2.13 existing session privilege changes",
+    "claim_scope": "表列/数据库等权限变更生效时点不同，旧连接需分别回读测试。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "PA-L",
+    "url": "https://parquet.apache.org/docs/file-format/types/logicaltypes/",
+    "version_scope": "Parquet dynamic format specification",
+    "sections_read": "DECIMAL and nested/logical type definitions",
+    "claim_scope": "logical type注解携带业务值解释，物理字节类型相同不证明单位/时区兼容。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "DC-3",
+    "url": "https://www.w3.org/TR/vocab-dcat-3/",
+    "version_scope": "W3C DCAT3 Recommendation 2024",
+    "sections_read": "Dataset/Distribution/accessURL/downloadURL; license and rights",
+    "claim_scope": "数据集与分发表示不同，权利/许可须关注真实Distribution。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  },
+  {
+    "id": "SH-C",
+    "url": "https://www.w3.org/TR/shacl/",
+    "version_scope": "W3C Recommendation 2017",
+    "sections_read": "3.6 Validation Report",
+    "claim_scope": "RDF图与shape的验证报告有明确conforms和结果对象，不推广为任意JSON校验。",
+    "read_date": "2026-10-23",
+    "limits": "仅支撑列明产品机制，非真实采用/运行或全法域符合证明。"
+  }
+]
