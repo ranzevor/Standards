@@ -1,7 +1,7 @@
 ![Ranzevor Standards：工程与组织规范体系，文档和协作模块的连接插画](assets/cover.png)
 
 [![Documents: 162 adopted](https://img.shields.io/badge/Documents-162%20adopted-brightgreen)](#status)
-[![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-blue)](releases/v0.1.0.md)
+[![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-blue)](releases/v0.1.1.md)
 [![Docs & data: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20data-CC%20BY%204.0-blue)](LICENSE)
 [![Software: Apache-2.0](https://img.shields.io/badge/Software-Apache--2.0-blue)](LICENSE)
 [![Python: 3.12](https://img.shields.io/badge/Python-3.12-3776AB)](guides/COMPATIBILITY.md)
@@ -23,7 +23,7 @@ Standards 是面向中文开发者、项目发起者、研究者、维护者与�
 <a id="status"></a>
 ## 当前版本
 
-**发行集合版本为 0.1.0，162 份现行规范全部已采用。** 单份规范的准确版本与摘要以登记为准。 从[规范目录][catalog]查看文档身份与适用领域，按[采用接口][adoption]选择项目需要的条款，使用[项目采用模板][adoptions]记录项目选择。正式发行记录见 [GitHub Releases](https://github.com/ranzevor/Standards/releases)。
+**发行集合版本为 0.1.1，162 份现行规范全部已采用。** 单份规范的准确版本与摘要以登记为准。 从[规范目录][catalog]查看文档身份与适用领域，按[采用接口][adoption]选择项目需要的条款，使用[项目采用模板][adoptions]记录项目选择。正式发行记录见 [GitHub Releases](https://github.com/ranzevor/Standards/releases)。
 
 <a id="quick-start"></a>
 ## 快速开始
@@ -32,9 +32,9 @@ Standards 是面向中文开发者、项目发起者、研究者、维护者与�
 
 ### 从正式发行包开始
 
-1. 从 [Standards v0.1.0](https://github.com/ranzevor/Standards/releases/tag/v0.1.0) 下载 [`Standards-v0.1.0-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/Standards-v0.1.0-source.zip) 和 [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/SHA256SUMS.txt)。
+1. 从 [Standards v0.1.1](https://github.com/ranzevor/Standards/releases/tag/v0.1.1) 下载 [`Standards-v0.1.1-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.1.1/Standards-v0.1.1-source.zip) 和 [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.1.1/SHA256SUMS.txt)。
 2. 按[离线使用说明](guides/OFFLINE.md#从公开发行入口首次使用)核对 SHA-256 并解压。
-3. 在解压后的 `Standards-v0.1.0/` 运行包级校验，再进入源码目录执行一次最小查询：
+3. 在解压后的 `Standards-v0.1.1/` 运行包级校验，再进入源码目录执行一次最小查询：
 
 ```sh
 python -X utf8 -B verify.py

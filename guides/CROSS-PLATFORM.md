@@ -34,10 +34,10 @@
 同时适用于 POSIX shell 与 PowerShell：
 
 ```sh
-python -X utf8 -B tools/check_offline_consumers.py --source-archive "/absolute/path/Standards-v0.1.0-source.zip" --skill-archive "/absolute/path/Standards-v0.1.0-agent-skill.zip" --evidence-dir "/absolute/path/new-consumer-evidence"
+python -X utf8 -B tools/check_offline_consumers.py --source-archive "/absolute/path/Standards-v0.1.1-source.zip" --skill-archive "/absolute/path/Standards-v0.1.1-agent-skill.zip" --evidence-dir "/absolute/path/new-consumer-evidence"
 ```
 
-Windows 路径示例可以使用 `C:/StandardsAssets/Standards-v0.1.0-source.zip`。版本号只是
+Windows 路径示例可以使用 `C:/StandardsAssets/Standards-v0.1.1-source.zip`。版本号只是
 命令示例，必须替换为输入制品的准确版本。证据目录必须尚不存在且位于源码树之外；
 失败后的重试使用新目录，保留原始失败记录。
 

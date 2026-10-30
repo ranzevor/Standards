@@ -6,21 +6,21 @@
 
 | 制品 | 内容 | 解包入口 |
 | --- | --- | --- |
-| `Standards-v0.1.0-source.zip` | 规范、指南、索引、模板、检查工具与测试 | `Standards-v0.1.0/source/` |
-| `Standards-v0.1.0-agent-skill.zip` | Agent Skill、规范引用与离线检索脚本 | 包内根目录的 Skill 说明文件 |
+| `Standards-v0.1.1-source.zip` | 规范、指南、索引、模板、检查工具与测试 | `Standards-v0.1.1/source/` |
+| `Standards-v0.1.1-agent-skill.zip` | Agent Skill、规范引用与离线检索脚本 | 包内根目录的 Skill 说明文件 |
 | `BUILD-REPORT.json` | 来源提交、源码集合身份与两类包的验证结果 | 与发行附件一起获取 |
 | `SHA256SUMS.txt` | 两个 ZIP 与 BUILD-REPORT 的 SHA-256 | 与发行附件一起获取 |
 
 ## 从公开发行入口首次使用
 
-前置条件为 Python 3.12。Source 包只使用 Python 标准库，不需要安装第三方依赖，也不读取账号、凭据或环境变量。浏览器可代替下列下载命令；文件仍应来自同一 [Standards v0.1.0 Release](https://github.com/ranzevor/Standards/releases/tag/v0.1.0)。
+前置条件为 Python 3.12。Source 包只使用 Python 标准库，不需要安装第三方依赖，也不读取账号、凭据或环境变量。浏览器可代替下列下载命令；文件仍应来自同一 [Standards v0.1.1 Release](https://github.com/ranzevor/Standards/releases/tag/v0.1.1)。
 
 ### Windows PowerShell
 
 在一个新的空目录中运行：
 
 ```powershell
-$version = '0.1.0'
+$version = '0.1.1'
 $base = "https://github.com/ranzevor/Standards/releases/download/v$version"
 Invoke-WebRequest "$base/Standards-v$version-source.zip" -OutFile "Standards-v$version-source.zip"
 Invoke-WebRequest "$base/SHA256SUMS.txt" -OutFile 'SHA256SUMS.txt'
@@ -46,7 +46,7 @@ python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE
 ```sh
 (
   set -eu
-  version='0.1.0'
+  version='0.1.1'
   base="https://github.com/ranzevor/Standards/releases/download/v${version}"
   curl -fL "$base/Standards-v${version}-source.zip" -o "Standards-v${version}-source.zip"
   curl -fL "$base/SHA256SUMS.txt" -o SHA256SUMS.txt
@@ -71,15 +71,15 @@ python -X utf8 -B checks/generate_index.py --check
 python -X utf8 -B checks/validate_all.py
 python -X utf8 -B -m unittest discover -s tests -v
 python -X utf8 -B tools/build_release_bundle.py --output ../Standards-release-assets --source-commit "$(git rev-parse HEAD)"
-python -X utf8 -B tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.0-source.zip
-python -X utf8 -B tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.0-agent-skill.zip
+python -X utf8 -B tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.1-source.zip
+python -X utf8 -B tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.1-agent-skill.zip
 ```
 
-上面的包名以 0.1.0 为示例，使用其他发行版本时替换为项目元数据中的准确版本。构建命令采用 POSIX shell；PowerShell 可先以 `git rev-parse HEAD` 取得提交，再把完整值传入 `--source-commit`。
+上面的包名以 0.1.1 为示例，使用其他发行版本时替换为项目元数据中的准确版本。构建命令采用 POSIX shell；PowerShell 可先以 `git rev-parse HEAD` 取得提交，再把完整值传入 `--source-commit`。
 
 构建输出必须位于源码目录之外。构建过程验证全部正文身份，生成两个确定性 ZIP 以及摘要清单。`BUILD-REPORT.json` 记录本次构建与文件验证结果。
 
-Source 包解压后，在 `Standards-v0.1.0/` 执行 `python verify.py`，再进入 `source/` 执行源码检查。
+Source 包解压后，在 `Standards-v0.1.1/` 执行 `python verify.py`，再进入 `source/` 执行源码检查。
 
 ## Agent Skill
 
