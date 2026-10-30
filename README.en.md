@@ -28,15 +28,33 @@ Project governance covers repositories and maintenance. L0–L3 organize archite
 <a id="quick-start"></a>
 ## How to use Standards
 
+The tools require Python 3.12 and use only the standard library. Reading online requires no installation. The official release archive works after extraction and needs no account, credentials or environment variables.
+
+### Start from the official release
+
+1. Download [`Standards-v0.1.0-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/Standards-v0.1.0-source.zip) and [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/SHA256SUMS.txt) from [Standards v0.1.0](https://github.com/ranzevor/Standards/releases/tag/v0.1.0).
+2. Verify the archive against its SHA-256 entry and extract it. The [offline guide](guides/OFFLINE.md#从公开发行入口首次使用) provides complete PowerShell and Ubuntu commands in Chinese.
+3. In the extracted `Standards-v0.1.0/` directory, verify the bundle and run a minimal lookup from the source directory:
+
+```sh
+python -X utf8 -B verify.py
+cd source
+python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+```
+
+Both commands should exit with code 0. The lookup result identifies `STD-PG-005`, `PGE-05`, the exact version, file path and source lines. If bundle verification fails, do not use that copy; download it again from the same Release and recheck the digest.
+
+### Apply Standards to a project
+
 1. **Find the task.** Choose a domain below or the [project governance framework][governance]; read its applicability and exclusions first.
 2. **Fix the requirements.** Record document ID, exact version, content digest and clause IDs; use the [adoption interface][adoption] to identify project inputs, responsible actors, criteria and reasons for non-applicability.
 3. **Implement and keep evidence.** Execute applicable requirements, recording passed, failed, unknown and not-run separately; document checks do not replace target-system acceptance.
 
-From the repository root, use Python 3.12 (standard library, without optimization) to check the current documents, registries and tools:
+When maintaining the repository, use Python 3.12 from the repository root, without optimization, to check the current documents, registries and tools:
 
 ```sh
-python checks/validate_all.py
-python -m unittest discover -s tests -v
+python -X utf8 -B checks/validate_all.py
+python -X utf8 -B -m unittest discover -s tests -v
 ```
 
 The first command checks current directories, links, schemas and contract bindings; the second runs tests. See the [validation guide](governance/VALIDATION.md) for target types, optional environments and result interpretation.

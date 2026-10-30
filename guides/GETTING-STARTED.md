@@ -1,5 +1,9 @@
 # 从规范到项目验收
 
+## 0. 获取当前发行
+
+首次使用从 [GitHub Release](https://github.com/ranzevor/Standards/releases/tag/v0.1.0) 获取 Source 包和 `SHA256SUMS.txt`，核对摘要、解压并运行包内 `verify.py`。完整的 Windows PowerShell、Ubuntu 命令和最小查询见[离线分发与使用](OFFLINE.md#从公开发行入口首次使用)。Source 包无需安装第三方依赖或配置账号、凭据及环境变量。
+
 ## 1. 找到实际对象
 
 从[规范目录](../INDEX.md)及[十六域](../README.md#十六技术领域)选择真实功能相关的基线/专题。项目治理负责项目全周期产物；L0–L3负责共同职责；L5只适配实际使用的技术栈，L6锁定项目参数与验收。无账号/无网络/单平台/纯理论等合法形态不因不存在其他能力而被强制新增功能。

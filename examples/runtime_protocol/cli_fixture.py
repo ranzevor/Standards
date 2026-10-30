@@ -3,6 +3,10 @@ import json
 import os
 import sys
 
+# The fixture protocol uses UTF-8 and LF regardless of the host locale.
+for stream in (sys.stdout, sys.stderr):
+    stream.reconfigure(encoding='utf-8', errors='strict', newline='\n')
+
 def main():
     if sys.flags.optimize:
         sys.stderr.write('optimized entry unsupported\n');return 2
