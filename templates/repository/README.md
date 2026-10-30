@@ -4,6 +4,7 @@
 
 | 模板 | 建议目标路径 | 用途 |
 | --- | --- | --- |
+| [仓库 profile](repository-profile.template.json) | 项目的治理目录 | 固定可见性、分发、协作、维护、发行及对应文件 |
 | [PR 模板](PULL_REQUEST_TEMPLATE.md) | `.github/pull_request_template.md` | 固定目标、基线、候选、影响、验证、恢复和审查对象 |
 | [缺陷 Issue 模板](ISSUE_TEMPLATE/defect.md) | `.github/ISSUE_TEMPLATE/defect.md` | 提供可复现缺陷、影响和修复验收输入 |
 | [变更提案模板](ISSUE_TEMPLATE/proposal.md) | `.github/ISSUE_TEMPLATE/proposal.md` | 提供范围、机制、兼容和接受条件 |
@@ -20,3 +21,5 @@
 - **归档：** 保留最终身份、维护状态、既有许可、替代或迁移说明及必要历史取得入口。
 
 复制后删除说明性占位文字，填写项目自己的真实对象。原始测试输出、审查过程和截图不放入模板或源码仓库。
+
+从 Standards 源码根目录运行 `python checks/software_repository.py --root <project-root> --profile <project-relative-profile.json>` 检查 profile。该入口只核有限状态、文件、工作流引用和证据忽略边界；平台状态和实际使用结果仍按指南中的目标入口验收。

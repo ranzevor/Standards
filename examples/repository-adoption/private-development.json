@@ -1,0 +1,39 @@
+{
+  "schema_version": "standards-software-repository/1",
+  "id": "synthetic-private-development-service",
+  "profile_state": "defined",
+  "example_only": true,
+  "operation_authorized": false,
+  "repository": {
+    "visibility": "private",
+    "distribution": "none",
+    "collaboration": "closed",
+    "maintenance": "active",
+    "release": "not-published",
+    "maintainer": "synthetic-maintainer",
+    "final_identity": null
+  },
+  "files": {
+    "readme": "README.md",
+    "license": null,
+    "rights": null,
+    "contributing": null,
+    "security": null,
+    "pull_request_template": null,
+    "issue_templates": [],
+    "platform_controls": "governance/platform-controls.md",
+    "workflows": [
+      ".github/workflows/quality.yml"
+    ]
+  },
+  "quick_start": {
+    "commands": [
+      "npm ci",
+      "npm test"
+    ]
+  },
+  "evidence_exclusions": [
+    "evidence/local-validation/",
+    "evidence/local-runtime/"
+  ]
+}

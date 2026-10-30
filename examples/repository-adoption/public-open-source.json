@@ -1,0 +1,43 @@
+{
+  "schema_version": "standards-software-repository/1",
+  "id": "synthetic-public-open-source-cli",
+  "profile_state": "defined",
+  "example_only": true,
+  "operation_authorized": false,
+  "repository": {
+    "visibility": "public",
+    "distribution": "open-source",
+    "collaboration": "contributions",
+    "maintenance": "active",
+    "release": "published",
+    "maintainer": "synthetic-maintainer",
+    "final_identity": "synthetic-release:v1.0.0@0123456789abcdef"
+  },
+  "files": {
+    "readme": "README.md",
+    "license": "LICENSE",
+    "rights": "THIRD_PARTY_NOTICES.md",
+    "contributing": "CONTRIBUTING.md",
+    "security": "SECURITY.md",
+    "pull_request_template": ".github/pull_request_template.md",
+    "issue_templates": [
+      ".github/ISSUE_TEMPLATE/defect.md",
+      ".github/ISSUE_TEMPLATE/proposal.md"
+    ],
+    "platform_controls": "governance/platform-controls.md",
+    "workflows": [
+      ".github/workflows/quality.yml",
+      ".github/workflows/release.yml"
+    ]
+  },
+  "quick_start": {
+    "commands": [
+      "python -m pip install ExampleArchiveCLI",
+      "example-archive --help"
+    ]
+  },
+  "evidence_exclusions": [
+    "evidence/local-validation/",
+    "evidence/local-runtime/"
+  ]
+}

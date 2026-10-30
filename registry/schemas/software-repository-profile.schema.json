@@ -1,0 +1,200 @@
+{
+  "type": "object",
+  "required": [
+    "schema_version",
+    "id",
+    "profile_state",
+    "example_only",
+    "operation_authorized",
+    "repository",
+    "files",
+    "quick_start",
+    "evidence_exclusions"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "enum": [
+        "standards-software-repository/1"
+      ]
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "profile_state": {
+      "enum": [
+        "starter",
+        "defined"
+      ]
+    },
+    "example_only": {
+      "type": "boolean"
+    },
+    "operation_authorized": {
+      "enum": [
+        false
+      ]
+    },
+    "repository": {
+      "type": "object",
+      "required": [
+        "visibility",
+        "distribution",
+        "collaboration",
+        "maintenance",
+        "release",
+        "maintainer",
+        "final_identity"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "visibility": {
+          "enum": [
+            "private",
+            "public"
+          ]
+        },
+        "distribution": {
+          "enum": [
+            "none",
+            "source-visible",
+            "open-source"
+          ]
+        },
+        "collaboration": {
+          "enum": [
+            "closed",
+            "issues",
+            "contributions"
+          ]
+        },
+        "maintenance": {
+          "enum": [
+            "active",
+            "limited",
+            "unmaintained",
+            "archived"
+          ]
+        },
+        "release": {
+          "enum": [
+            "not-published",
+            "published",
+            "withdrawn"
+          ]
+        },
+        "maintainer": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "final_identity": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "files": {
+      "type": "object",
+      "required": [
+        "readme",
+        "license",
+        "rights",
+        "contributing",
+        "security",
+        "pull_request_template",
+        "issue_templates",
+        "platform_controls",
+        "workflows"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "readme": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "rights": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contributing": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "security": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "pull_request_template": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issue_templates": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "platform_controls": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "workflows": {
+          "type": "array",
+          "maxItems": 32,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "quick_start": {
+      "type": "object",
+      "required": [
+        "commands"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "commands": {
+          "type": "array",
+          "maxItems": 16,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "evidence_exclusions": {
+      "type": "array",
+      "maxItems": 16,
+      "items": {
+        "type": "string",
+        "pattern": "^[^/].*/$"
+      }
+    }
+  }
+}

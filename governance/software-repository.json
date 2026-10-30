@@ -1,0 +1,44 @@
+{
+  "schema_version": "standards-software-repository/1",
+  "id": "ranzevor-standards",
+  "profile_state": "defined",
+  "example_only": false,
+  "operation_authorized": false,
+  "repository": {
+    "visibility": "public",
+    "distribution": "open-source",
+    "collaboration": "contributions",
+    "maintenance": "active",
+    "release": "published",
+    "maintainer": "Ranzevor",
+    "final_identity": "v0.1.0@780cf1ff76380f617427e6a02d944f6c25e10add"
+  },
+  "files": {
+    "readme": "README.md",
+    "license": "LICENSE",
+    "rights": "governance/LICENSING.md",
+    "contributing": "CONTRIBUTING.md",
+    "security": "SECURITY.md",
+    "pull_request_template": ".github/pull_request_template.md",
+    "issue_templates": [
+      ".github/ISSUE_TEMPLATE/defect.md",
+      ".github/ISSUE_TEMPLATE/proposal.md"
+    ],
+    "platform_controls": "governance/BRANCHES-AND-REVIEW.md",
+    "workflows": [
+      ".github/workflows/platform.yml",
+      ".github/workflows/quality.yml",
+      ".github/workflows/release.yml"
+    ]
+  },
+  "quick_start": {
+    "commands": [
+      "python -X utf8 -B checks/validate_all.py",
+      "python -X utf8 -B -m unittest discover -s tests -v"
+    ]
+  },
+  "evidence_exclusions": [
+    "evidence/local-validation/",
+    "evidence/local-runtime/"
+  ]
+}

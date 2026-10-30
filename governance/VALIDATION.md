@@ -17,6 +17,18 @@ python -m unittest discover -s tests -v
 
 检查覆盖文档身份、结构、链接、Schema、依赖关系、接口合同及可运行示例。技术审查另外核对要求的适用条件、机制、并发、失败恢复、合法邻例与来源支持范围。
 
+## 软件仓库 profile
+
+从 Standards 源码根目录检查采用项目的软件仓库 profile：
+
+```sh
+python checks/software_repository.py --root <project-root> --profile <project-relative-profile.json>
+```
+
+该入口使用当前发行自带的有限 schema，核可见性、分发、协作、维护和发行状态之间的必要关系，检查 profile 所列文件、全部 GitHub 工作流的远程 Action 固定，以及实施证据目录是否已加入 `.gitignore`。目标目录为 Git 工作区时，同时拒绝已被跟踪的证据排除路径。
+
+检查不读取平台规则集、安全功能、环境权限或发行对象，也不执行快速开始命令。平台状态、独立审查、实际发布和首次使用结果按[软件仓库采用指南](../guides/SOFTWARE-REPOSITORY-ADOPTION.md)分别验收。
+
 ## 发行包
 
 `tools/build_release_bundle.py` 构建 Source 和 Agent Skill 包，在构建时生成完整文件集合、长度和 SHA-256 清单并随包交付；`tools/verify_release_bundle.py` 验证 ZIP 或解包目录的清单和规范登记。验证拒绝不安全路径、大小写冲突、文件目录冲突、符号链接、特殊文件、未列出的文件和身份不一致的正文。离线发行包使用经验证的发行清单固定候选身份。
