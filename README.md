@@ -64,7 +64,7 @@ python -X utf8 -B -m unittest discover -s tests -v
 ## 按任务找入口
 
 - **理解体系：** [体系架构][architecture] · [完整目录][catalog]
-- **建立项目治理：** [总则与职责接口][governance] · [README与品牌][readme-standard] · [文档与国际化][documentation-standard] · [权属与许可][rights-standard]
+- **建立项目治理：** [总则与职责接口][governance] · [软件仓库采用](guides/SOFTWARE-REPOSITORY-ADOPTION.md) · [README与品牌][readme-standard] · [文档与国际化][documentation-standard] · [权属与许可][rights-standard]
 - **采用与适配：** [入门指南][getting-started] · [技术栈适配][stacks] · [项目采用接口][adoption]
 - **编制与修改：** [编制指南][authoring] · [模板][templates] · [兼容与迁移][compatibility]
 - **核对依据：** [官方来源与适用边界][sources] · [语言覆盖与翻译流程][languages]
