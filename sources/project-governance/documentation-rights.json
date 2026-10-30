@@ -3,7 +3,7 @@
   "readme_contract": {
     "additional_badges": [
       {
-        "claim": "0.1.0",
+        "claim": "0.1.1",
         "evidence": {
           "field": "version",
           "mode": "json-field",
@@ -12,9 +12,9 @@
         "id": "version",
         "kind": "version",
         "object": "Version",
-        "target": "releases/v0.1.0.md",
+        "target": "releases/v0.1.1.md",
         "color": "blue",
-        "url": "https://img.shields.io/badge/Version-0.1.0-blue"
+        "url": "https://img.shields.io/badge/Version-0.1.1-blue"
       },
       {
         "claim": "CC BY 4.0",

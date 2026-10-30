@@ -157,7 +157,7 @@
     },
     {
       "path": "sources/project-governance/documentation-rights.json",
-      "sha256": "c27c0822c05340a1fef6be1f87281384196fdab9bb1314554014d176345cf848",
+      "sha256": "cbd2182a0511b2ba88ac0f5b3cef0f3f8c1d2f89113eafccf66cd3d627e8097c",
       "bytes": 20077,
       "kind": "source-claims-and-interfaces",
       "license_status": "CC-BY-4.0-project-authored-metadata; third-party-material-excluded",
@@ -12508,7 +12508,7 @@
         {
           "label": "有限来源命题与已读范围",
           "path": "sources/project-governance/documentation-rights.json",
-          "sha256": "c27c0822c05340a1fef6be1f87281384196fdab9bb1314554014d176345cf848",
+          "sha256": "cbd2182a0511b2ba88ac0f5b3cef0f3f8c1d2f89113eafccf66cd3d627e8097c",
           "relationship": "local-source-interface"
         },
         {
@@ -12526,7 +12526,7 @@
         {
           "label": "有限来源命题与已读范围",
           "path": "sources/project-governance/documentation-rights.json",
-          "sha256": "c27c0822c05340a1fef6be1f87281384196fdab9bb1314554014d176345cf848",
+          "sha256": "cbd2182a0511b2ba88ac0f5b3cef0f3f8c1d2f89113eafccf66cd3d627e8097c",
           "relationship": "local-source-interface"
         }
       ]
@@ -12595,7 +12595,7 @@
         {
           "label": "有限来源命题与已读范围",
           "path": "sources/project-governance/documentation-rights.json",
-          "sha256": "c27c0822c05340a1fef6be1f87281384196fdab9bb1314554014d176345cf848",
+          "sha256": "cbd2182a0511b2ba88ac0f5b3cef0f3f8c1d2f89113eafccf66cd3d627e8097c",
           "relationship": "local-source-interface"
         }
       ]

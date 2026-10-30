@@ -1,7 +1,7 @@
 ![Ranzevor Standards: engineering and organizational standards, with interconnected document and collaboration modules](assets/cover.png)
 
 [![Documents: 162 adopted](https://img.shields.io/badge/Documents-162%20adopted-brightgreen)](#status)
-[![Version: 0.1.0](https://img.shields.io/badge/Version-0.1.0-blue)](releases/v0.1.0.md)
+[![Version: 0.1.1](https://img.shields.io/badge/Version-0.1.1-blue)](releases/v0.1.1.md)
 [![Docs & data: CC BY 4.0](https://img.shields.io/badge/Docs%20%26%20data-CC%20BY%204.0-blue)](LICENSE)
 [![Software: Apache-2.0](https://img.shields.io/badge/Software-Apache--2.0-blue)](LICENSE)
 [![Python: 3.12](https://img.shields.io/badge/Python-3.12-3776AB)](guides/COMPATIBILITY.md)
@@ -23,7 +23,7 @@ Project governance covers repositories and maintenance. L0–L3 organize archite
 <a id="status"></a>
 ## Current version
 
-**The distribution version is 0.1.0, with all 162 current normative documents adopted.** Exact document versions and digests are recorded individually in the registry. Use the [catalog][catalog] to find document identities and domains, the [adoption interface][adoption] to select applicable clauses, and the [project adoption template][adoptions] to record project choices. Formal release records are available through [GitHub Releases](https://github.com/ranzevor/Standards/releases).
+**The distribution version is 0.1.1, with all 162 current normative documents adopted.** Exact document versions and digests are recorded individually in the registry. Use the [catalog][catalog] to find document identities and domains, the [adoption interface][adoption] to select applicable clauses, and the [project adoption template][adoptions] to record project choices. Formal release records are available through [GitHub Releases](https://github.com/ranzevor/Standards/releases).
 
 <a id="quick-start"></a>
 ## How to use Standards
@@ -32,9 +32,9 @@ The tools require Python 3.12 and use only the standard library. Reading online 
 
 ### Start from the official release
 
-1. Download [`Standards-v0.1.0-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/Standards-v0.1.0-source.zip) and [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/SHA256SUMS.txt) from [Standards v0.1.0](https://github.com/ranzevor/Standards/releases/tag/v0.1.0).
+1. Download [`Standards-v0.1.1-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.1.1/Standards-v0.1.1-source.zip) and [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.1.1/SHA256SUMS.txt) from [Standards v0.1.1](https://github.com/ranzevor/Standards/releases/tag/v0.1.1).
 2. Verify the archive against its SHA-256 entry and extract it. The [offline guide](guides/OFFLINE.md#从公开发行入口首次使用) provides complete PowerShell and Ubuntu commands in Chinese.
-3. In the extracted `Standards-v0.1.0/` directory, verify the bundle and run a minimal lookup from the source directory:
+3. In the extracted `Standards-v0.1.1/` directory, verify the bundle and run a minimal lookup from the source directory:
 
 ```sh
 python -X utf8 -B verify.py
