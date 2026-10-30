@@ -4,7 +4,7 @@
 
 ## 示例一：公开发行的命令行工具
 
-`ExampleArchiveCLI` 的仓库为 public，自有代码已由权利主体选择 Apache-2.0，维护状态为 active，正式发行入口为项目的 Release 页面。
+`ExampleArchiveCLI` 的仓库为 public，自有代码已由权利主体选择 Apache-2.0，维护状态为 active，正式发行入口为项目的 Release 页面。对应机器记录见[公开发行 profile](public-open-source.json)。
 
 - README 给出受支持的 Python 版本、从正式发行包开始的安装命令、最小查询和失败恢复。
 - LICENSE 覆盖自有代码；第三方通知逐项列随包依赖和许可证。
@@ -17,7 +17,7 @@
 
 ## 示例二：私有开发中的服务
 
-`InternalQueuePrototype` 为 private，维护状态 active，没有公开分发决定，包元数据保持 private，许可证状态为 not-selected。
+`InternalQueuePrototype` 为 private，维护状态 active，没有公开分发决定，包元数据保持 private，许可证状态为 not-selected。对应机器记录见[私有开发 profile](private-development.json)。
 
 - README 只面向获准开发者给出本地构建、测试和内部接口，不使用开源许可证或公开发行徽章。
 - 依赖、测试、PR 和内部安全报告入口仍按风险配置。
@@ -28,7 +28,7 @@
 
 ## 示例三：已归档的开源库
 
-`LegacyFormatReader` 已发布 `v2.4.1`，后续由 `CurrentFormatReader` 替代。原仓库为 public，维护状态 archived，既有许可证继续适用于已授权材料。
+`LegacyFormatReader` 已发布 `v2.4.1`，后续由 `CurrentFormatReader` 替代。原仓库为 public，维护状态 archived，既有许可证继续适用于已授权材料。对应机器记录见[归档 profile](archived-open-source.json)。
 
 - README 首屏写最终版本、停止维护范围、替代项目和迁移入口。
 - 最终标签、发行附件、源码、许可证和第三方通知仍可定位。

@@ -2,6 +2,8 @@
 
 本指南把现有通用工程、项目治理、开源、CI 与供应链规范组合成软件仓库可直接采用的入口。规范义务仍以准确正文和条款为准；本指南只负责选择条件、仓库载体及验收关系。
 
+需要机器检查时，将[软件仓库 profile 模板](../templates/repository/repository-profile.template.json)复制到目标项目并填写状态和实际文件。随后从 Standards 源码根目录运行 `python checks/software_repository.py --root <project-root> --profile <project-relative-profile.json>`。该检查使用当前 Standards 发行自带的 schema，不读取或改变平台配置。
+
 ## 1. 先固定仓库的真实状态
 
 仓库可见性、分发授权、维护状态和发行状态分别判断，不能用其中一项推导其他项。
@@ -48,7 +50,7 @@
 ## 4. 最小实施顺序
 
 1. 固定仓库状态、目标受众、公开接口、支持平台及不分发范围。
-2. 从[软件仓库模板包](../templates/repository/README.md)选择实际需要的文件；已有 Issue、PR 或项目记录可以直接承载，不建立重复状态。
+2. 从[软件仓库模板包](../templates/repository/README.md)选择实际需要的文件；需要机器检查时填写 profile。已有 Issue、PR 或项目记录可以直接承载，不建立重复状态。
 3. 建立一个从干净检出可执行的安装、构建、测试入口；依赖和工具版本按实际生态锁定。
 4. 在开发分支提交可审差异，PR 固定基线、候选、范围、兼容、风险、恢复和未执行项。
 5. 从平台读回目标分支保护、必需检查、安全功能和发行环境；配置意图与实际状态分别保存。

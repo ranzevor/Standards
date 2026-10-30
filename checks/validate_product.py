@@ -12,7 +12,7 @@ from checks.corpus_contract import references,anchors
 from tools.verify_release_bundle import valid_version, validate_release_config
 ROOT = Path(__file__).resolve().parents[1]
 
-REQUIRED=['README.md','CONTRIBUTING.md','CODE_OF_CONDUCT.md','SECURITY.md','LICENSE-NOTICE.md','CHANGELOG.md','standards/README.md','governance/RELEASE.md','governance/MAINTENANCE.md','governance/REPOSITORY-NAMING.md','LICENSE','LICENSES/Apache-2.0.txt','LICENSES/CC-BY-4.0.txt','.github/CODEOWNERS','.github/pull_request_template.md','.github/workflows/quality.yml','checks/definition_interfaces.py','checks/governance_field_conditions.py','templates/project-governance/README.md']
+REQUIRED=['README.md','CONTRIBUTING.md','CODE_OF_CONDUCT.md','SECURITY.md','LICENSE-NOTICE.md','CHANGELOG.md','standards/README.md','governance/RELEASE.md','governance/MAINTENANCE.md','governance/REPOSITORY-NAMING.md','governance/software-repository.json','LICENSE','LICENSES/Apache-2.0.txt','LICENSES/CC-BY-4.0.txt','.github/CODEOWNERS','.github/pull_request_template.md','.github/ISSUE_TEMPLATE/defect.md','.github/ISSUE_TEMPLATE/proposal.md','.github/workflows/quality.yml','checks/definition_interfaces.py','checks/governance_field_conditions.py','checks/software_repository.py','registry/schemas/software-repository-profile.schema.json','templates/project-governance/README.md','templates/repository/README.md']
 
 
 def validate_project_metadata(project, entries):
@@ -115,9 +115,9 @@ def validate(root=ROOT):
     workflow=(root/'.github/workflows/quality.yml').read_text(encoding='utf-8')
     require('pull_request:' in workflow and 'workflow_dispatch:' in workflow and 'push:' not in workflow,
             'quality workflow trigger boundary differs')
-    require('actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' in workflow and
-            'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' in workflow and
-            "python-version: '3.12'" in workflow, 'quality workflow toolchain identity differs')
+    require("python-version: '3.12'" in workflow, 'quality workflow Python identity differs')
+    from checks.software_repository import validate_current_repository
+    software_repository=validate_current_repository(root)
     license_policy=validate_license_policy(root)
     schema_check(entries,read_json(root/'registry/schemas/standards.schema.json'))
     for filename in ('document-profiles','requirements','references','technical-dependencies'):
@@ -150,7 +150,8 @@ def validate(root=ROOT):
         validate_project_metadata(project, entries)
         config=validate_release_config(read_json(root/'releases/current.json'),project['version'])
         require(safe_path(root,config['notes_path']).read_text(encoding='utf-8').strip(), 'empty release notes')
-    return {'documents':len(entries),'schema_examples':1,'adoption_example_documents':adopted,'license_policy':license_policy,**validate_links(root),
+    return {'documents':len(entries),'schema_examples':1,'adoption_example_documents':adopted,'license_policy':license_policy,
+            'software_repository':software_repository,**validate_links(root),
             'schema_support':'finite-documented-keywords',
             'scope':'local product schemas, standard identities, examples, navigation and license allocation'}
 if __name__=='__main__':

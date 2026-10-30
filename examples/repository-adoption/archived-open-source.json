@@ -1,0 +1,36 @@
+{
+  "schema_version": "standards-software-repository/1",
+  "id": "synthetic-archived-open-source-library",
+  "profile_state": "defined",
+  "example_only": true,
+  "operation_authorized": false,
+  "repository": {
+    "visibility": "public",
+    "distribution": "open-source",
+    "collaboration": "closed",
+    "maintenance": "archived",
+    "release": "published",
+    "maintainer": null,
+    "final_identity": "synthetic-release:v2.4.1@fedcba9876543210"
+  },
+  "files": {
+    "readme": "README.md",
+    "license": "LICENSE",
+    "rights": "THIRD_PARTY_NOTICES.md",
+    "contributing": null,
+    "security": "SECURITY.md",
+    "pull_request_template": null,
+    "issue_templates": [],
+    "platform_controls": "governance/platform-controls.md",
+    "workflows": []
+  },
+  "quick_start": {
+    "commands": [
+      "python -m legacy_format_reader --version"
+    ]
+  },
+  "evidence_exclusions": [
+    "evidence/local-validation/",
+    "evidence/local-runtime/"
+  ]
+}

@@ -86,6 +86,8 @@ def validate(root=ROOT):
     require((root/'INDEX.md').read_text('utf-8') == expected_index(entries), 'generated index mismatch')
     project=validate_project_metadata(read_json(root/'project.json'),entries)
     license_policy=validate_license_policy(root)
+    from checks.software_repository import validate_current_repository
+    software_repository=validate_current_repository(root)
     clauses=validate_clause_index(root,entries)
     validate_catalogues(root)
     dependencies=validate_dependencies(root,entries)
@@ -108,4 +110,4 @@ def validate(root=ROOT):
     navigation=check_nav(root,check=True)
     return {'result':'pass','scope':'published corpus, identities, reader indexes, local links, sources and license policy',
             'documents':len(entries),'adopted_documents':sum(e['status']=='adopted' for e in entries),'files':len(inventory), 'clauses':clauses,'project':project,
-            'links':links,'semantic_references':semantic_references,'behavior_cases':behavior_cases,'dependencies':dependencies,'definitions':definitions,'cloud_interfaces':cloud,'license_policy':license_policy,'reader_entries':readme,'source_catalog':sources,'source_claims':source_claims,'navigation':navigation}
+            'links':links,'semantic_references':semantic_references,'behavior_cases':behavior_cases,'dependencies':dependencies,'definitions':definitions,'cloud_interfaces':cloud,'license_policy':license_policy,'software_repository':software_repository,'reader_entries':readme,'source_catalog':sources,'source_claims':source_claims,'navigation':navigation}
