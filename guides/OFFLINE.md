@@ -44,19 +44,22 @@ python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE
 在一个新的空目录中运行：
 
 ```sh
-version='0.1.0'
-base="https://github.com/ranzevor/Standards/releases/download/v${version}"
-curl -fL "$base/Standards-v${version}-source.zip" -o "Standards-v${version}-source.zip"
-curl -fL "$base/SHA256SUMS.txt" -o SHA256SUMS.txt
-grep "  Standards-v${version}-source.zip$" SHA256SUMS.txt | sha256sum -c -
-unzip "Standards-v${version}-source.zip"
-cd "Standards-v${version}"
-python3 -X utf8 -B verify.py
-cd source
-python3 -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+(
+  set -eu
+  version='0.1.0'
+  base="https://github.com/ranzevor/Standards/releases/download/v${version}"
+  curl -fL "$base/Standards-v${version}-source.zip" -o "Standards-v${version}-source.zip"
+  curl -fL "$base/SHA256SUMS.txt" -o SHA256SUMS.txt
+  grep "  Standards-v${version}-source.zip$" SHA256SUMS.txt | sha256sum -c -
+  unzip "Standards-v${version}-source.zip"
+  cd "Standards-v${version}"
+  python3 -X utf8 -B verify.py
+  cd source
+  python3 -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+)
 ```
 
-摘要检查、`verify.py` 和最小查询都应以退出码 0 结束。查询输出应包含文档 `STD-PG-005`、条款 `PGE-05`、版本、路径与正文行段。摘要不一致或校验失败时，不继续使用当前副本；删除已下载文件，从同一 Release 重新取得并再次核对。
+Ubuntu 命令在子 Shell 中启用失败即停；下载、摘要或解压步骤返回非零时，不会继续执行后续文件。摘要检查、`verify.py` 和最小查询都应以退出码 0 结束。查询输出应包含文档 `STD-PG-005`、条款 `PGE-05`、版本、路径与正文行段。摘要不一致或校验失败时，不继续使用当前副本；删除已下载文件，从同一 Release 重新取得并再次核对。
 
 ## 检查与构建
 
