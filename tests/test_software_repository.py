@@ -6,6 +6,7 @@ from contextlib import redirect_stdout
 from io import StringIO
 import json
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -84,6 +85,13 @@ class SoftwareRepositoryProfileTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding='utf-8', newline='\n')
 
+    def git(self, *args):
+        result = subprocess.run(
+            ['git', '-C', str(self.root), *args],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr.decode('utf-8', errors='replace'))
+
     def test_public_open_source_profile_accepts_full_action_sha(self):
         result = validate_profile(self.profile, self.schema, self.root)
         self.assertTrue(result['contract_valid'])
@@ -131,10 +139,77 @@ class SoftwareRepositoryProfileTests(unittest.TestCase):
         result = validate_profile(self.profile, self.schema, self.root)
         self.assertEqual(result['action_pins_checked'], 1)
 
+    def test_flow_and_quoted_uses_keys_reject_floating_refs(self):
+        cases = (
+            'steps:\n  - {uses: actions/checkout@v4}\n',
+            'steps:\n  - {"uses": "actions/checkout@v4"}\n',
+        )
+        for workflow in cases:
+            with self.subTest(workflow=workflow):
+                self.write('.github/workflows/quality.yml', workflow)
+                with self.assertRaisesRegex(ValidationError, 'full commit SHA'):
+                    validate_profile(self.profile, self.schema, self.root)
+
+    def test_flow_quoted_uses_key_accepts_full_sha(self):
+        self.write(
+            '.github/workflows/quality.yml',
+            'steps:\n'
+            '  - {"uses": "actions/checkout@0123456789abcdef0123456789abcdef01234567"}\n',
+        )
+        result = validate_profile(self.profile, self.schema, self.root)
+        self.assertEqual(result['action_pins_checked'], 1)
+
+    def test_block_scalar_uses_text_is_not_an_action(self):
+        self.write(
+            '.github/workflows/quality.yml',
+            'steps:\n'
+            '  - run: |\n'
+            '      echo "uses: actions/checkout@v4"\n'
+            '  - uses: actions/checkout@0123456789abcdef0123456789abcdef01234567\n',
+        )
+        result = validate_profile(self.profile, self.schema, self.root)
+        self.assertEqual(result['action_pins_checked'], 1)
+
+    def test_apostrophe_in_plain_yaml_scalar_is_legal(self):
+        self.write(
+            '.github/workflows/quality.yml',
+            "steps:\n"
+            "  - name: Retrieve this run's artifacts\n"
+            '    uses: actions/checkout@0123456789abcdef0123456789abcdef01234567\n',
+        )
+        result = validate_profile(self.profile, self.schema, self.root)
+        self.assertEqual(result['action_pins_checked'], 1)
+
     def test_missing_evidence_ignore_is_rejected(self):
         self.write('.gitignore', 'evidence/local-validation/\n')
         with self.assertRaisesRegex(ValidationError, 'missing from .gitignore'):
             validate_profile(self.profile, self.schema, self.root)
+
+    def test_later_gitignore_negation_is_rejected(self):
+        self.git('init', '-q')
+        self.write(
+            '.gitignore',
+            'evidence/local-validation/\n'
+            '!evidence/local-validation/\n'
+            'evidence/local-runtime/\n',
+        )
+        with self.assertRaisesRegex(ValidationError, 'exclusion is not effective'):
+            validate_profile(self.profile, self.schema, self.root)
+
+    def test_tracked_evidence_is_rejected_even_when_forced(self):
+        self.git('init', '-q')
+        self.write('evidence/local-validation/output.txt', 'synthetic output\n')
+        self.git('add', '-f', 'evidence/local-validation/output.txt')
+        with self.assertRaisesRegex(ValidationError, 'tracked implementation evidence'):
+            validate_profile(self.profile, self.schema, self.root)
+
+    def test_noncanonical_evidence_exclusions_are_rejected(self):
+        for value in ('./evidence/local-validation/', 'evidence//local-validation/'):
+            profile = copy.deepcopy(self.profile)
+            profile['evidence_exclusions'][0] = value
+            with self.subTest(value=value), self.assertRaisesRegex(
+                    ValidationError, 'canonical spelling'):
+                validate_profile(profile, self.schema)
 
     def test_archived_example_keeps_final_identity(self):
         profile = read_json(ROOT / 'examples/repository-adoption/archived-open-source.json')

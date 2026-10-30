@@ -23,30 +23,168 @@ EXAMPLES = (
     'examples/repository-adoption/private-development.json',
     'examples/repository-adoption/archived-open-source.json',
 )
-REMOTE_USE = re.compile(r'(?m)^\s*(?:-\s*)?uses:\s*([^\s#]+)')
+BLOCK_SCALAR = re.compile(r':\s*[|>][0-9+-]*\s*$')
 FULL_SHA = re.compile(r'^[0-9a-f]{40}$')
 IMAGE_DIGEST = re.compile(r'^docker://.+@sha256:[0-9a-f]{64}$')
 
 
-def portable_relative(value, label):
+def portable_relative(value, label, *, directory=False):
     require(type(value) is str and value.strip() == value and value, label + ' path')
     require('\\' not in value and '\x00' not in value and not re.match(r'^[A-Za-z]:', value),
             label + ' nonportable path', value)
-    rel = PurePosixPath(value)
+    require(not directory or value.endswith('/'), label + ' directory suffix', value)
+    source = value[:-1] if directory else value
+    require(source, label + ' empty path', value)
+    rel = PurePosixPath(source)
     require(not rel.is_absolute() and '..' not in rel.parts, label + ' path escape', value)
+    expected = rel.as_posix() + ('/' if directory else '')
+    require(value == expected, label + ' path must use canonical spelling', value, expected)
     return value
+
+
+def _quoted(text, start, path, line_number):
+    quote = text[start]
+    value = []
+    escaped = False
+    index = start + 1
+    while index < len(text):
+        char = text[index]
+        if quote == "'" and char == "'" and index + 1 < len(text) and text[index + 1] == "'":
+            value.append("'")
+            escaped = True
+            index += 2
+            continue
+        if quote == '"' and char == '\\':
+            require(index + 1 < len(text), 'workflow YAML dangling escape', str(path), line_number)
+            value.append(text[index + 1])
+            escaped = True
+            index += 2
+            continue
+        if char == quote:
+            return ''.join(value), index + 1, escaped
+        value.append(char)
+        index += 1
+    require(False, 'workflow YAML multiline or unmatched quote unsupported', str(path), line_number)
+
+
+def _quote_starts(text, index):
+    return index == 0 or text[index - 1].isspace() or text[index - 1] in '[{,:?-'
+
+
+def _without_comment(line, path, line_number):
+    index = 0
+    while index < len(line):
+        if line[index] in {'"', "'"} and _quote_starts(line, index):
+            _, index, _ = _quoted(line, index, path, line_number)
+            continue
+        if line[index] == '#' and (index == 0 or line[index - 1].isspace()):
+            return line[:index]
+        index += 1
+    return line
+
+
+def _mapping_at(line, start, path, line_number, *, sequence=False):
+    index = start
+    while index < len(line) and line[index].isspace():
+        index += 1
+    if sequence and index < len(line) and line[index] == '-':
+        index += 1
+        while index < len(line) and line[index].isspace():
+            index += 1
+    if index < len(line) and line[index] == '?':
+        index += 1
+        while index < len(line) and line[index].isspace():
+            index += 1
+    if index >= len(line):
+        return None
+    if line[index] in {'"', "'"}:
+        key, index, _ = _quoted(line, index, path, line_number)
+    else:
+        match = re.match(r'[A-Za-z_][A-Za-z0-9_-]*', line[index:])
+        if match is None:
+            return None
+        key = match.group(0)
+        index += len(key)
+    while index < len(line) and line[index].isspace():
+        index += 1
+    if index >= len(line) or line[index] != ':':
+        return None
+    return key, index + 1
+
+
+def _action_scalar(line, start, path, line_number):
+    index = start
+    while index < len(line) and line[index].isspace():
+        index += 1
+    require(index < len(line), 'workflow uses value must be an inline scalar', str(path), line_number)
+    if line[index] in {'"', "'"}:
+        value, end, escaped = _quoted(line, index, path, line_number)
+        require(not escaped, 'workflow uses value cannot rely on YAML escapes', str(path), line_number)
+        return value, end
+    require(line[index] not in {'|', '>', '&', '*', '!', '[', '{'},
+            'workflow uses value must be a direct scalar', str(path), line_number)
+    end = index
+    while end < len(line) and not line[end].isspace() and line[end] not in {',', '}', ']'}:
+        end += 1
+    require(end > index, 'workflow uses value missing', str(path), line_number)
+    return line[index:end], end
+
+
+def _uses_on_line(line, path, line_number):
+    values = []
+    first = _mapping_at(line, 0, path, line_number, sequence=True)
+    if first is not None and first[0] == 'uses':
+        value, _ = _action_scalar(line, first[1], path, line_number)
+        values.append(value)
+    stack = []
+    index = 0
+    while index < len(line):
+        if line[index] in {'"', "'"} and _quote_starts(line, index):
+            _, index, _ = _quoted(line, index, path, line_number)
+            continue
+        char = line[index]
+        if char in {'{', '['}:
+            stack.append('}' if char == '{' else ']')
+            candidate = _mapping_at(line, index + 1, path, line_number)
+            if candidate is not None and candidate[0] == 'uses':
+                value, _ = _action_scalar(line, candidate[1], path, line_number)
+                values.append(value)
+        elif char in {'}', ']'}:
+            if stack and stack[-1] == char:
+                stack.pop()
+        elif char == ',' and stack:
+            candidate = _mapping_at(line, index + 1, path, line_number)
+            if candidate is not None and candidate[0] == 'uses':
+                value, _ = _action_scalar(line, candidate[1], path, line_number)
+                values.append(value)
+        index += 1
+    return values
+
+
+def workflow_action_values(path):
+    values = []
+    block_indent = None
+    for line_number, raw_line in enumerate(read_text_exact(path).splitlines(), 1):
+        require('\t' not in raw_line[:len(raw_line) - len(raw_line.lstrip())],
+                'workflow YAML tab indentation unsupported', str(path), line_number)
+        indent = len(raw_line) - len(raw_line.lstrip(' '))
+        if block_indent is not None:
+            if not raw_line.strip() or indent > block_indent:
+                continue
+            block_indent = None
+        line = _without_comment(raw_line, path, line_number)
+        if not line.strip():
+            continue
+        values.extend(_uses_on_line(line, path, line_number))
+        if BLOCK_SCALAR.search(line):
+            block_indent = indent
+    return values
 
 
 def validate_action_pins(paths):
     checked = 0
     for path in paths:
-        text = read_text_exact(path)
-        for raw in REMOTE_USE.findall(text):
-            value = raw
-            if raw[0] in {'"', "'"}:
-                require(len(raw) > 2 and raw[-1] == raw[0],
-                        'workflow action has unmatched quote', str(path), raw)
-                value = raw[1:-1]
+        for value in workflow_action_values(path):
             if value.startswith('./'):
                 continue
             if value.startswith('docker://'):
@@ -127,8 +265,7 @@ def validate_profile(profile, schema, root=None):
     for value in _profile_paths(profile):
         portable_relative(value, 'repository file')
     for value in exclusions:
-        portable_relative(value, 'evidence exclusion')
-        require(value.endswith('/'), 'evidence exclusion must name a directory', value)
+        portable_relative(value, 'evidence exclusion', directory=True)
 
     if profile['profile_state'] == 'starter':
         require(profile['example_only'] is True
@@ -170,6 +307,7 @@ def validate_profile(profile, schema, root=None):
 
     action_count = 0
     tracked_checked = False
+    effective_ignore_checked = False
     if root is not None:
         root = Path(root).resolve()
         for value in _profile_paths(profile):
@@ -193,6 +331,16 @@ def validate_profile(profile, schema, root=None):
         require(set(exclusions) <= ignored,
                 'evidence exclusions missing from .gitignore', sorted(set(exclusions) - ignored))
         if (root / '.git').exists():
+            for prefix in exclusions:
+                for probe in (prefix, prefix + '.standards-evidence-probe'):
+                    ignored_result = subprocess.run(
+                        ['git', '-C', str(root), 'check-ignore', '--no-index', '-q', '--', probe],
+                        stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
+                    )
+                    require(ignored_result.returncode == 0,
+                            'evidence exclusion is not effective',
+                            probe, ignored_result.stderr.decode('utf-8', errors='replace'))
+            effective_ignore_checked = True
             result = subprocess.run(
                 ['git', '-C', str(root), 'ls-files', '-z'],
                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=False,
@@ -208,6 +356,7 @@ def validate_profile(profile, schema, root=None):
         'profile_state': 'defined',
         'contract_valid': True,
         'action_pins_checked': action_count,
+        'effective_ignore_checked': effective_ignore_checked,
         'tracked_evidence_checked': tracked_checked,
     }
 
