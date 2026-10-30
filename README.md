@@ -26,17 +26,35 @@ Standards 是面向中文开发者、项目发起者、研究者、维护者与�
 **发行集合版本为 0.1.0，162 份现行规范全部已采用。** 单份规范的准确版本与摘要以登记为准。 从[规范目录][catalog]查看文档身份与适用领域，按[采用接口][adoption]选择项目需要的条款，使用[项目采用模板][adoptions]记录项目选择。正式发行记录见 [GitHub Releases](https://github.com/ranzevor/Standards/releases)。
 
 <a id="quick-start"></a>
-## 使用方法
+## 快速开始
+
+运行工具需要 Python 3.12，仅使用标准库。在线阅读不需要安装；正式发行包解压即用，无需账号、凭据或环境变量。
+
+### 从正式发行包开始
+
+1. 从 [Standards v0.1.0](https://github.com/ranzevor/Standards/releases/tag/v0.1.0) 下载 [`Standards-v0.1.0-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/Standards-v0.1.0-source.zip) 和 [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.1.0/SHA256SUMS.txt)。
+2. 按[离线使用说明](guides/OFFLINE.md#从公开发行入口首次使用)核对 SHA-256 并解压。
+3. 在解压后的 `Standards-v0.1.0/` 运行包级校验，再进入源码目录执行一次最小查询：
+
+```sh
+python -X utf8 -B verify.py
+cd source
+python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+```
+
+两条命令均应以退出码 0 结束；查询结果包含 `STD-PG-005`、`PGE-05`、准确版本、文件路径和正文行段。校验失败时不要使用该副本，重新从同一 Release 取得文件并核对摘要。
+
+### 将规范用于项目
 
 1. **找到任务。** 从下方领域或[项目治理总则][governance]选择相关内容，先读适用与不适用范围。
 2. **固定要求。** 记录文档ID、准确版本、内容摘要与条款ID；按[采用接口][adoption]说明项目输入、责任人、判据和不适用理由。
 3. **实施并留证。** 执行适用要求，分别记录通过、失败、未知和未执行；不要用文档检查代替目标系统验收。
 
-在仓库根目录使用 Python 3.12（标准库，非优化模式）检查当前文档、登记和工具：
+维护仓库时，在仓库根目录使用 Python 3.12（非优化模式）检查当前文档、登记和工具：
 
 ```sh
-python checks/validate_all.py
-python -m unittest discover -s tests -v
+python -X utf8 -B checks/validate_all.py
+python -X utf8 -B -m unittest discover -s tests -v
 ```
 
 第一条核对当前目录、链接、schema和合同绑定；第二条运行测试。各类目标、可选环境和结果说明见[验证指南](governance/VALIDATION.md)。

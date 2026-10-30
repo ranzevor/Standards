@@ -326,7 +326,8 @@
     },
     "semantic_equivalence": "requires read-through; matching navigation/commands are only finite correspondence checks",
     "shell_blocks": [
-      "python checks/validate_all.py\npython -m unittest discover -s tests -v"
+      "python -X utf8 -B verify.py\ncd source\npython -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05",
+      "python -X utf8 -B checks/validate_all.py\npython -X utf8 -B -m unittest discover -s tests -v"
     ],
     "badge_protocol": "shields-static/1"
   },

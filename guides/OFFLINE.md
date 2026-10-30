@@ -11,18 +11,65 @@
 | `BUILD-REPORT.json` | 来源提交、源码集合身份与两类包的验证结果 | 与发行附件一起获取 |
 | `SHA256SUMS.txt` | 两个 ZIP 与 BUILD-REPORT 的 SHA-256 | 与发行附件一起获取 |
 
+## 从公开发行入口首次使用
+
+前置条件为 Python 3.12。Source 包只使用 Python 标准库，不需要安装第三方依赖，也不读取账号、凭据或环境变量。浏览器可代替下列下载命令；文件仍应来自同一 [Standards v0.1.0 Release](https://github.com/ranzevor/Standards/releases/tag/v0.1.0)。
+
+### Windows PowerShell
+
+在一个新的空目录中运行：
+
+```powershell
+$version = '0.1.0'
+$base = "https://github.com/ranzevor/Standards/releases/download/v$version"
+Invoke-WebRequest "$base/Standards-v$version-source.zip" -OutFile "Standards-v$version-source.zip"
+Invoke-WebRequest "$base/SHA256SUMS.txt" -OutFile 'SHA256SUMS.txt'
+
+$archive = "Standards-v$version-source.zip"
+$line = Get-Content .\SHA256SUMS.txt | Where-Object { $_.EndsWith("  $archive") }
+if (-not $line) { throw "SHA256SUMS.txt 中没有 $archive" }
+$expected = ($line -split '\s+')[0].ToLowerInvariant()
+$actual = (Get-FileHash ".\$archive" -Algorithm SHA256).Hash.ToLowerInvariant()
+if ($actual -ne $expected) { throw "SHA-256 不匹配" }
+
+Expand-Archive -LiteralPath ".\$archive" -DestinationPath .
+Set-Location "Standards-v$version"
+python -X utf8 -B verify.py
+Set-Location source
+python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+```
+
+### Ubuntu
+
+在一个新的空目录中运行：
+
+```sh
+version='0.1.0'
+base="https://github.com/ranzevor/Standards/releases/download/v${version}"
+curl -fL "$base/Standards-v${version}-source.zip" -o "Standards-v${version}-source.zip"
+curl -fL "$base/SHA256SUMS.txt" -o SHA256SUMS.txt
+grep "  Standards-v${version}-source.zip$" SHA256SUMS.txt | sha256sum -c -
+unzip "Standards-v${version}-source.zip"
+cd "Standards-v${version}"
+python3 -X utf8 -B verify.py
+cd source
+python3 -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+```
+
+摘要检查、`verify.py` 和最小查询都应以退出码 0 结束。查询输出应包含文档 `STD-PG-005`、条款 `PGE-05`、版本、路径与正文行段。摘要不一致或校验失败时，不继续使用当前副本；删除已下载文件，从同一 Release 重新取得并再次核对。
+
 ## 检查与构建
 
 在完整源码根目录使用 Python 3.12 标准库，以非优化模式运行：
 
 ```sh
-python checks/generate_registry.py --check
-python checks/generate_index.py --check
-python checks/validate_all.py
-python -m unittest discover -s tests -v
-python tools/build_release_bundle.py --output ../Standards-release-assets --source-commit "$(git rev-parse HEAD)"
-python tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.0-source.zip
-python tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.0-agent-skill.zip
+python -X utf8 -B checks/generate_registry.py --check
+python -X utf8 -B checks/generate_index.py --check
+python -X utf8 -B checks/validate_all.py
+python -X utf8 -B -m unittest discover -s tests -v
+python -X utf8 -B tools/build_release_bundle.py --output ../Standards-release-assets --source-commit "$(git rev-parse HEAD)"
+python -X utf8 -B tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.0-source.zip
+python -X utf8 -B tools/verify_release_bundle.py ../Standards-release-assets/Standards-v0.1.0-agent-skill.zip
 ```
 
 上面的包名以 0.1.0 为示例，使用其他发行版本时替换为项目元数据中的准确版本。构建命令采用 POSIX shell；PowerShell 可先以 `git rev-parse HEAD` 取得提交，再把完整值传入 `--source-commit`。
@@ -36,9 +83,9 @@ Source 包解压后，在 `Standards-v0.1.0/` 执行 `python verify.py`，再进
 Skill 包解压后，在 `ranzevor-standards/` 执行：
 
 ```sh
-python scripts/verify_bundle.py
-python scripts/lookup.py --query "Agent"
-python scripts/lookup.py --document-id STD-L0-001 --clause-id ARC-01
+python -X utf8 -B scripts/verify_bundle.py
+python -X utf8 -B scripts/lookup.py --query "Agent"
+python -X utf8 -B scripts/lookup.py --document-id STD-L0-001 --clause-id ARC-01
 ```
 
 检索可使用 `--query`、`--document-id`、`--clause-id`、`--domain` 和 `--limit`。结果提供文档身份、路径与条款行段；按任务读取适用条件、具体要求和必要依赖。源码中可直接使用 `python tools/skill_lookup.py`。

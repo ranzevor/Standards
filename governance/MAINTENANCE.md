@@ -4,7 +4,7 @@
 
 维护范围为 [project.json](../project.json) 标识的当前发行集合，以及[规范登记](../registry/standards.json)中逐份固定身份的正文、译文、来源、依赖索引、校验器、示例和发行工具。集合版本不代替单份文档版本。维护者为 [Ranzevor](https://github.com/ranzevor)。
 
-一般缺陷、条款疑问和改进建议通过 [Issue](https://github.com/ranzevor/Standards/issues) 提交。安全或敏感问题发送至 [ranzevor@gmail.com](mailto:ranzevor@gmail.com)，报告要求见[安全政策](../SECURITY.md)。
+一般缺陷、条款疑问和改进建议通过 [Issue](https://github.com/ranzevor/Standards/issues) 提交。安全或敏感问题使用 GitHub 的[私密漏洞报告入口](https://github.com/ranzevor/Standards/security/advisories/new)，无法使用时发送至 [ranzevor@gmail.com](mailto:ranzevor@gmail.com)；报告要求见[安全政策](../SECURITY.md)。
 
 ## 问题处理
 
