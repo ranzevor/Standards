@@ -13,6 +13,7 @@
 - [架构决定记录模板](ARCHITECTURE-DECISION.md)
 
 - [项目记录字段与填写实例](project-governance/README.md)
+- [软件仓库协作与平台控制模板包](repository/README.md)
 - [README入口合同](README-ENTRY.md)
 - [文档与源译记录](DOCUMENT-TRANSLATION.md)
 - [权属、许可与通知记录](RIGHTS-AND-NOTICES.md)
