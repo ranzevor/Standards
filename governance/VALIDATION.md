@@ -29,6 +29,15 @@ python checks/software_repository.py --root <project-root> --profile <project-re
 
 检查不读取平台规则集、安全功能、环境权限或发行对象，也不执行快速开始命令。平台状态、独立审查、实际发布和首次使用结果按[软件仓库采用指南](../guides/SOFTWARE-REPOSITORY-ADOPTION.md)分别验收。
 
+## 按变更选择检查
+
+先按[变更流程](../guides/SOFTWARE-CHANGE-WORKFLOW.md)分析受影响对象，再运行对应检查；完整候选的常规门禁仍按上方入口及发行政策执行。只有对象、环境和证明命题仍适用的旧结果才可复用。
+
+- 门禁设计、独立包预期、读取身份、物理路径及安装文件集合示例：`python -X utf8 -B -m unittest tests.test_repository_engineering -v`。
+- 发行标签、附件、写入响应丢失和有界读回恢复：`python -X utf8 -B -m unittest tests.test_release_publication -v`，使用合成 API，不访问 GitHub。
+
+Windows junction 与 POSIX 符号链接场景按目标平台分别执行；完整目录事务及真实包安装按采用项目的实际入口验证。场景边界见[示例说明](../examples/repository_engineering/README.md)。
+
 ## 发行包
 
 `tools/build_release_bundle.py` 构建 Source 和 Agent Skill 包，在构建时生成完整文件集合、长度和 SHA-256 清单并随包交付；`tools/verify_release_bundle.py` 验证 ZIP 或解包目录的清单和规范登记。验证拒绝不安全路径、大小写冲突、文件目录冲突、符号链接、特殊文件、未列出的文件和身份不一致的正文。离线发行包使用经验证的发行清单固定候选身份。

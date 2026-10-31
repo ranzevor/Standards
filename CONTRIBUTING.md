@@ -8,6 +8,8 @@
 4. Pull Request 说明变更原因、差异、兼容影响及验证结果。作者负责自查；独立审查者核对具体技术内容、反例和修复。
 5. 贡献按根 [LICENSE](LICENSE) 的材料类型映射进入对应许可证。第三方材料同时保留来源、适用许可和必要通知；贡献者应拥有相应贡献权限。
 
+日常变更的检查选择、候选复核及合并/发行衔接见[软件变更流程](guides/SOFTWARE-CHANGE-WORKFLOW.md)；门禁和制品相关贡献同时参考[检查器设计](guides/QUALITY-GATE-DESIGN.md)与[安装恢复边界](guides/ARTIFACT-INSTALLATION-LIFECYCLE.md)。
+
 文件格式和版本约定见[编制指南](guides/AUTHORING.md)，仓库标识见[命名政策](governance/REPOSITORY-NAMING.md)。协作遵循[行为准则](CODE_OF_CONDUCT.md)。
 
 新维护者提交、PR 标题及 squash 消息遵循[提交与独立审查约定](governance/BRANCHES-AND-REVIEW.md)：英文 `type(scope)`，简体中文主题和正文。AI 行为缺陷可使用[反馈模板](examples/ai-agent/behavior/FEEDBACK.template.md)，具体采用与升级见[操作指南](guides/ai-behavior/ADOPTION.md)。

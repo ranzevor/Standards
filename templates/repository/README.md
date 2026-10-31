@@ -12,6 +12,8 @@
 
 同时复用上级目录已有的 [README 入口合同](../README-ENTRY.md)、[权属与通知记录](../RIGHTS-AND-NOTICES.md)、[发行准备模板](../RELEASE-READINESS.md)和[退役模板](../RETIREMENT.md)。这些模板不自动选择许可证、开启平台功能、批准合并或证明检查通过。
 
+持续开发的操作路径见[软件变更流程](../../guides/SOFTWARE-CHANGE-WORKFLOW.md)。配置检查时使用[门禁设计](../../guides/QUALITY-GATE-DESIGN.md)，涉及发行安装时使用[安装与恢复指南](../../guides/ARTIFACT-INSTALLATION-LIFECYCLE.md)。
+
 ## 按状态选择
 
 - **私有开发：** README、实际构建/测试入口、依赖锁定和内部问题入口；未选择许可证时保持不分发状态，不使用开源徽章。

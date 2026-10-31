@@ -71,6 +71,7 @@ All twenty project governance standards have [full English translations](transla
 - **Author and change:** [authoring guide][authoring] · [templates][templates] · [compatibility and migration][compatibility]
 - **Check the basis:** [official sources and limits][sources] · [language coverage and translation workflow][languages]
 
+- **Software engineering (Chinese):** [Change workflow](guides/SOFTWARE-CHANGE-WORKFLOW.md) · [Quality gate design](guides/QUALITY-GATE-DESIGN.md) · [Artifacts, installation and recovery](guides/ARTIFACT-INSTALLATION-LIFECYCLE.md)
 - **AI behavior profiles:** [Optional behavior guidance](guides/AI-BEHAVIOR.md) · [Scenarios and verification](examples/ai-agent/behavior/README.md)
 
 - **Native platform validation:** [Encoding, paths and offline consumers](guides/CROSS-PLATFORM.md)
