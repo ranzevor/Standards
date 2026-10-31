@@ -10,6 +10,7 @@ from pathlib import Path
 import re
 import subprocess
 import sys
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -28,6 +29,7 @@ API_PREFIX = '/repos/' + REPOSITORY
 API_VERSION = '2026-03-10'
 TAGGER_NAME = 'Standards Release Automation'
 TAGGER_EMAIL = 'standards-release@automation.invalid'
+TAG_READBACK_DELAYS = (0, 1, 2, 4)
 
 class PublishError(ValueError):
     pass
@@ -211,6 +213,26 @@ def tag_receipt(api, tag, commit):
             'peeled_commit': commit, 'signature': 'unsigned' if unsigned else 'not-verified-by-this-tool'}
 
 
+def confirm_tag_readback(api, suffix):
+    """Confirm one created object using bounded reads, without repeating a write."""
+    last_failure = 'object not visible'
+    for delay in TAG_READBACK_DELAYS:
+        if delay:
+            time.sleep(delay)
+        try:
+            record = api.request('GET', suffix, missing=True)
+        except APIError as error:
+            if error.status not in {None, 404, 408, 429, 500, 502, 503, 504}:
+                raise
+            last_failure = 'transport failure' if error.status is None else f'HTTP {error.status}'
+        else:
+            if record is not None:
+                return record
+            last_failure = 'HTTP 404'
+    raise APIError(None, f'tag confirmation incomplete: GET {suffix}; last read: {last_failure}; '
+                   'publication stopped; reconcile the same release identity before resuming')
+
+
 def ensure_tag(api, tag, commit, notes):
     ref = api.request('GET', '/git/ref/tags/' + tag, missing=True)
     require(ref is None or ref.get('object', {}).get('type') == 'tag',
@@ -225,25 +247,25 @@ def ensure_tag(api, tag, commit, notes):
     if record is None:
         try:
             created = api.request('POST', '/git/tags', payload)
-        except APIError:
-            # Reconcile only this content-addressed object; never invent another tag identity.
-            record = api.request('GET', '/git/tags/' + object_id, missing=True)
-            if record is None:
+        except APIError as error:
+            if error.status in {401, 403}:
                 raise
+            # Reconcile only this content-addressed object; never invent another tag identity.
+            record = confirm_tag_readback(api, '/git/tags/' + object_id)
         else:
             check_tag_object(created, payload, object_id)
-            record = api.request('GET', '/git/tags/' + object_id)
+            record = confirm_tag_readback(api, '/git/tags/' + object_id)
     check_tag_object(record, payload, object_id)
     ref = api.request('GET', '/git/ref/tags/' + tag, missing=True)
     if ref is None:
         try:
             api.request('POST', '/git/refs', {'ref': 'refs/tags/' + tag, 'sha': object_id})
-        except APIError:
-            ref = api.request('GET', '/git/ref/tags/' + tag, missing=True)
-            if ref is None:
+        except APIError as error:
+            if error.status in {401, 403}:
                 raise
+            ref = confirm_tag_readback(api, '/git/ref/tags/' + tag)
         else:
-            ref = api.request('GET', '/git/ref/tags/' + tag)
+            ref = confirm_tag_readback(api, '/git/ref/tags/' + tag)
     require(ref.get('object', {}).get('type') == 'tag' and
             ref.get('object', {}).get('sha') == object_id,
             'release tag ref differs; it will not be moved')

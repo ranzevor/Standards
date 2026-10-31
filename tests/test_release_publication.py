@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import unittest
+from unittest.mock import call, patch
 import urllib.request
 
 from tools.publish_release import (
@@ -158,6 +159,122 @@ class FakeGitHub:
     def download(self, asset):
         self.downloads.append(asset['id'])
         return self.bytes[asset['id']]
+
+
+class DelayedTagGitHub(FakeGitHub):
+    def __init__(self, operation, responses):
+        super().__init__()
+        self.operation = operation
+        self.responses = list(responses)
+        self.confirmation_reads = 0
+        self.created = False
+
+    def request(self, method, suffix, payload=None, missing=False):
+        target = '/git/tags/' if self.operation == 'tag-object' else '/git/ref/tags/'
+        if method == 'GET' and suffix.startswith(target) and self.created and self.responses:
+            self.requests.append((method, suffix))
+            self.confirmation_reads += 1
+            response = self.responses.pop(0)
+            if isinstance(response, APIError):
+                raise response
+            if response is None:
+                if missing:
+                    return None
+                raise APIError(404, 'synthetic delayed tag readback')
+            return response
+        try:
+            return super().request(method, suffix, payload, missing)
+        finally:
+            if method == 'POST' and suffix == ('/git/tags' if self.operation == 'tag-object' else '/git/refs'):
+                self.created = True
+
+
+class TagReadbackRecoveryTests(unittest.TestCase):
+    def setUp(self):
+        sleeper = patch('time.sleep')
+        self.sleeper = sleeper.start()
+        self.addCleanup(sleeper.stop)
+
+    def test_delayed_created_object_and_ref_are_confirmed_without_repeating_posts(self):
+        for operation in ('tag-object', 'tag'):
+            for lost_response in (False, True):
+                with self.subTest(operation=operation, lost_response=lost_response):
+                    api = DelayedTagGitHub(operation, [None, None])
+                    if lost_response:
+                        api.fail_after.add(operation)
+                    result = publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+                    self.assertEqual(result['status'], 'published-and-verified')
+                    self.assertEqual(api.confirmation_reads, 2)
+                    self.assertEqual(api.mutations.count(('POST', '/git/tags')), 1)
+                    self.assertEqual(api.mutations.count(('POST', '/git/refs')), 1)
+                    self.assertEqual(len(api.tag_objects), 1)
+
+    def test_transient_read_failure_recovers_but_permission_failure_stops_immediately(self):
+        for status in (None, 408, 429, 500, 502, 503, 504, 401, 403):
+            with self.subTest(status=status):
+                api = DelayedTagGitHub('tag', [APIError(status, 'synthetic read failure')])
+                self.sleeper.reset_mock()
+                if status in (401, 403):
+                    with self.assertRaises(APIError) as caught:
+                        publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+                    self.assertEqual(caught.exception.status, status)
+                    self.assertEqual(api.confirmation_reads, 1)
+                    self.sleeper.assert_not_called()
+                    self.assertNotIn(('POST', '/releases'), api.mutations)
+                else:
+                    self.assertEqual(publish(api, CONFIG, ASSETS, COMMIT, NOTES)['status'],
+                                     'published-and-verified')
+                    self.assertEqual(self.sleeper.call_count, 1)
+
+    def test_write_permission_error_is_not_reclassified_as_incomplete_confirmation(self):
+        for denied_path in ('/git/tags', '/git/refs'):
+            for status in (401, 403):
+                with self.subTest(denied_path=denied_path, status=status):
+                    api = FakeGitHub()
+                    request = api.request
+                    self.sleeper.reset_mock()
+
+                    def deny_write(method, suffix, payload=None, missing=False):
+                        if method == 'POST' and suffix == denied_path:
+                            raise APIError(status, 'synthetic write permission failure')
+                        return request(method, suffix, payload, missing)
+
+                    with patch.object(api, 'request', side_effect=deny_write):
+                        with self.assertRaises(APIError) as caught:
+                            publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+                    self.assertEqual(caught.exception.status, status)
+                    self.sleeper.assert_not_called()
+                    self.assertNotIn(('POST', '/releases'), api.mutations)
+
+    def test_confirmation_exhaustion_leaves_exact_objects_recoverable_without_publication(self):
+        for operation in ('tag-object', 'tag'):
+            with self.subTest(operation=operation):
+                api = DelayedTagGitHub(operation, [None] * 4)
+                self.sleeper.reset_mock()
+                with self.assertRaisesRegex(APIError, 'confirmation incomplete'):
+                    publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+                self.assertEqual(api.confirmation_reads, 4)
+                self.assertEqual(self.sleeper.call_args_list, [call(1), call(2), call(4)])
+                self.assertNotIn(('POST', '/releases'), api.mutations)
+                self.assertEqual(len(api.tag_objects), 1)
+                if operation == 'tag-object':
+                    self.assertNotIn('v0.1.1', api.tags)
+                api.mutations.clear()
+                result = publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+                self.assertEqual(result['status'], 'published-and-verified')
+                self.assertNotIn(('POST', '/git/tags'), api.mutations)
+                if operation == 'tag':
+                    self.assertNotIn(('POST', '/git/refs'), api.mutations)
+
+    def test_visible_conflicting_ref_is_rejected_without_waiting_for_a_different_answer(self):
+        conflicting = {'object': {'type': 'tag', 'sha': 'c' * 40}}
+        api = DelayedTagGitHub('tag', [conflicting])
+        with self.assertRaisesRegex(PublishError, 'tag ref differs'):
+            publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+        self.sleeper.assert_not_called()
+        self.assertEqual(api.confirmation_reads, 1)
+        self.assertNotIn(('POST', '/releases'), api.mutations)
+        self.assertFalse(any(method in ('PATCH', 'DELETE') for method, _ in api.mutations))
 
 
 class PublicationRecoveryTests(unittest.TestCase):
