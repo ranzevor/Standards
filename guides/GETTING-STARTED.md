@@ -2,7 +2,7 @@
 
 ## 0. 获取当前发行
 
-首次使用从 [GitHub Release](https://github.com/ranzevor/Standards/releases/tag/v0.1.1) 获取 Source 包和 `SHA256SUMS.txt`，核对摘要、解压并运行包内 `verify.py`。完整的 Windows PowerShell、Ubuntu 命令和最小查询见[离线分发与使用](OFFLINE.md#从公开发行入口首次使用)。Source 包无需安装第三方依赖或配置账号、凭据及环境变量。
+首次使用从 [GitHub Release](https://github.com/ranzevor/Standards/releases/tag/v0.1.2) 获取 Source 包和 `SHA256SUMS.txt`，核对摘要、解压并运行包内 `verify.py`。完整的 Windows PowerShell、Ubuntu 命令和最小查询见[离线分发与使用](OFFLINE.md#从公开发行入口首次使用)。Source 包无需安装第三方依赖或配置账号、凭据及环境变量。
 
 ## 1. 找到实际对象
 

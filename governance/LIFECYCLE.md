@@ -10,7 +10,7 @@
 | deprecated | 已公布替代方案和迁移要求 |
 | withdrawn | 已撤回，并说明受影响版本及原因 |
 
-Standards v0.1.1 的 162 份现行规范均为 adopted。规范的正式身份和状态由[规范登记](../registry/standards.json)统一记录；规范目录、译文和发行工具使用同一登记。
+Standards v0.1.2 的 162 份现行规范均为 adopted。规范的正式身份和状态由[规范登记](../registry/standards.json)统一记录；规范目录、译文和发行工具使用同一登记。
 
 ## 审查、项目采用与实现验收
 

@@ -4,7 +4,7 @@ description: Select adopted Ranzevor engineering and organizational standards fo
 compatibility: Offline Markdown and JSON with Python 3.12 standard-library verification and lookup.
 metadata:
   author: Ranzevor
-  version: "0.1.1"
+  version: "0.1.2"
   normative_language: zh-Hans
 ---
 
