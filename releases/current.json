@@ -1,6 +1,6 @@
 {
   "schema": "standards-release/1",
-  "version": "0.1.1",
-  "previous_version": "0.1.0",
-  "notes_path": "releases/v0.1.1.md"
+  "version": "0.1.2",
+  "previous_version": "0.1.1",
+  "notes_path": "releases/v0.1.2.md"
 }

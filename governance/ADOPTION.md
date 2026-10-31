@@ -2,7 +2,7 @@
 
 ## 当前规范集合
 
-Standards v0.1.1 包含 162 份已采用规范，生效日期为 2026-10-30。正式正文位于 `standards/`；[规范登记](../registry/standards.json)列出稳定 ID、标题、路径、领域、版本、状态、语言、生效日期和 SHA-256。
+Standards v0.1.2 包含 162 份已采用规范，生效日期为 2026-10-30。正式正文位于 `standards/`；[规范登记](../registry/standards.json)列出稳定 ID、标题、路径、领域、版本、状态、语言、生效日期和 SHA-256。
 
 [规范目录](../INDEX.md)提供导航，[条款索引](../registry/requirements.json)提供条款 ID 和准确正文位置。规范 ID 不包含版本；选择特定内容时同时固定 ID、版本与摘要。
 
