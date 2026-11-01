@@ -491,12 +491,13 @@ class PublicationRecoveryTests(unittest.TestCase):
                   for name in asset_names('0.2.0')}
         release = api.seed_current(draft=True, version='0.2.0', notes=notes)
         name = next(iter(assets))
-        wrong = api.upload(release, name, b'wrong bytes')
+        wrong_bytes = b'!' * len(assets[name])
+        wrong = api.upload(release, name, wrong_bytes)
         api.mutations.clear()
         with self.assertRaisesRegex(PublishError, 'remote asset digest metadata mismatch'):
             publish(api, config, assets, COMMIT, notes)
         self.assertEqual(api.mutations, [])
-        self.assertEqual(api.bytes[wrong['id']], b'wrong bytes')
+        self.assertEqual(api.bytes[wrong['id']], wrong_bytes)
         self.assertTrue(next(item for item in api.releases if item['tag_name'] == 'v0.2.0')['draft'])
 
     def test_minor_release_cannot_skip_an_existing_published_patch(self):
