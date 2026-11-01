@@ -138,7 +138,6 @@ class SkillConsumptionTests(unittest.TestCase):
         source = fixture_source()
         document_path = 'standards/L0/001-测试规范--v0.1.0.md'
         physical_lines = source[document_path].splitlines(keepends=True)
-        physical_lines[5] = '前缀' * 130 .encode('utf-8') if False else physical_lines[5]
         physical_lines[5] = ('前缀' * 130 + 'Straße' + '尾部' * 60 + '\n').encode('utf-8')
         source[document_path] = b''.join(physical_lines)
         self.refresh_fixture_source(source)
