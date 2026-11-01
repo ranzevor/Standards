@@ -165,6 +165,24 @@ def run(source_archive, skill_archive, evidence_dir):
             require(path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == document['sha256'],
                     'lookup path does not identify the expected consumer file')
 
+        # Text queries search authenticated clause bytes, not inferred semantics.
+        clause_lines = (source / clause['path']).read_text(encoding='utf-8').splitlines()
+        phrase = next((line.strip() for line in clause_lines[clause['line'] - 1:clause['end_line']]
+                       if line.strip()), None)
+        require(bool(phrase), 'reference clause has no searchable content')
+        phrase = phrase[:120]
+        for ident, script in (
+                ('source-text-lookup', source / 'tools/skill_lookup.py'),
+                ('skill-text-lookup', skill / 'scripts/lookup.py')):
+            result = command(ident, script, ['--document-id', document['id'],
+                                           '--clause-id', clause['clause_id'],
+                                           '--text-query', phrase], foreign_cwd, stdio_encoding='ascii')
+            require(result['total'] == 1, 'text lookup did not resolve the reference clause')
+            match = result['results'][0]
+            require(match['section_sha256'] == clause['section_sha256'] and
+                    clause['line'] <= match['matched_line'] <= clause['end_line'],
+                    'text lookup result is not bound to the referenced source lines')
+
         # Read-only consumers must not leave unlisted bytecode/cache files or
         # alter any packaged bytes while running from the foreign directory.
         record['post_run_integrity'] = {

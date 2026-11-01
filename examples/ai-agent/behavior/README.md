@@ -12,8 +12,9 @@
 | [完成状态与证据](cases/evidence.json) | 6 | 0.1.0 |
 | [按需加载与宿主适配](cases/context.json) | 6 | 0.1.0 |
 | [真实行为评测操作](cases/evaluation.json) | 6 | 0.1.0 |
+| [Skill 规范消费](cases/skill-consumption.json) | 4 | 0.2.0 |
 
-当前共 36 个场景。规范引用通过稳定文档和条款 ID 解析；运行时还要固定准确版本与摘要。
+当前共 40 个场景。规范引用通过稳定文档和条款 ID 解析；运行时还要固定准确版本与摘要。
 
 ```sh
 python -m checks.behavior_cases

@@ -70,6 +70,7 @@ python -X utf8 -B -m unittest discover -s tests -v
 - **软件开发与维护：** [变更流程](guides/SOFTWARE-CHANGE-WORKFLOW.md) · [门禁设计](guides/QUALITY-GATE-DESIGN.md) · [制品安装与恢复](guides/ARTIFACT-INSTALLATION-LIFECYCLE.md)
 - **核对依据：** [官方来源与适用边界][sources] · [语言覆盖与翻译流程][languages]
 
+- **Agent Skill 规范消费：** [按任务选读与准确条款检索](guides/SKILL-CONSUMPTION.md) · [离线使用](guides/OFFLINE.md)
 - **AI 行为配置：** [可选行为指南](guides/AI-BEHAVIOR.md) · [场景与验证](examples/ai-agent/behavior/README.md)
 
 - **原生平台验收：** [编码、路径与离线消费者](guides/CROSS-PLATFORM.md)
