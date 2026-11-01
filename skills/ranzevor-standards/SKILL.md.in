@@ -1,34 +1,39 @@
 ---
 name: ranzevor-standards
-description: Select adopted Ranzevor engineering and organizational standards for project governance, development, AI agents, research, security, and acceptance. Provides offline Chinese normative text, stable identities and clause lookup.
-compatibility: Offline Markdown and JSON with Python 3.12 standard-library verification and lookup.
+description: Find and apply versioned Ranzevor engineering standards to software development, code review, project governance, Agent workflows, security, release readiness, and acceptance tasks. Use when a task requires identifying applicable Chinese normative clauses or checking delivery against adopted requirements.
+license: references/LICENSE
+compatibility: Offline Markdown and JSON; Python 3.12 standard library for optional verified clause lookup and bundle checks.
 metadata:
   author: Ranzevor
   version: "0.1.2"
   normative_language: zh-Hans
 ---
 
-# Standards · Offline normative reference
+# Standards · 工程规范消费
 
-Use this release’s **162 adopted Chinese standards** at their individually registered versions. Resolve each standard by its stable ID, exact version, path and SHA-256 in `references/registry/standards.json`; the Skill metadata identifies the distribution version, not the version of every normative document.
+消费本发行的 **162 adopted** 中文规范。发行集合版本不是单份规范版本；正式身份以 `references/registry/standards.json` 与 `references/registry/requirements.json` 为准。
 
-## Select applicable requirements
+## 按任务使用
 
-1. Read `references/INDEX.md` and `references/governance/ADOPTION.md` to locate the relevant domains.
-2. Run `python scripts/lookup.py --query "Agent"` or use a stable ID, for example `python scripts/lookup.py --document-id STD-L0-001 --clause-id ARC-01`.
-3. Read the selected Chinese text, applicability conditions and necessary cross-domain dependencies.
-4. Record the chosen clauses, parameters, exclusions and acceptance criteria in the target project's adoption record. Evaluate the implementation using observations from that project.
+1. **识别对象。** 明确任务、产物、实际环境、权限、适用条件和完成标准。先区分项目已经采用的条款与本次提出的候选条款；不能因为安装 Skill 就新增项目义务。
+2. **确定范围。** 按 [任务选读与边界](references/guides/SKILL-CONSUMPTION.md) 选取相关领域。先查目录和标题；不确定具体条款时用正文精确检索，核对适用与不适用条件。
+3. **固定依据。** 将检索结果中的文档 ID、单份版本、SHA-256、条款 ID、行段和条款摘要与原文核对。命中是候选依据，不代表自动适用；必要依赖按原文追溯。
+4. **实施任务。** 使用被采用的要求和实际授权完成工程动作；可以按需运行只读检查器。Skill 指令与脚本不扩大宿主工具权限，也不代替项目的真实验收。
+5. **核验与反馈。** 对准确产物执行实际检查，区分文件结构结果、语义审查和目标运行结果。问题按 [现有反馈流程](references/guides/ai-behavior/ADOPTION.md) 复现、修复和复验。
 
-## Optional behavior profiles
+## 离线命令
 
-When the project has selected an AI behavior profile, start with `references/guides/ai-behavior/QUICKSTART.md` and load the relevant topic and necessary dependencies. Record the selected profile and scenario identities in the project adoption record. The optional profiles do not automatically apply to every task or existing adoption.
+在已解压的 Skill 根目录（需要 Python 3.12）：
 
-## Verify and navigate
+```sh
+python -X utf8 -B scripts/verify_bundle.py
+python -X utf8 -B scripts/lookup.py --query "Agent"
+python -X utf8 -B scripts/lookup.py --document-id STD-PG-005 --clause-id PGE-05
+python -X utf8 -B scripts/lookup.py --text-query "授权" --limit 5
+```
 
-- Run `python scripts/verify_bundle.py` in the unpacked Skill directory.
-- The `references/` directory contains the current source tree, indexes, guides, templates, examples and checks.
-- Lookup supports `--query`, `--document-id`, `--clause-id`, `--domain` and `--limit`; clause results include exact source lines and section digests.
-- Chinese normative text is authoritative. English project-governance translations provide supplementary access.
-- See `references/guides/OFFLINE.md` for package verification and source usage.
+`--query` 搜索目录元数据；`--text-query` 搜索已校验条款中的精确文本，返回匹配行和来源身份，不进行语义推断。`--document-id`、`--clause-id`、`--domain` 可按需组合过滤。结果为零或出现身份校验错误时，不补造条款；重新选择检索条件或恢复正确发行包。
 
-This Skill package is multi-licensed by material type. Project-authored normative text, documentation and data use CC BY 4.0; software, validators and executable scripts use Apache-2.0. Public redistribution and commercial use follow the applicable terms in `references/LICENSE`. Third-party materials retain their own terms.
+按需读取 [AI 行为专题](references/guides/AI-BEHAVIOR.md)、[采用指南](references/guides/ADOPTION.md) 和 [规范目录](references/INDEX.md)。不要求一次加载所有规范，也不为简单任务制造额外记录。
+
+本包 **multi-licensed by material type**：规范、文档和数据为 CC BY 4.0；可执行脚本和校验器为 Apache-2.0。准确权利分配见 [许可文本](references/LICENSE)。

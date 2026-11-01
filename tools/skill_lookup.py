@@ -17,7 +17,7 @@ else:
     from tools.verify_release_bundle import checked_path,parse_json,validate_registry_bytes,validate_project_release
 ROOT=HERE.parent/'references' if (HERE.parent/'references').is_dir() else HERE.parent
 
-def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20):
+def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None):
     root=Path(root)
     if root.is_symlink() or not root.is_dir():raise ValueError('lookup root is not a plain directory')
     root=root.resolve()
@@ -39,6 +39,12 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
     validate_registry_bytes(docs,normative)
     if document_id is not None and document_id not in {doc['id'] for doc in docs}:
         raise ValueError('unknown exact document ID: '+str(document_id))
+    if text_query is not None:
+        if type(text_query) is not str or not text_query.strip() or len(text_query)>256 or '\\x00' in text_query:
+            raise ValueError('text-query must be 1..256 nonblank characters')
+        text_needle=text_query.casefold()
+    else:
+        text_needle=None
     needle=query.casefold() if query else None
     prefix='references/' if root.name=='references' else ''
     matching=[]
@@ -51,7 +57,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
                          'title':doc['title'],'version':doc['version'],
                          'status':doc['status'],'path':prefix+doc['path'],
                          'sha256':doc['sha256'],'domain':doc['domain']})
-    if clause_id:
+    if clause_id or text_needle is not None:
         clauses=parse_json(read('registry/requirements.json'))
         if type(clauses) is not list:raise ValueError('invalid clause registry')
         selected={doc['document_id']:doc for doc in matching}
@@ -59,7 +65,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
         results=[]
         for row in clauses:
             if type(row) is not dict:raise ValueError('invalid clause registry row')
-            if str(row.get('clause_id','')).casefold()!=clause_id.casefold():continue
+            if clause_id and str(row.get('clause_id','')).casefold()!=clause_id.casefold():continue
             doc=selected.get(row.get('document_id'))
             if doc is None:continue
             original=registry[doc['document_id']]
@@ -70,10 +76,18 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             lines=cache[original['path']].splitlines(keepends=True)
             if type(start) is not int or type(end) is not int or not 1<=start<=end<=len(lines):
                 raise ValueError('invalid clause span')
-            digest=hashlib.sha256(b''.join(lines[start-1:end])).hexdigest()
+            section=b''.join(lines[start-1:end])
+            digest=hashlib.sha256(section).hexdigest()
             if digest!=row.get('section_sha256'):raise ValueError('clause content digest mismatch')
-            results.append({**doc,'clause_id':row['clause_id'],'line':start,'end_line':end,
-                            'section_sha256':digest})
+            result={**doc,'clause_id':row['clause_id'],'line':start,'end_line':end,
+                    'section_sha256':digest}
+            if text_needle is not None:
+                matched=next(((start+i, line.strip()) for i,line in enumerate(section.decode('utf-8').splitlines())
+                              if text_needle in line.casefold()),None)
+                if matched is None:continue
+                result['matched_line']=matched[0]
+                result['matched_excerpt']=matched[1][:240]
+            results.append(result)
         matching=results
     return {'version':release_version,'total':len(matching),'results':matching[:limit]}
 
@@ -87,11 +101,12 @@ def main(argv=None):
     parser.add_argument('--root',type=Path,default=ROOT)
     parser.add_argument('--query');parser.add_argument('--document-id')
     parser.add_argument('--clause-id');parser.add_argument('--domain')
+    parser.add_argument('--text-query',help='Exact text contained in a verified clause (not semantic search)')
     parser.add_argument('--limit',type=int,default=20)
     args=parser.parse_args(argv)
     if not 1<=args.limit<=100:parser.error('limit must be 1..100')
     try:
-        result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit)
+        result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit,args.text_query)
     except (ValueError,OSError,KeyError,TypeError) as exc:
         print('lookup failed: '+str(exc),file=sys.stderr);return 1
     print(json.dumps(result,ensure_ascii=False,indent=2));return 0
