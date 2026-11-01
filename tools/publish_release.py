@@ -340,7 +340,7 @@ def require_latest_published_predecessor(api, previous_tag, current_tag):
     """Prevent a minor release from skipping an already published patch."""
     def version(tag):
         require(type(tag) is str and re.fullmatch(
-            r'v(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)', tag) is not None,
+            r'v(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)', tag) is not None,
             'unknown published release version')
         return tuple(int(part) for part in tag[1:].split('.'))
 
