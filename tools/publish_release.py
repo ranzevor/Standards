@@ -21,7 +21,7 @@ sys.path.insert(0, str(ROOT))
 from tools.build_release_bundle import clean_git_identity, read_source
 from tools.verify_release_artifacts import asset_names, local_assets
 from tools.verify_release_bundle import (
-    MAX_BYTES, canonical, parse_json, validate_project_release, validate_release_config,
+    MAX_BYTES, canonical, parse_json, valid_release_version, validate_project_release, validate_release_config,
 )
 
 REPOSITORY = 'ranzevor/Standards'
@@ -155,7 +155,7 @@ def tag_commit(api, tag):
 
 
 def tag_payload(tag, commit, notes, committed_at):
-    require(re.fullmatch(r'v0\.1\.(?:0|[1-9][0-9]*)', tag or '') is not None,
+    require(type(tag) is str and tag.startswith('v') and valid_release_version(tag[1:]),
             'invalid release tag name')
     require(re.fullmatch('[0-9a-f]{40}', commit or '') is not None, 'invalid tag commit')
     require(type(committed_at) is str and re.fullmatch(

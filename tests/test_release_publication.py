@@ -410,6 +410,56 @@ class PublicationRecoveryTests(unittest.TestCase):
             publish(api, INITIAL_CONFIG, INITIAL_ASSETS, COMMIT, INITIAL_NOTES)
         self.assertEqual(api.mutations, [])
 
+    def test_v0_2_0_tag_validation_matches_distribution_version_contract(self):
+        for tag in ('v0.1.0', 'v0.1.1', 'v0.1.2', 'v0.2.0', 'v1.0.0'):
+            with self.subTest(tag=tag):
+                self.assertEqual(tag_payload(tag, COMMIT, NOTES, COMMITTED_AT)['tag'], tag)
+        for tag in ('', '0.2.0', 'vv0.2.0', 'v0.2', 'v0.2.00',
+                    'v0.1.02', 'v0.2.0-rc.1', 'v01.2.0'):
+            with self.subTest(tag=tag), self.assertRaisesRegex(PublishError, 'invalid release tag name'):
+                tag_payload(tag, COMMIT, NOTES, COMMITTED_AT)
+
+    def test_v0_2_0_publishes_from_v0_1_2_with_tag_release_and_four_asset_readback(self):
+        api = FakeGitHub()
+        api.tags = {'v0.1.2': PREVIOUS}
+        api.releases = [api.release(1, 'v0.1.2', PREVIOUS, False, 'Published v0.1.2')]
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        notes = '# Standards v0.2.0\\n\\nSynthetic end-to-end publication.\\n'
+        assets = {name: ('synthetic v0.2.0 ' + name).encode()
+                  for name in asset_names('0.2.0')}
+
+        result = publish(api, config, assets, COMMIT, notes)
+
+        self.assertEqual(result['status'], 'published-and-verified')
+        self.assertFalse(result['reused'])
+        self.assertEqual(result['version'], '0.2.0')
+        self.assertEqual(result['tag']['name'], 'v0.2.0')
+        self.assertEqual(result['tag']['kind'], 'annotated')
+        self.assertEqual(result['tag']['peeled_commit'], COMMIT)
+        self.assertEqual(tag_commit(api, 'v0.2.0'), COMMIT)
+        self.assertEqual(api.tags['v0.2.0'], result['tag']['object_sha'])
+        self.assertEqual(len(api.tag_objects), 1)
+        self.assertEqual(api.tag_payloads[0]['tag'], 'v0.2.0')
+
+        release = next(item for item in api.releases if item['tag_name'] == 'v0.2.0')
+        self.assertFalse(release['draft'])
+        self.assertFalse(release['prerelease'])
+        self.assertTrue(release['published_at'])
+        self.assertEqual(release['target_commitish'], COMMIT)
+        self.assertEqual(release['body'], notes)
+
+        published_assets = {item['name']: item for item in api.assets.values()
+                            if item['release_id'] == release['id']}
+        self.assertEqual(set(published_assets), set(assets))
+        for name, raw in assets.items():
+            item = published_assets[name]
+            self.assertEqual(item['state'], 'uploaded')
+            self.assertEqual(item['size'], len(raw))
+            self.assertEqual(item['digest'], 'sha256:' + hashlib.sha256(raw).hexdigest())
+            self.assertEqual(api.bytes[item['id']], raw)
+            self.assertGreaterEqual(api.downloads.count(item['id']), 1)
+
     def test_minor_release_cannot_skip_an_existing_published_patch(self):
         api = FakeGitHub()
         api.tags['v0.1.1'] = PREVIOUS
