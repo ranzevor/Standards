@@ -122,7 +122,7 @@ class SkillConsumptionTests(unittest.TestCase):
         source = fixture_source()
         document_path = 'standards/L0/001-测试规范--v0.1.0.md'
         physical_lines = source[document_path].splitlines(keepends=True)
-        long_line = '前缀' * 150 + 'y-containers/ver' + '中段' * 20 + '尾部' * 60
+        long_line = '前缀' * 150 + '中段' * 20 + 'y-containers/ver'
         physical_lines[5] = (long_line + '\n').encode('utf-8')
         source[document_path] = b''.join(physical_lines)
         self.refresh_fixture_source(source)
@@ -133,6 +133,13 @@ class SkillConsumptionTests(unittest.TestCase):
             self.assertEqual(hit['matched_line'], 6)
             self.assertIn('y-containers/ver', hit['matched_excerpt'].casefold())
             self.assertLessEqual(len(hit['matched_excerpt']), 242)
+            self.assertTrue(hit['matched_excerpt'].endswith('y-containers/ver'))
+
+    def test_reported_real_long_line_excerpt_contains_late_match(self):
+        hit = find(ROOT, document_id='STD-L4-CLOUD-002', clause_id='§06',
+                   text_query='y-containers/ver')['results'][0]
+        self.assertEqual(hit['matched_line'], 194)
+        self.assertIn('y-containers/ver', hit['matched_excerpt'].casefold())
 
     def test_unicode_casefold_expansion_maps_back_to_original_excerpt(self):
         source = fixture_source()
