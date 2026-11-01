@@ -21,16 +21,16 @@ ROOT=HERE.parent/'references' if (HERE.parent/'references').is_dir() else HERE.p
 
 def _decode_physical_line(raw: bytes) -> str:
     """Decode one bytes.splitlines() record without Unicode line-separator splitting."""
-    if raw.endswith(b'\\r\\n'):
+    if raw.endswith(b'\r\n'):
         raw = raw[:-2]
-    elif raw.endswith((b'\\r', b'\\n')):
+    elif raw.endswith((b'\r', b'\n')):
         raw = raw[:-1]
     return raw.decode('utf-8')
 
 
 def _markdown_heading(raw: bytes):
     line = _decode_physical_line(raw)
-    match = re.fullmatch(r'[ \\t]{0,3}#{1,6}[ \\t]+(.+?)[ \\t]*', line)
+    match = re.fullmatch(r'[ \t]{0,3}#{1,6}[ \t]+(.+?)[ \t]*', line)
     return match.group(1) if match else None
 
 
@@ -110,9 +110,11 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             if type(row) is not dict:raise ValueError('invalid clause registry row')
             row_document_id=row.get('document_id')
             row_clause_id=row.get('clause_id')
-            if type(row_document_id) is not str or not row_document_id or \\
-               type(row_clause_id) is not str or not row_clause_id or \\
-               row.get('id')!=row_document_id+'::'+row_clause_id:
+            if (
+                type(row_document_id) is not str or not row_document_id or
+                type(row_clause_id) is not str or not row_clause_id or
+                row.get('id') != row_document_id + '::' + row_clause_id
+            ):
                 raise ValueError('clause registry identity mismatch')
             identity=(row_document_id,row_clause_id)
             if identity in seen_clause_ids:
@@ -122,10 +124,12 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             doc=selected.get(row_document_id)
             if doc is None:continue
             original=registry[row_document_id]
-            if row.get('path')!=original['path'] or \\
-               row.get('document')!=original['path'] or \\
-               row.get('version')!=original['version'] or \\
-               row.get('document_sha256')!=original['sha256']:
+            if (
+                row.get('path') != original['path'] or
+                row.get('document') != original['path'] or
+                row.get('version') != original['version'] or
+                row.get('document_sha256') != original['sha256']
+            ):
                 raise ValueError('clause document identity mismatch')
             start,end=row.get('line'),row.get('end_line')
             lines=cache[original['path']].splitlines(keepends=True)
@@ -135,14 +139,15 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             if heading is None or heading!=row.get('heading'):
                 raise ValueError('clause heading location mismatch')
             heading_parts=heading.split(maxsplit=1)
-            if not heading_parts or heading_parts[0]!=row_clause_id or \\
-               len(heading_parts)<2 or heading_parts[1]!=row.get('title'):
+            if (
+                not heading_parts or heading_parts[0] != row_clause_id or
+                len(heading_parts) < 2 or heading_parts[1] != row.get('title')
+            ):
                 raise ValueError('clause heading identity mismatch')
             for offset,raw_line in enumerate(lines[start-1:end]):
-                if offset and _markdown_heading(raw_line):
-                    nested=_markdown_heading(raw_line).split(maxsplit=1)[0]
-                    if nested==row_clause_id:
-                        raise ValueError('duplicate clause heading in indexed span')
+                nested_heading=_markdown_heading(raw_line) if offset else None
+                if nested_heading and nested_heading.split(maxsplit=1)[0]==row_clause_id:
+                    raise ValueError('duplicate clause heading in indexed span')
             section=b''.join(lines[start-1:end])
             digest=hashlib.sha256(section).hexdigest()
             if digest!=row.get('section_sha256'):raise ValueError('clause content digest mismatch')

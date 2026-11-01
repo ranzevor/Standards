@@ -169,7 +169,7 @@ def run(source_archive, skill_archive, evidence_dir):
         clause_lines = (source / clause['path']).read_bytes().splitlines(keepends=True)
         body_lines = []
         for raw_line in clause_lines[clause['line']:clause['end_line']]:
-            line = raw_line.decode('utf-8').rstrip('\\r\\n').strip(' \\t')
+            line = raw_line.decode('utf-8').rstrip('\r\n').strip(' \t')
             if line and not line.lstrip().startswith('#'):
                 body_lines.append(line)
         require(len(body_lines) >= 2, 'reference clause needs distinct middle and end body lines')
