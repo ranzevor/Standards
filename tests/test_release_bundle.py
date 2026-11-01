@@ -36,9 +36,17 @@ def fixture_source(version="0.1.0"):
                           'path':path,'domain':'core','version':'0.1.0','status':'adopted',
                           'language':'zh-Hans','effective_date':'2026-10-27','sha256':sha256(raw)})
     source['project.json']=canonical({'name':'Standards','version':version})
+    current = json.loads((ROOT / 'releases/current.json').read_text(encoding='utf-8'))
+    if version == current['version']:
+        previous = current['previous_version']
+    elif version == '0.1.0':
+        previous = None
+    elif version.startswith('0.1.') and int(version.rsplit('.', 1)[1]) > 0:
+        previous = '0.1.' + str(int(version.rsplit('.', 1)[1]) - 1)
+    else:
+        raise ValueError('synthetic fixture needs an explicit release predecessor')
     config={'schema':'standards-release/1','version':version,
-            'previous_version':None if version=='0.1.0' else
-                               '0.1.'+str(int(version.rsplit('.',1)[1])-1),
+            'previous_version':previous,
             'notes_path':'releases/v'+version+'.md'}
     source['releases/current.json']=canonical(config)
     source[config['notes_path']]=b'# Synthetic release notes\n'
