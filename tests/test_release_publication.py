@@ -410,6 +410,19 @@ class PublicationRecoveryTests(unittest.TestCase):
             publish(api, INITIAL_CONFIG, INITIAL_ASSETS, COMMIT, INITIAL_NOTES)
         self.assertEqual(api.mutations, [])
 
+    def test_minor_release_cannot_skip_an_existing_published_patch(self):
+        api = FakeGitHub()
+        api.tags['v0.1.1'] = PREVIOUS
+        api.releases.append(api.release(9, 'v0.1.1', PREVIOUS, False, 'Published 0.1.1'))
+        api.releases.append(api.release(10, 'v0.1.2', PREVIOUS, False, 'Published 0.1.2'))
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.1', 'notes_path': 'releases/v0.2.0.md'}
+        assets = {name: b'synthetic asset' for name in asset_names('0.2.0')}
+        with self.assertRaisesRegex(PublishError, 'newer published release'):
+            publish(api, config, assets, COMMIT, '# Standards v0.2.0')
+        self.assertNotIn('v0.2.0', api.tags)
+        self.assertFalse(any(method == 'POST' for method, _ in api.mutations))
+
     def test_subsequent_release_still_requires_published_predecessor_and_ancestry(self):
         for mutation in ('missing-release', 'draft', 'prerelease', 'missing-tag', 'not-ahead'):
             with self.subTest(mutation=mutation):

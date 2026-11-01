@@ -15,7 +15,8 @@ MANIFEST = 'BUNDLE-MANIFEST.json'
 SCHEMA = 'ranzevor-standards-bundle/1'
 INITIAL_VERSION = '0.1.0'
 DOCUMENT_COUNT = 162
-VERSION_PATTERN = r'(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)'
+VERSION_PATTERN = r'0\.1\.(?:0|[1-9][0-9]*)'
+RELEASE_VERSION_PATTERN = r'(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)'
 MAX_FILES = 5000
 MAX_BYTES = 600_000_000
 MAX_MANIFEST_BYTES = 4_000_000
@@ -33,7 +34,13 @@ def fail_if(condition: bool, message: str):
         raise VerificationError(message)
 
 def valid_version(value):
+    """Individual normative document version under the current adopted corpus."""
     return isinstance(value, str) and re.fullmatch(VERSION_PATTERN, value) is not None
+
+
+def valid_release_version(value):
+    """Distribution version, independent of individual normative documents."""
+    return isinstance(value, str) and re.fullmatch(RELEASE_VERSION_PATTERN, value) is not None
 
 
 def valid_date(value):
@@ -50,11 +57,11 @@ def validate_release_config(config, version=None):
     fail_if(type(config) is not dict or set(config) != fields or
             config.get('schema') != 'standards-release/1', 'invalid release configuration')
     current, previous = config['version'], config['previous_version']
-    fail_if(not valid_version(current), 'unsupported release version')
+    fail_if(not valid_release_version(current), 'unsupported release version')
     if current == INITIAL_VERSION:
         fail_if(previous is not None, 'initial release must not declare a previous version')
     else:
-        fail_if(not valid_version(previous), 'subsequent release requires a previous version')
+        fail_if(not valid_release_version(previous), 'subsequent release requires a previous version')
         major, minor, patch = (int(item) for item in current.split('.'))
         old_major, old_minor, old_patch = (int(item) for item in previous.split('.'))
         next_patch = major == old_major and minor == old_minor and patch == old_patch + 1
@@ -68,7 +75,7 @@ def validate_release_config(config, version=None):
 
 
 def validate_project_release(project, version=None):
-    fail_if(type(project) is not dict or project.get('name')!='Standards' or not valid_version(project.get('version')),
+    fail_if(type(project) is not dict or project.get('name')!='Standards' or not valid_release_version(project.get('version')),
             'invalid project release version')
     fail_if(version is not None and project['version'] != version,
             'project and bundle release versions differ')
@@ -159,7 +166,7 @@ def validate_manifest(manifest):
     fail_if(type(manifest) is not dict or set(manifest)!=MANIFEST_FIELDS or
             manifest.get('schema')!=SCHEMA,'unknown bundle manifest schema or fields')
     kind,root,version=manifest['kind'],manifest['root'],manifest['version']
-    fail_if(not valid_version(version) or manifest['normative_language']!='zh-Hans',
+    fail_if(not valid_release_version(version) or manifest['normative_language']!='zh-Hans',
             'wrong release identity')
     fail_if(kind not in ('source','agent-skill') or
             root!=('Standards-v'+version if kind=='source' else 'ranzevor-standards'),

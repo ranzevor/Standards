@@ -46,7 +46,7 @@ class ReleaseVersionTests(unittest.TestCase):
         minor = {'schema': 'standards-release/1', 'version': '0.2.0',
                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
         self.assertEqual(validate_release_config(minor, '0.2.0'), minor)
-        for version, previous in (('0.2.0', '0.1.1'), ('0.2.1', '0.1.2'),
+        for version, previous in (('0.2.1', '0.1.2'),
                                   ('0.3.0', '0.1.2'), ('0.2.0', '0.2.0'),
                                   ('0.2.00', '0.1.2')):
             with self.subTest(version=version, previous=previous), self.assertRaises(VerificationError):

@@ -9,7 +9,7 @@ from checks.validation_common import require,read_json,safe_path,resolve_local_r
 from checks.finite_schema import schema_check,KEYWORDS
 from checks.generate_index import expected_index
 from checks.corpus_contract import references,anchors
-from tools.verify_release_bundle import valid_version, validate_release_config
+from tools.verify_release_bundle import valid_release_version, validate_release_config
 ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED=['README.md','CONTRIBUTING.md','CODE_OF_CONDUCT.md','SECURITY.md','LICENSE-NOTICE.md','CHANGELOG.md','standards/README.md','governance/RELEASE.md','governance/MAINTENANCE.md','governance/REPOSITORY-NAMING.md','governance/software-repository.json','LICENSE','LICENSES/Apache-2.0.txt','LICENSES/CC-BY-4.0.txt','.github/CODEOWNERS','.github/pull_request_template.md','.github/ISSUE_TEMPLATE/defect.md','.github/ISSUE_TEMPLATE/proposal.md','.github/workflows/quality.yml','checks/definition_interfaces.py','checks/governance_field_conditions.py','checks/software_repository.py','registry/schemas/software-repository-profile.schema.json','templates/project-governance/README.md','templates/repository/README.md']
@@ -23,7 +23,7 @@ def validate_project_metadata(project, entries):
             'project metadata contains undeclared or missing fields')
     require(project['name'] == 'Standards' and project['repository_identifier_style'] == 'PascalCase'
             and project['status'] == 'adopted' and project['formal_adoption'] is True
-            and valid_version(project['version'])
+            and valid_release_version(project['version'])
             and project['license_status'] == 'multi-license-CC-BY-4.0-and-Apache-2.0',
             'repository identity and adopted standard set')
     require(project['adopted_documents'] == [item['id'] for item in entries if item['status'] == 'adopted'],

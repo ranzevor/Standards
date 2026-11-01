@@ -336,6 +336,22 @@ def check_initial_release_order(api, tag):
             'initial release repository already contains another published release')
 
 
+def require_latest_published_predecessor(api, previous_tag, current_tag):
+    """Prevent a minor release from skipping an already published patch."""
+    def version(tag):
+        require(type(tag) is str and re.fullmatch(
+            r'v(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)\\.(?:0|[1-9][0-9]*)', tag) is not None,
+            'unknown published release version')
+        return tuple(int(part) for part in tag[1:].split('.'))
+
+    previous_version = version(previous_tag)
+    for item in collection(api, '/releases'):
+        if item.get('draft') is True or item.get('prerelease') is True or item.get('tag_name') == current_tag:
+            continue
+        require(version(item.get('tag_name')) <= previous_version,
+                'newer published release exists after declared predecessor')
+
+
 def publish(api, config, assets, commit, notes, verify_only=False):
     validate_release_config(config)
     require(re.fullmatch('[0-9a-f]{40}', commit or '') is not None, 'invalid source commit')
@@ -370,6 +386,7 @@ def publish(api, config, assets, commit, notes, verify_only=False):
         require(tag_commit(api, previous_tag) is not None, 'previous release tag is missing')
         comparison = api.request('GET', f'/compare/{previous_tag}...{commit}')
         require(comparison.get('status') == 'ahead', 'release commit is not ahead of the previous tag')
+        require_latest_published_predecessor(api, previous_tag, tag)
     intended_tag = ensure_tag(api, tag, commit, notes)
     if release is None:
         payload = {'tag_name': tag, 'target_commitish': commit, 'name': 'Standards ' + tag,
@@ -414,6 +431,8 @@ def publish(api, config, assets, commit, notes, verify_only=False):
     if latest.get('draft') is True:
         if config['previous_version'] is None:
             check_initial_release_order(api, tag)
+        else:
+            require_latest_published_predecessor(api, 'v' + config['previous_version'], tag)
         try:
             api.request('PATCH', f'/releases/{release["id"]}', {'draft': False, 'make_latest': 'true'})
         except APIError:
