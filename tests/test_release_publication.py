@@ -425,9 +425,10 @@ class PublicationRecoveryTests(unittest.TestCase):
         api.releases = [api.release(1, 'v0.1.2', PREVIOUS, False, 'Published v0.1.2')]
         config = {'schema': 'standards-release/1', 'version': '0.2.0',
                   'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
-        notes = '# Standards v0.2.0\\n\\nSynthetic end-to-end publication.\\n'
+        notes = '# Standards v0.2.0\n\nSynthetic end-to-end publication.\n'
         assets = {name: ('synthetic v0.2.0 ' + name).encode()
                   for name in asset_names('0.2.0')}
+        self.assertEqual(len(assets), 4)
 
         result = publish(api, config, assets, COMMIT, notes)
 
