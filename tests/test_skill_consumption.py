@@ -1,15 +1,15 @@
 """Agent Skill entrypoint and verified offline clause consumption."""
 from pathlib import Path
+import hashlib
 import json
-import re
 import subprocess
 import sys
 import tempfile
 import unittest
 
-from tools.skill_lookup import find
 from tests.test_release_bundle import fixture_source
-from tools.verify_release_bundle import VerificationError
+from tools.skill_lookup import find
+from tools.verify_release_bundle import VerificationError, canonical
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -30,8 +30,26 @@ class SkillConsumptionTests(unittest.TestCase):
         self.assertTrue((ROOT / 'guides/SKILL-CONSUMPTION.md').is_file())
 
     @staticmethod
-    def build_fixture(directory):
-        for name, content in fixture_source().items():
+    def refresh_fixture_source(source):
+        documents = json.loads(source['registry/standards.json'])
+        clauses = json.loads(source['registry/requirements.json'])
+        by_id = {document['id']: document for document in documents}
+        for document in documents:
+            raw = source[document['path']]
+            document['sha256'] = hashlib.sha256(raw).hexdigest()
+        for row in clauses:
+            document = by_id[row['document_id']]
+            row['document_sha256'] = document['sha256']
+            physical_lines = source[document['path']].splitlines(keepends=True)
+            section = b''.join(physical_lines[row['line'] - 1:row['end_line']])
+            row['section_sha256'] = hashlib.sha256(section).hexdigest()
+        source['registry/standards.json'] = canonical(documents)
+        source['registry/requirements.json'] = canonical(clauses)
+        return source
+
+    @staticmethod
+    def write_fixture(directory, source=None):
+        for name, content in (source or fixture_source()).items():
             path = directory / name
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(content)
@@ -39,12 +57,13 @@ class SkillConsumptionTests(unittest.TestCase):
     def test_exact_text_returns_clause_and_original_identity(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            self.build_fixture(root)
+            self.write_fixture(root)
             result = find(root, text_query='完整要求', document_id='STD-L0-001')
             self.assertEqual(result['version'], '0.1.0')
             self.assertEqual(result['total'], 1)
             hit = result['results'][0]
             self.assertEqual(hit['clause_id'], 'ARC-001')
+            self.assertEqual(hit['line'], 5)
             self.assertEqual(hit['matched_line'], 6)
             self.assertIn('完整要求', hit['matched_excerpt'])
             clause = json.loads((root / 'registry/requirements.json').read_text(encoding='utf-8'))[0]
@@ -54,24 +73,110 @@ class SkillConsumptionTests(unittest.TestCase):
     def test_no_match_is_empty_and_metadata_query_unchanged(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            self.build_fixture(root)
+            self.write_fixture(root)
             self.assertEqual(find(root, text_query='不存在的唯一词组')['total'], 0)
             self.assertEqual(find(root, query='STD-L0-001')['total'], 1)
             self.assertEqual(find(root, document_id='STD-L0-001', clause_id='ARC-001')['total'], 1)
             self.assertEqual(find(root, document_id='STD-L0-001', text_query='完整要求',
                                   clause_id='ARC-999')['total'], 0)
 
+    def test_forged_clause_id_is_rejected_even_when_index_composite_id_is_rewritten(self):
+        source = fixture_source()
+        clauses = json.loads(source['registry/requirements.json'])
+        clauses[0]['clause_id'] = 'NOT-A-REAL-CLAUSE'
+        clauses[0]['id'] = clauses[0]['document_id'] + '::NOT-A-REAL-CLAUSE'
+        source['registry/requirements.json'] = canonical(clauses)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            with self.assertRaisesRegex(ValueError, 'clause heading identity mismatch'):
+                find(root, document_id='STD-L0-001', text_query='完整要求')
+
+    def test_duplicate_clause_identity_is_rejected(self):
+        source = fixture_source()
+        clauses = json.loads(source['registry/requirements.json'])
+        clauses.append(dict(clauses[0]))
+        source['registry/requirements.json'] = canonical(clauses)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            with self.assertRaisesRegex(ValueError, 'duplicate clause registry identity'):
+                find(root, document_id='STD-L0-001', text_query='完整要求')
+
+    def test_clause_span_cannot_be_repointed_to_a_different_source_line(self):
+        source = fixture_source()
+        clauses = json.loads(source['registry/requirements.json'])
+        row = clauses[0]
+        physical_lines = source[row['path']].splitlines(keepends=True)
+        row['line'] = 6
+        row['end_line'] = 6
+        row['section_sha256'] = hashlib.sha256(physical_lines[5]).hexdigest()
+        source['registry/requirements.json'] = canonical(clauses)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            with self.assertRaisesRegex(ValueError, 'clause heading location mismatch'):
+                find(root, document_id='STD-L0-001', text_query='完整要求')
+
+    def test_long_line_excerpt_is_centered_on_match_and_contains_search_text(self):
+        source = fixture_source()
+        document_path = 'standards/L0/001-测试规范--v0.1.0.md'
+        physical_lines = source[document_path].splitlines(keepends=True)
+        long_line = '前缀' * 150 + 'y-containers/ver' + '中段' * 20 + '尾部' * 60
+        physical_lines[5] = (long_line + '\n').encode('utf-8')
+        source[document_path] = b''.join(physical_lines)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            hit = find(root, document_id='STD-L0-001', text_query='y-containers/ver')['results'][0]
+            self.assertEqual(hit['matched_line'], 6)
+            self.assertIn('y-containers/ver', hit['matched_excerpt'].casefold())
+            self.assertLessEqual(len(hit['matched_excerpt']), 242)
+
+    def test_unicode_casefold_expansion_maps_back_to_original_excerpt(self):
+        source = fixture_source()
+        document_path = 'standards/L0/001-测试规范--v0.1.0.md'
+        physical_lines = source[document_path].splitlines(keepends=True)
+        physical_lines[5] = '前缀' * 130 .encode('utf-8') if False else physical_lines[5]
+        physical_lines[5] = ('前缀' * 130 + 'Straße' + '尾部' * 60 + '\n').encode('utf-8')
+        source[document_path] = b''.join(physical_lines)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            hit = find(root, document_id='STD-L0-001', text_query='STRASSE')['results'][0]
+            self.assertEqual(hit['matched_line'], 6)
+            self.assertIn('strasse', hit['matched_excerpt'].casefold())
+
+    def test_unicode_line_separators_do_not_change_physical_line_numbers(self):
+        source = fixture_source()
+        document_path = 'standards/L0/001-测试规范--v0.1.0.md'
+        physical_lines = source[document_path].splitlines(keepends=True)
+        physical_lines[5] = '前半段\u2028中间段\u0085后半段\n'.encode('utf-8')
+        source[document_path] = b''.join(physical_lines)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            for phrase in ('中间段', '后半段'):
+                with self.subTest(phrase=phrase):
+                    hit = find(root, document_id='STD-L0-001', text_query=phrase)['results'][0]
+                    self.assertEqual((hit['line'], hit['end_line'], hit['matched_line']), (5, 6, 6))
+                    self.assertIn(phrase, hit['matched_excerpt'])
+
     def test_corrupted_source_and_clause_hash_are_rejected(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            self.build_fixture(root)
+            self.write_fixture(root)
             clause_path = root / 'registry/requirements.json'
             clauses = json.loads(clause_path.read_text(encoding='utf-8'))
             clauses[0]['section_sha256'] = '0' * 64
             clause_path.write_text(json.dumps(clauses, ensure_ascii=False), encoding='utf-8')
             with self.assertRaisesRegex(ValueError, 'clause content digest mismatch'):
                 find(root, text_query='完整要求')
-            self.build_fixture(root)
+            source = fixture_source()
+            self.write_fixture(root, source)
             doc_path = next((root / 'standards').rglob('001-测试规范--v0.1.0.md'))
             doc_path.write_bytes(doc_path.read_bytes() + b'\n')
             with self.assertRaises(VerificationError):
@@ -80,7 +185,7 @@ class SkillConsumptionTests(unittest.TestCase):
     def test_reject_blank_overlong_or_ambiguous_text_query(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            self.build_fixture(root)
+            self.write_fixture(root)
             for phrase in ('', '   ', '\x00', 'x' * 257):
                 with self.subTest(phrase=repr(phrase)), self.assertRaisesRegex(ValueError, 'text-query'):
                     find(root, text_query=phrase)
@@ -89,7 +194,7 @@ class SkillConsumptionTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp) / '中文 源目录'
             root.mkdir()
-            self.build_fixture(root)
+            self.write_fixture(root)
             result = subprocess.run(
                 [sys.executable, '-X', 'utf8', '-B', str(ROOT / 'tools/skill_lookup.py'),
                  '--root', str(root), '--text-query', '完整要求', '--document-id', 'STD-L0-001'],
