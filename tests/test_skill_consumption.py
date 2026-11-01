@@ -56,7 +56,7 @@ class SkillConsumptionTests(unittest.TestCase):
             root = Path(tmp)
             self.build_fixture(root)
             self.assertEqual(find(root, text_query='不存在的唯一词组')['total'], 0)
-            self.assertEqual(find(root, query='测试规范 1')['total'], 1)
+            self.assertEqual(find(root, query='STD-L0-001')['total'], 1)
             self.assertEqual(find(root, document_id='STD-L0-001', clause_id='ARC-001')['total'], 1)
             self.assertEqual(find(root, document_id='STD-L0-001', text_query='完整要求',
                                   clause_id='ARC-999')['total'], 0)

@@ -42,6 +42,18 @@ class ReleaseVersionTests(unittest.TestCase):
             with self.subTest(key=key, value=value), self.assertRaises(VerificationError):
                 validate_release_config({**CONFIG, key: value})
 
+    def test_minor_release_needs_exact_predecessor(self):
+        minor = {'schema': 'standards-release/1', 'version': '0.2.0',
+                 'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        self.assertEqual(validate_release_config(minor, '0.2.0'), minor)
+        for version, previous in (('0.2.0', '0.1.1'), ('0.2.1', '0.1.2'),
+                                  ('0.3.0', '0.1.2'), ('0.2.0', '0.2.0'),
+                                  ('0.2.00', '0.1.2')):
+            with self.subTest(version=version, previous=previous), self.assertRaises(VerificationError):
+                validate_release_config({'schema': 'standards-release/1', 'version': version,
+                                         'previous_version': previous,
+                                         'notes_path': 'releases/v' + version + '.md'})
+
     def test_release_can_advance_while_all_normative_documents_stay_at_zero(self):
         source = fixture_source('0.1.1')
         self.assertEqual(verify_normative(source)['version'], '0.1.1')

@@ -15,7 +15,7 @@ MANIFEST = 'BUNDLE-MANIFEST.json'
 SCHEMA = 'ranzevor-standards-bundle/1'
 INITIAL_VERSION = '0.1.0'
 DOCUMENT_COUNT = 162
-VERSION_PATTERN = r'0\.1\.(?:0|[1-9][0-9]*)'
+VERSION_PATTERN = r'(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)'
 MAX_FILES = 5000
 MAX_BYTES = 600_000_000
 MAX_MANIFEST_BYTES = 4_000_000
@@ -55,8 +55,13 @@ def validate_release_config(config, version=None):
         fail_if(previous is not None, 'initial release must not declare a previous version')
     else:
         fail_if(not valid_version(previous), 'subsequent release requires a previous version')
-        fail_if(int(current.rsplit('.', 1)[1]) != int(previous.rsplit('.', 1)[1]) + 1,
-                'release must advance one patch from the previous release')
+        major, minor, patch = (int(item) for item in current.split('.'))
+        old_major, old_minor, old_patch = (int(item) for item in previous.split('.'))
+        next_patch = major == old_major and minor == old_minor and patch == old_patch + 1
+        next_minor = major == old_major and minor == old_minor + 1 and patch == 0
+        next_major = major == old_major + 1 and minor == 0 and patch == 0
+        fail_if(not (next_patch or next_minor or next_major),
+                'release must advance by one patch, next minor .0, or next major .0')
     fail_if(version is not None and current != version, 'release configuration version mismatch')
     fail_if(config['notes_path'] != 'releases/v' + current + '.md', 'release notes path mismatch')
     return config

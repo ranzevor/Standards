@@ -40,7 +40,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
     if document_id is not None and document_id not in {doc['id'] for doc in docs}:
         raise ValueError('unknown exact document ID: '+str(document_id))
     if text_query is not None:
-        if type(text_query) is not str or not text_query.strip() or len(text_query)>256 or '\\x00' in text_query:
+        if type(text_query) is not str or not text_query.strip() or len(text_query)>256 or any(chr(c) in text_query for c in (0, 10, 13)):
             raise ValueError('text-query must be 1..256 nonblank characters')
         text_needle=text_query.casefold()
     else:
