@@ -4,6 +4,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import sys
 
 if __name__ == '__main__':
@@ -16,6 +17,47 @@ else:
     sys.path.insert(0,str(HERE.parent))
     from tools.verify_release_bundle import checked_path,parse_json,validate_registry_bytes,validate_project_release
 ROOT=HERE.parent/'references' if (HERE.parent/'references').is_dir() else HERE.parent
+
+
+def _decode_physical_line(raw: bytes) -> str:
+    """Decode one bytes.splitlines() record without Unicode line-separator splitting."""
+    if raw.endswith(b'\\r\\n'):
+        raw = raw[:-2]
+    elif raw.endswith((b'\\r', b'\\n')):
+        raw = raw[:-1]
+    return raw.decode('utf-8')
+
+
+def _markdown_heading(raw: bytes):
+    line = _decode_physical_line(raw)
+    match = re.fullmatch(r'[ \\t]{0,3}#{1,6}[ \\t]+(.+?)[ \\t]*', line)
+    return match.group(1) if match else None
+
+
+def _casefold_match(text: str, needle: str):
+    """Return original character bounds for a Unicode casefolded substring match."""
+    folded_parts = []
+    starts = []
+    ends = []
+    for index, char in enumerate(text):
+        folded = char.casefold()
+        folded_parts.append(folded)
+        starts.extend([index] * len(folded))
+        ends.extend([index + 1] * len(folded))
+    position = ''.join(folded_parts).find(needle)
+    if position < 0:
+        return None
+    return starts[position], ends[position + len(needle) - 1]
+
+
+def _matched_excerpt(text: str, start: int, end: int, limit: int = 240) -> str:
+    """Keep a bounded, match-centred excerpt that always includes the matched text."""
+    width = max(limit, end - start)
+    if len(text) <= width:
+        return text
+    left = max(0, min(start - (width - (end - start)) // 2, len(text) - width))
+    right = left + width
+    return ('…' if left else '') + text[left:right] + ('…' if right < len(text) else '')
 
 def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None):
     root=Path(root)
@@ -62,31 +104,62 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
         if type(clauses) is not list:raise ValueError('invalid clause registry')
         selected={doc['document_id']:doc for doc in matching}
         registry={doc['id']:doc for doc in docs}
+        seen_clause_ids=set()
         results=[]
         for row in clauses:
             if type(row) is not dict:raise ValueError('invalid clause registry row')
-            if clause_id and str(row.get('clause_id','')).casefold()!=clause_id.casefold():continue
-            doc=selected.get(row.get('document_id'))
+            row_document_id=row.get('document_id')
+            row_clause_id=row.get('clause_id')
+            if type(row_document_id) is not str or not row_document_id or \\
+               type(row_clause_id) is not str or not row_clause_id or \\
+               row.get('id')!=row_document_id+'::'+row_clause_id:
+                raise ValueError('clause registry identity mismatch')
+            identity=(row_document_id,row_clause_id)
+            if identity in seen_clause_ids:
+                raise ValueError('duplicate clause registry identity')
+            seen_clause_ids.add(identity)
+            if clause_id and row_clause_id.casefold()!=clause_id.casefold():continue
+            doc=selected.get(row_document_id)
             if doc is None:continue
-            original=registry[doc['document_id']]
-            if row.get('path')!=original['path'] or row.get('version')!=original['version'] or \
+            original=registry[row_document_id]
+            if row.get('path')!=original['path'] or \\
+               row.get('document')!=original['path'] or \\
+               row.get('version')!=original['version'] or \\
                row.get('document_sha256')!=original['sha256']:
                 raise ValueError('clause document identity mismatch')
             start,end=row.get('line'),row.get('end_line')
             lines=cache[original['path']].splitlines(keepends=True)
             if type(start) is not int or type(end) is not int or not 1<=start<=end<=len(lines):
                 raise ValueError('invalid clause span')
+            heading=_markdown_heading(lines[start-1])
+            if heading is None or heading!=row.get('heading'):
+                raise ValueError('clause heading location mismatch')
+            heading_parts=heading.split(maxsplit=1)
+            if not heading_parts or heading_parts[0]!=row_clause_id or \\
+               len(heading_parts)<2 or heading_parts[1]!=row.get('title'):
+                raise ValueError('clause heading identity mismatch')
+            for offset,raw_line in enumerate(lines[start-1:end]):
+                if offset and _markdown_heading(raw_line):
+                    nested=_markdown_heading(raw_line).split(maxsplit=1)[0]
+                    if nested==row_clause_id:
+                        raise ValueError('duplicate clause heading in indexed span')
             section=b''.join(lines[start-1:end])
             digest=hashlib.sha256(section).hexdigest()
             if digest!=row.get('section_sha256'):raise ValueError('clause content digest mismatch')
-            result={**doc,'clause_id':row['clause_id'],'line':start,'end_line':end,
+            result={**doc,'clause_id':row_clause_id,'line':start,'end_line':end,
                     'section_sha256':digest}
             if text_needle is not None:
-                matched=next(((start+i, line.strip()) for i,line in enumerate(section.decode('utf-8').splitlines())
-                              if text_needle in line.casefold()),None)
+                matched=None
+                for offset,raw_line in enumerate(section.splitlines(keepends=True)):
+                    line_text=_decode_physical_line(raw_line)
+                    bounds=_casefold_match(line_text,text_needle)
+                    if bounds is not None:
+                        matched=(start+offset,line_text,bounds)
+                        break
                 if matched is None:continue
-                result['matched_line']=matched[0]
-                result['matched_excerpt']=matched[1][:240]
+                line_number,line_text,(match_start,match_end)=matched
+                result['matched_line']=line_number
+                result['matched_excerpt']=_matched_excerpt(line_text,match_start,match_end)
             results.append(result)
         matching=results
     return {'version':release_version,'total':len(matching),'results':matching[:limit]}

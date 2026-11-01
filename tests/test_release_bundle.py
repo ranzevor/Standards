@@ -54,7 +54,9 @@ def fixture_source(version="0.1.0"):
     first=documents[0];lines=source[first['path']].splitlines(keepends=True)
     source['registry/requirements.json']=canonical([{
         'document_id':first['id'],'clause_id':'ARC-001','path':first['path'],
-        'version':'0.1.0','document_sha256':first['sha256'],'line':5,'end_line':6,
+        'id':first['id']+'::ARC-001','heading':'ARC-001 条款','title':'条款',
+        'document':first['path'],'version':'0.1.0','document_sha256':first['sha256'],
+        'line':5,'end_line':6,
         'section_sha256':sha256(b''.join(lines[4:6]))}])
     for name in ('LICENSE','LICENSE-NOTICE.md','NOTICE.md','LICENSES/Apache-2.0.txt',
                  'LICENSES/CC-BY-4.0.txt','tools/verify_release_bundle.py',
