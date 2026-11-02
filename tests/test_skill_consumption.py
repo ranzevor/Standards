@@ -127,10 +127,10 @@ class SkillConsumptionTests(unittest.TestCase):
         path = 'standards/L0/001-测试规范--v0.1.0.md'
         lines = source[path].splitlines(keepends=True)
         lines[4:] = [
-            '## 测试章节\\n'.replace('\\n', '\n').encode('utf-8'),
-            '章节正文独有短语。\\n'.replace('\\n', '\n').encode('utf-8'),
-            '### ARC-001 核验合同\\n'.replace('\\n', '\n').encode('utf-8'),
-            '完整要求。\\n'.replace('\\n', '\n').encode('utf-8'),
+            '## 测试章节\n'.encode('utf-8'),
+            '章节正文独有短语。\n'.encode('utf-8'),
+            '### ARC-001 核验合同\n'.encode('utf-8'),
+            '完整要求。\n'.encode('utf-8'),
         ]
         source[path] = b''.join(lines)
         clauses = json.loads(source['registry/requirements.json'])
@@ -139,6 +139,7 @@ class SkillConsumptionTests(unittest.TestCase):
                    title='核验合同', normative_start_line=5, normative_end_line=8)
         source['registry/requirements.json'] = canonical(clauses)
         self.refresh_fixture_source(source)
+        registered = json.loads(source['registry/requirements.json'])[0]
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             self.write_fixture(root, source)
@@ -149,11 +150,11 @@ class SkillConsumptionTests(unittest.TestCase):
             self.assertEqual((chapter['normative_start_line'], chapter['normative_end_line']), (5, 8))
             self.assertEqual(chapter['matched_line'], 6)
             self.assertIn('章节正文独有短语', chapter['matched_excerpt'])
-            self.assertEqual(chapter['normative_sha256'], row['normative_sha256'])
+            self.assertEqual(chapter['normative_sha256'], registered['normative_sha256'])
             contract = find(root, document_id='STD-L0-001',
                             text_query='完整要求')['results'][0]
             self.assertEqual(contract['matched_line'], 8)
-            self.assertEqual(contract['section_sha256'], row['section_sha256'])
+            self.assertEqual(contract['section_sha256'], registered['section_sha256'])
             self.assertIn('完整要求', contract['matched_excerpt'])
 
             corrupted = json.loads(source['registry/requirements.json'])
@@ -174,8 +175,8 @@ class SkillConsumptionTests(unittest.TestCase):
             with self.subTest(fence=fence):
                 source = fixture_source()
                 path = 'standards/L0/001-测试规范--v0.1.0.md'
-                source[path] += (f'\\n{fence}md\\n## ARC-001 条款\\n'
-                                 f'FAKE_SECRET_IN_FENCE\\n{fence}\\n').replace('\\n', '\n').encode('utf-8')
+                source[path] += (f'\n{fence}md\n## ARC-001 条款\n'
+                                 f'FAKE_SECRET_IN_FENCE\n{fence}\n').encode('utf-8')
                 self.refresh_fixture_source(source)
                 with tempfile.TemporaryDirectory() as tmp:
                     root = Path(tmp)
