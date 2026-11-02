@@ -523,6 +523,46 @@ class PublicationRecoveryTests(unittest.TestCase):
         self.assertTrue(next(item for item in api.releases
                              if item['tag_name'] == 'v0.2.0')['draft'])
 
+
+    def test_published_v0_2_0_recheck_predecessor_after_asset_readback_on_reuse(self):
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        notes = '# Standards v0.2.0\n\nSynthetic published release.\n'
+        assets = {name: ('synthetic ' + name).encode('utf-8')
+                  for name in asset_names('0.2.0')}
+        for verify_only in (False, True):
+            for move_tag in (False, True):
+                with self.subTest(verify_only=verify_only, move_tag=move_tag):
+                    api = fake_github_with_published_v0_1_2()
+                    release = api.seed_current(draft=False, version='0.2.0', notes=notes)
+                    for name, raw in assets.items():
+                        api.upload(release, name, raw)
+                    api.mutations.clear()
+                    original_download = api.download
+                    moved = [False]
+
+                    def download_with_optional_predecessor_drift(asset):
+                        raw = original_download(asset)
+                        if move_tag and not moved[0]:
+                            api.tags['v0.1.2'] = 'd' * 40
+                            moved[0] = True
+                        return raw
+
+                    api.download = download_with_optional_predecessor_drift
+                    if move_tag:
+                        with self.assertRaisesRegex(PublishError,
+                                                    'previous release tag target differs'):
+                            publish(api, config, assets, COMMIT, notes, verify_only=verify_only)
+                        self.assertTrue(moved[0])
+                    else:
+                        result = publish(api, config, assets, COMMIT, notes,
+                                         verify_only=verify_only)
+                        self.assertEqual(result['status'], 'published-and-verified')
+                        self.assertTrue(result['reused'])
+                        self.assertEqual(tag_commit(api, 'v0.1.2'), PREVIOUS)
+                    self.assertGreaterEqual(len(api.downloads), len(assets))
+                    self.assertEqual(api.mutations, [])
+
     def test_v0_2_0_conflicting_tag_is_rejected_without_replacement(self):
         api = fake_github_with_published_v0_1_2()
         api.tags['v0.2.0'] = 'c' * 40

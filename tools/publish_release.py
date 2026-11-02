@@ -387,6 +387,8 @@ def publish(api, config, assets, commit, notes, verify_only=False):
             verify_remote_assets(api, release, assets)
             require(verify_published_tag(api, tag, commit, notes) == intended_tag,
                     'published tag changed during asset verification')
+            if previous_tag is not None:
+                require_published_predecessor(api, previous_tag)
             return {'status': 'published-and-verified', 'reused': True,
                     'version': config['version'], 'source_commit': commit, 'url': release['html_url'],
                     'tag': intended_tag}

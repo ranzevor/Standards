@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import sys
+import unicodedata
 
 if __name__ == '__main__':
     sys.dont_write_bytecode = True
@@ -79,6 +80,53 @@ def _markdown_headings(lines: list[bytes]) -> dict[int, tuple[int, str]]:
     return result
 
 
+CLAUSE_HEADING = re.compile(
+    r'^(§\d{1,3}|[A-Z][A-Z0-9]*(?:-[A-Z][A-Z0-9]*)?-?\d{1,4})'
+    r'(?=[\s：:、])(?:[\s：:、]+)(.+)$'
+)
+
+
+def _parsed_clause_spans(headings: dict[int, tuple[int, str]], line_count: int):
+    """Mirror the corpus parser's clause selection and heading boundaries."""
+    all_headings = [(number, level, title, CLAUSE_HEADING.match(title))
+                    for number, (level, title) in headings.items()]
+    labelled = [item for item in all_headings if item[1] > 1 and item[3] is not None]
+    selected = labelled or [item for item in all_headings if item[1] == 2]
+    if not selected:
+        raise ValueError('indexed document has no parseable clauses')
+    spans = {}
+    titles = set()
+    for number, level, heading, match in selected:
+        title = match[2] if match else heading
+        normalized_heading = re.sub(r'\s+', ' ', unicodedata.normalize('NFC', heading)).strip()
+        identity = match[1] if match else 'H-' + hashlib.sha256(
+            normalized_heading.encode('utf-8')).hexdigest()[:12]
+        if identity in spans:
+            raise ValueError('duplicate parsed clause identity')
+        end = next((candidate[0] for candidate in all_headings
+                    if candidate[0] > number and candidate[1] <= level), line_count + 1) - 1
+        parent = None
+        normative_start = number
+        if '核验合同' in title:
+            parent = next((candidate for candidate in reversed(all_headings)
+                           if candidate[0] < number and candidate[1] < level), None)
+            if match:
+                if parent is None or parent[1] <= 1:
+                    raise ValueError('normative chapter heading missing')
+                if sum(parent[0] < candidate[0] <= end for candidate in selected) != 1:
+                    raise ValueError('ambiguous chapter-to-contract mapping')
+                normative_start = parent[0]
+        qualified_title = (parent[2] if parent else '') + '::' + title if '核验合同' in title else title
+        normalized_title = re.sub(r'\s+', ' ', unicodedata.normalize('NFC', qualified_title)).strip()
+        if normalized_title in titles:
+            raise ValueError('duplicate parsed clause title')
+        titles.add(normalized_title)
+        spans[identity] = {'line': number, 'end_line': end,
+                           'normative_start_line': normative_start,
+                           'heading': heading, 'title': title}
+    return spans
+
+
 def _casefold_match(text: str, needle: str):
     """Return original character bounds for a Unicode casefolded substring match."""
     folded_parts = []
@@ -122,6 +170,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
     cache={}
     document_lines={}
     document_headings={}
+    document_spans={}
     def normative(path):
         cache[path]=read(path)
         return cache[path]
@@ -184,35 +233,22 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             if path not in document_lines:
                 document_lines[path]=cache[path].splitlines(keepends=True)
                 document_headings[path]=_markdown_headings(document_lines[path])
+                document_spans[path]=_parsed_clause_spans(document_headings[path], len(document_lines[path]))
             lines=document_lines[path]
             if type(start) is not int or type(end) is not int or not 1<=start<=end<=len(lines):
                 raise ValueError('invalid clause span')
             if (type(normative_start) is not int or type(normative_end) is not int or
                     not 1<=normative_start<=start<=end<=normative_end<=len(lines)):
                 raise ValueError('invalid normative clause span')
-            parsed_heading=document_headings[path].get(start)
-            if parsed_heading is None or parsed_heading[1]!=row.get('heading'):
-                raise ValueError('clause heading location mismatch')
-            heading_level,heading=parsed_heading
-            heading_parts=heading.split(maxsplit=1)
-            if (
-                not heading_parts or heading_parts[0] != row_clause_id or
-                len(heading_parts) < 2 or heading_parts[1] != row.get('title')
-            ):
+            parsed=document_spans[path].get(row_clause_id)
+            if parsed is None or parsed['heading']!=row.get('heading') or parsed['title']!=row.get('title'):
                 raise ValueError('clause heading identity mismatch')
-            expected_normative_start=start
-            if '核验合同' in heading_parts[1]:
-                parent=next(((number,level) for number,(level,_) in
-                             reversed(list(document_headings[path].items()))
-                             if number<start and level<heading_level),None)
-                if parent is None or parent[1]<=1:
-                    raise ValueError('normative chapter heading missing')
-                expected_normative_start=parent[0]
-            if normative_start!=expected_normative_start or normative_end!=end:
+            if start!=parsed['line']:
+                raise ValueError('clause heading location mismatch')
+            if end!=parsed['end_line']:
+                raise ValueError('clause span boundary mismatch')
+            if normative_start!=parsed['normative_start_line'] or normative_end!=parsed['end_line']:
                 raise ValueError('normative span binding mismatch')
-            for number,(_,nested_heading) in document_headings[path].items():
-                if start<number<=end and nested_heading.split(maxsplit=1)[0]==row_clause_id:
-                    raise ValueError('duplicate clause heading in indexed span')
             section=b''.join(lines[start-1:end])
             digest=hashlib.sha256(section).hexdigest()
             if digest!=row.get('section_sha256'):

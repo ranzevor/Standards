@@ -175,7 +175,7 @@ class SkillConsumptionTests(unittest.TestCase):
             with self.subTest(fence=fence):
                 source = fixture_source()
                 path = 'standards/L0/001-测试规范--v0.1.0.md'
-                source[path] += (f'\n{fence}md\n## ARC-001 条款\n'
+                source[path] += (f'## 示例资料\n{fence}md\n## ARC-001 条款\n'
                                  f'FAKE_SECRET_IN_FENCE\n{fence}\n').encode('utf-8')
                 self.refresh_fixture_source(source)
                 with tempfile.TemporaryDirectory() as tmp:
@@ -198,6 +198,63 @@ class SkillConsumptionTests(unittest.TestCase):
                     with self.assertRaisesRegex(ValueError, 'clause heading location mismatch'):
                         find(root, document_id='STD-L0-001', clause_id='ARC-001',
                              text_query='FAKE_SECRET_IN_FENCE')
+
+
+    def test_duplicate_real_heading_is_rejected_even_if_index_and_digests_agree(self):
+        source = fixture_source()
+        path = 'standards/L0/001-测试规范--v0.1.0.md'
+        source[path] += '## ARC-001 条款\nFORGED_DUPLICATE_BODY\n'.encode('utf-8')
+        clauses = json.loads(source['registry/requirements.json'])
+        clauses[0].update(line=7, end_line=8, normative_start_line=7, normative_end_line=8)
+        source['registry/requirements.json'] = canonical(clauses)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            with self.assertRaisesRegex(ValueError, 'duplicate parsed clause identity'):
+                find(root, document_id='STD-L0-001', clause_id='ARC-001',
+                     text_query='FORGED_DUPLICATE_BODY')
+
+    def test_index_cannot_extend_clause_into_next_real_heading(self):
+        source = fixture_source()
+        path = 'standards/L0/001-测试规范--v0.1.0.md'
+        source[path] += '## ARC-002 其他条款\nSECOND_CLAUSE_ONLY\n'.encode('utf-8')
+        clauses = json.loads(source['registry/requirements.json'])
+        clauses[0].update(end_line=8, normative_end_line=8)
+        source['registry/requirements.json'] = canonical(clauses)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            with self.assertRaisesRegex(ValueError, 'clause span boundary mismatch'):
+                find(root, document_id='STD-L0-001', clause_id='ARC-001',
+                     text_query='SECOND_CLAUSE_ONLY')
+
+    def test_adjacent_real_clauses_keep_their_independent_boundaries(self):
+        source = fixture_source()
+        path = 'standards/L0/001-测试规范--v0.1.0.md'
+        source[path] += '## ARC-002 其他条款\nSECOND_CLAUSE_ONLY\n'.encode('utf-8')
+        clauses = json.loads(source['registry/requirements.json'])
+        adjacent = dict(clauses[0])
+        adjacent.update(id='STD-L0-001::ARC-002', clause_id='ARC-002',
+                        heading='ARC-002 其他条款', title='其他条款',
+                        line=7, end_line=8, normative_start_line=7, normative_end_line=8)
+        clauses.append(adjacent)
+        source['registry/requirements.json'] = canonical(clauses)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            first = find(root, document_id='STD-L0-001', clause_id='ARC-001',
+                         text_query='完整要求')
+            self.assertEqual((first['total'], first['results'][0]['end_line']), (1, 6))
+            self.assertEqual(find(root, document_id='STD-L0-001', clause_id='ARC-001',
+                                  text_query='SECOND_CLAUSE_ONLY')['total'], 0)
+            second = find(root, document_id='STD-L0-001', clause_id='ARC-002',
+                          text_query='SECOND_CLAUSE_ONLY')
+            self.assertEqual(second['total'], 1)
+            self.assertEqual((second['results'][0]['line'], second['results'][0]['matched_line']),
+                             (7, 8))
 
     def test_long_line_excerpt_is_centered_on_match_and_contains_search_text(self):
         source = fixture_source()
