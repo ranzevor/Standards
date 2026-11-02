@@ -43,6 +43,9 @@ class SkillConsumptionTests(unittest.TestCase):
             physical_lines = source[document['path']].splitlines(keepends=True)
             section = b''.join(physical_lines[row['line'] - 1:row['end_line']])
             row['section_sha256'] = hashlib.sha256(section).hexdigest()
+            normative = b''.join(physical_lines[row['normative_start_line'] - 1:
+                                                row['normative_end_line']])
+            row['normative_sha256'] = hashlib.sha256(normative).hexdigest()
         source['registry/standards.json'] = canonical(documents)
         source['registry/requirements.json'] = canonical(clauses)
         return source
@@ -117,6 +120,83 @@ class SkillConsumptionTests(unittest.TestCase):
             self.write_fixture(root, source)
             with self.assertRaisesRegex(ValueError, 'clause heading location mismatch'):
                 find(root, document_id='STD-L0-001', text_query='完整要求')
+
+
+    def test_normative_chapter_and_contract_are_verified_and_searched_separately(self):
+        source = fixture_source()
+        path = 'standards/L0/001-测试规范--v0.1.0.md'
+        lines = source[path].splitlines(keepends=True)
+        lines[4:] = [
+            '## 测试章节\\n'.replace('\\n', '\n').encode('utf-8'),
+            '章节正文独有短语。\\n'.replace('\\n', '\n').encode('utf-8'),
+            '### ARC-001 核验合同\\n'.replace('\\n', '\n').encode('utf-8'),
+            '完整要求。\\n'.replace('\\n', '\n').encode('utf-8'),
+        ]
+        source[path] = b''.join(lines)
+        clauses = json.loads(source['registry/requirements.json'])
+        row = clauses[0]
+        row.update(line=7, end_line=8, heading='ARC-001 核验合同',
+                   title='核验合同', normative_start_line=5, normative_end_line=8)
+        source['registry/requirements.json'] = canonical(clauses)
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self.write_fixture(root, source)
+            chapter = find(root, document_id='STD-L0-001',
+                           text_query='章节正文独有短语')['results'][0]
+            self.assertEqual(chapter['clause_id'], 'ARC-001')
+            self.assertEqual((chapter['line'], chapter['end_line']), (7, 8))
+            self.assertEqual((chapter['normative_start_line'], chapter['normative_end_line']), (5, 8))
+            self.assertEqual(chapter['matched_line'], 6)
+            self.assertIn('章节正文独有短语', chapter['matched_excerpt'])
+            self.assertEqual(chapter['normative_sha256'], row['normative_sha256'])
+            contract = find(root, document_id='STD-L0-001',
+                            text_query='完整要求')['results'][0]
+            self.assertEqual(contract['matched_line'], 8)
+            self.assertEqual(contract['section_sha256'], row['section_sha256'])
+            self.assertIn('完整要求', contract['matched_excerpt'])
+
+            corrupted = json.loads(source['registry/requirements.json'])
+            corrupted[0]['normative_sha256'] = '0' * 64
+            (root / 'registry/requirements.json').write_bytes(canonical(corrupted))
+            with self.assertRaisesRegex(ValueError, 'normative clause digest mismatch'):
+                find(root, document_id='STD-L0-001', text_query='完整要求')
+
+    def test_real_normative_chapter_text_is_searchable_by_clauses(self):
+        hit = find(ROOT, document_id='STD-L0-001', clause_id='ARC-01',
+                   text_query='L1至L6为六层实施与治理结构')['results'][0]
+        self.assertEqual((hit['normative_start_line'], hit['line'],
+                          hit['matched_line'], hit['normative_end_line']), (7, 13, 9, 25))
+        self.assertIn('L1至L6为六层实施与治理结构', hit['matched_excerpt'])
+
+    def test_fenced_heading_cannot_impersonate_a_real_clause(self):
+        for fence in ('~~~', chr(96) * 3):
+            with self.subTest(fence=fence):
+                source = fixture_source()
+                path = 'standards/L0/001-测试规范--v0.1.0.md'
+                source[path] += (f'\\n{fence}md\\n## ARC-001 条款\\n'
+                                 f'FAKE_SECRET_IN_FENCE\\n{fence}\\n').replace('\\n', '\n').encode('utf-8')
+                self.refresh_fixture_source(source)
+                with tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    self.write_fixture(root, source)
+                    genuine = find(root, document_id='STD-L0-001', text_query='完整要求')
+                    self.assertEqual(genuine['total'], 1)
+                    self.assertEqual(genuine['results'][0]['line'], 5)
+                    self.assertEqual(find(root, document_id='STD-L0-001',
+                                          text_query='FAKE_SECRET_IN_FENCE')['total'], 0)
+
+                forged = json.loads(source['registry/requirements.json'])
+                forged[0].update(line=9, end_line=10,
+                                 normative_start_line=9, normative_end_line=10)
+                source['registry/requirements.json'] = canonical(forged)
+                self.refresh_fixture_source(source)
+                with tempfile.TemporaryDirectory() as tmp:
+                    root = Path(tmp)
+                    self.write_fixture(root, source)
+                    with self.assertRaisesRegex(ValueError, 'clause heading location mismatch'):
+                        find(root, document_id='STD-L0-001', clause_id='ARC-001',
+                             text_query='FAKE_SECRET_IN_FENCE')
 
     def test_long_line_excerpt_is_centered_on_match_and_contains_search_text(self):
         source = fixture_source()

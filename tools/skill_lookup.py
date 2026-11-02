@@ -28,10 +28,55 @@ def _decode_physical_line(raw: bytes) -> str:
     return raw.decode('utf-8')
 
 
-def _markdown_heading(raw: bytes):
-    line = _decode_physical_line(raw)
-    match = re.fullmatch(r'[ \t]{0,3}#{1,6}[ \t]+(.+?)[ \t]*', line)
-    return match.group(1) if match else None
+def _markdown_headings(lines: list[bytes]) -> dict[int, tuple[int, str]]:
+    """Locate headings using the corpus parser's fence and comment semantics."""
+    result = {}
+    fence = None
+    in_comment = False
+    for number, raw in enumerate(lines, 1):
+        line = _decode_physical_line(raw)
+        if fence is not None:
+            marker, width = fence
+            if re.fullmatch(r'[ \t]{0,3}' + re.escape(marker) + '{' + str(width) + r',}[ \t]*', line):
+                fence = None
+            continue
+        if not in_comment:
+            opening = re.match(r'^[ \t]{0,3}(`{3,}|~{3,})', line)
+            if opening:
+                fence = (opening[1][0], len(opening[1]))
+                continue
+        visible = list(line)
+        offset = 0
+        while offset < len(line):
+            if in_comment:
+                if line.startswith('<!--', offset):
+                    raise ValueError('nested Markdown comment in indexed document')
+                if line.startswith('-->', offset):
+                    visible[offset:offset + 3] = '   '
+                    offset += 3
+                    in_comment = False
+                    continue
+                visible[offset] = ' '
+                offset += 1
+                continue
+            if line[offset] == '`':
+                ticks = re.match(r'`+', line[offset:])[0]
+                closing = line.find(ticks, offset + len(ticks))
+                if closing >= 0:
+                    offset = closing + len(ticks)
+                    continue
+            if line.startswith('<!--', offset):
+                visible[offset:offset + 4] = '    '
+                offset += 4
+                in_comment = True
+                continue
+            offset += 1
+        heading = re.fullmatch(r'(#{1,6})[ \t]+(.+?)(?:[ \t]+#+)?[ \t]*', ''.join(visible))
+        if heading:
+            result[number] = (len(heading[1]), heading[2])
+    if fence is not None or in_comment:
+        raise ValueError('unclosed Markdown fence or comment in indexed document')
+    return result
 
 
 def _casefold_match(text: str, needle: str):
@@ -75,6 +120,8 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
     release_version=validate_project_release(parse_json(read('project.json')))
     docs=parse_json(read('registry/standards.json'))
     cache={}
+    document_lines={}
+    document_headings={}
     def normative(path):
         cache[path]=read(path)
         return cache[path]
@@ -132,34 +179,58 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             ):
                 raise ValueError('clause document identity mismatch')
             start,end=row.get('line'),row.get('end_line')
-            lines=cache[original['path']].splitlines(keepends=True)
+            normative_start,normative_end=row.get('normative_start_line'),row.get('normative_end_line')
+            path=original['path']
+            if path not in document_lines:
+                document_lines[path]=cache[path].splitlines(keepends=True)
+                document_headings[path]=_markdown_headings(document_lines[path])
+            lines=document_lines[path]
             if type(start) is not int or type(end) is not int or not 1<=start<=end<=len(lines):
                 raise ValueError('invalid clause span')
-            heading=_markdown_heading(lines[start-1])
-            if heading is None or heading!=row.get('heading'):
+            if (type(normative_start) is not int or type(normative_end) is not int or
+                    not 1<=normative_start<=start<=end<=normative_end<=len(lines)):
+                raise ValueError('invalid normative clause span')
+            parsed_heading=document_headings[path].get(start)
+            if parsed_heading is None or parsed_heading[1]!=row.get('heading'):
                 raise ValueError('clause heading location mismatch')
+            heading_level,heading=parsed_heading
             heading_parts=heading.split(maxsplit=1)
             if (
                 not heading_parts or heading_parts[0] != row_clause_id or
                 len(heading_parts) < 2 or heading_parts[1] != row.get('title')
             ):
                 raise ValueError('clause heading identity mismatch')
-            for offset,raw_line in enumerate(lines[start-1:end]):
-                nested_heading=_markdown_heading(raw_line) if offset else None
-                if nested_heading and nested_heading.split(maxsplit=1)[0]==row_clause_id:
+            expected_normative_start=start
+            if '核验合同' in heading_parts[1]:
+                parent=next(((number,level) for number,(level,_) in
+                             reversed(list(document_headings[path].items()))
+                             if number<start and level<heading_level),None)
+                if parent is None or parent[1]<=1:
+                    raise ValueError('normative chapter heading missing')
+                expected_normative_start=parent[0]
+            if normative_start!=expected_normative_start or normative_end!=end:
+                raise ValueError('normative span binding mismatch')
+            for number,(_,nested_heading) in document_headings[path].items():
+                if start<number<=end and nested_heading.split(maxsplit=1)[0]==row_clause_id:
                     raise ValueError('duplicate clause heading in indexed span')
             section=b''.join(lines[start-1:end])
             digest=hashlib.sha256(section).hexdigest()
-            if digest!=row.get('section_sha256'):raise ValueError('clause content digest mismatch')
+            if digest!=row.get('section_sha256'):
+                raise ValueError('clause content digest mismatch')
+            normative=b''.join(lines[normative_start-1:normative_end])
+            normative_digest=hashlib.sha256(normative).hexdigest()
+            if normative_digest!=row.get('normative_sha256'):
+                raise ValueError('normative clause digest mismatch')
             result={**doc,'clause_id':row_clause_id,'line':start,'end_line':end,
-                    'section_sha256':digest}
+                    'section_sha256':digest,'normative_start_line':normative_start,
+                    'normative_end_line':normative_end,'normative_sha256':normative_digest}
             if text_needle is not None:
                 matched=None
-                for offset,raw_line in enumerate(section.splitlines(keepends=True)):
+                for offset,raw_line in enumerate(lines[normative_start-1:normative_end]):
                     line_text=_decode_physical_line(raw_line)
                     bounds=_casefold_match(line_text,text_needle)
                     if bounds is not None:
-                        matched=(start+offset,line_text,bounds)
+                        matched=(normative_start+offset,line_text,bounds)
                         break
                 if matched is None:continue
                 line_number,line_text,(match_start,match_end)=matched

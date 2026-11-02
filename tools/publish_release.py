@@ -330,6 +330,20 @@ def check_release_identity(release, tag, commit, notes):
             and release.get('body') == notes, 'release metadata differs from the intended identity')
 
 
+def require_published_predecessor(api, previous_tag):
+    """Bind the published predecessor's immutable target to its peeled Git tag."""
+    previous = find_release(api, previous_tag)
+    require(previous is not None and previous.get('draft') is False and
+            previous.get('prerelease') is False, 'previous release is not published')
+    target = previous.get('target_commitish')
+    require(type(target) is str and re.fullmatch('[0-9a-f]{40}', target) is not None,
+            'previous release target must be an exact commit')
+    peeled = tag_commit(api, previous_tag)
+    require(peeled is not None, 'previous release tag is missing')
+    require(peeled == target, 'previous release tag target differs from published release commit')
+    return target
+
+
 def check_initial_release_order(api, tag):
     require(all(item.get('tag_name') == tag or item.get('draft') is True
                 for item in collection(api, '/releases')),
@@ -358,6 +372,9 @@ def publish(api, config, assets, commit, notes, verify_only=False):
     require(set(assets) == set(asset_names(config['version']))
             and all(type(raw) is bytes for raw in assets.values()), 'invalid local asset set')
     tag = 'v' + config['version']
+    previous_tag = 'v' + config['previous_version'] if config['previous_version'] is not None else None
+    if previous_tag is not None:
+        require_published_predecessor(api, previous_tag)
     release = find_release(api, tag)
     current_tag = tag_commit(api, tag)
     require(current_tag is None or current_tag == commit, 'tag identity conflict')
@@ -379,11 +396,6 @@ def publish(api, config, assets, commit, notes, verify_only=False):
     if config['previous_version'] is None:
         check_initial_release_order(api, tag)
     else:
-        previous_tag = 'v' + config['previous_version']
-        previous = find_release(api, previous_tag)
-        require(previous is not None and previous.get('draft') is False and
-                previous.get('prerelease') is False, 'previous patch release is not published')
-        require(tag_commit(api, previous_tag) is not None, 'previous release tag is missing')
         comparison = api.request('GET', f'/compare/{previous_tag}...{commit}')
         require(comparison.get('status') == 'ahead', 'release commit is not ahead of the previous tag')
         require_latest_published_predecessor(api, previous_tag, tag)
@@ -432,7 +444,8 @@ def publish(api, config, assets, commit, notes, verify_only=False):
         if config['previous_version'] is None:
             check_initial_release_order(api, tag)
         else:
-            require_latest_published_predecessor(api, 'v' + config['previous_version'], tag)
+            require_published_predecessor(api, previous_tag)
+            require_latest_published_predecessor(api, previous_tag, tag)
         try:
             api.request('PATCH', f'/releases/{release["id"]}', {'draft': False, 'make_latest': 'true'})
         except APIError:
@@ -447,6 +460,8 @@ def publish(api, config, assets, commit, notes, verify_only=False):
     verify_remote_assets(api, final, assets)
     require(verify_published_tag(api, tag, commit, notes) == intended_tag,
             'published tag changed during asset verification')
+    if previous_tag is not None:
+        require_published_predecessor(api, previous_tag)
     return {'status': 'published-and-verified', 'reused': False,
             'version': config['version'], 'source_commit': commit, 'url': final['html_url'],
             'tag': intended_tag}
