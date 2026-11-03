@@ -33,12 +33,34 @@ function commitErrors(message) {
 }
 
 function prBodyErrors(body) {
-  if(typeof body!=="string"||body.replace(/\s/gu,"").length<85) return ["PR 正文缺少有信息量的变更说明"];
   const errors=[];
-  if(/(?:^|\n)\s*(?:TODO|TBD|待补充|在此填写|请填写|placeholder)\s*(?:\n|$)/imu.test(body)) errors.push("PR 正文包含模板占位");
+  if(typeof body!=="string") return ["PR 正文缺少有效内容"];
+  const rawLines=body.split(/\r?\n/u);
+  let fenceChar="",fenceMin=0,inComment=false;
+  const lines=rawLines.map(line=>{
+    let visible="";
+    for(let i=0;i<line.length;){
+      if(!inComment&&line.startsWith("<!--",i)){inComment=true;i+=4;continue;}
+      if(inComment){const close=line.indexOf("-->",i);if(close<0)break;inComment=false;i=close+3;continue;}
+      visible+=line[i++];
+    }
+    const fence=/^\s{0,3}(`{3,}|~{3,})/u.exec(visible);
+    if(fence){
+      const token=fence[1];
+      if(!fenceChar){fenceChar=token[0];fenceMin=token.length;}
+      else if(token[0]===fenceChar&&token.length>=fenceMin){fenceChar="";fenceMin=0;}
+      return "";
+    }
+    return fenceChar?"":visible;
+  });
+  const visibleBody=lines.join("\n");
+  if(visibleBody.replace(/\s/gu,"").length<85) errors.push("PR 正文缺少有信息量的变更说明");
+  if(/^\s*(?:[-*>]\s*)?(?:TODO|TBD|待补充|在此填写|请填写|placeholder)(?:\s*[:：].*)?\s*$/imu.test(visibleBody)) errors.push("PR 正文包含未填模板占位");
   const headings=[];
-  const lines=body.split(/\r?\n/u);
-  for(let i=0;i<lines.length;i++){const m=/^#{2,3}\s+(.+?)\s*$/u.exec(lines[i]);if(m) headings.push({h:m[1],i});}
+  for(let i=0;i<lines.length;i++){
+    const m=/^#{2,3}\s+(.+?)\s*$/u.exec(lines[i]);
+    if(m) headings.push({h:m[1],i});
+  }
   const groups={
     "背景与目标":/(?:背景|目标|动机)/u,
     "修改范围与实现":/(?:范围|修改|实现|变更|实施内容|修复内容)/u,
@@ -51,8 +73,8 @@ function prBodyErrors(body) {
     if(!hits.length){errors.push("PR 缺少可定位章节："+label);continue;}
     if(!hits.some(x=>{
       const next=headings.find(y=>y.i>x.i);
-      const content=lines.slice(x.i+1,next?next.i:lines.length).join("").replace(/[\s#*`>\-|]/gu,"");
-      return content.length>=10;
+      const text=lines.slice(x.i+1,next?next.i:lines.length).join("").replace(/[\s#*`>\-|]/gu,"");
+      return text.length>=12;
     })) errors.push("PR 章节缺少有效内容："+label);
   }
   return errors;
@@ -130,7 +152,10 @@ async function main(){
     const prefix='/repos/'+repo+'/pulls/'+n;
     const live=await ghGet(prefix,token);
     if(live.head.sha!==event.pull_request.head.sha) throw new Error('PR HEAD 已变化，拒绝使用过时数据');
+    if(event.pull_request.base && live.base && live.base.ref!==event.pull_request.base.ref) throw new Error('PR 目标分支在事件后改变');
     const [commits,files]=await Promise.all([ghList(prefix+'/commits',token),ghList(prefix+'/files',token)]);
+    const latest=await ghGet(prefix,token);
+    if(latest.head.sha!==live.head.sha || (latest.base&&live.base&&latest.base.ref!==live.base.ref)) throw new Error('PR HEAD 或目标基线在校验期间改变');
     errors=prErrors(live,commits,files);
   }else throw new Error('不支持的检查模式');
   for(const problem of errors) console.error('FAIL: '+problem);
