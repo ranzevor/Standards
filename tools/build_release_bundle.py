@@ -16,7 +16,8 @@ PROJECT=HERE.parent
 sys.path.insert(0,str(PROJECT))
 from tools.verify_release_bundle import (
     SCHEMA,MAX_BYTES,MAX_FILES,canonical,checked_path,check_path_set,
-    parse_json,validate_registry_bytes,verify_zip,validate_project_release,validate_release_config,
+    parse_json,validate_registry_bytes,validate_clause_registry,verify_zip,
+    validate_project_release,validate_release_config,
 )
 
 ZIP_DATE=(2026,10,27,0,0,0)
@@ -49,7 +50,9 @@ def read_source(root: Path):
     return result
 
 def verify_normative(source):
-    summary,paths=validate_registry_bytes(parse_json(source['registry/standards.json']),source.__getitem__)
+    registry=parse_json(source['registry/standards.json'])
+    summary,paths=validate_registry_bytes(registry,source.__getitem__)
+    validate_clause_registry(parse_json(source['registry/requirements.json']),registry,source.__getitem__)
     actual={path for path in source if path.startswith('standards/') and path.endswith('.md')
             and Path(path).name!='README.md'}
     if actual!=paths:

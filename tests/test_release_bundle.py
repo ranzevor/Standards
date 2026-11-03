@@ -51,15 +51,19 @@ def fixture_source(version="0.1.0"):
     source['releases/current.json']=canonical(config)
     source[config['notes_path']]=b'# Synthetic release notes\n'
     source['registry/standards.json']=canonical(documents)
-    first=documents[0];lines=source[first['path']].splitlines(keepends=True)
-    source['registry/requirements.json']=canonical([{
-        'document_id':first['id'],'clause_id':'ARC-001','path':first['path'],
-        'id':first['id']+'::ARC-001','heading':'ARC-001 条款','title':'条款',
-        'document':first['path'],'version':'0.1.0','document_sha256':first['sha256'],
-        'line':5,'end_line':6,
-        'section_sha256':sha256(b''.join(lines[4:6])),
-        'normative_start_line':5,'normative_end_line':6,
-        'normative_sha256':sha256(b''.join(lines[4:6]))}])
+    clauses=[]
+    for document in documents:
+        lines=source[document['path']].splitlines(keepends=True)
+        local_id='ARC-'+document['id'].rsplit('-',1)[1]
+        clauses.append({
+            'document_id':document['id'],'clause_id':local_id,'path':document['path'],
+            'id':document['id']+'::'+local_id,'heading':local_id+' 条款','title':'条款',
+            'document':document['path'],'version':'0.1.0',
+            'document_sha256':document['sha256'],'line':5,'end_line':6,
+            'section_sha256':sha256(b''.join(lines[4:6])),
+            'normative_start_line':5,'normative_end_line':6,
+            'normative_sha256':sha256(b''.join(lines[4:6]))})
+    source['registry/requirements.json']=canonical(clauses)
     for name in ('LICENSE','LICENSE-NOTICE.md','NOTICE.md','LICENSES/Apache-2.0.txt',
                  'LICENSES/CC-BY-4.0.txt','tools/verify_release_bundle.py',
                  'tools/skill_lookup.py','skills/ranzevor-standards/SKILL.md.in'):
@@ -99,6 +103,7 @@ class ReleasePackageTests(unittest.TestCase):
     def test_full_adopted_identity_and_build_report(self):
         corpus=verify_normative(self.src)
         self.assertEqual((corpus['documents'],corpus['adopted']),(162,162))
+        self.assertEqual(len(parse_json(self.src['registry/requirements.json'])),162)
         report=build_report(corpus,'a'*64,{})
         self.assertEqual(set(report),{'status','version','documents','adopted_documents',
                          'current_snapshot_sha256','source_tree_sha256','archives',
@@ -132,6 +137,63 @@ class ReleasePackageTests(unittest.TestCase):
     def test_unregistered_normative_file_rejected(self):
         data={**self.src,'standards/L0/999-extra--v0.1.0.md':b'extra'}
         with self.assertRaisesRegex(ValueError,'file sets differ'):verify_normative(data)
+
+    def test_build_requires_complete_unique_clause_index(self):
+        for mutation,expected in (('missing','coverage mismatch'),
+                                  ('extra','clause heading identity mismatch'),
+                                  ('duplicate','duplicate clause registry identity')):
+            with self.subTest(mutation=mutation):
+                source=dict(self.src)
+                rows=parse_json(source['registry/requirements.json'])
+                if mutation=='missing':
+                    rows.pop(1)
+                elif mutation=='extra':
+                    extra=dict(rows[0])
+                    extra.update(clause_id='ARC-999',id='STD-L0-001::ARC-999')
+                    rows.append(extra)
+                else:
+                    rows.append(dict(rows[0]))
+                source['registry/requirements.json']=canonical(rows)
+                with self.assertRaisesRegex(VerificationError,expected):
+                    verify_normative(source)
+
+    def test_self_consistent_missing_clause_rejected_in_source_and_skill_bundles(self):
+        modified=dict(self.src)
+        clauses=parse_json(modified['registry/requirements.json'])
+        clauses.pop(1)
+        modified['registry/requirements.json']=canonical(clauses)
+        tree_hash=sha256(canonical(sorted(
+            (key,len(raw),sha256(raw)) for key,raw in modified.items())))
+        for kind in ('source','agent-skill'):
+            with self.subTest(kind=kind),tempfile.TemporaryDirectory() as temp:
+                records,summary,_=bundle_parts(self.src,kind)
+                prefix='source/' if kind=='source' else 'references/'
+                records[prefix+'registry/requirements.json']=modified['registry/requirements.json']
+                summary['source_tree_sha256']=tree_hash
+                metadata=json.loads(manifest(kind,records,summary))
+                validate_manifest(metadata)
+                with self.assertRaisesRegex(VerificationError,'clause registry coverage mismatch'):
+                    validate_adopted_bytes(metadata,records.__getitem__)
+                directory=write_directory(temp,records,metadata)
+                with self.assertRaisesRegex(VerificationError,'clause registry coverage mismatch'):
+                    verify_directory(directory)
+                archive_path=Path(temp)/'rehashed.zip'
+                with zipfile.ZipFile(archive_path,'w') as archive:
+                    for path,raw in sorted({**records,MANIFEST:canonical(metadata)}.items()):
+                        archive.writestr(metadata['root']+'/'+path,raw)
+                with self.assertRaisesRegex(VerificationError,'clause registry coverage mismatch'):
+                    verify_zip(archive_path)
+                script='source/tools/skill_lookup.py' if kind=='source' else 'scripts/lookup.py'
+                command=[sys.executable,'-B',script,'--document-id','STD-L0-002',
+                         '--clause-id','ARC-002']
+                failed=subprocess.run(command,cwd=directory,capture_output=True,timeout=30)
+                self.assertNotEqual(failed.returncode,0)
+                self.assertIn('clause registry coverage mismatch',failed.stderr.decode('utf-8'))
+                no_hit=subprocess.run([sys.executable,'-B',script,'--document-id','STD-L0-001',
+                                       '--text-query','ABSENT_PHRASE_123456'],
+                                      cwd=directory,capture_output=True,timeout=30)
+                self.assertEqual(no_hit.returncode,0,no_hit.stderr.decode('utf-8'))
+                self.assertEqual(json.loads(no_hit.stdout)['total'],0)
 
     def test_direct_verifier_binds_collection_and_document_bytes(self):
         for field,value in [('current_snapshot_sha256','0'*64)]:

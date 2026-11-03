@@ -83,6 +83,47 @@ class SkillConsumptionTests(unittest.TestCase):
             self.assertEqual(find(root, document_id='STD-L0-001', text_query='完整要求',
                                   clause_id='ARC-999')['total'], 0)
 
+    def test_missing_clause_row_is_an_integrity_error_not_an_empty_result(self):
+        source=fixture_source()
+        rows=json.loads(source['registry/requirements.json'])
+        rows=[row for row in rows if row['document_id']!='STD-L0-002']
+        source['registry/requirements.json']=canonical(rows)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            self.write_fixture(root,source)
+            for options in ({'document_id':'STD-L0-002','clause_id':'ARC-002'},
+                            {'document_id':'STD-L0-002','text_query':'完整要求'},
+                            {'document_id':'STD-L0-002','text_query':'ABSENT_PHRASE_123456'}):
+                with self.subTest(options=options),self.assertRaisesRegex(
+                        VerificationError,'clause registry coverage mismatch'):
+                    find(root,**options)
+            self.assertEqual(find(root,document_id='STD-L0-001',
+                                  clause_id='ARC-001')['total'],1)
+
+    def test_unindexed_second_real_clause_in_existing_document_is_rejected(self):
+        source=fixture_source()
+        document='standards/L0/001-测试规范--v0.1.0.md'
+        source[document]+='## ARC-999 第二条款\nSECOND_UNINDEXED_BODY\n'.encode('utf-8')
+        self.refresh_fixture_source(source)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            self.write_fixture(root,source)
+            with self.assertRaisesRegex(VerificationError,'clause registry coverage mismatch'):
+                find(root,document_id='STD-L0-001',clause_id='ARC-001')
+
+    def test_extra_clause_index_record_is_rejected(self):
+        source=fixture_source()
+        rows=json.loads(source['registry/requirements.json'])
+        extra=dict(rows[0])
+        extra.update(id='STD-L0-001::ARC-999',clause_id='ARC-999')
+        rows.append(extra)
+        source['registry/requirements.json']=canonical(rows)
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)
+            self.write_fixture(root,source)
+            with self.assertRaisesRegex(VerificationError,'clause heading identity mismatch'):
+                find(root,document_id='STD-L0-001',clause_id='ARC-001')
+
     def test_forged_clause_id_is_rejected_even_when_index_composite_id_is_rewritten(self):
         source = fixture_source()
         clauses = json.loads(source['registry/requirements.json'])

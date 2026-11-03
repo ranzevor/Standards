@@ -244,6 +244,172 @@ def validate_registry_bytes(registry,read_file):
     return {'documents':DOCUMENT_COUNT,'adopted':DOCUMENT_COUNT,
             'current_snapshot_sha256':hashlib.sha256(canonical(sorted(snapshot))).hexdigest()},paths
 
+def _decode_physical_line(raw: bytes) -> str:
+    """Decode one bytes.splitlines() record without Unicode line-separator splitting."""
+    if raw.endswith(b'\r\n'):
+        raw = raw[:-2]
+    elif raw.endswith((b'\r', b'\n')):
+        raw = raw[:-1]
+    return raw.decode('utf-8')
+
+
+def _markdown_headings(lines: list[bytes]) -> dict[int, tuple[int, str]]:
+    """Locate headings using the corpus parser's fence and comment semantics."""
+    result = {}
+    fence = None
+    in_comment = False
+    for number, raw in enumerate(lines, 1):
+        line = _decode_physical_line(raw)
+        if fence is not None:
+            marker, width = fence
+            if re.fullmatch(r'[ \t]{0,3}' + re.escape(marker) + '{' + str(width) + r',}[ \t]*', line):
+                fence = None
+            continue
+        if not in_comment:
+            opening = re.match(r'^[ \t]{0,3}(`{3,}|~{3,})', line)
+            if opening:
+                fence = (opening[1][0], len(opening[1]))
+                continue
+        visible = list(line)
+        offset = 0
+        while offset < len(line):
+            if in_comment:
+                if line.startswith('<!--', offset):
+                    raise ValueError('nested Markdown comment in indexed document')
+                if line.startswith('-->', offset):
+                    visible[offset:offset + 3] = '   '
+                    offset += 3
+                    in_comment = False
+                    continue
+                visible[offset] = ' '
+                offset += 1
+                continue
+            if line[offset] == '`':
+                ticks = re.match(r'`+', line[offset:])[0]
+                closing = line.find(ticks, offset + len(ticks))
+                if closing >= 0:
+                    offset = closing + len(ticks)
+                    continue
+            if line.startswith('<!--', offset):
+                visible[offset:offset + 4] = '    '
+                offset += 4
+                in_comment = True
+                continue
+            offset += 1
+        heading = re.fullmatch(r'(#{1,6})[ \t]+(.+?)(?:[ \t]+#+)?[ \t]*', ''.join(visible))
+        if heading:
+            result[number] = (len(heading[1]), heading[2])
+    if fence is not None or in_comment:
+        raise ValueError('unclosed Markdown fence or comment in indexed document')
+    return result
+
+
+CLAUSE_HEADING = re.compile(
+    r'^(§\d{1,3}|[A-Z][A-Z0-9]*(?:-[A-Z][A-Z0-9]*)?-?\d{1,4})'
+    r'(?=[\s：:、])(?:[\s：:、]+)(.+)$'
+)
+
+
+def _parsed_clause_spans(headings: dict[int, tuple[int, str]], line_count: int):
+    """Mirror the corpus parser's clause selection and heading boundaries."""
+    all_headings = [(number, level, title, CLAUSE_HEADING.match(title))
+                    for number, (level, title) in headings.items()]
+    labelled = [item for item in all_headings if item[1] > 1 and item[3] is not None]
+    selected = labelled or [item for item in all_headings if item[1] == 2]
+    if not selected:
+        raise ValueError('indexed document has no parseable clauses')
+    spans = {}
+    titles = set()
+    for number, level, heading, match in selected:
+        title = match[2] if match else heading
+        normalized_heading = re.sub(r'\s+', ' ', unicodedata.normalize('NFC', heading)).strip()
+        identity = match[1] if match else 'H-' + hashlib.sha256(
+            normalized_heading.encode('utf-8')).hexdigest()[:12]
+        if identity in spans:
+            raise ValueError('duplicate parsed clause identity')
+        end = next((candidate[0] for candidate in all_headings
+                    if candidate[0] > number and candidate[1] <= level), line_count + 1) - 1
+        parent = None
+        normative_start = number
+        if '核验合同' in title:
+            parent = next((candidate for candidate in reversed(all_headings)
+                           if candidate[0] < number and candidate[1] < level), None)
+            if match:
+                if parent is None or parent[1] <= 1:
+                    raise ValueError('normative chapter heading missing')
+                if sum(parent[0] < candidate[0] <= end for candidate in selected) != 1:
+                    raise ValueError('ambiguous chapter-to-contract mapping')
+                normative_start = parent[0]
+        qualified_title = (parent[2] if parent else '') + '::' + title if '核验合同' in title else title
+        normalized_title = re.sub(r'\s+', ' ', unicodedata.normalize('NFC', qualified_title)).strip()
+        if normalized_title in titles:
+            raise ValueError('duplicate parsed clause title')
+        titles.add(normalized_title)
+        spans[identity] = {'line': number, 'end_line': end,
+                           'normative_start_line': normative_start,
+                           'heading': heading, 'title': title}
+    return spans
+
+
+def validate_clause_registry(clauses, documents, read_file, document_ids=None):
+    """Verify exact source binding and the entire indexed clause set per document."""
+    fail_if(type(clauses) is not list, 'invalid clause registry')
+    registry={doc['id']:doc for doc in documents}
+    requested=set(registry) if document_ids is None else set(document_ids)
+    fail_if(not requested<=registry.keys(), 'unknown indexed document')
+    by_document={ident:[] for ident in requested}
+    seen=set()
+    for row in clauses:
+        fail_if(type(row) is not dict, 'invalid clause registry row')
+        document_id=row.get('document_id')
+        clause_id=row.get('clause_id')
+        fail_if(type(document_id) is not str or not document_id or
+                type(clause_id) is not str or not clause_id or
+                row.get('id')!=document_id+'::'+clause_id,
+                'clause registry identity mismatch')
+        key=(document_id,clause_id)
+        fail_if(key in seen, 'duplicate clause registry identity')
+        seen.add(key)
+        fail_if(document_id not in registry, 'clause references unknown document')
+        if document_id in by_document:
+            by_document[document_id].append(row)
+
+    for document_id in sorted(requested):
+        document=registry[document_id]
+        raw=read_file(document['path'])
+        fail_if(type(raw) is not bytes, 'indexed document must be bytes')
+        lines=raw.splitlines(keepends=True)
+        parsed=_parsed_clause_spans(_markdown_headings(lines),len(lines))
+        indexed=set()
+        for row in by_document[document_id]:
+            fail_if(row.get('path')!=document['path'] or
+                    row.get('document')!=document['path'] or
+                    row.get('version')!=document['version'] or
+                    row.get('document_sha256')!=document['sha256'],
+                    'clause document identity mismatch')
+            start,end=row.get('line'),row.get('end_line')
+            normative_start,normative_end=row.get('normative_start_line'),row.get('normative_end_line')
+            fail_if(type(start) is not int or type(end) is not int or
+                    not 1<=start<=end<=len(lines), 'invalid clause span')
+            fail_if(type(normative_start) is not int or type(normative_end) is not int or
+                    not 1<=normative_start<=start<=end<=normative_end<=len(lines),
+                    'invalid normative clause span')
+            actual=parsed.get(row['clause_id'])
+            fail_if(actual is None or actual['heading']!=row.get('heading') or
+                    actual['title']!=row.get('title'), 'clause heading identity mismatch')
+            fail_if(start!=actual['line'], 'clause heading location mismatch')
+            fail_if(end!=actual['end_line'], 'clause span boundary mismatch')
+            fail_if(normative_start!=actual['normative_start_line'] or normative_end!=actual['end_line'],
+                    'normative span binding mismatch')
+            fail_if(hashlib.sha256(b''.join(lines[start-1:end])).hexdigest()!=row.get('section_sha256'),
+                    'clause content digest mismatch')
+            fail_if(hashlib.sha256(b''.join(lines[normative_start-1:normative_end])).hexdigest()!=row.get('normative_sha256'),
+                    'normative clause digest mismatch')
+            indexed.add(row['clause_id'])
+        fail_if(indexed!=set(parsed), 'clause registry coverage mismatch: '+document_id)
+    return clauses
+
+
 def validate_adopted_bytes(manifest,read_file):
     prefix='source/' if manifest['kind']=='source' else 'references/'
     version=manifest['version']
@@ -270,6 +436,8 @@ def validate_adopted_bytes(manifest,read_file):
                 'wrapper differs from packaged source: '+wrapper)
     registry=parse_json(read_file(prefix+'registry/standards.json'))
     summary,paths=validate_registry_bytes(registry,lambda path:read_file(prefix+path))
+    validate_clause_registry(parse_json(read_file(prefix+'registry/requirements.json')),
+                             registry,lambda path:read_file(prefix+path))
     listed={row['path'][len(prefix):] for row in manifest['files']
             if row['path'].startswith(prefix+'standards/') and row['path'].endswith('.md')
             and PurePosixPath(row['path']).name!='README.md'}
