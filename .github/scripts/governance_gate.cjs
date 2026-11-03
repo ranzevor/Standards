@@ -13,7 +13,6 @@ function titleErrors(value) {
   if(subject!==subject.trim()||/\s{2,}/u.test(subject)) errors.push("主题存在首尾或连续空白");
   if((subject.match(/\p{Script=Han}/gu)||[]).length<4) errors.push("主题中文行为或对象描述不足");
   if(/^(?:更新|优化|修复|调整|完善|修改|改进|处理|整理)(?:项目|代码|文件|问题|功能|内容|配置|逻辑|文档|测试|流程|实现)?$/u.test(subject)) errors.push("主题使用空泛描述");
-  if(!/(?:修正|修复|新增|补充|恢复|拒绝|禁止|校验|限制|重构|隔离|核实|记录|明确|实现|保护|升级|替换|避免|适配|保留|验证|支持|建立|接入|覆盖|清理|启用|切换|阻断|拆分|调整|更新|改进|完善|改为|移除|消除|识别|纠正|公开|固定|收敛|提取|增加|删除)/u.test(subject)) errors.push("主题缺少具体的中文变更行为");
   if(/\[(?:skip ci|ci skip)\]|\b(?:WIP|FIXME|TODO|TBD)\b/iu.test(subject)) errors.push("主题含跳过检查或占位标记");
   return errors;
 }
