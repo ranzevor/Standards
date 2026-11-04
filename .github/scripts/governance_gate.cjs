@@ -53,9 +53,19 @@ function markdownVisibleLines(rawLines){
         const markerEnd=indent+marker[2].length;
         const contentColumn=indentationColumns(marker[3],markerEnd);
         listStack.length=listParent+1;
-        listStack.push({contentIndent:contentColumn-markerEnd>4?markerEnd+1:contentColumn});
+        const separatorColumns=contentColumn-markerEnd;
+        listStack.push({contentIndent:separatorColumns>4?markerEnd+1:contentColumn});
+        if(separatorColumns>4){
+          indentedCode=true;
+          previousBlank=false;
+          return '';
+        }
       }else{
-        while(listStack.length&&indent<listStack[listStack.length-1].contentIndent) listStack.pop();
+        const text=line.slice(leading.length);
+        const lazyContinuation=listStack.length&&!previousBlank&&!indentedCode
+          && !/^(?:#{1,6}(?:[ \t]|$)|>|\x60{3,}|~{3,}|<!--)/u.test(text);
+        if(!lazyContinuation)
+          while(listStack.length&&indent<listStack[listStack.length-1].contentIndent) listStack.pop();
         const base=listStack.length?listStack[listStack.length-1].contentIndent:0;
         if(indent>=base+4&&(previousBlank||indentedCode)){
           indentedCode=true;return '';

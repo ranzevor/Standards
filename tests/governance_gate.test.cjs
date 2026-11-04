@@ -202,7 +202,7 @@ test('旧版 PR 模板保留语义兼容，但不强制失败记录或原始制�
 test('缩进代码与行内注释字面量不能误删合法 PR 章节或字段',()=>{
   const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
   const description='已明确当前变更的具体范围、兼容影响及实际验证结果。';
-  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+description);
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
   const literal=filled.replace('变更目标与依据： '+description,'变更目标与依据： 解释字面量 `<!--` 及其后的真实 PR 解析逻辑。');
   assert.deepEqual(gate.prBodyErrors(literal),[]);
   const indented=filled.replace('## 规范、行为与影响','独立段落说明 Markdown 的解析范围。\n\n    <!--\n\n## 规范、行为与影响');
@@ -278,4 +278,31 @@ test('嵌套列表与 Tab 下的缩进代码和围栏内容不作为可见占位
   }
   const tabMarker=filled.replace('- 变更目标与依据：','-\t变更目标与依据：');
   assert.deepEqual(gate.prBodyErrors(tabMarker.replace(field,field+'\n\n        TODO: 这里是缩进代码内容')),[]);
+});
+
+test('列表懒续行后保留可见占位且不误拒缩进代码',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='已说明当前变更的具体范围、兼容影响以及验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const field='- 变更目标与依据： '+description;
+  const lazy='\n继续上段对实际变更的说明。\n\n';
+  const visible=filled.replace(field,field+lazy+'    TODO: 等待补充实际约束');
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
+  const nested=filled.replace(field,field+'\n  - 子条目：说明当前变更。'+lazy+'    TODO: 等待补充实际约束');
+  assert(gate.prBodyErrors(nested).some(e=>e.includes('占位')));
+  const code=filled.replace(field,field+lazy+'      TODO: 这里是缩进代码示例');
+  assert.deepEqual(gate.prBodyErrors(code),[]);
+});
+
+test('列表标记后的超额空白构成代码而非正文占位',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='已说明当前变更的具体范围、兼容影响以及验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const field='- 变更目标与依据： '+description;
+  for(const prefix of ['-','    -']){
+    const code=filled.replace(field,field+'\n\n'+prefix+'     TODO: 这里是代码示例中的占位字样');
+    assert.deepEqual(gate.prBodyErrors(code),[],prefix);
+    const visible=filled.replace(field,field+'\n\n'+prefix+'    TODO: 等待补充实际说明');
+    assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')),prefix);
+  }
 });
