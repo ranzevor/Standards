@@ -37,11 +37,30 @@ function markdownVisibleLines(rawLines){
     }
     let visible="";
     for(let i=0;i<line.length;){
-      if(!inComment&&line.startsWith("<!--",i)){inComment=true;i+=4;continue;}
       if(inComment){
         const close=line.indexOf("-->",i);
         if(close<0)break;
         inComment=false;i=close+3;continue;
+      }
+      // 已配对的行内代码原样保留，不能开启 HTML 注释。
+      if(line.charCodeAt(i)===96){
+        let size=1;
+        while(line.charCodeAt(i+size)===96) size++;
+        let cursor=i+size,end=-1;
+        while(cursor<line.length){
+          const next=line.indexOf(String.fromCharCode(96),cursor);
+          if(next<0) break;
+          let closing=1;
+          while(line.charCodeAt(next+closing)===96) closing++;
+          if(closing===size){end=next+closing;break;}
+          cursor=next+closing;
+        }
+        if(end>=0){visible+=line.slice(i,end);i=end;continue;}
+      }
+      if(line.startsWith("<!--",i)){
+        let slashes=0;
+        for(let j=i-1;j>=0&&line.charCodeAt(j)===92;j--) slashes++;
+        if(slashes%2===0){inComment=true;i+=4;continue;}
       }
       visible+=line[i++];
     }
@@ -90,7 +109,7 @@ function commitErrors(message) {
   const visibleLines=markdownVisibleLines(lines.slice(1));
   const {entries,footerStart}=parseFooters(visibleLines);
   const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
-  const textLines=visibleLines.slice(0,footers.length?footerStart:visibleLines.length);
+  const textLines=visibleLines.slice(0,footerStart);
   const visibleBody=textLines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
@@ -104,10 +123,10 @@ function commitErrors(message) {
   if(visibleLines.some((line,i)=>/^BREAKING(?: CHANGE|-CHANGE):/u.test(line)&&!validBreakStarts.has(i)))
     errors.push("不兼容变更 footer 必须与正文以空行分隔");
   if((m&&m[2])||footers.length){
-    const message="不兼容变更必须在 BREAKING CHANGE 中具体说明契约、影响和迁移方式";
-    if(!footers.length) errors.push(message);
-    for(const footer of footers){
-      const details=footer.content.join("\n").trim();
+    const message="不兼容变更必须具体说明契约、影响和迁移方式";
+    // Conventional Commits 允许通过标题 ! 标记而不重复 BREAKING CHANGE footer。
+    const explanations=footers.length?footers.map(f=>f.content.join("\n").trim()):[visibleBody];
+    for(const details of explanations){
       if(details.replace(/\s/gu,"").length<35
         ||!/(?:接口|协议|契约|字段|参数|配置|格式|路径|权限|行为|响应|返回|数据|文件|命令|存储|依赖|版本)/u.test(details)
         ||!/(?:影响|旧版|不再|无法|失败|失效|中断|不兼容|移除|不支持)/u.test(details)
@@ -132,11 +151,24 @@ function prBodyErrors(body) {
     const m=/^#{2,3}\s+(.+?)\s*$/u.exec(lines[i]);
     if(m) headings.push({h:m[1],i});
   }
+  // 优先使用精简模板字段；旧版 PR 的同义字段仍可用于兼容读取。
   const templateFields={
-    "目标、基线与候选":["需求/条款ID及准确版本","目标分支、基线提交及当前候选","本次范围与明确不改范围"],
-    "规范、行为与影响":["正文、来源、依赖、示例与检查变更","使用者可观察变化及兼容/迁移影响","主要风险、失败状态和恢复/回退入口"],
-    "验证":["输入、环境、命令、退出码、预期/实际及证据","失败及修复记录","未执行、部分执行或不适用范围及原因","原始结果位置（独立运行目录或 CI 制品）"],
-    "审查与合并前置":["作者自查绑定的候选及范围","独立审查绑定的候选、范围和开放发现","来源和许可边界已核对","未夹带秘密、其他项目记录或无关指令","规范状态、项目采用决定与实际实现结果","合并前需重新确认的目标 HEAD、必需检查和阻断项"]
+    "目标、基线与候选":[
+      ["变更目标与依据","需求/条款ID及准确版本"],
+      ["本次范围及目标分支","本次范围与明确不改范围"]
+    ],
+    "规范、行为与影响":[
+      ["具体变更及可观察行为","正文、来源、依赖、示例与检查变更"],
+      ["兼容性、迁移或恢复影响","使用者可观察变化及兼容/迁移影响"]
+    ],
+    "验证":[
+      ["实际验证结果与结论","输入、环境、命令、退出码、预期/实际及证据"],
+      ["尚未验证的范围或已知问题","未执行、部分执行或不适用范围及原因"]
+    ],
+    "审查与合并前置":[
+      ["作者自查与独立审查状态","独立审查绑定的候选、范围和开放发现"],
+      ["合并条件及未解决阻断项","合并前需重新确认的目标 HEAD、必需检查和阻断项"]
+    ]
   };
   if(headings.some(x=>Object.hasOwn(templateFields,x.h))){
     for(const [sectionName,fields] of Object.entries(templateFields)){
@@ -144,11 +176,16 @@ function prBodyErrors(body) {
       if(!section){errors.push("PR 缺少官方模板章节："+sectionName);continue;}
       const next=headings.find(x=>x.i>section.i);
       const sectionLines=lines.slice(section.i+1,next?next.i:lines.length);
-      for(const field of fields){
-        const escaped=Array.from(field,ch=>"\\^$.*+?()[]{}|".includes(ch)?"\\"+ch:ch).join("");
-        const fieldPattern=new RegExp("^\\s*[-*]\\s*"+escaped+"[：:]\\s*(.*)$","u");
-        const index=sectionLines.findIndex(line=>fieldPattern.test(line));
-        if(index<0){errors.push("PR 缺少官方模板字段："+field);continue;}
+      for(const aliases of fields){
+        let index=-1,fieldPattern;
+        for(const field of aliases){
+          const escaped=Array.from(field,ch=>"\\^$.*+?()[]{}|".includes(ch)?"\\"+ch:ch).join("");
+          const pattern=new RegExp("^\\s*[-*]\\s*"+escaped+"[：:]\\s*(.*)$","u");
+          const found=sectionLines.findIndex(line=>pattern.test(line));
+          if(found>=0){index=found;fieldPattern=pattern;break;}
+        }
+        const label=aliases[0];
+        if(index<0){errors.push("PR 缺少官方模板字段："+label);continue;}
         const contents=[fieldPattern.exec(sectionLines[index])[1]];
         for(let j=index+1;j<sectionLines.length;j++){
           if(/^\s*[-*]\s*[^：:\n]+[：:]/u.test(sectionLines[j])) break;
@@ -158,7 +195,7 @@ function prBodyErrors(body) {
         }
         const value=removeHtmlComments(contents.join("\n")).trim();
         if(value.replace(/[\s#*`>|-]/gu,"").length<8||value.split("\n").some(isPlaceholderLine))
-          errors.push("PR 官方模板字段缺少有效说明："+field);
+          errors.push("PR 官方模板字段缺少有效说明："+label);
       }
     }
   }else{
@@ -238,10 +275,6 @@ async function main(){
   if(mode==='message-file'){
     if(!process.argv[3]) throw new Error('缺少 commit-msg 文件参数');
     errors=commitErrors(fs.readFileSync(process.argv[3],'utf8'));
-  }else if(mode==='preflight-json'){
-    if(!process.argv[3]) throw new Error('缺少 PR 预检 JSON 文件参数');
-    const input=JSON.parse(fs.readFileSync(process.argv[3],'utf8'));
-    errors=prErrors(input.pull_request,input.commits,input.files);
   }else if(mode==='pr'){
     const event=JSON.parse(fs.readFileSync(process.env.GITHUB_EVENT_PATH,'utf8'));
     if(!event.pull_request||!event.repository) throw new Error('事件缺少 PR 身份');

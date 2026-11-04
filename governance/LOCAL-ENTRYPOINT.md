@@ -4,7 +4,7 @@
 
 执行 `git config --local core.hooksPath .githooks` 后，Git 的 `commit-msg` 阶段会调用仓库内的消息校验器。新克隆仓库需要单独启用钩子，`--no-verify` 可以绕过本地检查，因此它不是远端保护。
 
-在创建 PR 前准备包含 `pull_request`、`commits` 和 `files` 字段的真实 JSON 快照，执行 `node .github/scripts/governance_gate.cjs preflight-json <文件路径>`。此检查不能替代检查重复 PR、实际 Diff 语义、完整测试、权限和来源的创建前核验。
+创建 PR 前应对当前 Git 分支的实际提交、相对于目标分支的差异、拟使用的标题和正文进行检查，并填写当前 PR 模板。本地 `commit-msg` 钩子仅约束提交消息；本仓库未提供直接绑定 Git 候选的自动 PR 创建前门禁，不使用脱离真实变更的 JSON 快照代替预检。
 
 GitHub 的 `governance-metadata` 检查读取当前 PR 的真实元数据和全部 API 分页结果，失败时阻断该检查通过；只有管理员在远端规则中设置为必需检查并核实其来源后，才会阻断合并。
 

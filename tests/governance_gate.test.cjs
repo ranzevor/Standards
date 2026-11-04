@@ -49,31 +49,23 @@ test('精确中文行为词不受有限动词白名单误拦截',()=>{
 test('当前官方 PR 模板完整填写合法且空字段或占位不允许通过',()=>{
   const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
   const values=[
-    '按照本次治理审查结论修正已定位的五项实现缺陷。',
-    '目标为 main 分支，基线和候选分别与当前审查的提交绑定。',
-    '仅修改治理元数据检查及隔离回归，不修改产品业务规则。',
-    '核对提交消息、真实差异、测试用例和现有入口依赖。',
-    '旧模板继续兼容，新增校验不调整现有运行服务和数据结构。',
-    '解析失败阻断，修改后的候选重新运行检查且保留已有成果。',
-    'Node 回归与合成接口测试均使用隔离输入，输出符合预期。',
-    '之前识别出模板不兼容，加入合法原模板作为修复回归。',
-    '远端规则暂未调整，新增工作流仍需实际触发验证。',
-    '原始输出保留于独立验证环境和关联 CI 检查。',
-    '作者自查限定于本次治理检查器和测试文件的准确差异。',
-    '独立审查尚未再次进行，审查缺陷需要新候选复核。',
-    '所有引入的代码和测试均使用当前仓库已有技术来源。',
-    '未引入凭据、个人数据或不相关项目的审查记录。',
-    '该候选仅修复实现缺陷，不代表已完成远端强制配置。',
-    '合并前重验准确 HEAD、validate 和 verify，检查审查阻断项。'
+    '依据现行治理规范，修复提交与 PR 元数据校验边界。',
+    '目标分支为 main，限定治理校验器、模板和回归文件，不改产品。',
+    '保留独立审查要求，修复 footer、正文与 Markdown 注释解析。',
+    '不涉及业务 API 迁移；若检查异常则拒绝此次门禁通过。',
+    '已执行正常输入和违规输入的本地正反例校验。',
+    '远端必需检查尚未配置，实际拒绝违规合并仍未验收。',
+    '作者已复核提交与变更，独立审查尚未完成。',
+    '合并前须完成检查器复核、CI 通过与远端规则验收。'
   ];
   let used=0;
   const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,(_,field)=>field+' '+values[used++]);
   assert.equal(used,values.length,'官方模板字段数量发生变更');
   assert.deepEqual(gate.prBodyErrors(filled),[]);
-  const empty=filled.replace(values[15],'');
-  assert(gate.prBodyErrors(empty).some(e=>e.includes('合并前需重新确认的目标 HEAD')));
+  const empty=filled.replace(values[7],'');
+  assert(gate.prBodyErrors(empty).some(e=>e.includes('合并条件及未解决阻断项')));
   const unfilled=filled.replace(values[0],'TODO: 本段稍后填写');
-  assert(gate.prBodyErrors(unfilled).some(e=>e.includes('需求/条款ID及准确版本')));
+  assert(gate.prBodyErrors(unfilled).some(e=>e.includes('变更目标与依据')));
 });
 
 test('不可见 HTML 注释及占位内容不能充当有效提交正文',()=>{
@@ -129,8 +121,8 @@ test('Markdown 行内代码与强调不能隐藏明确的模板和提交占位',
   const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确本次实际变更范围及验证条件，且记录具体兼容影响。');
   assert.deepEqual(gate.prBodyErrors(filled),[]);
   for(const placeholder of ['`TODO: 等待补充明确需求和准确规范版本`','**TODO: 等待补充明确需求和准确规范版本**']){
-    const broken=filled.replace('需求/条款ID及准确版本： 已明确本次实际变更范围及验证条件，且记录具体兼容影响。','需求/条款ID及准确版本： '+placeholder);
-    assert(gate.prBodyErrors(broken).some(e=>e.includes('需求/条款ID及准确版本')),placeholder);
+    const broken=filled.replace('变更目标与依据： 已明确本次实际变更范围及验证条件，且记录具体兼容影响。','变更目标与依据： '+placeholder);
+    assert(gate.prBodyErrors(broken).some(e=>e.includes('变更目标与依据')),placeholder);
   }
 });
 test('文件路径识别不可见字符且允许正常空格和中文路径',()=>{
@@ -161,4 +153,48 @@ test('多个标准 footer 连续排列时不得漏检破坏性变更',()=>{
   assert(gate.commitErrors(title+'\n\n'+description+'\nBREAKING-CHANGE: 变化').some(e=>e.includes('footer')));
   assert.deepEqual(gate.commitErrors(title+'\n\n'+description+'\n\nRefs: #123'),[]);
   assert.deepEqual(gate.commitErrors(prefix+'~~~text\nBREAKING CHANGE: 变化\n~~~'),[]);
+});
+
+test('标题叹号允许由正文交代破坏性契约而无需重复尾注',()=>{
+  const title='feat(api)!: 移除旧版客户端的访问凭据接口';
+  const details='旧版客户端访问凭据接口已移除，继续请求将失败，必须迁移到 Authorization 请求头并升级客户端鉴权流程。';
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+details),[]);
+  assert(gate.commitErrors(title+'\n\n旧版接口已移除，客户端使用方式发生变化。').some(e=>e.includes('契约、影响和迁移')));
+});
+
+test('普通提交 footer 不能代替功能性正文',()=>{
+  const title='feat(api): 增加客户端的匿名请求处理模式';
+  const refs='Refs: #123, #124, #125, #126, #127, #128, #129';
+  assert(gate.commitErrors(title+'\n\n'+refs).some(e=>e.includes('有效正文')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n新增匿名请求模式，并明确未登录客户端对应的响应行为与访问控制边界。\n\n'+refs),[]);
+});
+
+test('行内代码及反斜线转义的注释标记不得隐藏后续章节',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确当前变更的行为、兼容影响及实际验证结论。');
+  for(const literal of ['`<!--`','\\<!--','``<!--``']){
+    const inserted=filled.replace('## 规范、行为与影响','- 行内说明：'+literal+' 是示例文本，不应影响后面的章节。\n\n## 规范、行为与影响');
+    assert.deepEqual(gate.prBodyErrors(inserted),[],literal);
+  }
+  const hidden=filled.replace('## 规范、行为与影响','<!-- 隐藏这一章\n## 规范、行为与影响');
+  assert(gate.prBodyErrors(hidden).some(e=>e.includes('官方模板章节')));
+});
+
+test('旧版 PR 模板保留语义兼容，但不强制失败记录或原始制品路径',()=>{
+  const legacy=[
+    '## 目标、基线与候选',
+    '- 需求/条款ID及准确版本：依照当前治理规则处理元数据变更。',
+    '- 本次范围与明确不改范围：仅改校验器和测试，产品逻辑保持原样。',
+    '## 规范、行为与影响',
+    '- 正文、来源、依赖、示例与检查变更：修改元数据检查和相关回归逻辑。',
+    '- 使用者可观察变化及兼容/迁移影响：不涉及产品接口迁移，违规提交将被拒绝。',
+    '## 验证',
+    '- 输入、环境、命令、退出码、预期/实际及证据：执行 Node 正反例回归，结果通过。',
+    '- 未执行、部分执行或不适用范围及原因：远端强制准入尚未完成实际部署。',
+    '## 审查与合并前置',
+    '- 独立审查绑定的候选、范围和开放发现：当前待独立审查者复核源码修改。',
+    '- 合并前需重新确认的目标 HEAD、必需检查和阻断项：需确认 CI 通过且阻断项闭合。'
+  ].join('\n');
+  assert.deepEqual(gate.prBodyErrors(legacy),[]);
+  assert(gate.prBodyErrors(legacy.replace('执行 Node 正反例回归，结果通过。','TODO: 等待完成验证')).length>0);
 });
