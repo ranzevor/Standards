@@ -7,7 +7,7 @@ const path=require('node:path');
 const cp=require('node:child_process');
 const root=path.join(__dirname,'..');
 const gate=path.join(root,'.github','scripts','governance_gate.cjs');
-const mockSource="'use strict';\nconst mode=process.env.GOV_TEST_MODE;\nconst body=\"## 背景与目标\\n当前提交缺少元数据合规检查。\\n## 变更范围与实现\\n添加严格的中文提交标题和PR结构检查。\\n## 兼容性与风险\\n不影响业务代码；合并前仍然需要独立审查。\\n## 实际验证\\n已经执行符合规定和失败输入的合成正反例检查。\\n## 未完成事项\\n远端的规则与必需状态检查仍需配置和验证。\";\nconst validMessage=\"fix(api): 修正调用失败后的权限状态处理\\n\\n权限失败将终止本次请求，不再继续执行下游业务操作。\\n回归验证受保护路径、失败响应与已有正常流程，兼容当前请求契约。\";\nglobalThis.fetch=async function(url,opts){\nif(opts.headers.Authorization!=='Bearer synthetic-token') throw new Error('unexpected auth');\nconst path=new URL(url).pathname;\nif(mode==='api-fail') return {ok:false,status:403};\nif(path.endsWith('/pulls/9')){const readNo=(globalThis.govReadCount=(globalThis.govReadCount||0)+1);const edited=readNo>1;return {ok:true,json:async()=>({title:mode==='bad-title'||(mode==='title-edited'&&edited)?'fix(api): fix auth bug':'fix(api): 修正调用失败后的权限状态处理',body:mode==='body-edited'&&edited?body+' 编辑后改变正文的当前内容。':body,head:{sha:'abc',ref:'fix/api-state'}})};}\nif(path.endsWith('/pulls/9/commits')) return {ok:true,json:async()=>[{sha:'abc',commit:{message:mode==='bad-commit'?'fix(api): fix auth bug':validMessage}}]};\nif(path.endsWith('/pulls/9/files')) return {ok:true,json:async()=>mode==='no-files'?[]:[{filename:'src/api.ts'}]};\nreturn {ok:false,status:404};\n};";
+const mockSource="'use strict';\nconst mode=process.env.GOV_TEST_MODE;\nconst body=\"## 背景与目标\\n当前提交缺少元数据合规检查。\\n## 变更范围与实现\\n添加严格的中文提交标题和PR结构检查。\\n## 兼容性与风险\\n不影响业务代码；合并前仍然需要独立审查。\\n## 实际验证\\n已经执行符合规定和失败输入的合成正反例检查。\\n## 未完成事项\\n远端的规则与必需状态检查仍需配置和验证。\";\nconst validMessage=\"fix(api): 修正调用失败后的权限状态处理\\n\\n权限失败将终止本次请求，不再继续执行下游业务操作。\\n回归验证受保护路径、失败响应与已有正常流程，兼容当前请求契约。\";\nglobalThis.fetch=async function(url,opts){\nif(opts.headers.Authorization!=='Bearer synthetic-token') throw new Error('unexpected auth');\nconst path=new URL(url).pathname;\nif(mode==='api-fail') return {ok:false,status:403};\nif(path.endsWith('/pulls/9')){const readNo=(globalThis.govReadCount=(globalThis.govReadCount||0)+1);const edited=readNo>1;return {ok:true,json:async()=>({title:mode==='bad-title'||(mode==='title-edited'&&edited)?'fix(api): fix auth bug':'fix(api): 修正调用失败后的权限状态处理',body:mode==='body-edited'&&edited?body+' 编辑后改变正文的当前内容。':body,head:{sha:'abc',ref:'fix/api-state'},base:{ref:'main',sha:mode==='base-edited'&&edited?'main-base-new':mode==='base-stale'?'main-base-new':'main-base-old'}})};}\nif(path.endsWith('/pulls/9/commits')) return {ok:true,json:async()=>[{sha:'abc',commit:{message:mode==='bad-commit'?'fix(api): fix auth bug':validMessage}}]};\nif(path.endsWith('/pulls/9/files')) return {ok:true,json:async()=>mode==='no-files'?[]:[{filename:'src/api.ts'}]};\nreturn {ok:false,status:404};\n};";
 const modes=[
   ['pass',0,'PASS:'],
   ['stale',1,'PR HEAD 已变化'],
@@ -16,6 +16,8 @@ const modes=[
   ['no-files',1,'PR 缺少可核验的非空差异'],
   ['title-edited',1,'PR 标题或正文在校验期间改变'],
   ['body-edited',1,'PR 标题或正文在校验期间改变'],
+  ['base-edited',1,'PR HEAD 或目标基线在校验期间改变'],
+  ['base-stale',1,'PR 目标分支在事件后改变'],
   ['api-fail',1,'GitHub API 返回 403']
 ];
 test('读取 GitHub 实时 PR、完整提交列表并拒绝过时事件或无效响应',()=>{
@@ -27,7 +29,7 @@ test('读取 GitHub 实时 PR、完整提交列表并拒绝过时事件或无效
     for(const [mode,expected,diagnostic] of modes){
       fs.writeFileSync(event,JSON.stringify({
         repository:{full_name:'ranzevor/Standards'},
-        pull_request:{number:9,head:{sha:mode==='stale'?'old':'abc'}}
+        pull_request:{number:9,head:{sha:mode==='stale'?'old':'abc'},base:{ref:'main',sha:'main-base-old'}}
       }),{encoding:'utf8'});
       const result=cp.spawnSync(process.execPath,['--require',helper,gate,'pr'],{
         cwd:root,encoding:'utf8',timeout:15000,

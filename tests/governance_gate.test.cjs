@@ -105,6 +105,47 @@ test('破坏性变更说明需明确契约、影响及迁移而非笼统短句',
   assert(gate.commitErrors(heading+'\n\n'+explanation+'\nBREAKING CHANGE: 请求协议调整了字段名称和请求方式，对旧版客户端将产生不兼容影响。')
     .some(e=>e.includes('契约、影响和迁移')));
   const good=heading+'\n\n'+explanation+
-    '\nBREAKING CHANGE: 请求接口不再接受旧版客户端的 legacyToken 字段，旧版调用会失败；客户端必须迁移到 Authorization 请求头并升级接入配置。';
+    '\n\nBREAKING CHANGE: 请求接口不再接受旧版客户端的 legacyToken 字段，旧版调用会失败；客户端必须迁移到 Authorization 请求头并升级接入配置。';
   assert.deepEqual(gate.commitErrors(good),[]);
+});
+
+test('无叹号的破坏性 footer 也需校验，兼容双 token 并隔离代码示例',()=>{
+  const title='feat(api): 调整旧版客户端的请求鉴权方式';
+  const bang='feat(api)!: 调整旧版客户端的请求鉴权方式';
+  const body='调整旧版客户端的请求鉴权流程，明确成功响应的字段与错误返回条件。';
+  const good='鉴权接口不再接受旧版客户端的 legacyToken 字段；旧版请求会失败，客户端必须迁移到 Authorization 请求头完成升级。';
+  assert(gate.commitErrors(title+'\n\n'+body+'\n\nBREAKING CHANGE: 变化').some(e=>e.includes('契约、影响和迁移')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+body+'\n\nBREAKING-CHANGE: '+good),[]);
+  assert.deepEqual(gate.commitErrors(bang+'\n\n'+body+'\n\nBREAKING CHANGE: '+good),[]);
+  assert.deepEqual(gate.commitErrors(bang+'\n\n'+body+'\n\nBREAKING-CHANGE: '+good),[]);
+  assert(gate.commitErrors(bang+'\n\n'+body+'\n\n```text\nBREAKING CHANGE: '+good+'\n```').some(e=>e.includes('契约、影响和迁移')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+body+'\n\n```text\nBREAKING CHANGE: 变化\n```'),[]);
+});
+test('Markdown 行内代码与强调不能隐藏明确的模板和提交占位',()=>{
+  const title='fix(governance): 修正检查器对占位内容的识别';
+  assert(gate.commitErrors(title+'\n\n**TODO: 等待补充具体实现范围和实际验证结果**').some(e=>e.includes('占位')));
+  assert(gate.commitErrors(title+'\n\n`TODO: 等待补充具体实现范围和实际验证结果`').some(e=>e.includes('占位')));
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确本次实际变更范围及验证条件，且记录具体兼容影响。');
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+  for(const placeholder of ['`TODO: 等待补充明确需求和准确规范版本`','**TODO: 等待补充明确需求和准确规范版本**']){
+    const broken=filled.replace('需求/条款ID及准确版本： 已明确本次实际变更范围及验证条件，且记录具体兼容影响。','需求/条款ID及准确版本： '+placeholder);
+    assert(gate.prBodyErrors(broken).some(e=>e.includes('需求/条款ID及准确版本')),placeholder);
+  }
+});
+test('文件路径识别不可见字符且允许正常空格和中文路径',()=>{
+  const pr={title:'fix(api): 修正 API 鉴权失败后的响应状态',body,head:{ref:'fix/api-response',sha:'same'}};
+  const commits=[{sha:'same',commit:{message:commit}}];
+  assert.deepEqual(gate.prErrors(pr,commits,[{filename:'docs/中文使用 说明.md'}]),[]);
+  for(const mark of ['\u034f','\u00a0','\u200b']){
+    const issues=gate.prErrors(pr,commits,[{filename:'src/字'+mark+'段.ts'}]);
+    assert(issues.some(e=>e.includes('文件名')),mark.codePointAt(0));
+  }
+});
+test('围栏代码内的 HTML 注释起始标记不得影响后续官方章节',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确实际提交的具体处理范围、核验方法及兼容影响。');
+  const inserted=filled.replace('## 规范、行为与影响','```html\n<!--\n```\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(inserted),[]);
+  assert.deepEqual(gate.prBodyErrors(filled.replace('## 规范、行为与影响','~~~html\n<!--\n~~~\n\n## 规范、行为与影响')),[]);
 });

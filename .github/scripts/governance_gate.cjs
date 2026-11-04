@@ -9,8 +9,64 @@ function hasInvisibleChars(value,multiline=false){
 function removeHtmlComments(value){
   return value.replace(/<!--[\s\S]*?(?:-->|$)/gu,"");
 }
+function markdownPlainText(value){
+  return value.trim()
+    .replace(/^(?:\s*>\s*)+/u,"")
+    .replace(/^\s{0,3}#{1,6}\s+/u,"")
+    .replace(/^\s*(?:[-*+]\s+(?:\[[ xX]\]\s*)?|\d+[.)]\s+)/u,"")
+    .replace(/!\[([^\]]*)\]\([^)]+\)/gu,"$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/gu,"$1")
+    .replace(/[*_`~]/gu,"").trim();
+}
 function isPlaceholderLine(value){
-  return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：].*)?$/iu.test(value.trim().replace(/^[-*>]\s*/u,""));
+  return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
+}
+function markdownVisibleLines(rawLines){
+  let fenceChar="",fenceMin=0,inComment=false;
+  return rawLines.map(line=>{
+    if(fenceChar){
+      const close=/^ {0,3}(`{3,}|~{3,})[ \t]*$/u.exec(line);
+      if(close&&close[1][0]===fenceChar&&close[1].length>=fenceMin){
+        fenceChar="";fenceMin=0;
+      }
+      return "";
+    }
+    if(!inComment){
+      const opener=/^ {0,3}(`{3,}|~{3,})/u.exec(line);
+      if(opener){fenceChar=opener[1][0];fenceMin=opener[1].length;return "";}
+    }
+    let visible="";
+    for(let i=0;i<line.length;){
+      if(!inComment&&line.startsWith("<!--",i)){inComment=true;i+=4;continue;}
+      if(inComment){
+        const close=line.indexOf("-->",i);
+        if(close<0)break;
+        inComment=false;i=close+3;continue;
+      }
+      visible+=line[i++];
+    }
+    return visible;
+  });
+}
+function breakingFooters(lines){
+  const found=[];
+  let active=null;
+  for(let i=0;i<lines.length;i++){
+    const marker=/^BREAKING(?: CHANGE|-CHANGE):[ \t]*(.*)$/u.exec(lines[i]);
+    if(marker&&(i===0||!lines[i-1].trim()||active)){
+      if(active)found.push(active);
+      active={start:i,content:[marker[1]]};
+      continue;
+    }
+    if(active){
+      if(/^[A-Za-z][A-Za-z0-9-]*(?::| #)/u.test(lines[i])){
+        found.push(active);active=null;continue;
+      }
+      active.content.push(lines[i]);
+    }
+  }
+  if(active)found.push(active);
+  return found;
 }
 function titleErrors(value) {
   const errors=[];
@@ -34,24 +90,29 @@ function commitErrors(message) {
   const lines=message.replace(/\r\n/gu,"\n").split("\n");
   const errors=titleErrors(lines[0]).map(e=>"提交："+e);
   const rawBody=lines.slice(1).join("\n");
-  const body=rawBody.trim();
-  const visibleBody=removeHtmlComments(body).trim();
+  const visibleLines=markdownVisibleLines(lines.slice(1));
+  const footers=breakingFooters(visibleLines);
+  const textLines=visibleLines.slice(0,footers.length?footers[0].start:visibleLines.length);
+  const visibleBody=textLines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
   if(rawBody&&hasInvisibleChars(rawBody,true)) errors.push("提交正文包含控制字符、非普通空格或不可见 Unicode 字符");
-  if(m&&/^(?:feat|fix|refactor|perf)$/u.test(m[1])) {
+  if(m&&/^(?:feat|fix|refactor|perf)$/u.test(m[1])){
     if(lines[1]!==""||visibleBody.replace(/\s/gu,"").length<24)
       errors.push("实质功能或缺陷变更需要空行分隔的可见、有效正文");
   }
-  if(visibleBody.split("\n").some(isPlaceholderLine)) errors.push("提交正文包含未填写的占位内容");
-  if(m&&m[2]){
-    const breaking=/(?:^|\n)BREAKING CHANGE:[ \t]*([^\n]*(?:\n(?![A-Z][A-Z -]+:)[^\n]*)*)/u.exec(visibleBody);
-    const details=breaking&&breaking[1].trim();
-    if(!details||details.replace(/\s/gu,"").length<35
-      ||!/(?:接口|协议|契约|字段|参数|配置|格式|路径|权限|行为|响应|返回|数据|文件|命令|存储|依赖|版本)/u.test(details)
-      ||!/(?:影响|旧版|不再|无法|失败|失效|中断|不兼容|移除|不支持)/u.test(details)
-      ||!/(?:迁移|升级|改用|替换|切换|转换|无需迁移|无须迁移)/u.test(details))
-      errors.push("不兼容变更必须在 BREAKING CHANGE 中具体说明契约、影响和迁移方式");
+  if(visibleLines.some(isPlaceholderLine)) errors.push("提交正文包含未填写的占位内容");
+  if((m&&m[2])||footers.length){
+    const message="不兼容变更必须在 BREAKING CHANGE 中具体说明契约、影响和迁移方式";
+    if(!footers.length) errors.push(message);
+    for(const footer of footers){
+      const details=footer.content.join("\n").trim();
+      if(details.replace(/\s/gu,"").length<35
+        ||!/(?:接口|协议|契约|字段|参数|配置|格式|路径|权限|行为|响应|返回|数据|文件|命令|存储|依赖|版本)/u.test(details)
+        ||!/(?:影响|旧版|不再|无法|失败|失效|中断|不兼容|移除|不支持)/u.test(details)
+        ||!/(?:迁移|升级|改用|替换|切换|转换|无需迁移|无须迁移)/u.test(details))
+        errors.push(message);
+    }
   }
   return errors;
 }
@@ -61,24 +122,7 @@ function prBodyErrors(body) {
   if(typeof body!=="string") return ["PR 正文缺少有效内容"];
   if(body!==body.normalize("NFC")) errors.push("PR 正文必须采用 NFC 规范化文本");
   if(hasInvisibleChars(body,true)) errors.push("PR 正文包含控制字符、非普通空格或不可见 Unicode 字符");
-  const rawLines=body.split(/\r?\n/u);
-  let fenceChar="",fenceMin=0,inComment=false;
-  const lines=rawLines.map(line=>{
-    let visible="";
-    for(let i=0;i<line.length;){
-      if(!inComment&&line.startsWith("<!--",i)){inComment=true;i+=4;continue;}
-      if(inComment){const close=line.indexOf("-->",i);if(close<0)break;inComment=false;i=close+3;continue;}
-      visible+=line[i++];
-    }
-    const fence=/^\s{0,3}(`{3,}|~{3,})/u.exec(visible);
-    if(fence){
-      const token=fence[1];
-      if(!fenceChar){fenceChar=token[0];fenceMin=token.length;}
-      else if(token[0]===fenceChar&&token.length>=fenceMin){fenceChar="";fenceMin=0;}
-      return "";
-    }
-    return fenceChar?"":visible;
-  });
+  const lines=markdownVisibleLines(body.split(/\r?\n/u));
   const visibleBody=lines.join("\n");
   if(visibleBody.replace(/\s/gu,"").length<85) errors.push("PR 正文缺少有信息量的变更说明");
   if(lines.some(isPlaceholderLine)) errors.push("PR 正文包含未填模板占位");
@@ -158,7 +202,7 @@ function prErrors(pr,commits,files) {
   if(!Array.isArray(files)||!files.length) errors.push("PR 缺少可核验的非空差异");
   else {
     if(files.length>500) errors.push("PR 变更超过 500 文件，必须拆分独立审查范围");
-    for(const f of files) if(!f||typeof f.filename!=="string"||/[\p{Cc}\p{Cf}]/u.test(f.filename)) errors.push("文件名存在无效或不可见字符");
+    for(const f of files) if(!f||typeof f.filename!=="string"||f.filename!==f.filename.normalize("NFC")||hasInvisibleChars(f.filename)) errors.push("文件名存在无效或不可见字符");
   }
   return errors;
 }
@@ -209,10 +253,10 @@ async function main(){
     const prefix='/repos/'+repo+'/pulls/'+n;
     const live=await ghGet(prefix,token);
     if(live.head.sha!==event.pull_request.head.sha) throw new Error('PR HEAD 已变化，拒绝使用过时数据');
-    if(event.pull_request.base && live.base && live.base.ref!==event.pull_request.base.ref) throw new Error('PR 目标分支在事件后改变');
+    if(event.pull_request.base && live.base && (live.base.ref!==event.pull_request.base.ref || (event.pull_request.base.sha && live.base.sha!==event.pull_request.base.sha))) throw new Error('PR 目标分支在事件后改变');
     const [commits,files]=await Promise.all([ghList(prefix+'/commits',token),ghList(prefix+'/files',token)]);
     const latest=await ghGet(prefix,token);
-    if(latest.head.sha!==live.head.sha || (latest.base&&live.base&&latest.base.ref!==live.base.ref)) throw new Error('PR HEAD 或目标基线在校验期间改变');
+    if(latest.head.sha!==live.head.sha || (latest.base&&live.base&&(latest.base.ref!==live.base.ref||latest.base.sha!==live.base.sha))) throw new Error('PR HEAD 或目标基线在校验期间改变');
     if(latest.title!==live.title || latest.body!==live.body) throw new Error('PR 标题或正文在校验期间改变');
     errors=prErrors(latest,commits,files);
   }else throw new Error('不支持的检查模式');
