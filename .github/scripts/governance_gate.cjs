@@ -19,19 +19,24 @@ function isPlaceholderLine(value){
   return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
 }
 function markdownVisibleLines(rawLines){
-  let fenceChar="",fenceMin=0,inComment=false,indentedCode=false,previousBlank=true;
+  let fenceChar="",fenceMin=0,inComment=false,indentedCode=false,previousBlank=true,listIndent=0;
   return rawLines.map(line=>{
     if(fenceChar){
       const close=/^ {0,3}(`{3,}|~{3,})[ \t]*$/u.exec(line);
       if(close&&close[1][0]===fenceChar&&close[1].length>=fenceMin){
-        fenceChar="";fenceMin=0;
+        fenceChar="";fenceMin=0;previousBlank=true;indentedCode=false;
       }
       return "";
     }
     if(!inComment){
       if(!line.trim()){previousBlank=true;return "";}
-      // 缩进代码块内的标记属于代码文本，不参与 HTML 注释状态解析。
-      if(/^(?: {4}|\t)/u.test(line)&&(previousBlank||indentedCode)){
+      const indent=/^ */u.exec(line)[0].length;
+      const listMarker=/^ {0,3}(?:[-*+]|\d+[.)])[ \t]+/u.exec(line);
+      if(listMarker) listIndent=listMarker[0].length;
+      else if(indent<listIndent) listIndent=0;
+      // 列表续行仍是可见段落；超出列表内容缩进四格才属于代码。
+      const listContinuation=listIndent>0&&indent>=listIndent&&indent<listIndent+4;
+      if(/^(?: {4}|\t)/u.test(line)&&(previousBlank||indentedCode)&&!listContinuation){
         indentedCode=true;return "";
       }
       indentedCode=false;

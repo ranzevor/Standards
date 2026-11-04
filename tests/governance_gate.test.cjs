@@ -218,3 +218,26 @@ test('完整的不兼容说明不依赖固定关键词，缺少实质说明仍�
   assert(gate.commitErrors(title+'\n\n旧版接口已移除，客户端使用方式发生变化。').some(e=>e.includes('契约、影响和迁移')));
   assert(gate.commitErrors(title+'\n\nTODO: 等待补充具体的行为影响与操作步骤。').some(e=>e.includes('占位')));
 });
+
+test('列表字段缩进续行的可见占位必须被拒绝',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更的具体范围、兼容影响和真实执行结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+detail);
+  const field='变更目标与依据： '+detail;
+  const visible=filled.replace(field,field+'\n\n    TODO: 等待补充实际变更范围、受影响用户及恢复条件');
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('变更目标与依据')));
+  const code=filled.replace(field,field+'\n\n      TODO: 此行是缩进代码的示例内容');
+  assert.deepEqual(gate.prBodyErrors(code),[]);
+});
+
+test('围栏关闭后紧接的缩进代码不得开启 HTML 注释',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,
+    '$1 已明确当前变更的具体范围、兼容影响和真实执行结果。');
+  const fence='\x60\x60\x60html\n<code>example</code>\n\x60\x60\x60\n';
+  const code=filled.replace('## 规范、行为与影响',fence+'    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(code),[]);
+  const comment=filled.replace('## 规范、行为与影响',fence+'<!--\n\n## 规范、行为与影响');
+  assert(gate.prBodyErrors(comment).some(e=>e.includes('官方模板章节')));
+});
