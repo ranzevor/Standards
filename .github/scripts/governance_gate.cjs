@@ -24,23 +24,45 @@ function indentationColumns(space,start=0){
   return column;
 }
 function markdownVisibleLines(rawLines){
-  let fenceChar='',fenceMin=0,fenceBase=0,inComment=false,indentedCode=false,previousBlank=true;
+  let fenceChar='',fenceMin=0,fenceBase=0,fenceListIndent=0,inComment=false,indentedCode=false,previousBlank=true;
   const listStack=[];
   return rawLines.map(line=>{
+    let leftFenceContainer=false;
     if(fenceChar){
-      const close=/^([ \t]*)(\x60{3,}|~{3,})[ \t]*$/u.exec(line);
-      if(close&&close[2][0]===fenceChar&&close[2].length>=fenceMin){
-        const column=indentationColumns(close[1]);
-        if(column>=fenceBase&&column<=fenceBase+3){
-          fenceChar='';fenceMin=0;previousBlank=true;indentedCode=false;
+      const leading=/^[ \t]*/u.exec(line)[0];
+      if(line.trim()&&fenceListIndent&&indentationColumns(leading)<fenceListIndent){
+        fenceChar='';fenceMin=0;fenceBase=0;fenceListIndent=0;
+        indentedCode=false;
+        leftFenceContainer=true;
+      }else{
+        const close=/^([ \t]*)(\x60{3,}|~{3,})[ \t]*$/u.exec(line);
+        if(close&&close[2][0]===fenceChar&&close[2].length>=fenceMin){
+          const column=indentationColumns(close[1]);
+          if(column>=fenceBase&&column<=fenceBase+3){
+            fenceChar='';fenceMin=0;fenceBase=0;fenceListIndent=0;
+            previousBlank=true;indentedCode=false;
+          }
         }
+        return '';
       }
-      return '';
     }
     if(!inComment){
       if(!line.trim()){previousBlank=true;return '';}
       const leading=/^[ \t]*/u.exec(line)[0];
       const indent=indentationColumns(leading);
+      const text=line.slice(leading.length);
+      const thematic=/^(?:\*(?:[ \t]*\*){2,}|-(?:[ \t]*-){2,}|_(?:[ \t]*_){2,})[ \t]*$/u.test(text);
+      if(thematic){
+        let depth=listStack.length;
+        while(depth&&indent<listStack[depth-1].contentIndent)depth--;
+        const base=depth?listStack[depth-1].contentIndent:0;
+        if(indent<=base+3){
+          listStack.length=depth;
+          indentedCode=false;
+          previousBlank=false;
+          return '';
+        }
+      }
       const marker=/^([ \t]*)([-*+]|\d{1,9}[.)])([ \t]+)/u.exec(line);
       let listParent=-1;
       if(marker){
@@ -61,8 +83,7 @@ function markdownVisibleLines(rawLines){
           return '';
         }
       }else{
-        const text=line.slice(leading.length);
-        const lazyContinuation=listStack.length&&!previousBlank&&!indentedCode
+        const lazyContinuation=!leftFenceContainer&&listStack.length&&!previousBlank&&!indentedCode
           && !/^(?:#{1,6}(?:[ \t]|$)|>|\x60{3,}|~{3,}|<!--)/u.test(text);
         if(!lazyContinuation)
           while(listStack.length&&indent<listStack[listStack.length-1].contentIndent) listStack.pop();
@@ -77,6 +98,7 @@ function markdownVisibleLines(rawLines){
       const opener=/^([ \t]*)(\x60{3,}|~{3,})/u.exec(line);
       if(opener&&indent>=base&&indent<=base+3){
         fenceChar=opener[2][0];fenceMin=opener[2].length;fenceBase=base;
+        fenceListIndent=listStack.length?listStack[listStack.length-1].contentIndent:0;
         return '';
       }
     }

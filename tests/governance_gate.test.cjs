@@ -306,3 +306,30 @@ test('列表标记后的超额空白构成代码而非正文占位',()=>{
     assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')),prefix);
   }
 });
+
+
+test('列表内围栏失去容器归属后恢复可见段落识别',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更的具体范围、兼容影响以及实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const field='- 变更目标与依据： '+detail;
+  const escaped=filled.replace(field,field+'\n    \x60\x60\x60\ncode\n    \x60\x60\x60\n      TODO: 等待补充具体变更要求');
+  assert(gate.prBodyErrors(escaped).some(e=>e.includes('占位')));
+  const withinList=filled.replace(field,field+'\n    \x60\x60\x60text\n    TODO: 此行是围栏代码的示例\n    \x60\x60\x60');
+  assert.deepEqual(gate.prBodyErrors(withinList),[]);
+  const atRoot=filled.replace(field,field+'\n\n\x60\x60\x60text\nTODO: 此行是顶层围栏代码的示例\n\x60\x60\x60');
+  assert.deepEqual(gate.prBodyErrors(atRoot),[]);
+});
+
+test('水平分隔线按列表层级结束上下文而不误拒缩进代码',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更的具体范围、兼容影响以及实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const field='- 变更目标与依据： '+detail;
+  for(const separator of ['***','---','___','* * *']){
+    const code=filled.replace(field,field+'\n'+separator+'\n\n    TODO: 此行是缩进代码的示例');
+    assert.deepEqual(gate.prBodyErrors(code),[],separator);
+    const visible=filled.replace(field,field+'\n  '+separator+'\n\n    TODO: 等待补充具体变更要求');
+    assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')),separator);
+  }
+});
