@@ -241,3 +241,41 @@ test('围栏关闭后紧接的缩进代码不得开启 HTML 注释',()=>{
   const comment=filled.replace('## 规范、行为与影响',fence+'<!--\n\n## 规范、行为与影响');
   assert(gate.prBodyErrors(comment).some(e=>e.includes('官方模板章节')));
 });
+
+
+test('嵌套列表、父级续行和 Tab 缩进的可见占位不得被忽略',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已说明本次变更的具体范围、兼容影响和实际验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+detail);
+  const field='变更目标与依据： '+detail;
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+  for(const continuation of [
+    '\n\n    - 嵌套条目：说明具体变更\n\n        TODO: 等待补充实际变更范围',
+    '\n\n  - 子条目：说明具体变更\n  返回父级的说明。\n\n    TODO: 等待补充实际变更范围',
+    '\n\n\tTODO: 等待补充实际变更范围',
+    '\n\n \tTODO: 等待补充实际变更范围'
+  ]){
+    const invalid=filled.replace(field,field+continuation);
+    assert(gate.prBodyErrors(invalid).some(e=>e.includes('占位')),continuation);
+  }
+  const tabMarker=filled.replace('- 变更目标与依据：','-\t变更目标与依据：');
+  assert.deepEqual(gate.prBodyErrors(tabMarker),[]);
+  const invalidTabMarker=tabMarker.replace(field,field+'\n\n      TODO: 等待补充实际变更范围');
+  assert(gate.prBodyErrors(invalidTabMarker).some(e=>e.includes('占位')));
+});
+
+test('嵌套列表与 Tab 下的缩进代码和围栏内容不作为可见占位',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已说明本次变更的具体范围、兼容影响和实际验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+detail);
+  const field='变更目标与依据： '+detail;
+  for(const continuation of [
+    '\n\n      TODO: 这里是缩进代码内容',
+    '\n\n    - 子条目：展示缩进代码\n\n          TODO: 这里是缩进代码内容',
+    '\n\n    - 子条目：展示围栏代码\n\n      \x60\x60\x60text\n      TODO: 这里是围栏代码内容\n      \x60\x60\x60'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+continuation)),[],continuation);
+  }
+  const tabMarker=filled.replace('- 变更目标与依据：','-\t变更目标与依据：');
+  assert.deepEqual(gate.prBodyErrors(tabMarker.replace(field,field+'\n\n        TODO: 这里是缩进代码内容')),[]);
+});

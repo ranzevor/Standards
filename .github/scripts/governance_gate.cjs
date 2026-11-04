@@ -18,40 +18,65 @@ function markdownPlainText(value){
 function isPlaceholderLine(value){
   return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
 }
+function indentationColumns(space,start=0){
+  let column=start;
+  for(const char of space) column+=char==='\t'?4-column%4:1;
+  return column;
+}
 function markdownVisibleLines(rawLines){
-  let fenceChar="",fenceMin=0,inComment=false,indentedCode=false,previousBlank=true,listIndent=0;
+  let fenceChar='',fenceMin=0,fenceBase=0,inComment=false,indentedCode=false,previousBlank=true;
+  const listStack=[];
   return rawLines.map(line=>{
     if(fenceChar){
-      const close=/^ {0,3}(`{3,}|~{3,})[ \t]*$/u.exec(line);
-      if(close&&close[1][0]===fenceChar&&close[1].length>=fenceMin){
-        fenceChar="";fenceMin=0;previousBlank=true;indentedCode=false;
+      const close=/^([ \t]*)(\x60{3,}|~{3,})[ \t]*$/u.exec(line);
+      if(close&&close[2][0]===fenceChar&&close[2].length>=fenceMin){
+        const column=indentationColumns(close[1]);
+        if(column>=fenceBase&&column<=fenceBase+3){
+          fenceChar='';fenceMin=0;previousBlank=true;indentedCode=false;
+        }
       }
-      return "";
+      return '';
     }
     if(!inComment){
-      if(!line.trim()){previousBlank=true;return "";}
-      const indent=/^ */u.exec(line)[0].length;
-      const listMarker=/^ {0,3}(?:[-*+]|\d+[.)])[ \t]+/u.exec(line);
-      if(listMarker) listIndent=listMarker[0].length;
-      else if(indent<listIndent) listIndent=0;
-      // 列表续行仍是可见段落；超出列表内容缩进四格才属于代码。
-      const listContinuation=listIndent>0&&indent>=listIndent&&indent<listIndent+4;
-      if(/^(?: {4}|\t)/u.test(line)&&(previousBlank||indentedCode)&&!listContinuation){
-        indentedCode=true;return "";
+      if(!line.trim()){previousBlank=true;return '';}
+      const leading=/^[ \t]*/u.exec(line)[0];
+      const indent=indentationColumns(leading);
+      const marker=/^([ \t]*)([-*+]|\d{1,9}[.)])([ \t]+)/u.exec(line);
+      let listParent=-1;
+      if(marker){
+        for(let i=listStack.length-1;i>=0;i--){
+          const base=listStack[i].contentIndent;
+          if(indent>=base&&indent<=base+3){listParent=i;break;}
+        }
+      }
+      if(marker&&(listParent>=0||indent<=3)){
+        const markerEnd=indent+marker[2].length;
+        const contentColumn=indentationColumns(marker[3],markerEnd);
+        listStack.length=listParent+1;
+        listStack.push({contentIndent:contentColumn-markerEnd>4?markerEnd+1:contentColumn});
+      }else{
+        while(listStack.length&&indent<listStack[listStack.length-1].contentIndent) listStack.pop();
+        const base=listStack.length?listStack[listStack.length-1].contentIndent:0;
+        if(indent>=base+4&&(previousBlank||indentedCode)){
+          indentedCode=true;return '';
+        }
       }
       indentedCode=false;
       previousBlank=false;
-      const opener=/^ {0,3}(`{3,}|~{3,})/u.exec(line);
-      if(opener){fenceChar=opener[1][0];fenceMin=opener[1].length;return "";}
+      const base=listStack.length?listStack[listStack.length-1].contentIndent:0;
+      const opener=/^([ \t]*)(\x60{3,}|~{3,})/u.exec(line);
+      if(opener&&indent>=base&&indent<=base+3){
+        fenceChar=opener[2][0];fenceMin=opener[2].length;fenceBase=base;
+        return '';
+      }
     }
-    let visible="";
+    let visible='';
     for(let i=0;i<line.length;){
       if(inComment){
-        const close=line.indexOf("-->",i);
+        const close=line.indexOf('-->',i);
         if(close<0)break;
         inComment=false;i=close+3;continue;
       }
-      // 已配对的行内代码原样保留，不能开启 HTML 注释。
       if(line.charCodeAt(i)===96){
         let size=1;
         while(line.charCodeAt(i+size)===96) size++;
@@ -66,7 +91,7 @@ function markdownVisibleLines(rawLines){
         }
         if(end>=0){visible+=line.slice(i,end);i=end;continue;}
       }
-      if(line.startsWith("<!--",i)){
+      if(line.startsWith('<!--',i)){
         let slashes=0;
         for(let j=i-1;j>=0&&line.charCodeAt(j)===92;j--) slashes++;
         if(slashes%2===0){inComment=true;i+=4;continue;}
