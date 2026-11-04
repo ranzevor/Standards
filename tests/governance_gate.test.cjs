@@ -89,12 +89,12 @@ test('标题、提交正文及PR正文拒绝不可见Unicode并允许常规换�
   assert.deepEqual(gate.prBodyErrors(body.replace(/\n/gu,'\r\n')),[]);
 });
 
-test('破坏性变更说明需明确契约、影响及迁移而非笼统短句',()=>{
+test('不兼容说明要求有效正文与正确分隔的 footer',()=>{
   const heading='feat(api)!: 变更旧版客户端的协议请求方式';
   const explanation='旧版客户端接入时必须按新的接口协议字段进行处理，否则会出现不兼容响应。';
   assert(gate.commitErrors(heading+'\n\n'+explanation+'\nBREAKING CHANGE: 变化')
-    .some(e=>e.includes('契约、影响和迁移')));
-  assert(gate.commitErrors(heading+'\n\n'+explanation+'\nBREAKING CHANGE: 请求协议调整了字段名称和请求方式，对旧版客户端将产生不兼容影响。')
+    .some(e=>e.includes('footer')));
+  assert(gate.commitErrors(heading+'\n\n'+explanation+'\n\nBREAKING CHANGE: 变化')
     .some(e=>e.includes('契约、影响和迁移')));
   const good=heading+'\n\n'+explanation+
     '\n\nBREAKING CHANGE: 请求接口不再接受旧版客户端的 legacyToken 字段，旧版调用会失败；客户端必须迁移到 Authorization 请求头并升级接入配置。';
@@ -197,4 +197,24 @@ test('旧版 PR 模板保留语义兼容，但不强制失败记录或原始制�
   ].join('\n');
   assert.deepEqual(gate.prBodyErrors(legacy),[]);
   assert(gate.prBodyErrors(legacy.replace('执行 Node 正反例回归，结果通过。','TODO: 等待完成验证')).length>0);
+});
+
+test('缩进代码与行内注释字面量不能误删合法 PR 章节或字段',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='已明确当前变更的具体范围、兼容影响及实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+description);
+  const literal=filled.replace('变更目标与依据： '+description,'变更目标与依据： 解释字面量 `<!--` 及其后的真实 PR 解析逻辑。');
+  assert.deepEqual(gate.prBodyErrors(literal),[]);
+  const indented=filled.replace('## 规范、行为与影响','独立段落说明 Markdown 的解析范围。\n\n    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(indented),[]);
+  const hidden=filled.replace('## 规范、行为与影响','<!--\n## 规范、行为与影响\n-->');
+  assert(gate.prBodyErrors(hidden).some(e=>e.includes('官方模板章节')));
+});
+
+test('完整的不兼容说明不依赖固定关键词，缺少实质说明仍拒绝',()=>{
+  const title='feat(api)!: 移除旧版客户端的访问凭据接口';
+  const complete='旧客户端继续以 legacyToken 字段发起请求将收到 401 响应，接入方必须将凭据放到 Authorization 请求头，之后按原方式继续访问。';
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+complete),[]);
+  assert(gate.commitErrors(title+'\n\n旧版接口已移除，客户端使用方式发生变化。').some(e=>e.includes('契约、影响和迁移')));
+  assert(gate.commitErrors(title+'\n\nTODO: 等待补充具体的行为影响与操作步骤。').some(e=>e.includes('占位')));
 });

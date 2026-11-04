@@ -6,9 +6,6 @@ function hasInvisibleChars(value,multiline=false){
   const normalized=multiline?value.replace(/\r\n/gu,"\n"):value;
   return INVALID_TEXT_CHAR.test(normalized.replace(multiline?/[ \t\n]/gu:/ /gu,""));
 }
-function removeHtmlComments(value){
-  return value.replace(/<!--[\s\S]*?(?:-->|$)/gu,"");
-}
 function markdownPlainText(value){
   return value.trim()
     .replace(/^(?:\s*>\s*)+/u,"")
@@ -22,7 +19,7 @@ function isPlaceholderLine(value){
   return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
 }
 function markdownVisibleLines(rawLines){
-  let fenceChar="",fenceMin=0,inComment=false;
+  let fenceChar="",fenceMin=0,inComment=false,indentedCode=false,previousBlank=true;
   return rawLines.map(line=>{
     if(fenceChar){
       const close=/^ {0,3}(`{3,}|~{3,})[ \t]*$/u.exec(line);
@@ -32,6 +29,13 @@ function markdownVisibleLines(rawLines){
       return "";
     }
     if(!inComment){
+      if(!line.trim()){previousBlank=true;return "";}
+      // 缩进代码块内的标记属于代码文本，不参与 HTML 注释状态解析。
+      if(/^(?: {4}|\t)/u.test(line)&&(previousBlank||indentedCode)){
+        indentedCode=true;return "";
+      }
+      indentedCode=false;
+      previousBlank=false;
       const opener=/^ {0,3}(`{3,}|~{3,})/u.exec(line);
       if(opener){fenceChar=opener[1][0];fenceMin=opener[1].length;return "";}
     }
@@ -127,11 +131,8 @@ function commitErrors(message) {
     // Conventional Commits 允许通过标题 ! 标记而不重复 BREAKING CHANGE footer。
     const explanations=footers.length?footers.map(f=>f.content.join("\n").trim()):[visibleBody];
     for(const details of explanations){
-      if(details.replace(/\s/gu,"").length<35
-        ||!/(?:接口|协议|契约|字段|参数|配置|格式|路径|权限|行为|响应|返回|数据|文件|命令|存储|依赖|版本)/u.test(details)
-        ||!/(?:影响|旧版|不再|无法|失败|失效|中断|不兼容|移除|不支持)/u.test(details)
-        ||!/(?:迁移|升级|改用|替换|切换|转换|无需迁移|无须迁移)/u.test(details))
-        errors.push(message);
+      // 固定关键词不能判断不同技术领域的迁移说明是否完整。
+      if(details.replace(/\s/gu,"").length<35) errors.push(message);
     }
   }
   return errors;
@@ -193,7 +194,7 @@ function prBodyErrors(body) {
           if(!/^\s{2,}\S/u.test(sectionLines[j])) break;
           contents.push(sectionLines[j]);
         }
-        const value=removeHtmlComments(contents.join("\n")).trim();
+        const value=contents.join("\n").trim();
         if(value.replace(/[\s#*`>|-]/gu,"").length<8||value.split("\n").some(isPlaceholderLine))
           errors.push("PR 官方模板字段缺少有效说明："+label);
       }
