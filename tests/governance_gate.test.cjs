@@ -331,5 +331,11 @@ test('水平分隔线按列表层级结束上下文而不误拒缩进代码',()=
     assert.deepEqual(gate.prBodyErrors(code),[],separator);
     const visible=filled.replace(field,field+'\n  '+separator+'\n\n    TODO: 等待补充具体变更要求');
     assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')),separator);
+    const adjacent=filled.replace(field,field+'\n'+separator+'\n    TODO: 此行是直接相邻的顶层缩进代码');
+    assert.deepEqual(gate.prBodyErrors(adjacent),[],separator+' 顶层相邻');
+    const nestedCode=filled.replace(field,field+'\n  '+separator+'\n      TODO: 此行是列表内的缩进代码');
+    assert.deepEqual(gate.prBodyErrors(nestedCode),[],separator+' 列表内相邻');
+    const nestedVisible=filled.replace(field,field+'\n  '+separator+'\n    TODO: 等待补充具体变更要求');
+    assert(gate.prBodyErrors(nestedVisible).some(e=>e.includes('占位')),separator+' 列表内可见占位');
   }
 });

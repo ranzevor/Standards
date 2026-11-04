@@ -59,7 +59,7 @@ function markdownVisibleLines(rawLines){
         if(indent<=base+3){
           listStack.length=depth;
           indentedCode=false;
-          previousBlank=false;
+          previousBlank=true;
           return '';
         }
       }
