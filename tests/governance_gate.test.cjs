@@ -149,3 +149,16 @@ test('围栏代码内的 HTML 注释起始标记不得影响后续官方章节',
   assert.deepEqual(gate.prBodyErrors(inserted),[]);
   assert.deepEqual(gate.prBodyErrors(filled.replace('## 规范、行为与影响','~~~html\n<!--\n~~~\n\n## 规范、行为与影响')),[]);
 });
+
+test('多个标准 footer 连续排列时不得漏检破坏性变更',()=>{
+  const title='feat(api): 调整旧版客户端的请求鉴权方式';
+  const description='调整旧版客户端的请求鉴权流程，明确成功响应的字段与错误返回条件。';
+  const prefix=title+'\n\n'+description+'\n\nRefs: #123\n';
+  const good='鉴权接口不再接受旧版客户端的 legacyToken 字段，旧版请求会失败；客户端必须迁移到 Authorization 请求头完成升级。';
+  assert(gate.commitErrors(prefix+'BREAKING CHANGE: 变化').some(e=>e.includes('契约、影响和迁移')));
+  assert.deepEqual(gate.commitErrors(prefix+'BREAKING CHANGE: '+good),[]);
+  assert.deepEqual(gate.commitErrors(prefix+'BREAKING-CHANGE: '+good),[]);
+  assert(gate.commitErrors(title+'\n\n'+description+'\nBREAKING-CHANGE: 变化').some(e=>e.includes('footer')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+description+'\n\nRefs: #123'),[]);
+  assert.deepEqual(gate.commitErrors(prefix+'~~~text\nBREAKING CHANGE: 变化\n~~~'),[]);
+});

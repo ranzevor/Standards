@@ -48,25 +48,22 @@ function markdownVisibleLines(rawLines){
     return visible;
   });
 }
-function breakingFooters(lines){
-  const found=[];
-  let active=null;
+function parseFooters(lines){
+  const entries=[];
+  let footerStart=lines.length,active=null;
   for(let i=0;i<lines.length;i++){
-    const marker=/^BREAKING(?: CHANGE|-CHANGE):[ \t]*(.*)$/u.exec(lines[i]);
-    if(marker&&(i===0||!lines[i-1].trim()||active)){
-      if(active)found.push(active);
-      active={start:i,content:[marker[1]]};
-      continue;
+    const marker=/^(BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?::[ \t]*|[ \t]+#)(.*)$/u.exec(lines[i]);
+    if(footerStart===lines.length){
+      if(!marker||(i>0&&lines[i-1].trim())) continue;
+      footerStart=i;
     }
-    if(active){
-      if(/^[A-Za-z][A-Za-z0-9-]*(?::| #)/u.test(lines[i])){
-        found.push(active);active=null;continue;
-      }
-      active.content.push(lines[i]);
-    }
+    if(marker){
+      if(active) entries.push(active);
+      active={token:marker[1],start:i,content:[marker[2]]};
+    }else if(active) active.content.push(lines[i]);
   }
-  if(active)found.push(active);
-  return found;
+  if(active) entries.push(active);
+  return {entries,footerStart};
 }
 function titleErrors(value) {
   const errors=[];
@@ -91,8 +88,9 @@ function commitErrors(message) {
   const errors=titleErrors(lines[0]).map(e=>"提交："+e);
   const rawBody=lines.slice(1).join("\n");
   const visibleLines=markdownVisibleLines(lines.slice(1));
-  const footers=breakingFooters(visibleLines);
-  const textLines=visibleLines.slice(0,footers.length?footers[0].start:visibleLines.length);
+  const {entries,footerStart}=parseFooters(visibleLines);
+  const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
+  const textLines=visibleLines.slice(0,footers.length?footerStart:visibleLines.length);
   const visibleBody=textLines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
@@ -102,6 +100,9 @@ function commitErrors(message) {
       errors.push("实质功能或缺陷变更需要空行分隔的可见、有效正文");
   }
   if(visibleLines.some(isPlaceholderLine)) errors.push("提交正文包含未填写的占位内容");
+  const validBreakStarts=new Set(footers.map(f=>f.start));
+  if(visibleLines.some((line,i)=>/^BREAKING(?: CHANGE|-CHANGE):/u.test(line)&&!validBreakStarts.has(i)))
+    errors.push("不兼容变更 footer 必须与正文以空行分隔");
   if((m&&m[2])||footers.length){
     const message="不兼容变更必须在 BREAKING CHANGE 中具体说明契约、影响和迁移方式";
     if(!footers.length) errors.push(message);
