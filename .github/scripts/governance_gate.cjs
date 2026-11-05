@@ -153,6 +153,13 @@ function commitErrors(message) {
 
 function markdownTemplateFields(body){
   const root=new commonmark.Parser().parse(body);
+  const sourceLines=body.split(/\r?\n/u);
+  const leadingColumns=line=>{
+    const leading=/^[ \t]*/u.exec(line)[0];
+    let col=0;
+    for(const ch of leading) col+=ch==='\t'?4-col%4:1;
+    return col;
+  };
   const sections=new Map();
   let section=null;
   for(let block=root.firstChild;block;block=block.next){
@@ -163,11 +170,16 @@ function markdownTemplateFields(body){
       for(let item=block.firstChild;item;item=item.next){
         const first=item.firstChild;
         if(!first||(first.type!=='paragraph'&&first.type!=='heading')) continue;
-        const text=visibleInlineText(first);
-        const colon=text.search(/[：:]/u);
+        const parts=visibleInlineText(first).split('\n');
+        const colon=parts[0].search(/[：:]/u);
         if(colon<0) continue;
-        const label=text.slice(0,colon).trim();
-        const details=[text.slice(colon+1).trim()];
+        const label=parts[0].slice(0,colon).trim();
+        const details=[parts[0].slice(colon+1).trim()];
+        const contentIndent=first.sourcepos[0][1]-1;
+        for(let i=1;i<parts.length;i++){
+          const source=sourceLines[first.sourcepos[0][0]-1+i]||'';
+          if(leadingColumns(source)>=contentIndent) details.push(parts[i]);
+        }
         for(let child=first.next;child;child=child.next){
           if(child.type==='paragraph'||child.type==='heading')
             details.push(visibleInlineText(child));

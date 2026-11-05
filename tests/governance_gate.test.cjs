@@ -415,3 +415,21 @@ test('破坏性变更尾注必须是源码顶层的真实 token',()=>{
   assert(gate.commitErrors(title+'\n\n'+desc+'\n\nBREAKING CHANGE: 变化')
     .some(e=>e.includes('契约、影响和迁移')));
 });
+
+test('模板尾部非字段说明不得补足空字段，缩进续段可合法填写',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更范围、兼容条件与实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const empty=filled.replace('- 合并条件及未解决阻断项： '+detail,
+    '- 合并条件及未解决阻断项：');
+  assert(gate.prBodyErrors(empty).some(e=>e.includes('合并条件及未解决阻断项')));
+  const indented=empty.replace('- 合并条件及未解决阻断项：',
+    '- 合并条件及未解决阻断项：\n  合并前完成当前候选的质量检查与独立审查。');
+  assert.deepEqual(gate.prBodyErrors(indented),[]);
+  const tab=empty.replace('- 合并条件及未解决阻断项：',
+    '- 合并条件及未解决阻断项：\n\t合并前完成当前候选的质量检查与独立审查。');
+  assert.deepEqual(gate.prBodyErrors(tab),[]);
+  const todo=empty.replace('- 合并条件及未解决阻断项：',
+    '- 合并条件及未解决阻断项：\n  TODO: 待补充当前候选的具体合并条件');
+  assert(gate.prBodyErrors(todo).some(e=>e.includes('占位')));
+});
