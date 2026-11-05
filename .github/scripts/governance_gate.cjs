@@ -42,21 +42,23 @@ function markdownVisibleLines(rawLines){
     if(node.type!=='paragraph'&&node.type!=='heading') continue;
     let value=visibleInlineText(node);
     if(!value) continue;
-    if(node.type==='heading'){
-      // Only document-level headings can satisfy the PR section contract.
-      if(node.parent.type==='document') value='#'.repeat(node.level)+' '+value;
-    }else if(node.parent.type==='item'
+    const rootItem=node.parent.type==='item'
       && node.parent.parent.type==='list'
-      && node.parent.parent.parent.type==='document'
-      && node.parent.firstChild===node){
-      // Official template fields are direct list items under a section.
-      value='- '+value;
+      && node.parent.parent.parent.type==='document';
+    if(rootItem){
+      // A setext underline can turn a list item's first paragraph into a heading.
+      // Its text is still the top-level field; further paragraphs belong to it.
+      value=(node.parent.firstChild===node?'- ':'  ')+value;
+    }else if(node.type==='heading'&&node.parent.type==='document'){
+      // Nested headings never satisfy the PR section contract.
+      value='#'.repeat(node.level)+' '+value;
     }
     const start=node.sourcepos[0][0]-1;
     for(const [offset,part] of value.split('\n').entries()){
       const index=start+offset;
       if(index>=lines.length) break;
-      lines[index]+=(lines[index]?' ':'')+part;
+      const text=rootItem&&offset>0?'  '+part:part;
+      lines[index]+=(lines[index]?' ':'')+text;
     }
   }
   return lines;
