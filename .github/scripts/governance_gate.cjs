@@ -1,5 +1,6 @@
 'use strict';
 const fs=require('node:fs');
+const commonmark=require('./vendor/commonmark-0.29.2.min.cjs');
 
 const INVALID_TEXT_CHAR=/[\p{Cc}\p{Cf}\p{Zs}\p{Zl}\p{Zp}\p{Default_Ignorable_Code_Point}]/u;
 function hasInvisibleChars(value,multiline=false){
@@ -18,120 +19,47 @@ function markdownPlainText(value){
 function isPlaceholderLine(value){
   return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
 }
-function indentationColumns(space,start=0){
-  let column=start;
-  for(const char of space) column+=char==='\t'?4-column%4:1;
-  return column;
+function visibleInlineText(node){
+  const fragments=[];
+  const walker=node.walker();
+  let event;
+  while((event=walker.next())){
+    if(!event.entering) continue;
+    const child=event.node;
+    if(child.type==='text'||child.type==='code') fragments.push(child.literal);
+    else if(child.type==='softbreak'||child.type==='linebreak') fragments.push('\n');
+  }
+  return fragments.join('');
 }
 function markdownVisibleLines(rawLines){
-  let fenceChar='',fenceMin=0,fenceBase=0,fenceListIndent=0,inComment=false,indentedCode=false,previousBlank=true;
-  const listStack=[];
-  return rawLines.map(line=>{
-    let leftFenceContainer=false;
-    if(fenceChar){
-      const leading=/^[ \t]*/u.exec(line)[0];
-      if(line.trim()&&fenceListIndent&&indentationColumns(leading)<fenceListIndent){
-        fenceChar='';fenceMin=0;fenceBase=0;fenceListIndent=0;
-        indentedCode=false;
-        leftFenceContainer=true;
-      }else{
-        const close=/^([ \t]*)(\x60{3,}|~{3,})[ \t]*$/u.exec(line);
-        if(close&&close[2][0]===fenceChar&&close[2].length>=fenceMin){
-          const column=indentationColumns(close[1]);
-          if(column>=fenceBase&&column<=fenceBase+3){
-            fenceChar='';fenceMin=0;fenceBase=0;fenceListIndent=0;
-            previousBlank=true;indentedCode=false;
-          }
-        }
-        return '';
-      }
+  const lines=rawLines.map(()=>'');
+  const ast=new commonmark.Parser().parse(rawLines.join('\n'));
+  const walker=ast.walker();
+  let event;
+  while((event=walker.next())){
+    if(!event.entering) continue;
+    const node=event.node;
+    if(node.type!=='paragraph'&&node.type!=='heading') continue;
+    let value=visibleInlineText(node);
+    if(!value) continue;
+    if(node.type==='heading'){
+      // Only document-level headings can satisfy the PR section contract.
+      if(node.parent.type==='document') value='#'.repeat(node.level)+' '+value;
+    }else if(node.parent.type==='item'
+      && node.parent.parent.type==='list'
+      && node.parent.parent.parent.type==='document'
+      && node.parent.firstChild===node){
+      // Official template fields are direct list items under a section.
+      value='- '+value;
     }
-    if(!inComment){
-      if(!line.trim()){previousBlank=true;return '';}
-      const leading=/^[ \t]*/u.exec(line)[0];
-      const indent=indentationColumns(leading);
-      const text=line.slice(leading.length);
-      const thematic=/^(?:\*(?:[ \t]*\*){2,}|-(?:[ \t]*-){2,}|_(?:[ \t]*_){2,})[ \t]*$/u.test(text);
-      if(thematic){
-        let depth=listStack.length;
-        while(depth&&indent<listStack[depth-1].contentIndent)depth--;
-        const base=depth?listStack[depth-1].contentIndent:0;
-        if(indent<=base+3){
-          listStack.length=depth;
-          indentedCode=false;
-          previousBlank=true;
-          return '';
-        }
-      }
-      const marker=/^([ \t]*)([-*+]|\d{1,9}[.)])([ \t]+)/u.exec(line);
-      let listParent=-1;
-      if(marker){
-        for(let i=listStack.length-1;i>=0;i--){
-          const base=listStack[i].contentIndent;
-          if(indent>=base&&indent<=base+3){listParent=i;break;}
-        }
-      }
-      if(marker&&(listParent>=0||indent<=3)){
-        const markerEnd=indent+marker[2].length;
-        const contentColumn=indentationColumns(marker[3],markerEnd);
-        listStack.length=listParent+1;
-        const separatorColumns=contentColumn-markerEnd;
-        listStack.push({contentIndent:separatorColumns>4?markerEnd+1:contentColumn});
-        if(separatorColumns>4){
-          indentedCode=true;
-          previousBlank=false;
-          return '';
-        }
-      }else{
-        const lazyContinuation=!leftFenceContainer&&listStack.length&&!previousBlank&&!indentedCode
-          && !/^(?:#{1,6}(?:[ \t]|$)|>|\x60{3,}|~{3,}|<!--)/u.test(text);
-        if(!lazyContinuation)
-          while(listStack.length&&indent<listStack[listStack.length-1].contentIndent) listStack.pop();
-        const base=listStack.length?listStack[listStack.length-1].contentIndent:0;
-        if(indent>=base+4&&(previousBlank||indentedCode)){
-          indentedCode=true;return '';
-        }
-      }
-      indentedCode=false;
-      previousBlank=false;
-      const base=listStack.length?listStack[listStack.length-1].contentIndent:0;
-      const opener=/^([ \t]*)(\x60{3,}|~{3,})/u.exec(line);
-      if(opener&&indent>=base&&indent<=base+3){
-        fenceChar=opener[2][0];fenceMin=opener[2].length;fenceBase=base;
-        fenceListIndent=listStack.length?listStack[listStack.length-1].contentIndent:0;
-        return '';
-      }
+    const start=node.sourcepos[0][0]-1;
+    for(const [offset,part] of value.split('\n').entries()){
+      const index=start+offset;
+      if(index>=lines.length) break;
+      lines[index]+=(lines[index]?' ':'')+part;
     }
-    let visible='';
-    for(let i=0;i<line.length;){
-      if(inComment){
-        const close=line.indexOf('-->',i);
-        if(close<0)break;
-        inComment=false;i=close+3;continue;
-      }
-      if(line.charCodeAt(i)===96){
-        let size=1;
-        while(line.charCodeAt(i+size)===96) size++;
-        let cursor=i+size,end=-1;
-        while(cursor<line.length){
-          const next=line.indexOf(String.fromCharCode(96),cursor);
-          if(next<0) break;
-          let closing=1;
-          while(line.charCodeAt(next+closing)===96) closing++;
-          if(closing===size){end=next+closing;break;}
-          cursor=next+closing;
-        }
-        if(end>=0){visible+=line.slice(i,end);i=end;continue;}
-      }
-      if(line.startsWith('<!--',i)){
-        let slashes=0;
-        for(let j=i-1;j>=0&&line.charCodeAt(j)===92;j--) slashes++;
-        if(slashes%2===0){inComment=true;i+=4;continue;}
-      }
-      visible+=line[i++];
-    }
-    return visible;
-  });
+  }
+  return lines;
 }
 function parseFooters(lines){
   const entries=[];

@@ -339,3 +339,39 @@ test('水平分隔线按列表层级结束上下文而不误拒缩进代码',()=
     assert(gate.prBodyErrors(nestedVisible).some(e=>e.includes('占位')),separator+' 列表内可见占位');
   }
 });
+
+test('CommonMark 解析的可见内容与代码块边界保持一致',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='明确本次修改的范围、受影响的调用路径以及适用的验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const field='- 变更目标与依据： '+description;
+  for(const source of [
+    field+'\n    \x60\x60\x60\ncode\n    \x60\x60\x60\n      TODO: 等待补充具体变更要求',
+    field+'\n\n    - 嵌套条目：说明当前变更\n\n        TODO: 等待补充具体变更要求',
+    field+'\n  继续对实际变更进行解释。\n\n    TODO: 等待补充具体变更要求'
+  ]){
+    assert(gate.prBodyErrors(filled.replace(field,source)).some(e=>e.includes('占位')),source);
+  }
+  for(const separator of ['***','---','___','* * *']){
+    const root=filled.replace(field,field+'\n'+separator+'\n    TODO: 缩进代码中的字面示例');
+    assert.deepEqual(gate.prBodyErrors(root),[],separator);
+    const nested=filled.replace(field,field+'\n  '+separator+'\n      TODO: 嵌套列表内的缩进代码');
+    assert.deepEqual(gate.prBodyErrors(nested),[],separator);
+  }
+  const html=filled.replace(field,field+'\n\n    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(html.replace('\n\n## 规范、行为与影响','\n\n## 规范、行为与影响')),[]);
+});
+
+test('嵌套标题和嵌套字段不能伪造官方模板的顶层结构',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='清楚说明当前变更的实际范围、兼容影响及验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const nestedHeading=filled.replace('## 验证','> ## 验证');
+  assert(gate.prBodyErrors(nestedHeading).some(e=>e.includes('官方模板章节：验证')));
+  const nestedField=filled.replace('- 变更目标与依据： '+detail,
+    '- 其他内容：'+detail+'\n  - 变更目标与依据： '+detail);
+  assert(gate.prBodyErrors(nestedField).some(e=>e.includes('官方模板字段：变更目标与依据')));
+  const visible=filled.replace('- 变更目标与依据： '+detail,
+    '- 变更目标与依据： '+detail+'\n\n    TODO: 等待补充实际范围');
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
+});
