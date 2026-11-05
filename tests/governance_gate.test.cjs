@@ -358,8 +358,9 @@ test('CommonMark 解析的可见内容与代码块边界保持一致',()=>{
     const nested=filled.replace(field,field+'\n  '+separator+'\n      TODO: 嵌套列表内的缩进代码');
     assert.deepEqual(gate.prBodyErrors(nested),[],separator);
   }
-  const html=filled.replace(field,field+'\n\n    <!--\n\n## 规范、行为与影响');
-  assert.deepEqual(gate.prBodyErrors(html.replace('\n\n## 规范、行为与影响','\n\n## 规范、行为与影响')),[]);
+  const html=filled.replace('## 规范、行为与影响',
+    '独立段落说明本次修改的解析范围。\n\n    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(html),[]);
 });
 
 test('嵌套标题和嵌套字段不能伪造官方模板的顶层结构',()=>{
