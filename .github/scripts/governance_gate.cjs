@@ -151,6 +151,33 @@ function commitErrors(message) {
   return errors;
 }
 
+function markdownTemplateFields(body){
+  const root=new commonmark.Parser().parse(body);
+  const sections=new Map();
+  let section=null;
+  for(let block=root.firstChild;block;block=block.next){
+    if(block.type==='heading'&&(block.level===2||block.level===3)){
+      section=visibleInlineText(block);
+      if(!sections.has(section)) sections.set(section,[]);
+    }else if(block.type==='list'&&section){
+      for(let item=block.firstChild;item;item=item.next){
+        const first=item.firstChild;
+        if(!first||(first.type!=='paragraph'&&first.type!=='heading')) continue;
+        const text=visibleInlineText(first);
+        const colon=text.search(/[：:]/u);
+        if(colon<0) continue;
+        const label=text.slice(0,colon).trim();
+        const details=[text.slice(colon+1).trim()];
+        for(let child=first.next;child;child=child.next){
+          if(child.type==='paragraph'||child.type==='heading')
+            details.push(visibleInlineText(child));
+        }
+        sections.get(section).push({label,value:details.join('\n').trim()});
+      }
+    }
+  }
+  return sections;
+}
 function prBodyErrors(body) {
   const errors=[];
   if(typeof body!=="string") return ["PR 正文缺少有效内容"];
@@ -185,30 +212,18 @@ function prBodyErrors(body) {
     ]
   };
   if(headings.some(x=>Object.hasOwn(templateFields,x.h))){
+    const recordsBySection=markdownTemplateFields(body);
     for(const [sectionName,fields] of Object.entries(templateFields)){
       const section=headings.find(x=>x.h===sectionName);
       if(!section){errors.push("PR 缺少官方模板章节："+sectionName);continue;}
-      const next=headings.find(x=>x.i>section.i);
-      const sectionLines=lines.slice(section.i+1,next?next.i:lines.length);
+      const records=recordsBySection.get(sectionName)||[];
       for(const aliases of fields){
-        let index=-1,fieldPattern;
-        for(const field of aliases){
-          const escaped=Array.from(field,ch=>"\\^$.*+?()[]{}|".includes(ch)?"\\"+ch:ch).join("");
-          const pattern=new RegExp("^\\s*[-*]\\s*"+escaped+"[：:]\\s*(.*)$","u");
-          const found=sectionLines.findIndex(line=>pattern.test(line));
-          if(found>=0){index=found;fieldPattern=pattern;break;}
-        }
         const label=aliases[0];
-        if(index<0){errors.push("PR 缺少官方模板字段："+label);continue;}
-        const contents=[fieldPattern.exec(sectionLines[index])[1]];
-        for(let j=index+1;j<sectionLines.length;j++){
-          if(/^\s*[-*]\s*[^：:\n]+[：:]/u.test(sectionLines[j])) break;
-          if(!sectionLines[j].trim()) continue;
-          if(!/^\s{2,}\S/u.test(sectionLines[j])) break;
-          contents.push(sectionLines[j]);
-        }
-        const value=contents.join("\n").trim();
-        if(value.replace(/[\s#*`>|-]/gu,"").length<8||value.split("\n").some(isPlaceholderLine))
+        const matches=records.filter(record=>aliases.includes(record.label));
+        if(!matches.length){errors.push("PR 缺少官方模板字段："+label);continue;}
+        if(matches.length!==1){errors.push("PR 官方模板字段重复："+label);continue;}
+        const value=matches[0].value;
+        if(value.replace(/[\s#*|>-]/gu,"").length<8||value.split("\n").some(isPlaceholderLine))
           errors.push("PR 官方模板字段缺少有效说明："+label);
       }
     }
