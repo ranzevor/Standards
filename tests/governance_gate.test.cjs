@@ -376,3 +376,28 @@ test('嵌套标题和嵌套字段不能伪造官方模板的顶层结构',()=>{
     '- 变更目标与依据： '+detail+'\n\n    TODO: 等待补充实际范围');
   assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
 });
+
+test('字面 Markdown 标记不得冒充顶层标题与官方字段',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='说明本次变更的实际对象、可观察影响和验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  for(const literal of ['\x60## 验证\x60','\\## 验证','**## 验证**']){
+    const invalid=filled.replace('## 验证',literal);
+    assert(gate.prBodyErrors(invalid).some(e=>e.includes('官方模板章节：验证')),literal);
+  }
+  for(const literal of [
+    '\x60- 变更目标与依据： '+detail+'\x60',
+    '\\- 变更目标与依据： '+detail
+  ]){
+    const invalid=filled.replace('- 变更目标与依据： '+detail,literal);
+    assert(gate.prBodyErrors(invalid).some(e=>e.includes('官方模板字段：变更目标与依据')),literal);
+  }
+});
+
+test('行内代码不能冒充破坏性 footer，真正 footer 仍要完整描述',()=>{
+  const heading='feat(api): 增加客户端鉴权输入的兼容分支';
+  const change='明确客户端传递凭据时的规范化方式，增加兼容路径并保持原有失败状态的处理规则。';
+  assert.deepEqual(gate.commitErrors(heading+'\n\n'+change+'\n\n\x60BREAKING CHANGE: 变化\x60'),[]);
+  assert(gate.commitErrors(heading+'\n\n'+change+'\n\nBREAKING CHANGE: 变化')
+    .some(e=>e.includes('契约、影响和迁移')));
+});

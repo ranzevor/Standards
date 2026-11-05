@@ -54,10 +54,23 @@ function markdownVisibleLines(rawLines){
       value='#'.repeat(node.level)+' '+value;
     }
     const start=node.sourcepos[0][0]-1;
+    const rootHeading=node.type==='heading'&&node.parent.type==='document';
+    const firstItemBlock=rootItem&&node.parent.firstChild===node;
+    const codeSpanOnly=node.type==='paragraph'&&node.firstChild
+      && node.firstChild.type==='code'&&!node.firstChild.next;
     for(const [offset,part] of value.split('\n').entries()){
       const index=start+offset;
       if(index>=lines.length) break;
-      const text=rootItem&&offset>0?'  '+part:part;
+      let text=rootItem&&offset>0?'  '+part:part;
+      // Literal headings or field markers in a paragraph are not Markdown structure.
+      if(!rootHeading) text=text.replace(/^(\s*)(#{2,3})(?=[ \t])/u,'$1\\$2');
+      if(!firstItemBlock||offset>0)
+        text=text.replace(/^(\s*)([-*])(?=[ \t])/u,'$1\\$2');
+      // A standalone code span is visible prose, not a Conventional Commit footer.
+      if(codeSpanOnly&&/^(?:BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*):/u.test(text.trim())){
+        const tick=String.fromCharCode(96);
+        text=tick+text+tick;
+      }
       lines[index]+=(lines[index]?' ':'')+text;
     }
   }
