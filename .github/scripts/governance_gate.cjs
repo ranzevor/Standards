@@ -66,8 +66,16 @@ function markdownVisibleLines(rawLines){
       if(!rootHeading) text=text.replace(/^(\s*)(#{2,3})(?=[ \t])/u,'$1\\$2');
       if(!firstItemBlock||offset>0)
         text=text.replace(/^(\s*)([-*])(?=[ \t])/u,'$1\\$2');
-      // A standalone code span is visible prose, not a Conventional Commit footer.
-      if(codeSpanOnly&&/^(?:BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*):/u.test(text.trim())){
+      // A footer token must start a real top-level paragraph in the source.
+      // Inline formatting or block quotes cannot create Conventional Commit tokens.
+      const footerToken=/^(?:BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?::[ \t]*|[ \t]+#)/u;
+      if(!isPlaceholderLine(text)&&footerToken.test(text.trimStart())
+        && (node.type!=='paragraph'||node.parent.type!=='document'
+          ||!footerToken.test(rawLines[index]||''))){
+        text='\\'+text;
+      }
+      // Keep literal inline code visible to the placeholder check, not the footer parser.
+      if(codeSpanOnly&&footerToken.test(text.trim())){
         const tick=String.fromCharCode(96);
         text=tick+text+tick;
       }

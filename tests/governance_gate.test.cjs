@@ -401,3 +401,17 @@ test('行内代码不能冒充破坏性 footer，真正 footer 仍要完整描�
   assert(gate.commitErrors(heading+'\n\n'+change+'\n\nBREAKING CHANGE: 变化')
     .some(e=>e.includes('契约、影响和迁移')));
 });
+
+test('破坏性变更尾注必须是源码顶层的真实 token',()=>{
+  const title='feat(api): 增加客户端鉴权输入的兼容分支';
+  const desc='增加客户端身份数据规范化分支，明确兼容范围并保留原有失败状态处理方式。';
+  for(const example of [
+    '**BREAKING CHANGE: 变化**',
+    '> BREAKING CHANGE: 变化',
+    '\\BREAKING CHANGE: 变化'
+  ]){
+    assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+'\n\n'+example),[],example);
+  }
+  assert(gate.commitErrors(title+'\n\n'+desc+'\n\nBREAKING CHANGE: 变化')
+    .some(e=>e.includes('契约、影响和迁移')));
+});
