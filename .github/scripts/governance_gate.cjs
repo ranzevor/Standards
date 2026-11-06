@@ -19,10 +19,10 @@ function markdownPlainText(value){
 function isPlaceholderLine(value){
   return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
 }
-function visibleInlineText(node){
+function visibleInlineText(node,omitCode=false){
   const fragments=[];
   const walker=node.walker();
-  let event,imageDepth=0;
+  let event,imageDepth=0,htmlCodeDepth=0;
   while((event=walker.next())){
     const child=event.node;
     if(child.type==='image'){
@@ -30,15 +30,131 @@ function visibleInlineText(node){
       continue;
     }
     if(!event.entering||imageDepth) continue;
-    if(child.type==='text'||child.type==='code') fragments.push(child.literal);
-    else if(child.type==='softbreak'||child.type==='linebreak') fragments.push('\n');
-    else if(child.type==='html_inline'
-      && (/^<(?:br|hr)(?:\s+[^<>]*?)?\s*\/?>$/iu.test(child.literal)
-        || /^<\/?(?:p|div|li|tr|h[1-6])\s*>$/iu.test(child.literal)))
+    if(child.type==='text'||child.type==='code'){
+      fragments.push(omitCode&&(child.type==='code'||htmlCodeDepth)?' ':child.literal);
+    }else if(child.type==='softbreak'||child.type==='linebreak'){
       fragments.push('\n');
+    }else if(child.type==='html_inline'){
+      const tag=/^<\s*(\/?)\s*(code|pre|kbd|samp)\b[^>]*>$/iu.exec(child.literal);
+      if(tag){
+        htmlCodeDepth=Math.max(0,htmlCodeDepth+(tag[1]?-1:1));
+      }else if(/^<(?:br|hr)(?:\s+[^<>]*?)?\s*\/?>$/iu.test(child.literal)
+        ||/^<\/?(?:p|div|li|tr|td|th|summary|h[1-6])\s*>$/iu.test(child.literal)){
+        fragments.push('\n');
+      }
+    }
   }
   return fragments.join('');
 }
+
+// Raw HTML is a CommonMark leaf block, not a paragraph. Read only text that
+// can appear in its rendered content, excluding attributes, comments and code.
+function decodeHtmlText(value){
+  const literal=value.replace(/\\/gu,'\\\\')
+    .replace(/([!#*+\-.[\](){}`_~>|])/gu,'\\$1')
+    .replace(/</gu,'&lt;');
+  return visibleInlineText(new commonmark.Parser().parse(literal));
+}
+function htmlBlockLines(raw){
+  let text='',placeholders='',codeDepth=0,hiddenDepth=0;
+  const add=(chunk)=>{
+    if(hiddenDepth) return;
+    text+=chunk;
+    placeholders+=codeDepth?' ':chunk;
+  };
+  for(let i=0;i<raw.length;){
+    if(raw.startsWith('<!--',i)){
+      const end=raw.indexOf('-->',i+4);
+      i=end<0?raw.length:end+3;
+      continue;
+    }
+    if(raw.startsWith('<!',i)||raw.startsWith('<?',i)){
+      const end=raw.indexOf('>',i+2);
+      i=end<0?raw.length:end+1;
+      continue;
+    }
+    if(raw[i]==='<'){
+      let j=i+1,quote=null;
+      for(;j<raw.length;j++){
+        const c=raw[j];
+        if(quote){if(c===quote)quote=null;}
+        else if(c==='"'||c==="'")quote=c;
+        else if(c==='>')break;
+      }
+      if(j<raw.length){
+        const tag=raw.slice(i,j+1);
+        const match=/^<\s*(\/?)\s*([a-z][a-z0-9:-]*)\b/iu.exec(tag);
+        if(match){
+          const close=Boolean(match[1]),name=match[2].toLowerCase();
+          if(name==='template') hiddenDepth=Math.max(0,hiddenDepth+(close?-1:1));
+          if(['code','pre','kbd','samp'].includes(name))
+            codeDepth=Math.max(0,codeDepth+(close?-1:1));
+          if(/^(?:br|hr|p|div|li|tr|td|th|summary|details|h[1-6]|table|blockquote|section)$/u.test(name)) add('\n');
+        }
+        i=j+1;
+        continue;
+      }
+    }
+    let j=raw.indexOf('<',i+1);
+    if(j<0)j=raw.length;
+    add(decodeHtmlText(raw.slice(i,j)).replace(/\r?\n[ \t]*/gu,' '));
+    i=j;
+  }
+  return {lines:text.split('\n'),placeholderLines:placeholders.split('\n')};
+}
+
+// GFM tables are paragraphs to CommonMark 0.29.2. Recognize their delimiter
+// row within real paragraph boundaries; escaped pipes remain cell content.
+function splitGfmCells(row){
+  const parts=[];
+  let start=0;
+  for(let i=0;i<row.length;i++){
+    if(row[i]!=='|') continue;
+    let escapes=0;
+    for(let j=i-1;j>=0&&row[j]==='\\';j--)escapes++;
+    if(escapes%2)continue;
+    parts.push(row.slice(start,i));
+    start=i+1;
+  }
+  parts.push(row.slice(start));
+  if(row.trimStart().startsWith('|'))parts.shift();
+  if(row.trimEnd().endsWith('|')&&parts.length>1)parts.pop();
+  return parts.map(x=>x.trim());
+}
+function tableVisibleLines(node,rawLines){
+  if(node.type!=='paragraph')return null;
+  const start=node.sourcepos[0][0]-1,end=node.sourcepos[1][0];
+  if(end-start<2)return null;
+  const rows=rawLines.slice(start,end).map((value,i)=>{
+    const unwrapped=i===0?value.slice(node.sourcepos[0][1]-1)
+      :value.replace(/^(?:[ \t]*>[ \t]?)+/u,'').trimStart();
+    return unwrapped.trim();
+  });
+  if(!rows[0].includes('|')||!rows[1].includes('|'))return null;
+  const head=splitGfmCells(rows[0]),delimiter=splitGfmCells(rows[1]);
+  if(!head.length||head.length!==delimiter.length
+    ||!delimiter.every(x=>/^:?-{3,}:?$/u.test(x)))return null;
+  const lines=[],placeholderLines=[];
+  for(const [index,row] of rows.entries()){
+    if(index===1)continue;
+    const cells=splitGfmCells(row).slice(0,head.length);
+    while(cells.length<head.length)cells.push('');
+    for(const cell of cells){
+      const parsed=new commonmark.Parser().parse(cell);
+      lines.push(visibleInlineText(parsed));
+      placeholderLines.push(visibleInlineText(parsed,true));
+    }
+  }
+  return {lines,placeholderLines};
+}
+function visibleBlockLines(node,rawLines){
+  if(node.type==='html_block')return htmlBlockLines(node.literal);
+  const table=tableVisibleLines(node,rawLines);
+  if(table)return table;
+  return {lines:visibleInlineText(node).split('\n'),
+    placeholderLines:visibleInlineText(node,true).split('\n')};
+}
+
 function parseCommitFooters(rawLines){
   const root=new commonmark.Parser().parse(rawLines.join('\n'));
   const paragraphLines=new Set();
@@ -89,7 +205,8 @@ function commitErrors(message) {
   const errors=titleErrors(lines[0]).map(e=>"提交："+e);
   const rawBody=lines.slice(1).join("\n");
   const bodyLines=lines.slice(1);
-  const renderedLines=prVisibleStructure(rawBody).lines;
+  const rendered=prVisibleStructure(rawBody);
+  const renderedLines=rendered.lines;
   const {entries,footerStart,paragraphLines}=parseCommitFooters(bodyLines);
   const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
   const bodyBeforeFooters=bodyLines.slice(0,footerStart).join("\n");
@@ -102,7 +219,7 @@ function commitErrors(message) {
     if(lines[1]!==""||visibleBody.replace(/\s/gu,"").length<24)
       errors.push("实质功能或缺陷变更需要空行分隔的可见、有效正文");
   }
-  if(renderedLines.some(isPlaceholderLine))
+  if(rendered.placeholderLines.some(isPlaceholderLine))
     errors.push("提交正文包含未填写的占位内容");
   const validBreakStarts=new Set(footers.map(f=>f.start));
   if(bodyLines.some((line,i)=>paragraphLines.has(i)
@@ -122,25 +239,27 @@ function commitErrors(message) {
 
 function prVisibleStructure(body){
   const root=new commonmark.Parser().parse(body);
-  const lines=[],headings=[];
+  const rawLines=body.replace(/\r\n/gu,'\n').split('\n');
+  const lines=[],placeholderLines=[],headings=[];
   const walker=root.walker();
   let event;
   while((event=walker.next())){
-    if(!event.entering) continue;
+    if(!event.entering)continue;
     const node=event.node;
-    if(node.type!=='paragraph'&&node.type!=='heading') continue;
-    const value=visibleInlineText(node);
+    if(node.type!=='paragraph'&&node.type!=='heading'&&node.type!=='html_block')continue;
+    const visible=visibleBlockLines(node,rawLines);
     if(node.type==='heading'&&node.parent.type==='document'
       &&(node.level===2||node.level===3)){
-      headings.push({h:value.trim(),i:lines.length});
+      headings.push({h:visible.lines.join('\n').trim(),i:lines.length});
     }
-    // 可见换行并不与 Markdown 源码的物理行一一对应。
-    lines.push(...value.split('\n'));
+    lines.push(...visible.lines);
+    placeholderLines.push(...visible.placeholderLines);
   }
-  return {lines,headings};
+  return {lines,placeholderLines,headings};
 }
 function markdownTemplateFields(body){
   const root=new commonmark.Parser().parse(body);
+  const rawLines=body.replace(/\r\n/gu,'\n').split('\n');
   const guidance='按变更实际涉及的对象填写。不适用时说明具体原因；无需为填写模板额外建立日志、快照、证据目录或 CI 制品。不能以字段齐全代替实际审查，也不能将尚未执行的验证写为已通过。';
   const guidanceTail=new RegExp([...guidance.replace(/\s/gu,'')].join('\\s*')+'\\s*$','u');
   const sections=new Map();
@@ -149,34 +268,40 @@ function markdownTemplateFields(body){
     if(block.type==='heading'){
       const heading=visibleInlineText(block).trim();
       const official=['目标、基线与候选','规范、行为与影响','验证','审查与合并前置'].includes(heading);
-      if(section&&block.level>sectionLevel&&!(official&&block.level===3)) continue;
+      if(section&&block.level>sectionLevel&&!(official&&block.level===3))continue;
       section=block.level===2||block.level===3?heading:null;
       sectionLevel=block.level;
-      if(section&&!sections.has(section)) sections.set(section,[]);
+      if(section&&!sections.has(section))sections.set(section,[]);
       continue;
     }
-    if(block.type!=='list'||!section) continue;
+    if(block.type!=='list'||!section)continue;
     for(let item=block.firstChild;item;item=item.next){
       const first=item.firstChild;
-      if(!first||(first.type!=='paragraph'&&first.type!=='heading')) continue;
-      const text=visibleInlineText(first);
+      if(!first||(first.type!=='paragraph'&&first.type!=='heading'))continue;
+      const rendered=visibleBlockLines(first,rawLines);
+      const text=rendered.lines.join('\n');
       const firstLine=text.split('\n')[0];
       const colon=firstLine.search(/[：:]/u);
-      if(colon<0) continue;
+      if(colon<0)continue;
       const label=firstLine.slice(0,colon).trim();
       const details=[text.slice(colon+1)];
+      const masked=rendered.placeholderLines.join('\n');
+      const maskedColon=masked.split('\n')[0].search(/[：:]/u);
+      const detailsMasked=[maskedColon<0?masked:masked.slice(maskedColon+1)];
       const collect=node=>{
-        if(node.type==='paragraph'||node.type==='heading'){
-          details.push(visibleInlineText(node));
+        if(node.type==='paragraph'||node.type==='heading'||node.type==='html_block'){
+          const visible=visibleBlockLines(node,rawLines);
+          details.push(visible.lines.join('\n'));
+          detailsMasked.push(visible.placeholderLines.join('\n'));
           return;
         }
-        if(node.type==='code_block'||node.type==='html_block') return;
-        for(let child=node.firstChild;child;child=child.next) collect(child);
+        if(node.type==='code_block')return;
+        for(let child=node.firstChild;child;child=child.next)collect(child);
       };
-      for(let child=first.next;child;child=child.next) collect(child);
-      // 模板固定填写说明不是字段答案；即使误删空行导致懒续行也不可代填。
+      for(let child=first.next;child;child=child.next)collect(child);
       const value=details.join('\n').replace(guidanceTail,'').trim();
-      sections.get(section).push({label,value});
+      const placeholderLines=detailsMasked.join('\n').replace(guidanceTail,'').split('\n');
+      sections.get(section).push({label,value,placeholderLines});
     }
   }
   return sections;
@@ -185,12 +310,12 @@ function prBodyErrors(body) {
   const errors=[];
   if(typeof body!=="string") return ["PR 正文缺少有效内容"];
   if(body!==body.normalize("NFC")) errors.push("PR 正文必须采用 NFC 规范化文本");
-  const {lines,headings}=prVisibleStructure(body);
+  const {lines,placeholderLines,headings}=prVisibleStructure(body);
   const visibleBody=lines.join("\n");
   if(hasInvisibleChars(body,true)||hasInvisibleChars(visibleBody,true))
     errors.push("PR 正文包含控制字符、非普通空格或不可见 Unicode 字符");
   if(visibleBody.replace(/\s/gu,"").length<85) errors.push("PR 正文缺少有信息量的变更说明");
-  if(lines.some(isPlaceholderLine)) errors.push("PR 正文包含未填模板占位");
+  if(placeholderLines.some(isPlaceholderLine)) errors.push("PR 正文包含未填模板占位");
   // 优先使用精简模板字段；旧版 PR 的同义字段仍可用于兼容读取。
   const templateFields={
     "目标、基线与候选":[
@@ -223,7 +348,7 @@ function prBodyErrors(body) {
         if(!matches.length){errors.push("PR 缺少官方模板字段："+label);continue;}
         if(matches.length!==1){errors.push("PR 官方模板字段重复："+label);continue;}
         const value=matches[0].value;
-        if(value.replace(/[\s#*|>-]/gu,"").length<8||value.split("\n").some(isPlaceholderLine))
+        if(value.replace(/[\s#*|>-]/gu,"").length<8||matches[0].placeholderLines.some(isPlaceholderLine))
           errors.push("PR 官方模板字段缺少有效说明："+label);
       }
     }

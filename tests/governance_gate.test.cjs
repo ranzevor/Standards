@@ -611,3 +611,76 @@ test('图片替代文字不参与提交或官方字段的可见正文门槛',()=
   assert(gate.prBodyErrors(imageOnlyAll).some(e=>e.includes('字段缺少有效说明')));
   assert(gate.prBodyErrors(image).some(e=>e.includes('正文缺少有信息量')));
 });
+
+
+test('原始 HTML 块仅检查真正可显示的文字，忽略注释、属性与代码',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const html of [
+    '<details><summary>TODO: 待补充实际验证</summary></details>',
+    '<div><p>TODO: 待补充真实结果</p></div>',
+    '<table><tr><td>TODO: 待补充测试结果</td></tr></table>',
+    '<details><summary>TO&#x44;O: 待补充当前结果</summary></details>'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+html).some(x=>x.includes('占位')),html);
+  }
+  for(const html of [
+    '<details><summary>已经写明具体验证情况</summary></details>',
+    '<div title="TODO: 属性不是可见文字">已经完成了相关验证</div>',
+    '<!-- TODO: 这是隐藏的 HTML 注释 -->',
+    '<pre>TODO: 这是 HTML 代码示例</pre>',
+    '<div><code>TODO: 这是代码字面量</code></div>'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+html),[],html);
+  }
+  const title='fix(governance): 修正原始 HTML 中可见占位判断';
+  const detail='正确识别原始 HTML 的实际显示文字，并保留既有代码示例的合法边界。';
+  assert(gate.commitErrors(title+'\n\n'+detail+'\n\n<details><summary>TODO: 待补充</summary></details>')
+    .some(x=>x.includes('占位')));
+});
+
+test('独立行内代码不构成占位，普通文字仍受校验',()=>{
+  const {filled,detail}=completedOfficialTemplate();
+  for(const literal of ['\u0060TODO\u0060','\u0060待补充\u0060','<code>TODO</code>']){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+literal),[],literal);
+  }
+  const field='- 尚未验证的范围或已知问题： '+detail;
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+'，示例为 \u0060TODO\u0060 字面标记。')),[]);
+  assert(gate.prBodyErrors(filled.replace(field,field+'<br>TODO: 待补充验证内容'))
+    .some(x=>x.includes('占位')));
+  assert(gate.prBodyErrors(filled+'\n\nTODO: 待补充当前结果').some(x=>x.includes('占位')));
+  const title='fix(governance): 保留 Markdown 行内代码字面语义';
+  const desc='校验器已经区分用户实际填写的说明与独立代码字面量，同时保持正常占位识别。';
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+'\n\n\u0060TODO\u0060'),[]);
+  assert(gate.commitErrors(title+'\n\n'+desc+'\n\nTODO: 待补充')
+    .some(x=>x.includes('占位')));
+});
+
+test('GFM 表格按独立单元格检查占位，保留转义管道与代码单元格',()=>{
+  const {filled,detail}=completedOfficialTemplate();
+  const header='\n\n| 项目 | 实际验证 |\n| :--- | ---: |\n';
+  for(const row of [
+    '| 接口检查 | TODO: 待补充 |',
+    '| 接口检查 | 待补充：真实运行结果 |',
+    '| 接口检查 | TODO: 待补充 \\| 相关说明 |'
+  ]){
+    assert(gate.prBodyErrors(filled+header+row).some(x=>x.includes('占位')),row);
+  }
+  for(const row of [
+    '| 接口检查 | 已完成端到端验证，结果符合预期 |',
+    '| 接口检查 | \u0060TODO\u0060 |',
+    '| 接口检查 | 已验证包含转义 \\| 管道的字段 |'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+header+row),[],row);
+  }
+  assert.deepEqual(gate.prBodyErrors(filled+'\n\n\u0060\u0060\u0060markdown\n'+
+    '| 项目 | 结果 |\n| --- | --- |\n| 检查 | TODO: 代码示例 |\n\u0060\u0060\u0060'),[]);
+  const nested=filled.replace('- 合并条件及未解决阻断项： '+detail,
+    '- 合并条件及未解决阻断项： 已完成实质审查并确认当前合并要求。\n\n'+
+    '  | 阶段 | 结果 |\n  | --- | --- |\n  | 复审 | TODO: 待补充 |');
+  assert(gate.prBodyErrors(nested).some(x=>x.includes('占位')));
+  const title='fix(governance): 修复表格单元格的可见占位检查';
+  const desc='统一按 GitHub 表格中的单元格识别实际正文，且不把代码示例误判为模板占位。';
+  assert(gate.commitErrors(title+'\n\n'+desc+header+'| 测试 | TODO: 待补充 |')
+    .some(x=>x.includes('占位')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+header+'| 测试 | \u0060TODO\u0060 |'),[]);
+});
