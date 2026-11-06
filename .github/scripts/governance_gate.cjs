@@ -31,7 +31,8 @@ function visibleInlineText(node,omitCode=false){
     }
     if(!event.entering||imageDepth) continue;
     if(child.type==='text'||child.type==='code'){
-      fragments.push(omitCode&&(child.type==='code'||htmlCodeDepth)?' ':child.literal);
+      fragments.push(omitCode&&(child.type==='code'||htmlCodeDepth)
+        ?child.literal.replace(/[^\n]/gu,' '):child.literal);
     }else if(child.type==='softbreak'||child.type==='linebreak'){
       fragments.push('\n');
     }else if(child.type==='html_inline'){
@@ -61,7 +62,7 @@ function htmlBlockLines(raw){
   const add=(chunk)=>{
     if(hiddenDepth) return;
     text+=chunk;
-    placeholders+=codeDepth?' ':chunk;
+    placeholders+=codeDepth?chunk.replace(/[^\n]/gu,' '):chunk;
   };
   for(let i=0;i<raw.length;){
     if(raw.startsWith('<!--',i)){
@@ -147,8 +148,8 @@ function tableVisibleLines(node,rawLines){
     while(cells.length<head.length)cells.push('');
     for(const cell of cells){
       const parsed=new commonmark.Parser().parse(cell);
-      lines.push(visibleInlineText(parsed));
-      placeholderLines.push(visibleInlineText(parsed,true));
+      lines.push(...visibleInlineText(parsed).split('\n'));
+      placeholderLines.push(...visibleInlineText(parsed,true).split('\n'));
     }
   }
   return {lines,placeholderLines};
@@ -216,7 +217,7 @@ function commitErrors(message) {
   const {entries,footerStart,paragraphLines}=parseCommitFooters(bodyLines);
   const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
   const bodyBeforeFooters=bodyLines.slice(0,footerStart).join("\n");
-  const visibleBody=prVisibleStructure(bodyBeforeFooters).lines.join("\n").trim();
+  const visibleBody=prVisibleStructure(bodyBeforeFooters).placeholderLines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
   if((rawBody&&hasInvisibleChars(rawBody,true))||hasInvisibleChars(renderedLines.join('\n'),true))
@@ -234,7 +235,7 @@ function commitErrors(message) {
   if((m&&m[2])||footers.length){
     const message="不兼容变更必须具体说明契约、影响和迁移方式";
     // Conventional Commits 允许通过标题 ! 标记而不重复 BREAKING CHANGE footer。
-    const explanations=footers.length?footers.map(f=>prVisibleStructure(f.content.join("\n")).lines.join("\n").trim()):[visibleBody];
+    const explanations=footers.length?footers.map(f=>prVisibleStructure(f.content.join("\n")).placeholderLines.join("\n").trim()):[visibleBody];
     for(const details of explanations){
       // 固定关键词不能判断不同技术领域的迁移说明是否完整。
       if(details.replace(/\s/gu,"").length<35) errors.push(message);
@@ -354,7 +355,7 @@ function prBodyErrors(body) {
         if(!matches.length){errors.push("PR 缺少官方模板字段："+label);continue;}
         if(matches.length!==1){errors.push("PR 官方模板字段重复："+label);continue;}
         const value=matches[0].value;
-        if(value.replace(/[\s#*|>-]/gu,"").length<8||matches[0].placeholderLines.some(isPlaceholderLine))
+        if(matches[0].placeholderLines.join("\n").replace(/[\s#*|>-]/gu,"").length<8||matches[0].placeholderLines.some(isPlaceholderLine))
           errors.push("PR 官方模板字段缺少有效说明："+label);
       }
     }
@@ -371,7 +372,7 @@ function prBodyErrors(body) {
       if(!hits.length){errors.push("PR 缺少可定位章节："+label);continue;}
       if(!hits.some(x=>{
         const next=headings.find(y=>y.i>x.i);
-        const text=lines.slice(x.i+1,next?next.i:lines.length).join("").replace(/[\s#*`>\-|]/gu,"");
+        const text=placeholderLines.slice(x.i+1,next?next.i:lines.length).join("").replace(/[\s#*`>\-|]/gu,"");
         return text.length>=12;
       })) errors.push("PR 章节缺少有效内容："+label);
     }

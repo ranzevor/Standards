@@ -113,10 +113,11 @@ test('无叹号的破坏性 footer 也需校验，兼容双 token 并隔离代�
   assert(gate.commitErrors(bang+'\n\n'+body+'\n\n```text\nBREAKING CHANGE: '+good+'\n```').some(e=>e.includes('契约、影响和迁移')));
   assert.deepEqual(gate.commitErrors(title+'\n\n'+body+'\n\n```text\nBREAKING CHANGE: 变化\n```'),[]);
 });
-test('Markdown 行内代码与强调不能隐藏明确的模板和提交占位',()=>{
+test('Markdown 字面代码不能冒充实质说明，强调文字中的占位仍被识别',()=>{
   const title='fix(governance): 修正检查器对占位内容的识别';
   assert(gate.commitErrors(title+'\n\n**TODO: 等待补充具体实现范围和实际验证结果**').some(e=>e.includes('占位')));
-  assert(gate.commitErrors(title+'\n\n`TODO: 等待补充具体实现范围和实际验证结果`').some(e=>e.includes('占位')));
+  assert(gate.commitErrors(title+'\n\n`TODO: 等待补充具体实现范围和实际验证结果`').some(e=>e.includes('有效正文')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n已明确实际修复的范围并执行具体的校验流程，保留既有正常业务输入。\n\n`TODO: 字面代码示例`'),[]);
   const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
   const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确本次实际变更范围及验证条件，且记录具体兼容影响。');
   assert.deepEqual(gate.prBodyErrors(filled),[]);
