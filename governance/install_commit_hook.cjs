@@ -21,8 +21,41 @@ const knownHooks=new Set([
   'post-update','push-to-checkout','pre-auto-gc','post-rewrite','sendemail-validate',
   'reference-transaction','fsmonitor-watchman','post-index-change'
 ]);
-const managedHook=/# standards-governance: managed commit-msg/u;
+const managedHook=/^#!\/bin\/sh\n# standards-governance: managed commit-msg\nset -eu\nexec node ('(?:[^'\n]|'"'"')*') message-file "\$1"\n$/u;
 const legacyHook='#!/bin/sh\nset -eu\nnode "$(dirname "$0")/governance_gate.cjs" message-file "$1"\n';
+
+// 校验所有已经存在的路径组件，防止符号链接将钩子重定向到工作树。
+function privateHooksPath(candidate,roots){
+  const base=roots.find(root=>inside(candidate,root));
+  if(!base) return false;
+  let current=base;
+  for(const component of path.relative(base,candidate).split(path.sep).filter(Boolean)){
+    current=path.join(current,component);
+    const stat=fs.lstatSync(current,{throwIfNoEntry:false});
+    if(!stat) break;
+    if(stat.isSymbolicLink()) throw new Error('Git 私有钩子路径含符号链接：'+current+'；请先审查并迁移。');
+    if(!stat.isDirectory()) throw new Error('Git 私有钩子路径存在非目录组件：'+current);
+  }
+  return true;
+}
+function hookContent(script){
+  return '#!/bin/sh\n# standards-governance: managed commit-msg\nset -eu\nexec node '
+    +shellQuote(script.replace(/\\/gu,'/'))+' message-file "$1"\n';
+}
+function isManagedHook(source,roots){
+  const match=managedHook.exec(source);
+  if(!match) return false;
+  const quoted=match[1];
+  const sourcePath=quoted.slice(1,-1).replace(/'"'"'/gu,"'");
+  if(shellQuote(sourcePath)!==quoted) return false;
+  const script=path.resolve(sourcePath.replace(/\//gu,path.sep));
+  const stage=path.dirname(script);
+  if(path.basename(script)!=='governance_gate.cjs'
+    ||!/^standards-hooks-[a-zA-Z0-9_-]+$/u.test(path.basename(stage))
+    ||!privateHooksPath(stage,roots)) return false;
+  const existing=fs.lstatSync(script,{throwIfNoEntry:false});
+  return (!existing||existing.isFile())&&source===hookContent(script);
+}
 
 function activeHooks(dir){
   if(!fs.existsSync(dir)) return [];
@@ -38,10 +71,8 @@ function install(){
   const configured=gitOptional(['config','--path','--get','core.hooksPath'],root);
   const hooksDir=path.resolve(root,configured===null?
     git(['rev-parse','--git-path','hooks'],root):configured);
-  // A worktree-controlled symlink must not be trusted as a Git-private hooks path.
-  const trusted=[common,gitDir].some(base=>inside(hooksDir,base))
-    &&(!fs.existsSync(hooksDir)
-      ||[common,gitDir].some(base=>inside(fs.realpathSync(hooksDir),base)));
+  const privateRoots=[common,gitDir];
+  const trusted=privateHooksPath(hooksDir,privateRoots);
   const hooks=activeHooks(hooksDir);
   if(trusted){
     for(const name of hooks){
@@ -59,11 +90,11 @@ function install(){
     const hookPath=path.join(hooksDir,'commit-msg');
     const stat=fs.lstatSync(hookPath);
     const source=stat.isSymbolicLink()?'':fs.readFileSync(hookPath,'utf8');
-    if(!managedHook.test(source)&&source!==legacyHook){
-      throw new Error('Git 私有目录已有独立 commit-msg 钩子；请先审查并整合，安装器不会覆盖。');
+    if(!isManagedHook(source,privateRoots)&&source!==legacyHook){
+      throw new Error('Git 私有目录已有独立或修改过的 commit-msg 钩子；请先审查并整合，安装器不会覆盖。');
     }
   }
-  const stage=fs.mkdtempSync(path.join(gitDir,'standards-hooks-'));
+  const stage=fs.mkdtempSync(path.join(common,'standards-hooks-'));
   let active=false;
   try{
     const src=path.join(root,'.github','scripts');
@@ -71,14 +102,15 @@ function install(){
     fs.copyFileSync(path.join(src,'governance_gate.cjs'),path.join(stage,'governance_gate.cjs'));
     fs.copyFileSync(path.join(src,'vendor','commonmark-0.29.2.min.cjs'),
       path.join(stage,'vendor','commonmark-0.29.2.min.cjs'));
-    const content='#!/bin/sh\n# standards-governance: managed commit-msg\nset -eu\nexec node '
-      +shellQuote(path.join(stage,'governance_gate.cjs').replace(/\\/gu,'/'))+' message-file "$1"\n';
+    const content=hookContent(path.join(stage,'governance_gate.cjs'));
     if(trusted){
       fs.mkdirSync(hooksDir,{recursive:true});
+      privateHooksPath(hooksDir,privateRoots);
       const temporary=path.join(hooksDir,'.standards-commit-msg-'+randomUUID());
       try{
         fs.writeFileSync(temporary,content,{mode:0o755,flag:'wx'});
         fs.chmodSync(temporary,0o755);
+        privateHooksPath(hooksDir,privateRoots);
         fs.renameSync(temporary,path.join(hooksDir,'commit-msg'));
         active=true;
       }finally{if(fs.existsSync(temporary)) fs.rmSync(temporary,{force:true});}

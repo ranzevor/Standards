@@ -161,8 +161,7 @@ test('工作树级 core.hooksPath 优先级和关联工作树安装后实际执�
     const installed=env.install(linked);
     assert.equal(installed.status,0,installed.stderr);
     const effective=env.run('git',['config','--get','core.hooksPath'],linked).stdout.trim();
-    const worktreeDir=env.run('git',['rev-parse','--absolute-git-dir'],linked).stdout.trim();
-    assert.ok(effective.startsWith(path.join(worktreeDir,'standards-hooks-')),effective);
+    assert.ok(effective.startsWith(path.join(env.work,'.git','standards-hooks-')),effective);
     assert.equal(env.run('git',['config','--worktree','--get','core.hooksPath'],linked).stdout.trim(),effective);
     assert.equal(env.run('git',['config','--get','core.hooksPath']).status,1,'不覆盖主工作树配置');
     assert.equal(env.commit(validHookMessage,linked).status,0);
@@ -236,5 +235,92 @@ test('Git 私有目录钩子符号链接不得重新指向工作树可执行文�
     const refused=env.install();
     assert.notEqual(refused.status,0);
     assert.match(refused.stderr,/链接指向外部路径/);
+  }finally{env.close();}
+});
+
+test('不存在的钩子目录经外部符号链接父路径时拒绝安装，随后仍可安装受信钩子',()=>{
+  if(process.platform==='win32') return;
+  const env=hookFixture();
+  try{
+    const outside=path.join(env.work,'external-hooks');
+    fs.mkdirSync(outside);
+    fs.symlinkSync(outside,path.join(env.work,'.git','link'),'dir');
+    assert.equal(env.run('git',['config','core.hooksPath','.git/link/nested']).status,0);
+    const refused=env.install();
+    assert.notEqual(refused.status,0);
+    assert.match(refused.stderr,/符号链接/);
+    assert.equal(fs.existsSync(path.join(outside,'nested')),false);
+    assert.equal(env.run('git',['config','--unset','core.hooksPath']).status,0);
+    assert.equal(env.install().status,0);
+    assert.equal(env.commit().status,0);
+    assert.notEqual(env.commit('fix(api): invalid login').status,0);
+  }finally{env.close();}
+});
+
+test('即使符号链接指向 Git 私有目录，也拒绝通过可重定向的中间父路径安装',()=>{
+  if(process.platform==='win32') return;
+  const env=hookFixture();
+  try{
+    fs.symlinkSync(path.join(env.work,'.git','hooks'),path.join(env.work,'.git','link'),'dir');
+    assert.equal(env.run('git',['config','core.hooksPath','.git/link/nested']).status,0);
+    const refused=env.install();
+    assert.notEqual(refused.status,0);
+    assert.match(refused.stderr,/符号链接/);
+  }finally{env.close();}
+});
+
+test('关联工作树安装共享钩子后删除该工作树，主仓库提交仍保留校验',()=>{
+  const env=hookFixture();
+  const linked=path.join(env.work,'linked');
+  try{
+    fs.writeFileSync(path.join(env.work,'seed.txt'),'seed\n');
+    assert.equal(env.run('git',['add','.github','seed.txt']).status,0);
+    const first=env.run('git',['-c','commit.gpgsign=false','commit','-q','-m','test(governance): 创建关联工作树的测试基线']);
+    assert.equal(first.status,0,first.stderr);
+    assert.equal(env.run('git',['worktree','add','-q','-b','test/shared-hooks',linked]).status,0);
+    const installed=env.install(linked);
+    assert.equal(installed.status,0,installed.stderr);
+    const hook=fs.readFileSync(path.join(env.work,'.git','hooks','commit-msg'),'utf8');
+    assert.ok(hook.includes(path.join(env.work,'.git','standards-hooks-')),'依赖必须位于共同 Git 目录');
+    assert.ok(!hook.includes(path.join('.git','worktrees','linked','standards-hooks-')));
+    assert.equal(env.run('git',['worktree','remove','--force',linked]).status,0);
+    assert.equal(env.commit().status,0,'删除关联工作树后仍应接受合法提交');
+    assert.notEqual(env.commit('fix(api): invalid login').status,0,'共享钩子仍应拒绝违规消息');
+  }finally{
+    if(fs.existsSync(linked)) env.run('git',['worktree','remove','--force',linked]);
+    env.close();
+  }
+});
+
+test('管理标记不能授权覆盖附加在 exec 前的独立检查',()=>{
+  const env=hookFixture();
+  try{
+    assert.equal(env.install().status,0);
+    const hook=path.join(env.work,'.git','hooks','commit-msg');
+    const original=fs.readFileSync(hook,'utf8');
+    const guarded=original.replace('set -eu\nexec node ','set -eu\nexit 58\nexec node ');
+    assert.notEqual(guarded,original);
+    fs.writeFileSync(hook,guarded);
+    assert.notEqual(env.commit().status,0);
+    const refused=env.install();
+    assert.notEqual(refused.status,0);
+    assert.match(refused.stderr,/修改过的 commit-msg/);
+    assert.equal(fs.readFileSync(hook,'utf8'),guarded);
+    assert.notEqual(env.commit().status,0,'附加的有效检查不得被移除');
+  }finally{env.close();}
+});
+
+test('受管理钩子指向非标准执行文件时禁止重装覆盖',()=>{
+  const env=hookFixture();
+  try{
+    assert.equal(env.install().status,0);
+    const hook=path.join(env.work,'.git','hooks','commit-msg');
+    const original=fs.readFileSync(hook,'utf8');
+    const changed=original.replace(/standards-hooks-[^/']+\/governance_gate\.cjs/u,
+      'standards-hooks-replaced/extra.cjs');
+    assert.notEqual(changed,original);
+    fs.writeFileSync(hook,changed);
+    assert.notEqual(env.install().status,0);
+    assert.equal(fs.readFileSync(hook,'utf8'),changed);
   }finally{env.close();}
 });
