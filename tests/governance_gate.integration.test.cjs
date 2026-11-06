@@ -42,3 +42,35 @@ test('读取 GitHub 实时 PR、完整提交列表并拒绝过时事件或无效
     fs.rmSync(work,{recursive:true,force:true});
   }
 });
+
+test('已安装的本地钩子只执行 Git 私有目录中的受信校验器',()=>{
+  const work=fs.mkdtempSync(path.join(os.tmpdir(),'governance-hook-'));
+  const run=(command,args)=>cp.spawnSync(command,args,{cwd:work,encoding:'utf8',timeout:15000});
+  try{
+    assert.equal(run('git',['init','-q']).status,0);
+    const script=path.join(work,'.github','scripts');
+    fs.mkdirSync(path.join(script,'vendor'),{recursive:true});
+    fs.copyFileSync(gate,path.join(script,'governance_gate.cjs'));
+    fs.copyFileSync(path.join(root,'.github','scripts','vendor','commonmark-0.29.2.min.cjs'),
+      path.join(script,'vendor','commonmark-0.29.2.min.cjs'));
+    const install=run(process.execPath,[path.join(root,'governance','install_commit_hook.cjs')]);
+    assert.equal(install.status,0,install.stdout+install.stderr);
+    const common=run('git',['rev-parse','--git-common-dir']).stdout.trim();
+    const expected=path.resolve(work,common,'standards-hooks');
+    const configured=run('git',['config','--local','--get','core.hooksPath']);
+    assert.equal(configured.stdout.trim(),expected);
+    for(const [key,value] of [['user.name','Test Maintainer'],['user.email','maintainer@example.test']]){
+      assert.equal(run('git',['config',key,value]).status,0);
+    }
+    fs.writeFileSync(path.join(script,'governance_gate.cjs'),"process.exit(23);\n");
+    fs.writeFileSync(path.join(script,'vendor','commonmark-0.29.2.min.cjs'),"process.exit(24);\n");
+    const good='fix(governance): 拒绝在工作树执行未审查代码\n\n提交检查使用 Git 私有目录内经审查的脚本和依赖，不能通过修改工作树中的文件改变实际执行代码。';
+    const valid=run('git',['-c','commit.gpgsign=false','commit','--allow-empty','-m',good]);
+    assert.equal(valid.status,0,valid.stdout+valid.stderr);
+    const invalid=run('git',['-c','commit.gpgsign=false','commit','--allow-empty','-m','fix(api): fix login error']);
+    assert.notEqual(invalid.status,0,invalid.stdout+invalid.stderr);
+    assert((invalid.stdout+invalid.stderr).includes('提交'),'钩子必须仍然执行校验');
+  }finally{
+    fs.rmSync(work,{recursive:true,force:true});
+  }
+});
