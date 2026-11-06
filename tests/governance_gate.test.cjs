@@ -433,3 +433,53 @@ test('模板尾部非字段说明不得补足空字段，缩进续段可合法�
     '- 合并条件及未解决阻断项：\n  TODO: 待补充当前候选的具体合并条件');
   assert(gate.prBodyErrors(todo).some(e=>e.includes('占位')));
 });
+
+
+function completedOfficialTemplate(){
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更范围、兼容条件和实际验证结果，并记录合并条件。';
+  return {detail,filled:template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail)};
+}
+test('官方字段可使用 CommonMark 未缩进懒续行，不以物理缩进误判',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const lazy=filled.replace(field,'- 合并条件及未解决阻断项：\n合并前必须完成独立审查与质量检查，\n确认目标分支不存在未解决的合并阻断项。');
+  assert.deepEqual(gate.prBodyErrors(lazy),[]);
+  const empty=filled.replace(field,'- 合并条件及未解决阻断项：');
+  assert(gate.prBodyErrors(empty).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+test('跨行 HTML 注释与字符引用的可见换行不应映射到物理行号',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const comment=filled.replace(field,'- 合并条件及未解决阻断项：<!--\n此处为注释内容\n-->\n  合并前完成质量检查与独立审查，确认不存在阻断项。');
+  assert.deepEqual(gate.prBodyErrors(comment),[]);
+  const entity=filled.replace(field,'- 合并条件及未解决阻断项：&#10;合并前完成质量检查与独立审查，确认不存在阻断项。');
+  assert.deepEqual(gate.prBodyErrors(entity),[]);
+  const hidden=filled.replace(field,'- 合并条件及未解决阻断项：<!--\n全部文字位于隐藏的注释\n-->');
+  assert(gate.prBodyErrors(hidden).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+test('嵌套列表与引用块属于字段正文，但嵌套代码不构成答案',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const nested=filled.replace(field,'- 合并条件及未解决阻断项：\n  - 完成质量检查，确认没有错误\n  - 完成独立审查，检查合并条件');
+  assert.deepEqual(gate.prBodyErrors(nested),[]);
+  const quote=filled.replace(field,'- 合并条件及未解决阻断项：\n  > 合并前完成质量检查与独立审查，确认阻断项全部关闭。');
+  assert.deepEqual(gate.prBodyErrors(quote),[]);
+  const code=filled.replace(field,'- 合并条件及未解决阻断项：\n\n      这是缩进代码示例，不是已填写的合并条件。');
+  assert(gate.prBodyErrors(code).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+  const placeholder=filled.replace(field,'- 合并条件及未解决阻断项：\n  - 完成质量检查并核对相关行为\n  - TODO: 待补充独立审查要求');
+  assert(gate.prBodyErrors(placeholder).some(x=>x.includes('占位')));
+});
+test('官方模板尾注紧贴末尾空字段时不构成答案，已有正文仍可保留',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const attached=filled.replace('\n\n按变更实际涉及的对象填写。','\n按变更实际涉及的对象填写。');
+  assert.deepEqual(gate.prBodyErrors(attached),[]);
+  const empty=attached.replace('- 合并条件及未解决阻断项： '+detail,'- 合并条件及未解决阻断项：');
+  assert(gate.prBodyErrors(empty).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+test('字符引用产生的字面标题不构成新的顶层章节',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const forged=filled.replace('## 验证','## 示例&#10;## 验证');
+  assert(gate.prBodyErrors(forged).some(x=>x.includes('官方模板章节：验证')));
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+});

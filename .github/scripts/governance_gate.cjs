@@ -151,41 +151,59 @@ function commitErrors(message) {
   return errors;
 }
 
+function prVisibleStructure(body){
+  const root=new commonmark.Parser().parse(body);
+  const lines=[],headings=[];
+  const walker=root.walker();
+  let event;
+  while((event=walker.next())){
+    if(!event.entering) continue;
+    const node=event.node;
+    if(node.type!=='paragraph'&&node.type!=='heading') continue;
+    const value=visibleInlineText(node);
+    if(node.type==='heading'&&node.parent.type==='document'
+      &&(node.level===2||node.level===3)){
+      headings.push({h:value.trim(),i:lines.length});
+    }
+    // 可见换行并不与 Markdown 源码的物理行一一对应。
+    lines.push(...value.split('\n'));
+  }
+  return {lines,headings};
+}
 function markdownTemplateFields(body){
   const root=new commonmark.Parser().parse(body);
-  const sourceLines=body.split(/\r?\n/u);
-  const leadingColumns=line=>{
-    const leading=/^[ \t]*/u.exec(line)[0];
-    let col=0;
-    for(const ch of leading) col+=ch==='\t'?4-col%4:1;
-    return col;
-  };
+  const guidance='按变更实际涉及的对象填写。不适用时说明具体原因；无需为填写模板额外建立日志、快照、证据目录或 CI 制品。不能以字段齐全代替实际审查，也不能将尚未执行的验证写为已通过。';
   const sections=new Map();
   let section=null;
   for(let block=root.firstChild;block;block=block.next){
-    if(block.type==='heading'&&(block.level===2||block.level===3)){
-      section=visibleInlineText(block);
-      if(!sections.has(section)) sections.set(section,[]);
-    }else if(block.type==='list'&&section){
-      for(let item=block.firstChild;item;item=item.next){
-        const first=item.firstChild;
-        if(!first||(first.type!=='paragraph'&&first.type!=='heading')) continue;
-        const parts=visibleInlineText(first).split('\n');
-        const colon=parts[0].search(/[：:]/u);
-        if(colon<0) continue;
-        const label=parts[0].slice(0,colon).trim();
-        const details=[parts[0].slice(colon+1).trim()];
-        const contentIndent=first.sourcepos[0][1]-1;
-        for(let i=1;i<parts.length;i++){
-          const source=sourceLines[first.sourcepos[0][0]-1+i]||'';
-          if(leadingColumns(source)>=contentIndent) details.push(parts[i]);
+    if(block.type==='heading'){
+      section=block.level===2||block.level===3?visibleInlineText(block).trim():null;
+      if(section&&!sections.has(section)) sections.set(section,[]);
+      continue;
+    }
+    if(block.type!=='list'||!section) continue;
+    for(let item=block.firstChild;item;item=item.next){
+      const first=item.firstChild;
+      if(!first||(first.type!=='paragraph'&&first.type!=='heading')) continue;
+      const text=visibleInlineText(first);
+      const firstLine=text.split('\n')[0];
+      const colon=firstLine.search(/[：:]/u);
+      if(colon<0) continue;
+      const label=firstLine.slice(0,colon).trim();
+      const details=[text.slice(colon+1)];
+      const collect=node=>{
+        if(node.type==='paragraph'||node.type==='heading'){
+          details.push(visibleInlineText(node));
+          return;
         }
-        for(let child=first.next;child;child=child.next){
-          if(child.type==='paragraph'||child.type==='heading')
-            details.push(visibleInlineText(child));
-        }
-        sections.get(section).push({label,value:details.join('\n').trim()});
-      }
+        if(node.type==='code_block'||node.type==='html_block') return;
+        for(let child=node.firstChild;child;child=child.next) collect(child);
+      };
+      for(let child=first.next;child;child=child.next) collect(child);
+      // 模板固定填写说明不是字段答案；即使误删空行导致懒续行也不可代填。
+      const value=details.join('\n').split('\n')
+        .filter(line=>line.trim()!==guidance).join('\n').trim();
+      sections.get(section).push({label,value});
     }
   }
   return sections;
@@ -195,15 +213,10 @@ function prBodyErrors(body) {
   if(typeof body!=="string") return ["PR 正文缺少有效内容"];
   if(body!==body.normalize("NFC")) errors.push("PR 正文必须采用 NFC 规范化文本");
   if(hasInvisibleChars(body,true)) errors.push("PR 正文包含控制字符、非普通空格或不可见 Unicode 字符");
-  const lines=markdownVisibleLines(body.split(/\r?\n/u));
+  const {lines,headings}=prVisibleStructure(body);
   const visibleBody=lines.join("\n");
   if(visibleBody.replace(/\s/gu,"").length<85) errors.push("PR 正文缺少有信息量的变更说明");
   if(lines.some(isPlaceholderLine)) errors.push("PR 正文包含未填模板占位");
-  const headings=[];
-  for(let i=0;i<lines.length;i++){
-    const m=/^#{2,3}\s+(.+?)\s*$/u.exec(lines[i]);
-    if(m) headings.push({h:m[1],i});
-  }
   // 优先使用精简模板字段；旧版 PR 的同义字段仍可用于兼容读取。
   const templateFields={
     "目标、基线与候选":[
@@ -226,8 +239,9 @@ function prBodyErrors(body) {
   if(headings.some(x=>Object.hasOwn(templateFields,x.h))){
     const recordsBySection=markdownTemplateFields(body);
     for(const [sectionName,fields] of Object.entries(templateFields)){
-      const section=headings.find(x=>x.h===sectionName);
-      if(!section){errors.push("PR 缺少官方模板章节："+sectionName);continue;}
+      const matching=headings.filter(x=>x.h===sectionName);
+      if(!matching.length){errors.push("PR 缺少官方模板章节："+sectionName);continue;}
+      if(matching.length!==1){errors.push("PR 官方模板章节重复："+sectionName);continue;}
       const records=recordsBySection.get(sectionName)||[];
       for(const aliases of fields){
         const label=aliases[0];
