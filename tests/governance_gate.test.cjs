@@ -569,3 +569,45 @@ test('提交正文的 HTML 换行及字符引用换行不丢失有效说明',()=
   const onlyFooter='Refs: #123, #124, #125, #126, #127, #128, #129';
   assert(gate.commitErrors(title+'\n\n'+onlyFooter).some(x=>x.includes('有效正文')));
 });
+
+test('原始段落位置决定提交 Footer 边界，字符引用与 HTML 换行不得吞掉 Footer',()=>{
+  const title='feat(governance): 修正提交 Footer 与正文分界识别';
+  const refs='Refs: #123, #124, #125, #126, #127, #128, #129';
+  for(const summary of ['短句','短&#10;句','短<br>句','短<br />句']){
+    assert(gate.commitErrors(title+'\n\n'+summary+'\n\n'+refs)
+      .some(e=>e.includes('有效正文')),summary);
+  }
+  const detail='修正提交消息中的原始块级边界，并明确正文与尾注的实际读取方式。';
+  for(const summary of [detail,detail.replace('边界','边&#10;界'),detail.replace('边界','边<br>界')]){
+    assert.deepEqual(gate.commitErrors(title+'\n\n'+summary+'\n\n'+refs),[],summary);
+  }
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+detail+'\n\n说明：以下内容并非 Conventional Commit Footer，而是实际修改的处理规则。'),[]);
+  assert(gate.commitErrors(title+'\n\n短句\n\n\x60\x60\x60\nRefs: #123\n\x60\x60\x60')
+    .some(e=>e.includes('有效正文')));
+  const breakingTitle='feat(api)!: 修正协议不兼容迁移处理规则';
+  const validBreaking='请求字段已经调整，旧版客户端调用失败；需要将 legacyToken 迁移到 Authorization 请求头，并升级配置后重新接入。';
+  const body='明确旧版请求的处理路径，并记录修改后对客户端行为及升级方式的实际影响。';
+  assert.deepEqual(gate.commitErrors(breakingTitle+'\n\n'+body+'\n\nBREAKING CHANGE: '+validBreaking),[]);
+  assert(gate.commitErrors(breakingTitle+'\n\n'+body+'\n\nBREAKING CHANGE: <!-- '+validBreaking+' -->')
+    .some(e=>e.includes('契约、影响和迁移')));
+  assert(gate.commitErrors(breakingTitle+'\n\n'+body+'\nBREAKING CHANGE: '+validBreaking)
+    .some(e=>e.includes('footer')));
+});
+
+test('图片替代文字不参与提交或官方字段的可见正文门槛',()=>{
+  const image='![图片替代文字说明完整变更目标、兼容影响与实际验证结果，但页面正常加载时这段文字不可见。](https://github.githubassets.com/favicons/favicon.png)';
+  const title='feat(governance): 隔离图片替代文字与正文要求';
+  const detail='说明本次实际修改了图片与可见文本的处理方式，并核对正确的回归条件。';
+  assert(gate.commitErrors(title+'\n\n'+image).some(e=>e.includes('有效正文')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+image+'\n\n'+detail),[]);
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+detail+' '+image),[]);
+  const {detail:templateDetail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+templateDetail;
+  const only=filled.replace(field,'- 合并条件及未解决阻断项： '+image);
+  assert(gate.prBodyErrors(only).some(e=>e.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+' '+image)),[]);
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,'- 合并条件及未解决阻断项： '+image+' '+templateDetail)),[]);
+  const imageOnlyAll=filled.replace(/^(- [^\n]+[：:]) .+$/gmu,'$1 '+image);
+  assert(gate.prBodyErrors(imageOnlyAll).some(e=>e.includes('字段缺少有效说明')));
+  assert(gate.prBodyErrors(image).some(e=>e.includes('正文缺少有信息量')));
+});

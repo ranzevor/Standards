@@ -22,10 +22,14 @@ function isPlaceholderLine(value){
 function visibleInlineText(node){
   const fragments=[];
   const walker=node.walker();
-  let event;
+  let event,imageDepth=0;
   while((event=walker.next())){
-    if(!event.entering) continue;
     const child=event.node;
+    if(child.type==='image'){
+      imageDepth+=event.entering?1:-1;
+      continue;
+    }
+    if(!event.entering||imageDepth) continue;
     if(child.type==='text'||child.type==='code') fragments.push(child.literal);
     else if(child.type==='softbreak'||child.type==='linebreak') fragments.push('\n');
     else if(child.type==='html_inline'
@@ -35,75 +39,32 @@ function visibleInlineText(node){
   }
   return fragments.join('');
 }
-function markdownVisibleLines(rawLines){
-  const lines=rawLines.map(()=>'');
-  const ast=new commonmark.Parser().parse(rawLines.join('\n'));
-  const walker=ast.walker();
-  let event;
-  while((event=walker.next())){
-    if(!event.entering) continue;
-    const node=event.node;
-    if(node.type!=='paragraph'&&node.type!=='heading') continue;
-    let value=visibleInlineText(node);
-    if(!value) continue;
-    const rootItem=node.parent.type==='item'
-      && node.parent.parent.type==='list'
-      && node.parent.parent.parent.type==='document';
-    if(rootItem){
-      // A setext underline can turn a list item's first paragraph into a heading.
-      // Its text is still the top-level field; further paragraphs belong to it.
-      value=(node.parent.firstChild===node?'- ':'  ')+value;
-    }else if(node.type==='heading'&&node.parent.type==='document'){
-      // Nested headings never satisfy the PR section contract.
-      value='#'.repeat(node.level)+' '+value;
-    }
-    const start=node.sourcepos[0][0]-1;
-    const rootHeading=node.type==='heading'&&node.parent.type==='document';
-    const firstItemBlock=rootItem&&node.parent.firstChild===node;
-    const codeSpanOnly=node.type==='paragraph'&&node.firstChild
-      && node.firstChild.type==='code'&&!node.firstChild.next;
-    for(const [offset,part] of value.split('\n').entries()){
-      const index=start+offset;
-      if(index>=lines.length) break;
-      let text=rootItem&&offset>0?'  '+part:part;
-      // Literal headings or field markers in a paragraph are not Markdown structure.
-      if(!rootHeading) text=text.replace(/^(\s*)(#{2,3})(?=[ \t])/u,'$1\\$2');
-      if(!firstItemBlock||offset>0)
-        text=text.replace(/^(\s*)([-*])(?=[ \t])/u,'$1\\$2');
-      // A footer token must start a real top-level paragraph in the source.
-      // Inline formatting or block quotes cannot create Conventional Commit tokens.
-      const footerToken=/^(?:BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?::[ \t]*|[ \t]+#)/u;
-      if(!isPlaceholderLine(text)&&footerToken.test(text.trimStart())
-        && (node.type!=='paragraph'||node.parent.type!=='document'
-          ||!footerToken.test(rawLines[index]||''))){
-        text='\\'+text;
-      }
-      // Keep literal inline code visible to the placeholder check, not the footer parser.
-      if(codeSpanOnly&&footerToken.test(text.trim())){
-        const tick=String.fromCharCode(96);
-        text=tick+text+tick;
-      }
-      lines[index]+=(lines[index]?' ':'')+text;
-    }
+function parseCommitFooters(rawLines){
+  const root=new commonmark.Parser().parse(rawLines.join('\n'));
+  const paragraphLines=new Set();
+  for(let block=root.firstChild;block;block=block.next){
+    if(block.type!=='paragraph') continue;
+    const start=block.sourcepos[0][0]-1;
+    const end=block.sourcepos[1][0]-1;
+    for(let i=start;i<=end;i++) paragraphLines.add(i);
   }
-  return lines;
-}
-function parseFooters(lines){
   const entries=[];
-  let footerStart=lines.length,active=null;
-  for(let i=0;i<lines.length;i++){
-    const marker=/^(BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?::[ \t]*|[ \t]+#)(.*)$/u.exec(lines[i]);
-    if(footerStart===lines.length){
-      if(!marker||(i>0&&lines[i-1].trim())) continue;
+  let footerStart=rawLines.length,active=null;
+  for(let i=0;i<rawLines.length;i++){
+    const marker=paragraphLines.has(i)
+      ? /^(BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?::[ \t]*|[ \t]+#)(.*)$/u.exec(rawLines[i])
+      : null;
+    if(footerStart===rawLines.length){
+      if(!marker||(i>0&&rawLines[i-1].trim())) continue;
       footerStart=i;
     }
     if(marker){
       if(active) entries.push(active);
       active={token:marker[1],start:i,content:[marker[2]]};
-    }else if(active) active.content.push(lines[i]);
+    }else if(active) active.content.push(rawLines[i]);
   }
   if(active) entries.push(active);
-  return {entries,footerStart};
+  return {entries,footerStart,paragraphLines};
 }
 function titleErrors(value) {
   const errors=[];
@@ -127,12 +88,11 @@ function commitErrors(message) {
   const lines=message.replace(/\r\n/gu,"\n").split("\n");
   const errors=titleErrors(lines[0]).map(e=>"提交："+e);
   const rawBody=lines.slice(1).join("\n");
-  const visibleLines=markdownVisibleLines(lines.slice(1));
+  const bodyLines=lines.slice(1);
   const renderedLines=prVisibleStructure(rawBody).lines;
-  const {entries,footerStart}=parseFooters(visibleLines);
+  const {entries,footerStart,paragraphLines}=parseCommitFooters(bodyLines);
   const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
-  // Footer 的源码边界仍由原始行确定；正文长度按 AST 渲染结果计算。
-  const bodyBeforeFooters=lines.slice(1,footerStart+1).join("\n");
+  const bodyBeforeFooters=bodyLines.slice(0,footerStart).join("\n");
   const visibleBody=prVisibleStructure(bodyBeforeFooters).lines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
@@ -142,15 +102,16 @@ function commitErrors(message) {
     if(lines[1]!==""||visibleBody.replace(/\s/gu,"").length<24)
       errors.push("实质功能或缺陷变更需要空行分隔的可见、有效正文");
   }
-  if(visibleLines.some(isPlaceholderLine)||renderedLines.some(isPlaceholderLine))
+  if(renderedLines.some(isPlaceholderLine))
     errors.push("提交正文包含未填写的占位内容");
   const validBreakStarts=new Set(footers.map(f=>f.start));
-  if(visibleLines.some((line,i)=>/^BREAKING(?: CHANGE|-CHANGE):/u.test(line)&&!validBreakStarts.has(i)))
+  if(bodyLines.some((line,i)=>paragraphLines.has(i)
+    &&/^BREAKING(?: CHANGE|-CHANGE):/u.test(line)&&!validBreakStarts.has(i)))
     errors.push("不兼容变更 footer 必须与正文以空行分隔");
   if((m&&m[2])||footers.length){
     const message="不兼容变更必须具体说明契约、影响和迁移方式";
     // Conventional Commits 允许通过标题 ! 标记而不重复 BREAKING CHANGE footer。
-    const explanations=footers.length?footers.map(f=>f.content.join("\n").trim()):[visibleBody];
+    const explanations=footers.length?footers.map(f=>prVisibleStructure(f.content.join("\n")).lines.join("\n").trim()):[visibleBody];
     for(const details of explanations){
       // 固定关键词不能判断不同技术领域的迁移说明是否完整。
       if(details.replace(/\s/gu,"").length<35) errors.push(message);
