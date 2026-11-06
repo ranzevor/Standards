@@ -51,7 +51,8 @@ function visibleInlineText(node,omitCode=false){
 // can appear in its rendered content, excluding attributes, comments and code.
 function decodeHtmlText(value){
   const literal=value.replace(/\\/gu,'\\\\')
-    .replace(/([!#*+\-.[\](){}`_~>|])/gu,'\\$1')
+    .replace(/([!#*+\-.[\](){}`_~>|])/gu,(char,_group,index,input)=>
+      char==='#'&&input[index-1]==='&'?char:'\\'+char)
     .replace(/</gu,'&lt;');
   return visibleInlineText(new commonmark.Parser().parse(literal));
 }
@@ -118,7 +119,12 @@ function splitGfmCells(row){
   }
   parts.push(row.slice(start));
   if(row.trimStart().startsWith('|'))parts.shift();
-  if(row.trimEnd().endsWith('|')&&parts.length>1)parts.pop();
+  const trimmed=row.trimEnd();
+  if(trimmed.endsWith('|')){
+    let escapes=0;
+    for(let j=trimmed.length-2;j>=0&&trimmed[j]==='\\';j--)escapes++;
+    if(escapes%2===0&&parts.length>1)parts.pop();
+  }
   return parts.map(x=>x.trim());
 }
 function tableVisibleLines(node,rawLines){
