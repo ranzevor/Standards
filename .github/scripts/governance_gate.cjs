@@ -185,8 +185,10 @@ function markdownTemplateFields(body){
   let section=null,sectionLevel=0;
   for(let block=root.firstChild;block;block=block.next){
     if(block.type==='heading'){
-      if(section&&block.level>sectionLevel) continue;
-      section=block.level===2||block.level===3?visibleInlineText(block).trim():null;
+      const heading=visibleInlineText(block).trim();
+      const official=['目标、基线与候选','规范、行为与影响','验证','审查与合并前置'].includes(heading);
+      if(section&&block.level>sectionLevel&&!(official&&block.level===3)) continue;
+      section=block.level===2||block.level===3?heading:null;
       sectionLevel=block.level;
       if(section&&!sections.has(section)) sections.set(section,[]);
       continue;

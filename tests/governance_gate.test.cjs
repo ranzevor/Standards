@@ -552,7 +552,7 @@ test('模板固定尾注换行或紧贴空字段均不能补足答案',()=>{
     assert(gate.prBodyErrors(attached).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')),tail);
     const valid=filled.replace('\n\n'+guidance,'\n'+tail);
     assert.deepEqual(gate.prBodyErrors(valid),[],tail);
-    const authored=empty.replace(field.split(detail)[0],
+    const authored=empty.replace('- 合并条件及未解决阻断项：',
       '- 合并条件及未解决阻断项：\n合并前须完成当前候选的独立审查与质量检查。')
       .replace('\n\n'+guidance,'\n'+tail);
     assert.deepEqual(gate.prBodyErrors(authored),[],tail);
