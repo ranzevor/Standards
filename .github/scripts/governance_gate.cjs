@@ -28,6 +28,10 @@ function visibleInlineText(node){
     const child=event.node;
     if(child.type==='text'||child.type==='code') fragments.push(child.literal);
     else if(child.type==='softbreak'||child.type==='linebreak') fragments.push('\n');
+    else if(child.type==='html_inline'
+      && (/^<(?:br|hr)(?:\s+[^<>]*?)?\s*\/?>$/iu.test(child.literal)
+        || /^<\/?(?:p|div|li|tr|h[1-6])\s*>$/iu.test(child.literal)))
+      fragments.push('\n');
   }
   return fragments.join('');
 }
@@ -124,18 +128,21 @@ function commitErrors(message) {
   const errors=titleErrors(lines[0]).map(e=>"提交："+e);
   const rawBody=lines.slice(1).join("\n");
   const visibleLines=markdownVisibleLines(lines.slice(1));
+  const renderedLines=prVisibleStructure(rawBody).lines;
   const {entries,footerStart}=parseFooters(visibleLines);
   const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
   const textLines=visibleLines.slice(0,footerStart);
   const visibleBody=textLines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
-  if(rawBody&&hasInvisibleChars(rawBody,true)) errors.push("提交正文包含控制字符、非普通空格或不可见 Unicode 字符");
+  if((rawBody&&hasInvisibleChars(rawBody,true))||hasInvisibleChars(renderedLines.join('\n'),true))
+    errors.push("提交正文包含控制字符、非普通空格或不可见 Unicode 字符");
   if(m&&/^(?:feat|fix|refactor|perf)$/u.test(m[1])){
     if(lines[1]!==""||visibleBody.replace(/\s/gu,"").length<24)
       errors.push("实质功能或缺陷变更需要空行分隔的可见、有效正文");
   }
-  if(visibleLines.some(isPlaceholderLine)) errors.push("提交正文包含未填写的占位内容");
+  if(visibleLines.some(isPlaceholderLine)||renderedLines.some(isPlaceholderLine))
+    errors.push("提交正文包含未填写的占位内容");
   const validBreakStarts=new Set(footers.map(f=>f.start));
   if(visibleLines.some((line,i)=>/^BREAKING(?: CHANGE|-CHANGE):/u.test(line)&&!validBreakStarts.has(i)))
     errors.push("不兼容变更 footer 必须与正文以空行分隔");
@@ -173,11 +180,14 @@ function prVisibleStructure(body){
 function markdownTemplateFields(body){
   const root=new commonmark.Parser().parse(body);
   const guidance='按变更实际涉及的对象填写。不适用时说明具体原因；无需为填写模板额外建立日志、快照、证据目录或 CI 制品。不能以字段齐全代替实际审查，也不能将尚未执行的验证写为已通过。';
+  const guidanceTail=new RegExp([...guidance.replace(/\s/gu,'')].join('\\s*')+'\\s*$','u');
   const sections=new Map();
-  let section=null;
+  let section=null,sectionLevel=0;
   for(let block=root.firstChild;block;block=block.next){
     if(block.type==='heading'){
+      if(section&&block.level>sectionLevel) continue;
       section=block.level===2||block.level===3?visibleInlineText(block).trim():null;
+      sectionLevel=block.level;
       if(section&&!sections.has(section)) sections.set(section,[]);
       continue;
     }
@@ -201,8 +211,7 @@ function markdownTemplateFields(body){
       };
       for(let child=first.next;child;child=child.next) collect(child);
       // 模板固定填写说明不是字段答案；即使误删空行导致懒续行也不可代填。
-      const value=details.join('\n').split('\n')
-        .filter(line=>line.trim()!==guidance).join('\n').trim();
+      const value=details.join('\n').replace(guidanceTail,'').trim();
       sections.get(section).push({label,value});
     }
   }
@@ -212,9 +221,10 @@ function prBodyErrors(body) {
   const errors=[];
   if(typeof body!=="string") return ["PR 正文缺少有效内容"];
   if(body!==body.normalize("NFC")) errors.push("PR 正文必须采用 NFC 规范化文本");
-  if(hasInvisibleChars(body,true)) errors.push("PR 正文包含控制字符、非普通空格或不可见 Unicode 字符");
   const {lines,headings}=prVisibleStructure(body);
   const visibleBody=lines.join("\n");
+  if(hasInvisibleChars(body,true)||hasInvisibleChars(visibleBody,true))
+    errors.push("PR 正文包含控制字符、非普通空格或不可见 Unicode 字符");
   if(visibleBody.replace(/\s/gu,"").length<85) errors.push("PR 正文缺少有信息量的变更说明");
   if(lines.some(isPlaceholderLine)) errors.push("PR 正文包含未填模板占位");
   // 优先使用精简模板字段；旧版 PR 的同义字段仍可用于兼容读取。
