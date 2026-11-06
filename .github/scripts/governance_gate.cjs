@@ -131,8 +131,9 @@ function commitErrors(message) {
   const renderedLines=prVisibleStructure(rawBody).lines;
   const {entries,footerStart}=parseFooters(visibleLines);
   const footers=entries.filter(f=>f.token==='BREAKING CHANGE'||f.token==='BREAKING-CHANGE');
-  const textLines=visibleLines.slice(0,footerStart);
-  const visibleBody=textLines.join("\n").trim();
+  // Footer 的源码边界仍由原始行确定；正文长度按 AST 渲染结果计算。
+  const bodyBeforeFooters=lines.slice(1,footerStart+1).join("\n");
+  const visibleBody=prVisibleStructure(bodyBeforeFooters).lines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
   if((rawBody&&hasInvisibleChars(rawBody,true))||hasInvisibleChars(renderedLines.join('\n'),true))

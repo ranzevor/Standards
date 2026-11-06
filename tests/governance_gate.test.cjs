@@ -559,3 +559,13 @@ test('模板固定尾注换行或紧贴空字段均不能补足答案',()=>{
   }
   assert(gate.prBodyErrors(empty.replace('\n\n'+guidance,'')).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
 });
+
+test('提交正文的 HTML 换行及字符引用换行不丢失有效说明',()=>{
+  const title='feat(governance): 修正提交说明中换行内容的有效性判断';
+  const details='实际修复字段解析时的显示边界，明确所有受影响输入及现有行为的兼容条件。';
+  for(const rendered of ['已说明<br>'+details,'已说明<br />'+details,'已说明&#10;'+details]){
+    assert.deepEqual(gate.commitErrors(title+'\n\n'+rendered),[],rendered);
+  }
+  const onlyFooter='Refs: #123, #124, #125, #126, #127, #128, #129';
+  assert(gate.commitErrors(title+'\n\n'+onlyFooter).some(x=>x.includes('有效正文')));
+});
