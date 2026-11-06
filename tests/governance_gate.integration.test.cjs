@@ -324,3 +324,50 @@ test('受管理钩子指向非标准执行文件时禁止重装覆盖',()=>{
     assert.equal(fs.readFileSync(hook,'utf8'),changed);
   }finally{env.close();}
 });
+
+test('共享 core.hooksPath 指向可删除的关联工作树元数据时拒绝安装',()=>{
+  const env=hookFixture();
+  const linked=path.join(env.work,'linked');
+  try{
+    fs.writeFileSync(path.join(env.work,'seed.txt'),'seed\n');
+    assert.equal(env.run('git',['add','.github','seed.txt']).status,0);
+    const first=env.run('git',['-c','commit.gpgsign=false','commit','-q','-m','test(governance): 创建关联工作树的测试基线']);
+    assert.equal(first.status,0,first.stderr);
+    assert.equal(env.run('git',['worktree','add','-q','-b','test/shared-config',linked]).status,0);
+    const linkedDir=env.run('git',['rev-parse','--absolute-git-dir'],linked).stdout.trim();
+    const target=path.join(linkedDir,'custom-hooks');
+    assert.equal(env.run('git',['config','--local','core.hooksPath',target],linked).status,0);
+    const refused=env.install(linked);
+    assert.notEqual(refused.status,0);
+    assert.match(refused.stderr,/共享钩子路径/);
+    assert.equal(fs.existsSync(target),false,'不能安装即将失效的共享钩子路径');
+  }finally{
+    if(fs.existsSync(linked)) env.run('git',['worktree','remove','--force',linked]);
+    env.close();
+  }
+});
+
+test('关联工作树专属的 Git 私有钩子路径可安装且不修改主工作树的配置',()=>{
+  const env=hookFixture();
+  const linked=path.join(env.work,'linked');
+  try{
+    fs.writeFileSync(path.join(env.work,'seed.txt'),'seed\n');
+    assert.equal(env.run('git',['add','.github','seed.txt']).status,0);
+    const first=env.run('git',['-c','commit.gpgsign=false','commit','-q','-m','test(governance): 创建关联工作树的测试基线']);
+    assert.equal(first.status,0,first.stderr);
+    assert.equal(env.run('git',['worktree','add','-q','-b','test/private-config',linked]).status,0);
+    assert.equal(env.run('git',['config','extensions.worktreeConfig','true']).status,0);
+    const linkedDir=env.run('git',['rev-parse','--absolute-git-dir'],linked).stdout.trim();
+    const target=path.join(linkedDir,'custom-hooks');
+    assert.equal(env.run('git',['config','--worktree','core.hooksPath',target],linked).status,0);
+    const installed=env.install(linked);
+    assert.equal(installed.status,0,installed.stderr);
+    assert.equal(env.run('git',['config','--get','core.hooksPath'],linked).stdout.trim(),target);
+    assert.equal(env.run('git',['config','--get','core.hooksPath']).status,1);
+    assert.equal(env.commit(validHookMessage,linked).status,0);
+    assert.notEqual(env.commit('fix(api): invalid login',linked).status,0);
+  }finally{
+    if(fs.existsSync(linked)) env.run('git',['worktree','remove','--force',linked]);
+    env.close();
+  }
+});

@@ -71,6 +71,12 @@ function install(){
   const configured=gitOptional(['config','--path','--get','core.hooksPath'],root);
   const hooksDir=path.resolve(root,configured===null?
     git(['rev-parse','--git-path','hooks'],root):configured);
+  const worktreeHooks=gitOptional(['config','--bool','--get','extensions.worktreeConfig'],root)==='true'
+    ?gitOptional(['config','--worktree','--get','core.hooksPath'],root):null;
+  if(inside(hooksDir,path.join(common,'worktrees'))
+    &&!(worktreeHooks!==null&&inside(hooksDir,gitDir))){
+    throw new Error('共享钩子路径指向会随关联工作树删除的 Git 目录；请改用共同 Git 目录。');
+  }
   const privateRoots=[common,gitDir];
   const trusted=privateHooksPath(hooksDir,privateRoots);
   const hooks=activeHooks(hooksDir);
@@ -91,7 +97,7 @@ function install(){
     const stat=fs.lstatSync(hookPath);
     const source=stat.isSymbolicLink()?'':fs.readFileSync(hookPath,'utf8');
     if(!isManagedHook(source,privateRoots)&&source!==legacyHook){
-      throw new Error('Git 私有目录已有独立或修改过的 commit-msg 钩子；请先审查并整合，安装器不会覆盖。');
+      throw new Error('Git 私有目录已有独立 commit-msg 钩子或修改过的 commit-msg 钩子；请先审查并整合，安装器不会覆盖。');
     }
   }
   const stage=fs.mkdtempSync(path.join(common,'standards-hooks-'));
