@@ -1,0 +1,821 @@
+'use strict';
+const test=require('node:test');
+const assert=require('node:assert/strict');
+const fs=require('node:fs');
+const path=require('node:path');
+const gate=require('../.github/scripts/governance_gate.cjs');
+const body="## 背景与目标\n需要阻断不合规范的变更入口。\n## 变更范围与实现\n添加提交主题和 PR 元数据验证，且验证源为准确的提交对象。\n## 兼容性与风险\n不改变产品功能；尚需配置必需检查才能阻断合并。\n## 实际验证\n完成了符合要求与违规请求的本地正反例测试。\n## 未完成事项\n尚需核对远端检查来源并配置有效的 GitHub 规则。";
+const commit="feat(governance): 新增提交和PR元数据的规则校验\n\n针对提交与PR的格式和说明不足增加严格检查。\n验证合规中文主题、缺失范围与控制字符反例，保留既有业务功能。";
+test('合法中文主题及技术标识混用',()=>{
+  assert.deepEqual(gate.titleErrors('fix(references): 核实⑨的官方出处与早期站内用例'),[]);
+  assert.deepEqual(gate.titleErrors('fix(api): 修正 API 鉴权失败后的响应状态'),[]);
+});
+test('拒绝纯英文、无scope、空泛中文和不可见字符',()=>{
+  for(const title of ['fix(api): fix login error','fix: 修复用户验证状态错误','fix(api): 优化代码','fix(api): 修复鉴权\u200b状态转移错误'])
+    assert.notEqual(gate.titleErrors(title).length,0,title);
+});
+test('重要提交缺正文以及不兼容说明缺失',()=>{
+  assert.deepEqual(gate.commitErrors(commit),[]);
+  assert.notEqual(gate.commitErrors('feat(auth): 新增账户权限校验流程').length,0);
+  assert.notEqual(gate.commitErrors('feat(api)!: 调整客户端消息契约\n\n调整旧版客户端的协议读取行为并要求迁移。').length,0);
+});
+test('PR 正文必须包含实质章节',()=>{
+  assert.deepEqual(gate.prBodyErrors(body),[]);
+  assert.notEqual(gate.prBodyErrors('## 背景与目标\n修复问题').length,0);
+});
+test('PR 分支和 HEAD 一致性',()=>{
+  assert.deepEqual(gate.branchErrors('feat/governance-pr-metadata-gate'),[]);
+  assert.notEqual(gate.branchErrors('my-work').length,0);
+  const issues=gate.prErrors({title:'fix(api): 修正 API 鉴权失败后的响应状态',body,head:{ref:'fix/api-response',sha:'def'}},[{sha:'abc',commit:{message:commit}}],[{filename:'src/api.py'}]);
+  assert(issues.some(x=>x.includes('HEAD')));
+});
+
+
+test('模板占位及代码围栏、HTML 注释伪章节不得充当 PR 实际验证',()=>{
+  const sample="## 背景与目标\n需要阻断不合规范的变更入口。\n## 变更范围与实现\n添加提交主题和 PR 元数据验证，且验证源为准确的提交对象。\n## 兼容性与风险\n不改变产品功能；尚需配置必需检查才能阻断合并。\n## 实际验证\n完成了符合要求与违规请求的本地正反例测试。\n## 未完成事项\n尚需核对远端检查来源并配置有效的 GitHub 规则。";
+  assert.deepEqual(gate.prBodyErrors(sample),[]);
+  assert(gate.prBodyErrors(sample.replace("需要阻断不合规范的变更入口。","TODO: 补充本次具体网页行为目标。")).some(x=>x.includes('占位')));
+  assert(gate.prBodyErrors(sample.replace("## 实际验证","```md\n## 实际验证\n```\n## 运行情况")).some(x=>x.includes('实际验证')));
+  assert(gate.prBodyErrors(sample.replace("## 实际验证","<!--\n## 实际验证\n-->\n## 运行情况")).some(x=>x.includes('实际验证')));
+});
+
+
+test('精确中文行为词不受有限动词白名单误拦截',()=>{
+  assert.deepEqual(gate.titleErrors('fix(governance): 将治理文件逐项纳入项目文件安全白名单'),[]);
+  assert.deepEqual(gate.titleErrors('fix(governance): 复用既有PR矩阵完成无令牌提交核验'),[]);
+  assert.deepEqual(gate.titleErrors('fix(governance): 核对提交元数据与当前交付边界'),[]);
+});
+
+test('当前官方 PR 模板完整填写合法且空字段或占位不允许通过',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const values=[
+    '依据现行治理规范，修复提交与 PR 元数据校验边界。',
+    '目标分支为 main，限定治理校验器、模板和回归文件，不改产品。',
+    '保留独立审查要求，修复 footer、正文与 Markdown 注释解析。',
+    '不涉及业务 API 迁移；若检查异常则拒绝此次门禁通过。',
+    '已执行正常输入和违规输入的本地正反例校验。',
+    '远端必需检查尚未配置，实际拒绝违规合并仍未验收。',
+    '作者已复核提交与变更，独立审查尚未完成。',
+    '合并前须完成检查器复核、CI 通过与远端规则验收。'
+  ];
+  let used=0;
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,(_,field)=>field+' '+values[used++]);
+  assert.equal(used,values.length,'官方模板字段数量发生变更');
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+  const empty=filled.replace(values[7],'');
+  assert(gate.prBodyErrors(empty).some(e=>e.includes('合并条件及未解决阻断项')));
+  const unfilled=filled.replace(values[0],'TODO: 本段稍后填写');
+  assert(gate.prBodyErrors(unfilled).some(e=>e.includes('变更目标与依据')));
+});
+
+test('不可见 HTML 注释及占位内容不能充当有效提交正文',()=>{
+  const heading='fix(governance): 拒绝被隐藏的提交正文内容';
+  assert(gate.commitErrors(heading+'\n\n<!-- 这是全部隐藏的提交说明，正常阅读界面完全不可见。 -->')
+    .some(e=>e.includes('有效正文')));
+  assert(gate.commitErrors(heading+'\n\n正常变更已经写明了具体范围和实际影响，并记录检查结果。\nTODO: 后补')
+    .some(e=>e.includes('占位')));
+});
+
+test('标题、提交正文及PR正文拒绝不可见Unicode并允许常规换行',()=>{
+  const heading='fix(governance): 校验提交标题的字符可见性';
+  for(const mark of ['\u00a0','\u034f','\u200b']){
+    assert(gate.titleErrors(heading.replace('标题','标'+mark+'题'))
+      .some(e=>e.includes('Unicode')),'标题不可见字符 '+mark.codePointAt(0));
+    assert(gate.commitErrors(heading+'\n\n提交说明包含完整的验证信息和可回溯的具体影响。'+mark)
+      .some(e=>e.includes('Unicode')),'提交正文不可见字符 '+mark.codePointAt(0));
+    assert(gate.prBodyErrors(body.replace('需要阻断','需要'+mark+'阻断'))
+      .some(e=>e.includes('Unicode')),'PR正文不可见字符 '+mark.codePointAt(0));
+  }
+  assert.deepEqual(gate.prBodyErrors(body.replace(/\n/gu,'\r\n')),[]);
+});
+
+test('不兼容说明要求有效正文与正确分隔的 footer',()=>{
+  const heading='feat(api)!: 变更旧版客户端的协议请求方式';
+  const explanation='旧版客户端接入时必须按新的接口协议字段进行处理，否则会出现不兼容响应。';
+  assert(gate.commitErrors(heading+'\n\n'+explanation+'\nBREAKING CHANGE: 变化')
+    .some(e=>e.includes('footer')));
+  assert(gate.commitErrors(heading+'\n\n'+explanation+'\n\nBREAKING CHANGE: 变化')
+    .some(e=>e.includes('契约、影响和迁移')));
+  const good=heading+'\n\n'+explanation+
+    '\n\nBREAKING CHANGE: 请求接口不再接受旧版客户端的 legacyToken 字段，旧版调用会失败；客户端必须迁移到 Authorization 请求头并升级接入配置。';
+  assert.deepEqual(gate.commitErrors(good),[]);
+});
+
+test('无叹号的破坏性 footer 也需校验，兼容双 token 并隔离代码示例',()=>{
+  const title='feat(api): 调整旧版客户端的请求鉴权方式';
+  const bang='feat(api)!: 调整旧版客户端的请求鉴权方式';
+  const body='调整旧版客户端的请求鉴权流程，明确成功响应的字段与错误返回条件。';
+  const good='鉴权接口不再接受旧版客户端的 legacyToken 字段；旧版请求会失败，客户端必须迁移到 Authorization 请求头完成升级。';
+  assert(gate.commitErrors(title+'\n\n'+body+'\n\nBREAKING CHANGE: 变化').some(e=>e.includes('契约、影响和迁移')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+body+'\n\nBREAKING-CHANGE: '+good),[]);
+  assert.deepEqual(gate.commitErrors(bang+'\n\n'+body+'\n\nBREAKING CHANGE: '+good),[]);
+  assert.deepEqual(gate.commitErrors(bang+'\n\n'+body+'\n\nBREAKING-CHANGE: '+good),[]);
+  assert(gate.commitErrors(bang+'\n\n'+body+'\n\n```text\nBREAKING CHANGE: '+good+'\n```').some(e=>e.includes('契约、影响和迁移')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+body+'\n\n```text\nBREAKING CHANGE: 变化\n```'),[]);
+});
+test('Markdown 字面代码不能冒充实质说明，强调文字中的占位仍被识别',()=>{
+  const title='fix(governance): 修正检查器对占位内容的识别';
+  assert(gate.commitErrors(title+'\n\n**TODO: 等待补充具体实现范围和实际验证结果**').some(e=>e.includes('占位')));
+  assert(gate.commitErrors(title+'\n\n`TODO: 等待补充具体实现范围和实际验证结果`').some(e=>e.includes('有效正文')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n已明确实际修复的范围并执行具体的校验流程，保留既有正常业务输入。\n\n`TODO: 字面代码示例`'),[]);
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确本次实际变更范围及验证条件，且记录具体兼容影响。');
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+  for(const placeholder of ['`TODO: 等待补充明确需求和准确规范版本`','**TODO: 等待补充明确需求和准确规范版本**']){
+    const broken=filled.replace('变更目标与依据： 已明确本次实际变更范围及验证条件，且记录具体兼容影响。','变更目标与依据： '+placeholder);
+    assert(gate.prBodyErrors(broken).some(e=>e.includes('变更目标与依据')),placeholder);
+  }
+});
+test('文件路径识别不可见字符且允许正常空格和中文路径',()=>{
+  const pr={title:'fix(api): 修正 API 鉴权失败后的响应状态',body,head:{ref:'fix/api-response',sha:'same'}};
+  const commits=[{sha:'same',commit:{message:commit}}];
+  assert.deepEqual(gate.prErrors(pr,commits,[{filename:'docs/中文使用 说明.md'}]),[]);
+  for(const mark of ['\u034f','\u00a0','\u200b']){
+    const issues=gate.prErrors(pr,commits,[{filename:'src/字'+mark+'段.ts'}]);
+    assert(issues.some(e=>e.includes('文件名')),mark.codePointAt(0));
+  }
+});
+test('围栏代码内的 HTML 注释起始标记不得影响后续官方章节',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确实际提交的具体处理范围、核验方法及兼容影响。');
+  const inserted=filled.replace('## 规范、行为与影响','```html\n<!--\n```\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(inserted),[]);
+  assert.deepEqual(gate.prBodyErrors(filled.replace('## 规范、行为与影响','~~~html\n<!--\n~~~\n\n## 规范、行为与影响')),[]);
+});
+
+test('多个标准 footer 连续排列时不得漏检破坏性变更',()=>{
+  const title='feat(api): 调整旧版客户端的请求鉴权方式';
+  const description='调整旧版客户端的请求鉴权流程，明确成功响应的字段与错误返回条件。';
+  const prefix=title+'\n\n'+description+'\n\nRefs: #123\n';
+  const good='鉴权接口不再接受旧版客户端的 legacyToken 字段，旧版请求会失败；客户端必须迁移到 Authorization 请求头完成升级。';
+  assert(gate.commitErrors(prefix+'BREAKING CHANGE: 变化').some(e=>e.includes('契约、影响和迁移')));
+  assert.deepEqual(gate.commitErrors(prefix+'BREAKING CHANGE: '+good),[]);
+  assert.deepEqual(gate.commitErrors(prefix+'BREAKING-CHANGE: '+good),[]);
+  assert(gate.commitErrors(title+'\n\n'+description+'\nBREAKING-CHANGE: 变化').some(e=>e.includes('footer')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+description+'\n\nRefs: #123'),[]);
+  assert.deepEqual(gate.commitErrors(prefix+'~~~text\nBREAKING CHANGE: 变化\n~~~'),[]);
+});
+
+test('标题与正文或尾注须有空行，破坏性 Footer 必须使用普通空格',()=>{
+  const title='docs(governance): 补充旧版客户端鉴权迁移规则';
+  const body='说明旧客户端鉴权变更的背景以及使用新请求头的迁移方法。';
+  const change='旧版客户端不再支持 legacyToken 参数，旧调用返回 401；使用者必须将凭据迁移至 Authorization 请求头并升级接入配置。';
+  const breaking='BREAKING CHANGE: '+change;
+  for(const malformed of [
+    'BREAKING CHANGE:'+change,
+    'BREAKING-CHANGE:'+change,
+    'BREAKING CHANGE:\t'+change,
+    'BREAKING-CHANGE:\t'+change,
+    'BREAKING CHANGE : '+change,
+    'BREAKING-CHANGE : '+change
+  ]){
+    assert(gate.commitErrors(title+'\n\n'+body+'\n\n'+malformed)
+      .some(e=>e.includes('footer')),malformed);
+  }
+  for(const message of [
+    title+'\n'+breaking,
+    title+'\nBREAKING-CHANGE: '+change,
+    title+'\n'+body
+  ]){
+    assert(gate.commitErrors(message).some(e=>e.includes('空行分隔')),message);
+  }
+  for(const message of [
+    title+'\n\n'+breaking,
+    title+'\n\n'+body,
+    title+'\n\n'+body+'\n\n'+breaking,
+    title+'\n\n'+body+'\n\nBREAKING-CHANGE: '+change,
+    title+'\n\n'+body+'\n\nRefs #123\nReviewed-by: Reviewer\n'+breaking,
+    title+'\n\n'+body+'\n\nRefs: #123\nBREAKING-CHANGE: '+change+'\nReviewed-by: Reviewer',
+    title+'\n\n'+body+'\n\n'+breaking+'\n需要按新的凭据字段调整调用方配置。'
+  ]){
+    assert.deepEqual(gate.commitErrors(message),[],message);
+  }
+  for(const empty of ['Refs: ','Refs #','BREAKING CHANGE: ']){
+    assert(gate.commitErrors(title+'\n\n'+body+'\n\n'+empty)
+      .some(e=>e.includes('footer')),empty);
+  }
+});
+
+test('标题叹号允许由正文交代破坏性契约而无需重复尾注',()=>{
+  const title='feat(api)!: 移除旧版客户端的访问凭据接口';
+  const details='旧版客户端访问凭据接口已移除，继续请求将失败，必须迁移到 Authorization 请求头并升级客户端鉴权流程。';
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+details),[]);
+  assert(gate.commitErrors(title+'\n\n旧版接口已移除，客户端使用方式发生变化。').some(e=>e.includes('契约、影响和迁移')));
+});
+
+test('普通提交 footer 不能代替功能性正文',()=>{
+  const title='feat(api): 增加客户端的匿名请求处理模式';
+  const refs='Refs: #123, #124, #125, #126, #127, #128, #129';
+  assert(gate.commitErrors(title+'\n\n'+refs).some(e=>e.includes('有效正文')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n新增匿名请求模式，并明确未登录客户端对应的响应行为与访问控制边界。\n\n'+refs),[]);
+});
+
+test('行内代码及反斜线转义的注释标记不得隐藏后续章节',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 已明确当前变更的行为、兼容影响及实际验证结论。');
+  for(const literal of ['`<!--`','\\<!--','``<!--``']){
+    const inserted=filled.replace('## 规范、行为与影响','- 行内说明：'+literal+' 是示例文本，不应影响后面的章节。\n\n## 规范、行为与影响');
+    assert.deepEqual(gate.prBodyErrors(inserted),[],literal);
+  }
+  const hidden=filled.replace('## 规范、行为与影响','<!-- 隐藏这一章\n## 规范、行为与影响');
+  assert(gate.prBodyErrors(hidden).some(e=>e.includes('官方模板章节')));
+});
+
+test('旧版 PR 模板保留语义兼容，但不强制失败记录或原始制品路径',()=>{
+  const legacy=[
+    '## 目标、基线与候选',
+    '- 需求/条款ID及准确版本：依照当前治理规则处理元数据变更。',
+    '- 本次范围与明确不改范围：仅改校验器和测试，产品逻辑保持原样。',
+    '## 规范、行为与影响',
+    '- 正文、来源、依赖、示例与检查变更：修改元数据检查和相关回归逻辑。',
+    '- 使用者可观察变化及兼容/迁移影响：不涉及产品接口迁移，违规提交将被拒绝。',
+    '## 验证',
+    '- 输入、环境、命令、退出码、预期/实际及证据：执行 Node 正反例回归，结果通过。',
+    '- 未执行、部分执行或不适用范围及原因：远端强制准入尚未完成实际部署。',
+    '## 审查与合并前置',
+    '- 独立审查绑定的候选、范围和开放发现：当前待独立审查者复核源码修改。',
+    '- 合并前需重新确认的目标 HEAD、必需检查和阻断项：需确认 CI 通过且阻断项闭合。'
+  ].join('\n');
+  assert.deepEqual(gate.prBodyErrors(legacy),[]);
+  assert(gate.prBodyErrors(legacy.replace('执行 Node 正反例回归，结果通过。','TODO: 等待完成验证')).length>0);
+});
+
+test('缩进代码与行内注释字面量不能误删合法 PR 章节或字段',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='已明确当前变更的具体范围、兼容影响及实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const literal=filled.replace('变更目标与依据： '+description,'变更目标与依据： 解释字面量 `<!--` 及其后的真实 PR 解析逻辑。');
+  assert.deepEqual(gate.prBodyErrors(literal),[]);
+  const indented=filled.replace('## 规范、行为与影响','独立段落说明 Markdown 的解析范围。\n\n    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(indented),[]);
+  const hidden=filled.replace('## 规范、行为与影响','<!--\n## 规范、行为与影响\n-->');
+  assert(gate.prBodyErrors(hidden).some(e=>e.includes('官方模板章节')));
+});
+
+test('完整的不兼容说明不依赖固定关键词，缺少实质说明仍拒绝',()=>{
+  const title='feat(api)!: 移除旧版客户端的访问凭据接口';
+  const complete='旧客户端继续以 legacyToken 字段发起请求将收到 401 响应，接入方必须将凭据放到 Authorization 请求头，之后按原方式继续访问。';
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+complete),[]);
+  assert(gate.commitErrors(title+'\n\n旧版接口已移除，客户端使用方式发生变化。').some(e=>e.includes('契约、影响和迁移')));
+  assert(gate.commitErrors(title+'\n\nTODO: 等待补充具体的行为影响与操作步骤。').some(e=>e.includes('占位')));
+});
+
+test('列表字段缩进续行的可见占位必须被拒绝',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更的具体范围、兼容影响和真实执行结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+detail);
+  const field='变更目标与依据： '+detail;
+  const visible=filled.replace(field,field+'\n\n    TODO: 等待补充实际变更范围、受影响用户及恢复条件');
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('变更目标与依据')));
+  const code=filled.replace(field,field+'\n\n      TODO: 此行是缩进代码的示例内容');
+  assert.deepEqual(gate.prBodyErrors(code),[]);
+});
+
+test('围栏关闭后紧接的缩进代码不得开启 HTML 注释',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,
+    '$1 已明确当前变更的具体范围、兼容影响和真实执行结果。');
+  const fence='\x60\x60\x60html\n<code>example</code>\n\x60\x60\x60\n';
+  const code=filled.replace('## 规范、行为与影响',fence+'    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(code),[]);
+  const comment=filled.replace('## 规范、行为与影响',fence+'<!--\n\n## 规范、行为与影响');
+  assert(gate.prBodyErrors(comment).some(e=>e.includes('官方模板章节')));
+});
+
+
+test('嵌套列表、父级续行和 Tab 缩进的可见占位不得被忽略',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已说明本次变更的具体范围、兼容影响和实际验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+detail);
+  const field='变更目标与依据： '+detail;
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+  for(const continuation of [
+    '\n\n    - 嵌套条目：说明具体变更\n\n        TODO: 等待补充实际变更范围',
+    '\n\n  - 子条目：说明具体变更\n  返回父级的说明。\n\n    TODO: 等待补充实际变更范围',
+    '\n\n\tTODO: 等待补充实际变更范围',
+    '\n\n \tTODO: 等待补充实际变更范围'
+  ]){
+    const invalid=filled.replace(field,field+continuation);
+    assert(gate.prBodyErrors(invalid).some(e=>e.includes('占位')),continuation);
+  }
+  const tabMarker=filled.replace('- 变更目标与依据：','-\t变更目标与依据：');
+  assert.deepEqual(gate.prBodyErrors(tabMarker),[]);
+  const invalidTabMarker=tabMarker.replace(field,field+'\n\n      TODO: 等待补充实际变更范围');
+  assert(gate.prBodyErrors(invalidTabMarker).some(e=>e.includes('占位')));
+});
+
+test('嵌套列表与 Tab 下的缩进代码和围栏内容不作为可见占位',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已说明本次变更的具体范围、兼容影响和实际验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])\s*$/gmu,'$1 '+detail);
+  const field='变更目标与依据： '+detail;
+  for(const continuation of [
+    '\n\n      TODO: 这里是缩进代码内容',
+    '\n\n    - 子条目：展示缩进代码\n\n          TODO: 这里是缩进代码内容',
+    '\n\n    - 子条目：展示围栏代码\n\n      \x60\x60\x60text\n      TODO: 这里是围栏代码内容\n      \x60\x60\x60'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+continuation)),[],continuation);
+  }
+  const tabMarker=filled.replace('- 变更目标与依据：','-\t变更目标与依据：');
+  assert.deepEqual(gate.prBodyErrors(tabMarker.replace(field,field+'\n\n        TODO: 这里是缩进代码内容')),[]);
+});
+
+test('列表懒续行后保留可见占位且不误拒缩进代码',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='已说明当前变更的具体范围、兼容影响以及验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const field='- 变更目标与依据： '+description;
+  const lazy='\n继续上段对实际变更的说明。\n\n';
+  const visible=filled.replace(field,field+lazy+'    TODO: 等待补充实际约束');
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
+  const nested=filled.replace(field,field+'\n  - 子条目：说明当前变更。'+lazy+'    TODO: 等待补充实际约束');
+  assert(gate.prBodyErrors(nested).some(e=>e.includes('占位')));
+  const code=filled.replace(field,field+lazy+'      TODO: 这里是缩进代码示例');
+  assert.deepEqual(gate.prBodyErrors(code),[]);
+});
+
+test('列表标记后的超额空白构成代码而非正文占位',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='已说明当前变更的具体范围、兼容影响以及验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const field='- 变更目标与依据： '+description;
+  for(const prefix of ['-','    -']){
+    const code=filled.replace(field,field+'\n\n'+prefix+'     TODO: 这里是代码示例中的占位字样');
+    assert.deepEqual(gate.prBodyErrors(code),[],prefix);
+    const visible=filled.replace(field,field+'\n\n'+prefix+'    TODO: 等待补充实际说明');
+    assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')),prefix);
+  }
+});
+
+
+test('列表内围栏失去容器归属后恢复可见段落识别',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更的具体范围、兼容影响以及实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const field='- 变更目标与依据： '+detail;
+  const escaped=filled.replace(field,field+'\n    \x60\x60\x60\ncode\n    \x60\x60\x60\n      TODO: 等待补充具体变更要求');
+  assert(gate.prBodyErrors(escaped).some(e=>e.includes('占位')));
+  const withinList=filled.replace(field,field+'\n    \x60\x60\x60text\n    TODO: 此行是围栏代码的示例\n    \x60\x60\x60');
+  assert.deepEqual(gate.prBodyErrors(withinList),[]);
+  const atRoot=filled.replace(field,field+'\n\n\x60\x60\x60text\nTODO: 此行是顶层围栏代码的示例\n\x60\x60\x60');
+  assert.deepEqual(gate.prBodyErrors(atRoot),[]);
+});
+
+test('水平分隔线按列表层级结束上下文而不误拒缩进代码',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更的具体范围、兼容影响以及实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const field='- 变更目标与依据： '+detail;
+  for(const separator of ['***','---','___','* * *']){
+    const code=filled.replace(field,field+'\n'+separator+'\n\n    TODO: 此行是缩进代码的示例');
+    assert.deepEqual(gate.prBodyErrors(code),[],separator);
+    const visible=filled.replace(field,field+'\n  '+separator+'\n\n    TODO: 等待补充具体变更要求');
+    assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')),separator);
+    const adjacent=filled.replace(field,field+'\n'+separator+'\n    TODO: 此行是直接相邻的顶层缩进代码');
+    assert.deepEqual(gate.prBodyErrors(adjacent),[],separator+' 顶层相邻');
+    const nestedCode=filled.replace(field,field+'\n  '+separator+'\n      TODO: 此行是列表内的缩进代码');
+    assert.deepEqual(gate.prBodyErrors(nestedCode),[],separator+' 列表内相邻');
+    const nestedVisible=filled.replace(field,field+'\n  '+separator+'\n    TODO: 等待补充具体变更要求');
+    assert(gate.prBodyErrors(nestedVisible).some(e=>e.includes('占位')),separator+' 列表内可见占位');
+  }
+});
+
+test('CommonMark 解析的可见内容与代码块边界保持一致',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const description='明确本次修改的范围、受影响的调用路径以及适用的验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+description);
+  const field='- 变更目标与依据： '+description;
+  for(const source of [
+    field+'\n    \x60\x60\x60\ncode\n    \x60\x60\x60\n      TODO: 等待补充具体变更要求',
+    field+'\n\n    - 嵌套条目：说明当前变更\n\n        TODO: 等待补充具体变更要求',
+    field+'\n  继续对实际变更进行解释。\n\n    TODO: 等待补充具体变更要求'
+  ]){
+    assert(gate.prBodyErrors(filled.replace(field,source)).some(e=>e.includes('占位')),source);
+  }
+  for(const separator of ['***','---','___','* * *']){
+    const root=filled.replace(field,field+'\n'+separator+'\n    TODO: 缩进代码中的字面示例');
+    assert.deepEqual(gate.prBodyErrors(root),[],separator);
+    const nested=filled.replace(field,field+'\n  '+separator+'\n      TODO: 嵌套列表内的缩进代码');
+    assert.deepEqual(gate.prBodyErrors(nested),[],separator);
+  }
+  const html=filled.replace('## 规范、行为与影响',
+    '独立段落说明本次修改的解析范围。\n\n    <!--\n\n## 规范、行为与影响');
+  assert.deepEqual(gate.prBodyErrors(html),[]);
+});
+
+test('嵌套标题和嵌套字段不能伪造官方模板的顶层结构',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='清楚说明当前变更的实际范围、兼容影响及验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const nestedHeading=filled.replace('## 验证','> ## 验证');
+  assert(gate.prBodyErrors(nestedHeading).some(e=>e.includes('官方模板章节：验证')));
+  const nestedField=filled.replace('- 变更目标与依据： '+detail,
+    '- 其他内容：'+detail+'\n  - 变更目标与依据： '+detail);
+  assert(gate.prBodyErrors(nestedField).some(e=>e.includes('官方模板字段：变更目标与依据')));
+  const visible=filled.replace('- 变更目标与依据： '+detail,
+    '- 变更目标与依据： '+detail+'\n\n    TODO: 等待补充实际范围');
+  assert(gate.prBodyErrors(visible).some(e=>e.includes('占位')));
+});
+
+test('字面 Markdown 标记不得冒充顶层标题与官方字段',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='说明本次变更的实际对象、可观察影响和验证结论。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  for(const literal of ['\x60## 验证\x60','\\## 验证','**## 验证**']){
+    const invalid=filled.replace('## 验证',literal);
+    assert(gate.prBodyErrors(invalid).some(e=>e.includes('官方模板章节：验证')),literal);
+  }
+  for(const literal of [
+    '\x60- 变更目标与依据： '+detail+'\x60',
+    '\\- 变更目标与依据： '+detail
+  ]){
+    const invalid=filled.replace('- 变更目标与依据： '+detail,literal);
+    assert(gate.prBodyErrors(invalid).some(e=>e.includes('官方模板字段：变更目标与依据')),literal);
+  }
+});
+
+test('行内代码不能冒充破坏性 footer，真正 footer 仍要完整描述',()=>{
+  const heading='feat(api): 增加客户端鉴权输入的兼容分支';
+  const change='明确客户端传递凭据时的规范化方式，增加兼容路径并保持原有失败状态的处理规则。';
+  assert.deepEqual(gate.commitErrors(heading+'\n\n'+change+'\n\n\x60BREAKING CHANGE: 变化\x60'),[]);
+  assert(gate.commitErrors(heading+'\n\n'+change+'\n\nBREAKING CHANGE: 变化')
+    .some(e=>e.includes('契约、影响和迁移')));
+});
+
+test('破坏性变更尾注必须是源码顶层的真实 token',()=>{
+  const title='feat(api): 增加客户端鉴权输入的兼容分支';
+  const desc='增加客户端身份数据规范化分支，明确兼容范围并保留原有失败状态处理方式。';
+  for(const example of [
+    '**BREAKING CHANGE: 变化**',
+    '> BREAKING CHANGE: 变化',
+    '\\BREAKING CHANGE: 变化'
+  ]){
+    assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+'\n\n'+example),[],example);
+  }
+  assert(gate.commitErrors(title+'\n\n'+desc+'\n\nBREAKING CHANGE: 变化')
+    .some(e=>e.includes('契约、影响和迁移')));
+});
+
+test('模板尾部非字段说明不得补足空字段，缩进续段可合法填写',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更范围、兼容条件与实际验证结果。';
+  const filled=template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail);
+  const empty=filled.replace('- 合并条件及未解决阻断项： '+detail,
+    '- 合并条件及未解决阻断项：');
+  assert(gate.prBodyErrors(empty).some(e=>e.includes('合并条件及未解决阻断项')));
+  const indented=empty.replace('- 合并条件及未解决阻断项：',
+    '- 合并条件及未解决阻断项：\n  合并前完成当前候选的质量检查与独立审查。');
+  assert.deepEqual(gate.prBodyErrors(indented),[]);
+  const tab=empty.replace('- 合并条件及未解决阻断项：',
+    '- 合并条件及未解决阻断项：\n\t合并前完成当前候选的质量检查与独立审查。');
+  assert.deepEqual(gate.prBodyErrors(tab),[]);
+  const todo=empty.replace('- 合并条件及未解决阻断项：',
+    '- 合并条件及未解决阻断项：\n  TODO: 待补充当前候选的具体合并条件');
+  assert(gate.prBodyErrors(todo).some(e=>e.includes('占位')));
+});
+
+
+function completedOfficialTemplate(){
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const detail='已明确当前变更范围、兼容条件和实际验证结果，并记录合并条件。';
+  return {detail,filled:template.replace(/^(- [^\n]+[：:])[ \t]*$/gmu,'$1 '+detail)};
+}
+test('官方字段可使用 CommonMark 未缩进懒续行，不以物理缩进误判',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const lazy=filled.replace(field,'- 合并条件及未解决阻断项：\n合并前必须完成独立审查与质量检查，\n确认目标分支不存在未解决的合并阻断项。');
+  assert.deepEqual(gate.prBodyErrors(lazy),[]);
+  const empty=filled.replace(field,'- 合并条件及未解决阻断项：');
+  assert(gate.prBodyErrors(empty).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+test('跨行 HTML 注释与字符引用的可见换行不应映射到物理行号',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const comment=filled.replace(field,'- 合并条件及未解决阻断项：<!--\n此处为注释内容\n-->\n  合并前完成质量检查与独立审查，确认不存在阻断项。');
+  assert.deepEqual(gate.prBodyErrors(comment),[]);
+  const entity=filled.replace(field,'- 合并条件及未解决阻断项：&#10;合并前完成质量检查与独立审查，确认不存在阻断项。');
+  assert.deepEqual(gate.prBodyErrors(entity),[]);
+  const hidden=filled.replace(field,'- 合并条件及未解决阻断项：<!--\n全部文字位于隐藏的注释\n-->');
+  assert(gate.prBodyErrors(hidden).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+test('嵌套列表与引用块属于字段正文，但嵌套代码不构成答案',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const nested=filled.replace(field,'- 合并条件及未解决阻断项：\n  - 完成质量检查，确认没有错误\n  - 完成独立审查，检查合并条件');
+  assert.deepEqual(gate.prBodyErrors(nested),[]);
+  const quote=filled.replace(field,'- 合并条件及未解决阻断项：\n  > 合并前完成质量检查与独立审查，确认阻断项全部关闭。');
+  assert.deepEqual(gate.prBodyErrors(quote),[]);
+  const code=filled.replace(field,'- 合并条件及未解决阻断项：\n\n      这是缩进代码示例，不是已填写的合并条件。');
+  assert(gate.prBodyErrors(code).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+  const placeholder=filled.replace(field,'- 合并条件及未解决阻断项：\n  - 完成质量检查并核对相关行为\n  - TODO: 待补充独立审查要求');
+  assert(gate.prBodyErrors(placeholder).some(x=>x.includes('占位')));
+});
+test('官方模板尾注紧贴末尾空字段时不构成答案，已有正文仍可保留',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const attached=filled.replace('\n\n按变更实际涉及的对象填写。','\n按变更实际涉及的对象填写。');
+  assert.deepEqual(gate.prBodyErrors(attached),[]);
+  const empty=attached.replace('- 合并条件及未解决阻断项： '+detail,'- 合并条件及未解决阻断项：');
+  assert(gate.prBodyErrors(empty).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+test('字符引用产生的字面标题不构成新的顶层章节',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const forged=filled.replace('## 验证','## 示例&#10;## 验证');
+  assert(gate.prBodyErrors(forged).some(x=>x.includes('官方模板章节：验证')));
+  assert.deepEqual(gate.prBodyErrors(filled),[]);
+});
+
+test('行内 HTML 换行可见占位必须被拒绝，字面代码与注释不构成换行',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 尚未验证的范围或已知问题： '+detail;
+  for(const tag of ['<br>','<br/>','<br />','<BR>','<br class="wrap">','<hr>']){
+    const invalid=filled.replace(field,field+tag+'TODO: 待补充真实验证结果');
+    assert(gate.prBodyErrors(invalid).some(x=>x.includes('占位')),tag);
+  }
+  for(const example of [
+    ' 示例中的 `<br>TODO: 字面内容` 并不生成新的显示行。',
+    ' 字符引用 &lt;br&gt;TODO: 作为普通字面文本处理。',
+    '<!-- <br>TODO: 注释内部的隐藏内容 -->'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+example)),[],example);
+  }
+  const heading='fix(governance): 修正提交正文中的可见占位判断';
+  const desc='提交已修复 Markdown 内容解析的显示边界，保持原有检查要求和兼容条件。';
+  assert(gate.commitErrors(heading+'\n\n'+desc+'<br>TODO: 待补充真实验证内容')
+    .some(x=>x.includes('占位')));
+  assert.deepEqual(gate.commitErrors(heading+'\n\n'+desc+' `<br>TODO: 字面内容` 保持为行内代码。'),[]);
+});
+
+test('字符引用解码后检测零宽字符，同时允许普通实体与换行',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 尚未验证的范围或已知问题： '+detail;
+  const heading='fix(governance): 加强提交正文字符引用校验逻辑';
+  for(const entity of ['&#x200B;','&#8203;','&#x2060;','&#xAD;']){
+    const invalid=filled.replace(field,field+' TO'+entity+'DO: 待补充真实结果');
+    assert(gate.prBodyErrors(invalid).some(x=>x.includes('Unicode')),entity);
+    const message=heading+'\n\n已修复可见字符的解析路径和对应输入边界，保证校验行为一致。TO'+entity+'DO: 待补充';
+    assert(gate.commitErrors(message).some(x=>x.includes('Unicode')),entity);
+  }
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+' 常规实体 &#x4E2D; &amp; 正常解析。')),[]);
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+'&#10;补充真实执行范围及可观察检查结果。')),[]);
+});
+
+test('官方章节的三级到五级子标题保留归属，跨章节不窜入字段',()=>{
+  const {detail,filled}=completedOfficialTemplate();
+  const section='## 审查与合并前置';
+  for(const suffix of [
+    '\n\n### 审查阶段',
+    '\n\n### 审查阶段\n\n#### 合并要求',
+    '\n\n### 审查阶段\n\n#### 合并要求\n\n##### 合并条件'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled.replace(section,section+suffix)),[],suffix);
+  }
+  assert.deepEqual(gate.prBodyErrors(filled.replace(section,'### 审查与合并前置')),[]);
+  assert(gate.prBodyErrors(filled.replace(section,'#### 审查与合并前置'))
+    .some(x=>x.includes('官方模板章节：审查与合并前置')));
+  const field='- 合并条件及未解决阻断项： '+detail;
+  assert(gate.prBodyErrors(filled.replace(field,'## 其他独立章节\n\n'+field))
+    .some(x=>x.includes('官方模板字段：合并条件及未解决阻断项')));
+  assert(gate.prBodyErrors(filled.replace(section,section+'\n\n##### 子标题\n\n'+section))
+    .some(x=>x.includes('官方模板章节重复：审查与合并前置')));
+});
+
+test('模板固定尾注换行或紧贴空字段均不能补足答案',()=>{
+  const template=fs.readFileSync(path.join(__dirname,'..','.github','pull_request_template.md'),'utf8');
+  const guidance=template.trimEnd().split('\n').at(-1);
+  const {detail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const empty=filled.replace(field,'- 合并条件及未解决阻断项：');
+  const wrapped=guidance.replace('；无需','；\n无需')
+    .replace(' CI 制品。','\nCI 制品。').replace('。不能以','。\n不能以');
+  for(const tail of [guidance,wrapped]){
+    const attached=empty.replace('\n\n'+guidance,'\n'+tail);
+    assert(gate.prBodyErrors(attached).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')),tail);
+    const valid=filled.replace('\n\n'+guidance,'\n'+tail);
+    assert.deepEqual(gate.prBodyErrors(valid),[],tail);
+    const authored=empty.replace('- 合并条件及未解决阻断项：',
+      '- 合并条件及未解决阻断项：\n合并前须完成当前候选的独立审查与质量检查。')
+      .replace('\n\n'+guidance,'\n'+tail);
+    assert.deepEqual(gate.prBodyErrors(authored),[],tail);
+  }
+  assert(gate.prBodyErrors(empty.replace('\n\n'+guidance,'')).some(x=>x.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+});
+
+test('提交正文的 HTML 换行及字符引用换行不丢失有效说明',()=>{
+  const title='feat(governance): 修正提交说明中换行内容的有效性判断';
+  const details='实际修复字段解析时的显示边界，明确所有受影响输入及现有行为的兼容条件。';
+  for(const rendered of ['已说明<br>'+details,'已说明<br />'+details,'已说明&#10;'+details]){
+    assert.deepEqual(gate.commitErrors(title+'\n\n'+rendered),[],rendered);
+  }
+  const onlyFooter='Refs: #123, #124, #125, #126, #127, #128, #129';
+  assert(gate.commitErrors(title+'\n\n'+onlyFooter).some(x=>x.includes('有效正文')));
+});
+
+test('原始段落位置决定提交 Footer 边界，字符引用与 HTML 换行不得吞掉 Footer',()=>{
+  const title='feat(governance): 修正提交 Footer 与正文分界识别';
+  const refs='Refs: #123, #124, #125, #126, #127, #128, #129';
+  for(const summary of ['短句','短&#10;句','短<br>句','短<br />句']){
+    assert(gate.commitErrors(title+'\n\n'+summary+'\n\n'+refs)
+      .some(e=>e.includes('有效正文')),summary);
+  }
+  const detail='修正提交消息中的原始块级边界，并明确正文与尾注的实际读取方式。';
+  for(const summary of [detail,detail.replace('边界','边&#10;界'),detail.replace('边界','边<br>界')]){
+    assert.deepEqual(gate.commitErrors(title+'\n\n'+summary+'\n\n'+refs),[],summary);
+  }
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+detail+'\n\n说明：以下内容并非 Conventional Commit Footer，而是实际修改的处理规则。'),[]);
+  assert(gate.commitErrors(title+'\n\n短句\n\n\x60\x60\x60\nRefs: #123\n\x60\x60\x60')
+    .some(e=>e.includes('有效正文')));
+  const breakingTitle='feat(api)!: 修正协议不兼容迁移处理规则';
+  const validBreaking='请求字段已经调整，旧版客户端调用失败；需要将 legacyToken 迁移到 Authorization 请求头，并升级配置后重新接入。';
+  const body='明确旧版请求的处理路径，并记录修改后对客户端行为及升级方式的实际影响。';
+  assert.deepEqual(gate.commitErrors(breakingTitle+'\n\n'+body+'\n\nBREAKING CHANGE: '+validBreaking),[]);
+  assert(gate.commitErrors(breakingTitle+'\n\n'+body+'\n\nBREAKING CHANGE: <!-- '+validBreaking+' -->')
+    .some(e=>e.includes('契约、影响和迁移')));
+  assert(gate.commitErrors(breakingTitle+'\n\n'+body+'\nBREAKING CHANGE: '+validBreaking)
+    .some(e=>e.includes('footer')));
+});
+
+test('图片替代文字不参与提交或官方字段的可见正文门槛',()=>{
+  const image='![图片替代文字说明完整变更目标、兼容影响与实际验证结果，但页面正常加载时这段文字不可见。](https://github.githubassets.com/favicons/favicon.png)';
+  const title='feat(governance): 隔离图片替代文字与正文要求';
+  const detail='说明本次实际修改了图片与可见文本的处理方式，并核对正确的回归条件。';
+  assert(gate.commitErrors(title+'\n\n'+image).some(e=>e.includes('有效正文')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+image+'\n\n'+detail),[]);
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+detail+' '+image),[]);
+  const {detail:templateDetail,filled}=completedOfficialTemplate();
+  const field='- 合并条件及未解决阻断项： '+templateDetail;
+  const only=filled.replace(field,'- 合并条件及未解决阻断项： '+image);
+  assert(gate.prBodyErrors(only).some(e=>e.includes('字段缺少有效说明：合并条件及未解决阻断项')));
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+' '+image)),[]);
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,'- 合并条件及未解决阻断项： '+image+' '+templateDetail)),[]);
+  const imageOnlyAll=filled.replace(/^(- [^\n]+[：:]) .+$/gmu,'$1 '+image);
+  assert(gate.prBodyErrors(imageOnlyAll).some(e=>e.includes('字段缺少有效说明')));
+  assert(gate.prBodyErrors(image).some(e=>e.includes('正文缺少有信息量')));
+});
+
+
+test('原始 HTML 块仅检查真正可显示的文字，忽略注释、属性与代码',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const html of [
+    '<details><summary>TODO: 待补充实际验证</summary></details>',
+    '<div><p>TODO: 待补充真实结果</p></div>',
+    '<table><tr><td>TODO: 待补充测试结果</td></tr></table>',
+    '<details><summary>TO&#x44;O: 待补充当前结果</summary></details>'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+html).some(x=>x.includes('占位')),html);
+  }
+  for(const html of [
+    '<details><summary>已经写明具体验证情况</summary></details>',
+    '<div title="TODO: 属性不是可见文字">已经完成了相关验证</div>',
+    '<!-- TODO: 这是隐藏的 HTML 注释 -->',
+    '<pre>TODO: 这是 HTML 代码示例</pre>',
+    '<div><code>TODO: 这是代码字面量</code></div>'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+html),[],html);
+  }
+  const title='fix(governance): 修正原始 HTML 中可见占位判断';
+  const detail='正确识别原始 HTML 的实际显示文字，并保留既有代码示例的合法边界。';
+  assert(gate.commitErrors(title+'\n\n'+detail+'\n\n<details><summary>TODO: 待补充</summary></details>')
+    .some(x=>x.includes('占位')));
+});
+
+test('独立行内代码不构成占位，普通文字仍受校验',()=>{
+  const {filled,detail}=completedOfficialTemplate();
+  for(const literal of ['\u0060TODO\u0060','\u0060待补充\u0060','<code>TODO</code>']){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+literal),[],literal);
+  }
+  const field='- 尚未验证的范围或已知问题： '+detail;
+  assert.deepEqual(gate.prBodyErrors(filled.replace(field,field+'，示例为 \u0060TODO\u0060 字面标记。')),[]);
+  assert(gate.prBodyErrors(filled.replace(field,field+'<br>TODO: 待补充验证内容'))
+    .some(x=>x.includes('占位')));
+  assert(gate.prBodyErrors(filled+'\n\nTODO: 待补充当前结果').some(x=>x.includes('占位')));
+  const title='fix(governance): 保留 Markdown 行内代码字面语义';
+  const desc='校验器已经区分用户实际填写的说明与独立代码字面量，同时保持正常占位识别。';
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+'\n\n\u0060TODO\u0060'),[]);
+  assert(gate.commitErrors(title+'\n\n'+desc+'\n\nTODO: 待补充')
+    .some(x=>x.includes('占位')));
+});
+
+test('GFM 表格按独立单元格检查占位，保留转义管道与代码单元格',()=>{
+  const {filled,detail}=completedOfficialTemplate();
+  const header='\n\n| 项目 | 实际验证 |\n| :--- | ---: |\n';
+  for(const row of [
+    '| 接口检查 | TODO: 待补充 |',
+    '| 接口检查 | 待补充：真实运行结果 |',
+    '| 接口检查 | TODO: 待补充 \\| 相关说明 |'
+  ]){
+    assert(gate.prBodyErrors(filled+header+row).some(x=>x.includes('占位')),row);
+  }
+  for(const row of [
+    '| 接口检查 | 已完成端到端验证，结果符合预期 |',
+    '| 接口检查 | \u0060TODO\u0060 |',
+    '| 接口检查 | 已验证包含转义 \\| 管道的字段 |',
+    '| 接口检查 | 已核验末尾转义 \\|'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+header+row),[],row);
+  }
+  assert.deepEqual(gate.prBodyErrors(filled+'\n\n\u0060\u0060\u0060markdown\n'+
+    '| 项目 | 结果 |\n| --- | --- |\n| 检查 | TODO: 代码示例 |\n\u0060\u0060\u0060'),[]);
+  const nested=filled.replace('- 合并条件及未解决阻断项： '+detail,
+    '- 合并条件及未解决阻断项： 已完成实质审查并确认当前合并要求。\n\n'+
+    '  | 阶段 | 结果 |\n  | --- | --- |\n  | 复审 | TODO: 待补充 |');
+  assert(gate.prBodyErrors(nested).some(x=>x.includes('占位')));
+  const title='fix(governance): 修复表格单元格的可见占位检查';
+  const desc='统一按 GitHub 表格中的单元格识别实际正文，且不把代码示例误判为模板占位。';
+  assert(gate.commitErrors(title+'\n\n'+desc+header+'| 测试 | TODO: 待补充 |')
+    .some(x=>x.includes('占位')));
+  assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+header+'| 测试 | \u0060TODO\u0060 |'),[]);
+});
+
+test('GFM 表格接受一至三个连字符及全部对齐形式的分隔单元格',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const dashes of ['-','--','---']){
+    for(const delimiter of [dashes,':'+dashes,dashes+':',':'+dashes+':']){
+      const header='\n\n| 项目 | 结果 |\n| '+delimiter+' | '+delimiter+' |\n';
+      for(const value of ['TODO: 待填写','TODO: 待填写 \\| 相关说明']){
+        const table=header+'| 实际验证 | '+value+' |';
+        assert(gate.prBodyErrors(filled+table).some(x=>x.includes('占位')),table);
+        assert(gate.commitErrors(commit+table).some(x=>x.includes('占位')),table);
+      }
+      for(const value of ['已经完成接口校验与兼容检查','`TODO`','已经检查转义 \\| 管道']){
+        assert.deepEqual(gate.prBodyErrors(filled+header+'| 实际验证 | '+value+' |'),[],value);
+      }
+    }
+  }
+  for(const table of [
+    '| 项目 | 结果 |\n:-: | --:\n实际验证 | TODO: 待填写',
+    '> | 项目 | 结果 |\n> | - | -- |\n> | 实际验证 | TODO: 待填写 |',
+    '- 检查结果\n\n  | 项目 | 结果 |\n  | - | -- |\n  | 实际验证 | TODO: 待填写 |'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+table).some(x=>x.includes('占位')),table);
+  }
+});
+
+test('短分隔线仍需满足表格列数与单元格语法，普通段落不按表格拆分',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const literal of [
+    '| 项目 | 结果 |\n| : | - |\n| 实际验证 | TODO: 待填写 |',
+    '| 项目 | 结果 |\n| - |\n| 实际验证 | TODO: 待填写 |',
+    '| 项目 | 结果 |\n| - - | -- |\n| 实际验证 | TODO: 待填写 |',
+    '普通段落中的分隔符 | TODO: 待填写',
+    '```markdown\n| 项目 | 结果 |\n| - | - |\n| 实际验证 | TODO: 待填写 |\n```'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+literal),[],literal);
+  }
+});
+
+test('真实 GFM 任务标记不遮挡 PR 和提交正文中的可见占位',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const task of [
+    '- [ ] TODO: 待填写','- [x] TODO: 待填写','- [X] TODO: 待填写',
+    '* [ ] TODO: 待填写','+ [x] TODO: 待填写','1. [ ] TODO: 待填写','1) [X] TODO: 待填写',
+    '> - [ ] TODO: 待填写','- 已有检查\n  - [x] TODO: 待填写',
+    '-\t[ ] TODO: 待填写','>\t- [ ] TODO: 待填写','- [\t]\tTODO: 待填写',
+    '- [ ]\n  TODO: 待填写','-\n  [ ] TODO: 待填写',
+    '- [x] **TODO: 待填写**','- [ ] [TODO: 待填写](https://example.test)'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+task).some(x=>x.includes('占位')),task);
+    assert(gate.commitErrors(commit+'\n\n'+task).some(x=>x.includes('占位')),task);
+  }
+});
+
+test('GFM 任务标记先于引用链接解释，保留任务内容的行内语义',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const task of [
+    '- [x] TODO: 待填写\n\n[x]: https://example.test',
+    '- [x] [TODO: 待填写]\n\n[TODO: 待填写]: https://example.test',
+    '- [ ] [TODO: 待填写]\n\n[TODO: 待填写]: https://example.test',
+    '- [x] [TODO: 待填写][检查]\n\n[检查]: https://example.test'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+task).some(x=>x.includes('占位')),task);
+    assert(gate.commitErrors(commit+'\n\n'+task).some(x=>x.includes('占位')),task);
+  }
+  assert.deepEqual(gate.prBodyErrors(filled+'\n\n- [x] `TODO`\n\n[x]: https://example.test'),[]);
+});
+
+test('普通方括号、转义标记及代码字面量不成为 GFM 任务项',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const literal of [
+    '[ ] TODO: 待填写','> [x] TODO: 待填写',
+    '- \\[ ] TODO: 待填写','- &#91; &#93; TODO: 待填写',
+    '- `[ ] TODO: 待填写`','- **[ ]** TODO: 待填写',
+    '- [ ]TODO: 待填写','- [q] TODO: 待填写',
+    '- 已经完成检查\n\n  [ ] TODO: 待填写',
+    '- [ ] `TODO: 待填写`','- [x] 已经完成相关检查',
+    '- [ ] ## 验证','- [ ] - 已经完成相关检查',
+    '```markdown\n- [ ] TODO: 待填写\n```'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+literal),[],literal);
+    assert.deepEqual(gate.commitErrors(commit+'\n\n'+literal),[],literal);
+  }
+});
+
+test('任务列表保留官方字段及嵌套正文归属，复选框本身不构成答案',()=>{
+  const {filled,detail}=completedOfficialTemplate();
+  assert.deepEqual(gate.prBodyErrors(filled.replace(/^- /gmu,'- [x] ')),[]);
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const replace=value=>filled.replace(field,'- 合并条件及未解决阻断项：\n  - '+value);
+  assert(gate.prBodyErrors(replace('[ ] TODO: 待填写')).some(x=>x.includes('占位')));
+  assert(gate.prBodyErrors(replace('[ ]')).some(x=>x.includes('字段缺少有效说明')));
+  assert.deepEqual(gate.prBodyErrors(replace('[x] 已完成当前改动的独立复审与质量检查。')),[]);
+});

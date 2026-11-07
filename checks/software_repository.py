@@ -210,8 +210,9 @@ def validate_template_contracts(root=ROOT):
     root = Path(root).resolve()
     checks = {
         'templates/repository/PULL_REQUEST_TEMPLATE.md': (
-            '## 目标、基线与候选', '## 行为与影响', '## 验证', '## 审查与合并前置',
-            '作者自查', '独立审查', '恢复/回退', '未执行',
+            '## 目标、基线与候选', '## 规范、行为与影响', '## 验证', '## 审查与合并前置',
+            '变更目标与依据', '实际验证结果与结论', '作者自查与独立审查状态',
+            '合并条件及未解决阻断项',
         ),
         'templates/repository/ISSUE_TEMPLATE/defect.md': (
             '## 受影响对象', '## 复现与实际结果', '## 影响与恢复', '## 修复验收', 'SECURITY',
@@ -222,7 +223,8 @@ def validate_template_contracts(root=ROOT):
         ),
         '.github/pull_request_template.md': (
             '## 目标、基线与候选', '## 规范、行为与影响', '## 验证', '## 审查与合并前置',
-            '作者自查', '独立审查', '恢复/回退', '未执行',
+            '变更目标与依据', '实际验证结果与结论', '作者自查与独立审查状态',
+            '合并条件及未解决阻断项',
         ),
         '.github/ISSUE_TEMPLATE/defect.md': (
             '## 对象', '## 可复验事实', '## 影响与边界', '## 建议验收', 'SECURITY',
