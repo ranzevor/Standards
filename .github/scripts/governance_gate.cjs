@@ -175,7 +175,7 @@ function parseCommitFooters(rawLines){
   let footerStart=rawLines.length,active=null;
   for(let i=0;i<rawLines.length;i++){
     const marker=paragraphLines.has(i)
-      ? /^(BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?::[ \t]*|[ \t]+#)(.*)$/u.exec(rawLines[i])
+      ? /^(BREAKING CHANGE|[A-Za-z][A-Za-z0-9-]*)(?:: +| +#)(.*)$/u.exec(rawLines[i])
       : null;
     if(footerStart===rawLines.length){
       if(!marker||(i>0&&rawLines[i-1].trim())) continue;
@@ -219,6 +219,8 @@ function commitErrors(message) {
   const bodyBeforeFooters=bodyLines.slice(0,footerStart).join("\n");
   const visibleBody=prVisibleStructure(bodyBeforeFooters).placeholderLines.join("\n").trim();
   const m=/^(feat|fix|docs|refactor|perf|test|build|ci|chore|style|revert)\([^)]+\)(!)?: /u.exec(lines[0]);
+  if(rawBody.trim()&&lines[1]!=="")
+    errors.push("提交标题与正文或 footer 必须以空行分隔");
   if(rawBody!==rawBody.normalize("NFC")) errors.push("提交正文必须采用 NFC 规范化文本");
   if((rawBody&&hasInvisibleChars(rawBody,true))||hasInvisibleChars(renderedLines.join('\n'),true))
     errors.push("提交正文包含控制字符、非普通空格或不可见 Unicode 字符");
@@ -228,9 +230,15 @@ function commitErrors(message) {
   }
   if(rendered.placeholderLines.some(isPlaceholderLine))
     errors.push("提交正文包含未填写的占位内容");
+  if(entries.some(f=>!f.content.join('\n').trim()))
+    errors.push("提交 footer 必须包含非空值");
   const validBreakStarts=new Set(footers.map(f=>f.start));
   if(bodyLines.some((line,i)=>paragraphLines.has(i)
-    &&/^BREAKING(?: CHANGE|-CHANGE):/u.test(line)&&!validBreakStarts.has(i)))
+    &&/^BREAKING(?: CHANGE|-CHANGE)[ \t]*:/u.test(line)
+    &&!/^BREAKING(?: CHANGE|-CHANGE): /u.test(line)))
+    errors.push("不兼容变更 footer 须使用冒号及普通空格分隔");
+  if(bodyLines.some((line,i)=>paragraphLines.has(i)
+    &&/^BREAKING(?: CHANGE|-CHANGE): /u.test(line)&&!validBreakStarts.has(i)))
     errors.push("不兼容变更 footer 必须与正文以空行分隔");
   if((m&&m[2])||footers.length){
     const message="不兼容变更必须具体说明契约、影响和迁移方式";

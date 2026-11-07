@@ -156,6 +156,46 @@ test('多个标准 footer 连续排列时不得漏检破坏性变更',()=>{
   assert.deepEqual(gate.commitErrors(prefix+'~~~text\nBREAKING CHANGE: 变化\n~~~'),[]);
 });
 
+test('标题与正文或尾注须有空行，破坏性 Footer 必须使用普通空格',()=>{
+  const title='docs(governance): 补充旧版客户端鉴权迁移规则';
+  const body='说明旧客户端鉴权变更的背景以及使用新请求头的迁移方法。';
+  const change='旧版客户端不再支持 legacyToken 参数，旧调用返回 401；使用者必须将凭据迁移至 Authorization 请求头并升级接入配置。';
+  const breaking='BREAKING CHANGE: '+change;
+  for(const malformed of [
+    'BREAKING CHANGE:'+change,
+    'BREAKING-CHANGE:'+change,
+    'BREAKING CHANGE:\t'+change,
+    'BREAKING-CHANGE:\t'+change,
+    'BREAKING CHANGE : '+change,
+    'BREAKING-CHANGE : '+change
+  ]){
+    assert(gate.commitErrors(title+'\n\n'+body+'\n\n'+malformed)
+      .some(e=>e.includes('footer')),malformed);
+  }
+  for(const message of [
+    title+'\n'+breaking,
+    title+'\nBREAKING-CHANGE: '+change,
+    title+'\n'+body
+  ]){
+    assert(gate.commitErrors(message).some(e=>e.includes('空行分隔')),message);
+  }
+  for(const message of [
+    title+'\n\n'+breaking,
+    title+'\n\n'+body,
+    title+'\n\n'+body+'\n\n'+breaking,
+    title+'\n\n'+body+'\n\nBREAKING-CHANGE: '+change,
+    title+'\n\n'+body+'\n\nRefs #123\nReviewed-by: Reviewer\n'+breaking,
+    title+'\n\n'+body+'\n\nRefs: #123\nBREAKING-CHANGE: '+change+'\nReviewed-by: Reviewer',
+    title+'\n\n'+body+'\n\n'+breaking+'\n需要按新的凭据字段调整调用方配置。'
+  ]){
+    assert.deepEqual(gate.commitErrors(message),[],message);
+  }
+  for(const empty of ['Refs: ','Refs #','BREAKING CHANGE: ']){
+    assert(gate.commitErrors(title+'\n\n'+body+'\n\n'+empty)
+      .some(e=>e.includes('footer')),empty);
+  }
+});
+
 test('标题叹号允许由正文交代破坏性契约而无需重复尾注',()=>{
   const title='feat(api)!: 移除旧版客户端的访问凭据接口';
   const details='旧版客户端访问凭据接口已移除，继续请求将失败，必须迁移到 Authorization 请求头并升级客户端鉴权流程。';
