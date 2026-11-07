@@ -19,6 +19,19 @@ function markdownPlainText(value){
 function isPlaceholderLine(value){
   return /^(?:TODO|TBD|FIXME|待补充|占位|暂无内容|待填写|在此填写|请填写|placeholder)(?:\s*[:：-].*)?$/iu.test(markdownPlainText(value));
 }
+function parseBodyMarkdown(body){
+  const parser=new commonmark.Parser();
+  const parseInlines=parser.inlineParser.parse;
+  // CommonMark 0.29.2 在行内解析前保留原始段落；此时识别任务标记可保留块归属和引用定义。
+  parser.inlineParser.parse=function(node){
+    if(node.type==='paragraph'&&node.parent.type==='item'&&node.parent.firstChild===node){
+      node._string_content=node._string_content
+        .replace(/^ *\[[ \t\r\n\v\fxX]\](?=[ \t\r\n\v\f]|$)[ \t]*/u,'');
+    }
+    return parseInlines.call(this,node);
+  };
+  return parser.parse(body);
+}
 function visibleInlineText(node,omitCode=false){
   const fragments=[];
   const walker=node.walker();
@@ -140,7 +153,7 @@ function tableVisibleLines(node,rawLines){
   if(!rows[0].includes('|')||!rows[1].includes('|'))return null;
   const head=splitGfmCells(rows[0]),delimiter=splitGfmCells(rows[1]);
   if(!head.length||head.length!==delimiter.length
-    ||!delimiter.every(x=>/^:?-{3,}:?$/u.test(x)))return null;
+    ||!delimiter.every(x=>/^:?-+:?$/u.test(x)))return null;
   const lines=[],placeholderLines=[];
   for(const [index,row] of rows.entries()){
     if(index===1)continue;
@@ -253,7 +266,7 @@ function commitErrors(message) {
 }
 
 function prVisibleStructure(body){
-  const root=new commonmark.Parser().parse(body);
+  const root=parseBodyMarkdown(body);
   const rawLines=body.replace(/\r\n/gu,'\n').split('\n');
   const lines=[],placeholderLines=[],headings=[];
   const walker=root.walker();
@@ -273,7 +286,7 @@ function prVisibleStructure(body){
   return {lines,placeholderLines,headings};
 }
 function markdownTemplateFields(body){
-  const root=new commonmark.Parser().parse(body);
+  const root=parseBodyMarkdown(body);
   const rawLines=body.replace(/\r\n/gu,'\n').split('\n');
   const guidance='按变更实际涉及的对象填写。不适用时说明具体原因；无需为填写模板额外建立日志、快照、证据目录或 CI 制品。不能以字段齐全代替实际审查，也不能将尚未执行的验证写为已通过。';
   const guidanceTail=new RegExp([...guidance.replace(/\s/gu,'')].join('\\s*')+'\\s*$','u');

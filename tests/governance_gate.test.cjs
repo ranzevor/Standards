@@ -726,3 +726,96 @@ test('GFM 表格按独立单元格检查占位，保留转义管道与代码单�
     .some(x=>x.includes('占位')));
   assert.deepEqual(gate.commitErrors(title+'\n\n'+desc+header+'| 测试 | \u0060TODO\u0060 |'),[]);
 });
+
+test('GFM 表格接受一至三个连字符及全部对齐形式的分隔单元格',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const dashes of ['-','--','---']){
+    for(const delimiter of [dashes,':'+dashes,dashes+':',':'+dashes+':']){
+      const header='\n\n| 项目 | 结果 |\n| '+delimiter+' | '+delimiter+' |\n';
+      for(const value of ['TODO: 待填写','TODO: 待填写 \\| 相关说明']){
+        const table=header+'| 实际验证 | '+value+' |';
+        assert(gate.prBodyErrors(filled+table).some(x=>x.includes('占位')),table);
+        assert(gate.commitErrors(commit+table).some(x=>x.includes('占位')),table);
+      }
+      for(const value of ['已经完成接口校验与兼容检查','`TODO`','已经检查转义 \\| 管道']){
+        assert.deepEqual(gate.prBodyErrors(filled+header+'| 实际验证 | '+value+' |'),[],value);
+      }
+    }
+  }
+  for(const table of [
+    '| 项目 | 结果 |\n:-: | --:\n实际验证 | TODO: 待填写',
+    '> | 项目 | 结果 |\n> | - | -- |\n> | 实际验证 | TODO: 待填写 |',
+    '- 检查结果\n\n  | 项目 | 结果 |\n  | - | -- |\n  | 实际验证 | TODO: 待填写 |'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+table).some(x=>x.includes('占位')),table);
+  }
+});
+
+test('短分隔线仍需满足表格列数与单元格语法，普通段落不按表格拆分',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const literal of [
+    '| 项目 | 结果 |\n| : | - |\n| 实际验证 | TODO: 待填写 |',
+    '| 项目 | 结果 |\n| - |\n| 实际验证 | TODO: 待填写 |',
+    '| 项目 | 结果 |\n| - - | -- |\n| 实际验证 | TODO: 待填写 |',
+    '普通段落中的分隔符 | TODO: 待填写',
+    '```markdown\n| 项目 | 结果 |\n| - | - |\n| 实际验证 | TODO: 待填写 |\n```'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+literal),[],literal);
+  }
+});
+
+test('真实 GFM 任务标记不遮挡 PR 和提交正文中的可见占位',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const task of [
+    '- [ ] TODO: 待填写','- [x] TODO: 待填写','- [X] TODO: 待填写',
+    '* [ ] TODO: 待填写','+ [x] TODO: 待填写','1. [ ] TODO: 待填写','1) [X] TODO: 待填写',
+    '> - [ ] TODO: 待填写','- 已有检查\n  - [x] TODO: 待填写',
+    '-\t[ ] TODO: 待填写','>\t- [ ] TODO: 待填写','- [\t]\tTODO: 待填写',
+    '- [ ]\n  TODO: 待填写','-\n  [ ] TODO: 待填写',
+    '- [x] **TODO: 待填写**','- [ ] [TODO: 待填写](https://example.test)'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+task).some(x=>x.includes('占位')),task);
+    assert(gate.commitErrors(commit+'\n\n'+task).some(x=>x.includes('占位')),task);
+  }
+});
+
+test('GFM 任务标记先于引用链接解释，保留任务内容的行内语义',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const task of [
+    '- [x] TODO: 待填写\n\n[x]: https://example.test',
+    '- [x] [TODO: 待填写]\n\n[TODO: 待填写]: https://example.test',
+    '- [ ] [TODO: 待填写]\n\n[TODO: 待填写]: https://example.test',
+    '- [x] [TODO: 待填写][检查]\n\n[检查]: https://example.test'
+  ]){
+    assert(gate.prBodyErrors(filled+'\n\n'+task).some(x=>x.includes('占位')),task);
+    assert(gate.commitErrors(commit+'\n\n'+task).some(x=>x.includes('占位')),task);
+  }
+  assert.deepEqual(gate.prBodyErrors(filled+'\n\n- [x] `TODO`\n\n[x]: https://example.test'),[]);
+});
+
+test('普通方括号、转义标记及代码字面量不成为 GFM 任务项',()=>{
+  const {filled}=completedOfficialTemplate();
+  for(const literal of [
+    '[ ] TODO: 待填写','> [x] TODO: 待填写',
+    '- \\[ ] TODO: 待填写','- &#91; &#93; TODO: 待填写',
+    '- `[ ] TODO: 待填写`','- **[ ]** TODO: 待填写',
+    '- [ ]TODO: 待填写','- [q] TODO: 待填写',
+    '- 已经完成检查\n\n  [ ] TODO: 待填写',
+    '- [ ] `TODO: 待填写`','- [x] 已经完成相关检查',
+    '- [ ] ## 验证','- [ ] - 已经完成相关检查',
+    '```markdown\n- [ ] TODO: 待填写\n```'
+  ]){
+    assert.deepEqual(gate.prBodyErrors(filled+'\n\n'+literal),[],literal);
+    assert.deepEqual(gate.commitErrors(commit+'\n\n'+literal),[],literal);
+  }
+});
+
+test('任务列表保留官方字段及嵌套正文归属，复选框本身不构成答案',()=>{
+  const {filled,detail}=completedOfficialTemplate();
+  assert.deepEqual(gate.prBodyErrors(filled.replace(/^- /gmu,'- [x] ')),[]);
+  const field='- 合并条件及未解决阻断项： '+detail;
+  const replace=value=>filled.replace(field,'- 合并条件及未解决阻断项：\n  - '+value);
+  assert(gate.prBodyErrors(replace('[ ] TODO: 待填写')).some(x=>x.includes('占位')));
+  assert(gate.prBodyErrors(replace('[ ]')).some(x=>x.includes('字段缺少有效说明')));
+  assert.deepEqual(gate.prBodyErrors(replace('[x] 已完成当前改动的独立复审与质量检查。')),[]);
+});
