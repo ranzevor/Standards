@@ -37,7 +37,7 @@ class ClauseRegistryContractTests(unittest.TestCase):
         return source
 
     def test_record_shape_matches_repository_schema(self):
-        schema = json.loads((ROOT / 'registry/schemas/requirements.schema.json').read_text())
+        schema = json.loads((ROOT / 'registry/schemas/requirements.schema.json').read_text(encoding='utf-8'))
         self.assertEqual(CLAUSE_FIELDS, set(schema['items']['required']))
         self.assertEqual(CLAUSE_FIELDS, set(schema['items']['properties']))
         self.assertFalse(schema['items']['additionalProperties'])
@@ -45,8 +45,8 @@ class ClauseRegistryContractTests(unittest.TestCase):
     def test_complete_fixture_and_repository_corpus_are_accepted(self):
         self.assertEqual(verify_normative(fixture_source())['documents'], 162)
         self.assertEqual(verify_normative(self.with_contract())['documents'], 162)
-        documents = json.loads((ROOT / 'registry/standards.json').read_text())
-        clauses = json.loads((ROOT / 'registry/requirements.json').read_text())
+        documents = json.loads((ROOT / 'registry/standards.json').read_text(encoding='utf-8'))
+        clauses = json.loads((ROOT / 'registry/requirements.json').read_text(encoding='utf-8'))
         self.assertIs(validate_clause_registry(
             clauses, documents, lambda path: (ROOT / path).read_bytes()), clauses)
 
