@@ -20,13 +20,13 @@ class ProjectMetadataTests(unittest.TestCase):
         self.assertEqual(validate_project_metadata(self.project, self.entries)["adopted_documents"], 162)
 
     def test_release_patch_is_independent_of_document_versions(self):
-        for version in ('0.1.0', '0.1.1', '0.1.10'):
+        for version in ('0.1.0', '0.1.1', '0.1.10', '0.2.0'):
             with self.subTest(version=version):
                 result = validate_project_metadata(dict(self.project, version=version), self.entries)
                 self.assertEqual(result['adopted_documents'], 162)
 
     def test_unsupported_or_ambiguous_release_versions_are_rejected(self):
-        for version in ('0.1.01', '0.2.0', 'v0.1.1', '', None, True):
+        for version in ('0.1.01', '0.2.00', 'v0.1.1', '', None, True):
             with self.subTest(version=version), self.assertRaises(ValidationError):
                 validate_project_metadata(dict(self.project, version=version), self.entries)
 

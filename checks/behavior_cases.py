@@ -66,7 +66,7 @@ def validate_suite(suite):
         'suite fields')
     require(suite['schema'] == SCHEMA, 'unsupported case schema')
     require(re.fullmatch(r'[a-z][a-z0-9-]+', suite['suite_id']) is not None, 'suite ID')
-    require(re.fullmatch(r'0\.1\.[0-9]+', suite['introduced_in']) is not None, 'introduced version')
+    require(re.fullmatch(r'(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)\.(?:0|[1-9][0-9]*)', suite['introduced_in']) is not None, 'introduced version')
     require(suite['origin'] == 'safe-synthetic-scenarios', 'case origin must identify synthetic scenarios')
     nonempty(suite['purpose'], 'purpose')
     require(type(suite['normative_refs']) is list and suite['normative_refs'], 'normative references')

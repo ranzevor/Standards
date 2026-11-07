@@ -161,6 +161,17 @@ class FakeGitHub:
         return self.bytes[asset['id']]
 
 
+def fake_github_with_published_v0_1_2():
+    api = FakeGitHub()
+    notes = '# Standards v0.1.2\\n\\nSynthetic published predecessor.\\n'
+    payload = tag_payload('v0.1.2', PREVIOUS, notes, COMMITTED_AT)
+    object_id = tag_object_id(payload)
+    api.tag_objects[object_id] = api.tag_object(payload)
+    api.tags = {'v0.1.2': object_id}
+    api.releases = [api.release(1, 'v0.1.2', PREVIOUS, False, notes)]
+    return api
+
+
 class DelayedTagGitHub(FakeGitHub):
     def __init__(self, operation, responses):
         super().__init__()
@@ -409,6 +420,190 @@ class PublicationRecoveryTests(unittest.TestCase):
         with self.assertRaisesRegex(PublishError, 'downloaded bytes differ'):
             publish(api, INITIAL_CONFIG, INITIAL_ASSETS, COMMIT, INITIAL_NOTES)
         self.assertEqual(api.mutations, [])
+
+    def test_v0_2_0_tag_validation_matches_distribution_version_contract(self):
+        for tag in ('v0.1.0', 'v0.1.1', 'v0.1.2', 'v0.2.0', 'v1.0.0'):
+            with self.subTest(tag=tag):
+                self.assertEqual(tag_payload(tag, COMMIT, NOTES, COMMITTED_AT)['tag'], tag)
+        for tag in ('', '0.2.0', 'vv0.2.0', 'v0.2', 'v0.2.00',
+                    'v0.1.02', 'v0.2.0-rc.1', 'v01.2.0'):
+            with self.subTest(tag=tag), self.assertRaisesRegex(PublishError, 'invalid release tag name'):
+                tag_payload(tag, COMMIT, NOTES, COMMITTED_AT)
+
+    def test_v0_2_0_publishes_from_v0_1_2_with_tag_release_and_four_asset_readback(self):
+        api = fake_github_with_published_v0_1_2()
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        notes = '# Standards v0.2.0\n\nSynthetic end-to-end publication.\n'
+        assets = {name: ('synthetic v0.2.0 ' + name).encode()
+                  for name in asset_names('0.2.0')}
+        self.assertEqual(len(assets), 4)
+
+        result = publish(api, config, assets, COMMIT, notes)
+
+        self.assertEqual(result['status'], 'published-and-verified')
+        self.assertFalse(result['reused'])
+        self.assertEqual(result['version'], '0.2.0')
+        self.assertEqual(result['tag']['name'], 'v0.2.0')
+        self.assertEqual(result['tag']['kind'], 'annotated')
+        self.assertEqual(result['tag']['peeled_commit'], COMMIT)
+        self.assertEqual(tag_commit(api, 'v0.2.0'), COMMIT)
+        self.assertEqual(api.tags['v0.2.0'], result['tag']['object_sha'])
+        self.assertEqual(tag_commit(api, 'v0.1.2'), PREVIOUS)
+        self.assertEqual(len(api.tag_objects), 2)
+        self.assertEqual(api.tag_payloads[0]['tag'], 'v0.2.0')
+
+        release = next(item for item in api.releases if item['tag_name'] == 'v0.2.0')
+        self.assertFalse(release['draft'])
+        self.assertFalse(release['prerelease'])
+        self.assertTrue(release['published_at'])
+        self.assertEqual(release['target_commitish'], COMMIT)
+        self.assertEqual(release['body'], notes)
+
+        published_assets = {item['name']: item for item in api.assets.values()
+                            if item['release_id'] == release['id']}
+        self.assertEqual(set(published_assets), set(assets))
+        for name, raw in assets.items():
+            item = published_assets[name]
+            self.assertEqual(item['state'], 'uploaded')
+            self.assertEqual(item['size'], len(raw))
+            self.assertEqual(item['digest'], 'sha256:' + hashlib.sha256(raw).hexdigest())
+            self.assertEqual(api.bytes[item['id']], raw)
+            self.assertGreaterEqual(api.downloads.count(item['id']), 1)
+        api.mutations.clear()
+        repeated = publish(api, config, assets, COMMIT, notes)
+        self.assertTrue(repeated['reused'])
+        self.assertEqual(api.mutations, [])
+
+
+    def test_predecessor_release_tag_commit_mismatch_blocks_before_writes(self):
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        assets = {name: b'synthetic asset' for name in asset_names('0.2.0')}
+        for mutation in ('moved-annotated-tag', 'moved-release-target',
+                         'symbolic-release-target', 'missing-release-target'):
+            with self.subTest(mutation=mutation):
+                api = fake_github_with_published_v0_1_2()
+                if mutation == 'moved-annotated-tag':
+                    notes = api.releases[0]['body']
+                    payload = tag_payload('v0.1.2', 'd' * 40, notes, COMMITTED_AT)
+                    tag_id = tag_object_id(payload)
+                    api.tag_objects[tag_id] = api.tag_object(payload)
+                    api.tags['v0.1.2'] = tag_id
+                elif mutation == 'moved-release-target':
+                    api.releases[0]['target_commitish'] = 'd' * 40
+                elif mutation == 'symbolic-release-target':
+                    api.releases[0]['target_commitish'] = 'main'
+                else:
+                    api.releases[0]['target_commitish'] = None
+                tags_before = dict(api.tags)
+                with self.assertRaisesRegex(PublishError, 'previous release'):
+                    publish(api, config, assets, COMMIT, '# Standards v0.2.0')
+                self.assertEqual(api.mutations, [])
+                self.assertEqual(api.tags, tags_before)
+                self.assertFalse(any(r['tag_name'] == 'v0.2.0' for r in api.releases))
+
+    def test_predecessor_tag_drift_during_asset_upload_keeps_draft_unpublished(self):
+        api = fake_github_with_published_v0_1_2()
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        assets = {name: ('synthetic ' + name).encode()
+                  for name in asset_names('0.2.0')}
+        upload = api.upload
+
+        def move_previous_tag(release, name, raw):
+            result = upload(release, name, raw)
+            api.tags['v0.1.2'] = 'd' * 40
+            return result
+
+        api.upload = move_previous_tag
+        with self.assertRaisesRegex(PublishError, 'previous release tag target differs'):
+            publish(api, config, assets, COMMIT, '# Standards v0.2.0')
+        self.assertNotIn(('PATCH', '/releases/2'), api.mutations)
+        self.assertTrue(next(item for item in api.releases
+                             if item['tag_name'] == 'v0.2.0')['draft'])
+
+
+    def test_published_v0_2_0_recheck_predecessor_after_asset_readback_on_reuse(self):
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        notes = '# Standards v0.2.0\n\nSynthetic published release.\n'
+        assets = {name: ('synthetic ' + name).encode('utf-8')
+                  for name in asset_names('0.2.0')}
+        for verify_only in (False, True):
+            for move_tag in (False, True):
+                with self.subTest(verify_only=verify_only, move_tag=move_tag):
+                    api = fake_github_with_published_v0_1_2()
+                    release = api.seed_current(draft=False, version='0.2.0', notes=notes)
+                    for name, raw in assets.items():
+                        api.upload(release, name, raw)
+                    api.mutations.clear()
+                    original_download = api.download
+                    moved = [False]
+
+                    def download_with_optional_predecessor_drift(asset):
+                        raw = original_download(asset)
+                        if move_tag and not moved[0]:
+                            api.tags['v0.1.2'] = 'd' * 40
+                            moved[0] = True
+                        return raw
+
+                    api.download = download_with_optional_predecessor_drift
+                    if move_tag:
+                        with self.assertRaisesRegex(PublishError,
+                                                    'previous release tag target differs'):
+                            publish(api, config, assets, COMMIT, notes, verify_only=verify_only)
+                        self.assertTrue(moved[0])
+                    else:
+                        result = publish(api, config, assets, COMMIT, notes,
+                                         verify_only=verify_only)
+                        self.assertEqual(result['status'], 'published-and-verified')
+                        self.assertTrue(result['reused'])
+                        self.assertEqual(tag_commit(api, 'v0.1.2'), PREVIOUS)
+                    self.assertGreaterEqual(len(api.downloads), len(assets))
+                    self.assertEqual(api.mutations, [])
+
+    def test_v0_2_0_conflicting_tag_is_rejected_without_replacement(self):
+        api = fake_github_with_published_v0_1_2()
+        api.tags['v0.2.0'] = 'c' * 40
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        assets = {name: b'synthetic asset' for name in asset_names('0.2.0')}
+        with self.assertRaisesRegex(PublishError, 'tag identity conflict'):
+            publish(api, config, assets, COMMIT, '# Standards v0.2.0')
+        self.assertEqual(api.tags['v0.2.0'], 'c' * 40)
+        self.assertEqual(api.mutations, [])
+
+    def test_v0_2_0_draft_asset_mismatch_blocks_without_replacement(self):
+        api = fake_github_with_published_v0_1_2()
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.2', 'notes_path': 'releases/v0.2.0.md'}
+        notes = '# Standards v0.2.0\\n\\nSynthetic draft.\\n'
+        assets = {name: ('synthetic v0.2.0 ' + name).encode()
+                  for name in asset_names('0.2.0')}
+        release = api.seed_current(draft=True, version='0.2.0', notes=notes)
+        name = next(iter(assets))
+        wrong_bytes = b'!' * len(assets[name])
+        wrong = api.upload(release, name, wrong_bytes)
+        api.mutations.clear()
+        with self.assertRaisesRegex(PublishError, 'remote asset digest metadata mismatch'):
+            publish(api, config, assets, COMMIT, notes)
+        self.assertEqual(api.mutations, [])
+        self.assertEqual(api.bytes[wrong['id']], wrong_bytes)
+        self.assertTrue(next(item for item in api.releases if item['tag_name'] == 'v0.2.0')['draft'])
+
+    def test_minor_release_cannot_skip_an_existing_published_patch(self):
+        api = FakeGitHub()
+        api.tags['v0.1.1'] = PREVIOUS
+        api.releases.append(api.release(9, 'v0.1.1', PREVIOUS, False, 'Published 0.1.1'))
+        api.releases.append(api.release(10, 'v0.1.2', PREVIOUS, False, 'Published 0.1.2'))
+        config = {'schema': 'standards-release/1', 'version': '0.2.0',
+                  'previous_version': '0.1.1', 'notes_path': 'releases/v0.2.0.md'}
+        assets = {name: b'synthetic asset' for name in asset_names('0.2.0')}
+        with self.assertRaisesRegex(PublishError, 'newer published release'):
+            publish(api, config, assets, COMMIT, '# Standards v0.2.0')
+        self.assertNotIn('v0.2.0', api.tags)
+        self.assertFalse(any(method == 'POST' for method, _ in api.mutations))
 
     def test_subsequent_release_still_requires_published_predecessor_and_ancestry(self):
         for mutation in ('missing-release', 'draft', 'prerelease', 'missing-tag', 'not-ahead'):

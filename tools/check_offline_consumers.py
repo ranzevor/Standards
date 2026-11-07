@@ -165,6 +165,37 @@ def run(source_archive, skill_archive, evidence_dir):
             require(path.is_file() and hashlib.sha256(path.read_bytes()).hexdigest() == document['sha256'],
                     'lookup path does not identify the expected consumer file')
 
+        # Exercise substantive text in the middle and at the end of a real clause.
+        clause_lines = (source / clause['path']).read_bytes().splitlines(keepends=True)
+        body_lines = []
+        for raw_line in clause_lines[clause['line']:clause['end_line']]:
+            line = raw_line.decode('utf-8').rstrip('\r\n').strip(' \t')
+            if line and not line.lstrip().startswith('#'):
+                body_lines.append(line)
+        require(len(body_lines) >= 2, 'reference clause needs distinct middle and end body lines')
+        selected_lines = (('middle', body_lines[len(body_lines) // 2]),
+                          ('end', body_lines[-1]))
+        queries = []
+        for label, line in selected_lines:
+            phrase = line[-min(80, len(line)):]
+            require(bool(phrase.strip()), 'reference body query is empty: ' + label)
+            queries.append((label, phrase))
+        for ident, script in (
+                ('source', source / 'tools/skill_lookup.py'),
+                ('skill', skill / 'scripts/lookup.py')):
+            for label, phrase in queries:
+                result = command(ident + '-text-' + label, script,
+                                 ['--document-id', document['id'],
+                                  '--clause-id', clause['clause_id'],
+                                  '--text-query', phrase],
+                                 foreign_cwd, stdio_encoding='ascii')
+                require(result['total'] == 1, 'text lookup did not resolve the ' + label + ' body query')
+                match = result['results'][0]
+                require(match['section_sha256'] == clause['section_sha256'] and
+                        clause['line'] <= match['matched_line'] <= clause['end_line'] and
+                        phrase.casefold() in match['matched_excerpt'].casefold(),
+                        'text lookup result is not bound to the matched source text and lines')
+
         # Read-only consumers must not leave unlisted bytecode/cache files or
         # alter any packaged bytes while running from the foreign directory.
         record['post_run_integrity'] = {

@@ -29,7 +29,7 @@ class OfflineConsumerTests(unittest.TestCase):
         evidence = self.base / 'actual-native-consumers'
         result = run(self.source, self.skill, evidence)
         self.assertEqual(result['status'], 'pass')
-        self.assertEqual(len(result['commands']), 7)
+        self.assertEqual(len(result['commands']), 11)
         self.assertEqual(result['other_platforms'], 'not-run')
         self.assertTrue(all(row['exit_code'] == 0 for row in result['commands']))
         self.assertEqual(set(result['post_run_integrity']), {'source', 'agent-skill'})
