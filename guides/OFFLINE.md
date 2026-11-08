@@ -20,24 +20,35 @@
 在一个新的空目录中运行：
 
 ```powershell
-$version = '0.2.0'
-$base = "https://github.com/ranzevor/Standards/releases/download/v$version"
-Invoke-WebRequest "$base/Standards-v$version-source.zip" -OutFile "Standards-v$version-source.zip"
-Invoke-WebRequest "$base/SHA256SUMS.txt" -OutFile 'SHA256SUMS.txt'
+& {
+    $ErrorActionPreference = 'Stop'
+    $version = '0.2.0'
+    $base = "https://github.com/ranzevor/Standards/releases/download/v$version"
+    Invoke-WebRequest "$base/Standards-v$version-source.zip" -OutFile "Standards-v$version-source.zip"
+    Invoke-WebRequest "$base/SHA256SUMS.txt" -OutFile 'SHA256SUMS.txt'
 
-$archive = "Standards-v$version-source.zip"
-$line = Get-Content .\SHA256SUMS.txt | Where-Object { $_.EndsWith("  $archive") }
-if (-not $line) { throw "SHA256SUMS.txt 中没有 $archive" }
-$expected = ($line -split '\s+')[0].ToLowerInvariant()
-$actual = (Get-FileHash ".\$archive" -Algorithm SHA256).Hash.ToLowerInvariant()
-if ($actual -ne $expected) { throw "SHA-256 不匹配" }
+    $archive = "Standards-v$version-source.zip"
+    $line = @(Get-Content -LiteralPath './SHA256SUMS.txt' | Where-Object { $_.EndsWith("  $archive") })
+    if ($line.Count -ne 1) { throw "SHA256SUMS.txt 必须包含唯一的 $archive 条目" }
+    $expected = ($line[0] -split '\s+')[0].ToLowerInvariant()
+    $actual = (Get-FileHash -LiteralPath "./$archive" -Algorithm SHA256).Hash.ToLowerInvariant()
+    if ($actual -ne $expected) { throw "SHA-256 不匹配" }
 
-Expand-Archive -LiteralPath ".\$archive" -DestinationPath .
-Set-Location "Standards-v$version"
-python -X utf8 -B verify.py
-Set-Location source
-python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+    Expand-Archive -LiteralPath "./$archive" -DestinationPath .
+    Push-Location "Standards-v$version"
+    try {
+        python -X utf8 -B verify.py
+        if ($LASTEXITCODE -ne 0) { throw "发行包校验失败，退出码：$LASTEXITCODE" }
+        Set-Location source
+        python -X utf8 -B tools/skill_lookup.py --document-id STD-PG-005 --clause-id PGE-05
+        if ($LASTEXITCODE -ne 0) { throw "条款查询失败，退出码：$LASTEXITCODE" }
+    } finally {
+        Pop-Location
+    }
+}
 ```
+
+脚本块只在本次调用中设置终止错误策略；下载或解压出错即停止，Python 非零退出码显式转为错误，结束时恢复原工作目录。适用于 Windows PowerShell 5.1 与 PowerShell 7；不依赖全局错误偏好。原生命令退出码规则见 [Microsoft 错误处理说明](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_error_handling)。
 
 ### Ubuntu
 
@@ -83,6 +94,8 @@ Source 包解压后，在 `Standards-v0.2.0/` 执行 `python verify.py`，再进
 
 ## Agent Skill
 
+安装到 Codex CLI 或 Claude Code，及调用、升级与移除步骤见 [宿主安装与首次任务](SKILL-INSTALLATION.md)。
+
 Skill 包解压后，在 `ranzevor-standards/` 执行：
 
 ```sh
@@ -91,7 +104,7 @@ python -X utf8 -B scripts/lookup.py --query "Agent"
 python -X utf8 -B scripts/lookup.py --document-id STD-L0-001 --clause-id ARC-01
 ```
 
-检索可使用 `--query`、`--document-id`、`--clause-id`、`--domain` 和 `--limit`。结果提供文档身份、路径与条款行段；按任务读取适用条件、具体要求和必要依赖。源码中可直接使用 `python tools/skill_lookup.py`。
+检索可使用 `--query`、`--document-id`、`--clause-id`、`--domain`、`--limit` 和 `--offset`。`--offset` 默认为 0，表示跳过多少条已过滤结果；`total` 始终是完整命中数。分页期间保持同一发行副本与查询条件，后续页使用前一偏移加实际返回条数，结果为空时结束。结果提供文档身份、路径与条款行段；按任务读取适用条件、具体要求和必要依赖。源码中可直接使用 `python tools/skill_lookup.py`。
 
 本地构建不发布；受审查的发行配置合入 `main` 后，工作流可在验证通过后创建 Tag 和 Release，具体条件见[发行治理](../governance/RELEASE.md)。自动发布环境不可用时，维护者按同一份准确提交与制品清单手动发布。从正式发行入口取得制品，并核对同一版本的 SHA-256 清单。发现文件、清单或摘要不一致时，重新取得完整制品。
 

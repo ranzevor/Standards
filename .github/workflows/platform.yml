@@ -1,6 +1,15 @@
 name: Standards offline consumers
 
 on:
+  pull_request:
+    paths:
+      - '.github/workflows/platform.yml'
+      - 'guides/OFFLINE.md'
+      - 'guides/SKILL-INSTALLATION.md'
+      - 'tools/skill_lookup.py'
+      - 'tests/test_lookup_pagination.py'
+      - 'tests/test_quickstart_commands.py'
+      - 'tests/test_skill_installation.py'
   workflow_dispatch:
     inputs:
       runner_mode:
@@ -67,7 +76,8 @@ jobs:
               ('index', ['checks/generate_index.py', '--check']),
               ('contracts', ['checks/validate_all.py']),
               ('regressions', ['-m', 'unittest', 'tests.test_platform_portability',
-                               'tests.test_offline_consumers', '-v']),
+                               'tests.test_offline_consumers', 'tests.test_lookup_pagination',
+                               'tests.test_quickstart_commands', 'tests.test_skill_installation', '-v']),
           ]
           for name, args in commands:
               with (evidence / (name + '.stdout')).open('wb') as out, (evidence / (name + '.stderr')).open('wb') as err:
