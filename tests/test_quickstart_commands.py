@@ -128,7 +128,10 @@ try {
                                              'Bypass', '-File', str(script)], cwd=work, env=environment,
                                             capture_output=True, timeout=60)
                     self.assert_result(scenario, result, markers)
-                    self.assertEqual(Path((markers / 'cwd.txt').read_text(encoding='utf-8')), work)
+                    # PowerShell can expand a Windows 8.3 alias to its long path.
+                    reported = Path((markers / 'cwd.txt').read_text(encoding='utf-8'))
+                    self.assertTrue(reported.samefile(work), f'{reported} does not identify {work}')
+                    self.assertFalse(reported.samefile(work.parent))
                     self.assertEqual((markers / 'preference.txt').read_text(encoding='utf-8'), 'Continue')
 
 
