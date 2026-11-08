@@ -44,11 +44,12 @@ def _matched_excerpt(text: str, start: int, end: int, limit: int = 240) -> str:
     right = left + width
     return ('…' if left else '') + text[left:right] + ('…' if right < len(text) else '')
 
-def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None):
+def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None,*,offset=0):
     root=Path(root)
     if root.is_symlink() or not root.is_dir():raise ValueError('lookup root is not a plain directory')
     root=root.resolve()
     if type(limit) is not int or not 1<=limit<=100:raise ValueError('limit must be 1..100')
+    if type(offset) is not int or offset<0:raise ValueError('offset must be a nonnegative integer')
     def read(path):
         parts=checked_path(path).parts
         target=root
@@ -106,11 +107,11 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
                     'normative_end_line':normative_end,'normative_sha256':row['normative_sha256']}
             if text_needle is not None:
                 matched=None
-                for offset,raw_line in enumerate(lines[normative_start-1:normative_end]):
+                for line_offset,raw_line in enumerate(lines[normative_start-1:normative_end]):
                     line_text=_decode_physical_line(raw_line)
                     bounds=_casefold_match(line_text,text_needle)
                     if bounds is not None:
-                        matched=(normative_start+offset,line_text,bounds)
+                        matched=(normative_start+line_offset,line_text,bounds)
                         break
                 if matched is None:continue
                 line_number,line_text,(match_start,match_end)=matched
@@ -118,7 +119,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
                 result['matched_excerpt']=_matched_excerpt(line_text,match_start,match_end)
             results.append(result)
         matching=results
-    return {'version':release_version,'total':len(matching),'results':matching[:limit]}
+    return {'version':release_version,'total':len(matching),'results':matching[offset:offset+limit]}
 
 def main(argv=None):
     # JSON redirected to a file or pipe is always UTF-8, including Windows
@@ -132,10 +133,12 @@ def main(argv=None):
     parser.add_argument('--clause-id');parser.add_argument('--domain')
     parser.add_argument('--text-query',help='Exact text contained in a verified clause (not semantic search)')
     parser.add_argument('--limit',type=int,default=20)
+    parser.add_argument('--offset',type=int,default=0,help='Skip this many filtered results; retain registry order')
     args=parser.parse_args(argv)
     if not 1<=args.limit<=100:parser.error('limit must be 1..100')
+    if args.offset<0:parser.error('offset must be a nonnegative integer')
     try:
-        result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit,args.text_query)
+        result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit,args.text_query,offset=args.offset)
     except (ValueError,OSError,KeyError,TypeError) as exc:
         print('lookup failed: '+str(exc),file=sys.stderr);return 1
     print(json.dumps(result,ensure_ascii=False,indent=2));return 0
