@@ -15,6 +15,19 @@
 
 `--query` 仅检索 ID、标题、路径和领域，不检查正文；`--text-query` 是条款文本的大小写不敏感精确子串匹配，不是语义搜索。没有命中的结果不能被解释为规范不适用。避免根据猜测的文件名、编号或旧记忆直接执行。
 
+## 连续读取检索结果
+
+先限定领域或文档，再搜索正文。例如：
+
+```sh
+python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-query "授权" --limit 5
+python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-query "授权" --limit 5 --offset 5
+```
+
+输出保持 `version`、`total`、`results` 三个字段；`total` 不受分页影响。`--offset` 是非负整数，默认 0；`--limit` 仍为 1–100。按登记顺序返回，偏移在全部过滤后应用，超过总数返回空数组。继续读取时将偏移增加实际返回条数，直到达到 `total` 或返回空数组。不要在翻页中途替换发行包或改变过滤条件；版本更新后从第一页开始。分页不会跳过所选文档的索引校验。
+
+在项目目录工作时，用宿主实际加载的 `SKILL.md` 路径定位 Skill 根目录，并使用脚本绝对路径；返回的 `references/...` 路径相对于 Skill 根目录，不相对于项目工作目录。安装与首个任务见 [宿主使用说明](SKILL-INSTALLATION.md)。
+
 ## 执行顺序
 
 1. 从项目已有记录与本次授权确认任务边界。没有现成采用决定时，检索只产生候选要求，按项目正常流程选择。

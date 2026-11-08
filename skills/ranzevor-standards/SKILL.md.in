@@ -23,16 +23,16 @@ metadata:
 
 ## 离线命令
 
-在已解压的 Skill 根目录（需要 Python 3.12）：
+下列相对路径以本次宿主实际加载的 `SKILL.md` 所在目录为根（需要 Python 3.12）。在目标项目中工作时，使用脚本绝对路径；不要猜测个人安装路径或改变项目工作目录。返回的 `references/...` 同样相对于该 Skill 根目录。安装、升级与移除见 [宿主使用说明](references/guides/SKILL-INSTALLATION.md)。
 
 ```sh
 python -X utf8 -B scripts/verify_bundle.py
 python -X utf8 -B scripts/lookup.py --query "Agent"
 python -X utf8 -B scripts/lookup.py --document-id STD-PG-005 --clause-id PGE-05
-python -X utf8 -B scripts/lookup.py --text-query "授权" --limit 5
+python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-query "授权" --limit 5
 ```
 
-`--query` 搜索目录元数据；`--text-query` 搜索已校验条款中的精确文本，返回匹配行和来源身份，不进行语义推断。`--document-id`、`--clause-id`、`--domain` 可按需组合过滤。结果为零或出现身份校验错误时，不补造条款；重新选择检索条件或恢复正确发行包。
+`--query` 搜索目录元数据；`--text-query` 搜索已校验条款中的精确文本，返回匹配行和来源身份，不进行语义推断。`--document-id`、`--clause-id`、`--domain` 可按需组合过滤。`total` 是全部命中数，`results` 是当前页；需要后续结果时，用相同条件和发行副本，将 `--offset` 增加本页实际条数，直到取全。结果为零或出现身份校验错误时，不补造条款；重新选择检索条件或恢复正确发行包。
 
 按需读取 [AI 行为专题](references/guides/AI-BEHAVIOR.md)、[采用指南](references/guides/ADOPTION.md) 和 [规范目录](references/INDEX.md)。不要求一次加载所有规范，也不为简单任务制造额外记录。
 
