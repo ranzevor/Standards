@@ -94,7 +94,7 @@ Source 包解压后，在 `Standards-v0.2.0/` 执行 `python verify.py`，再进
 
 ## Agent Skill
 
-安装到 Codex CLI 或 Claude Code，及调用、升级与移除步骤见 [宿主安装与首次任务](SKILL-INSTALLATION.md)。
+交给兼容 Agent 安装，以及调用、升级与移除步骤见 [宿主安装与首次任务](SKILL-INSTALLATION.md)。
 
 Skill 包解压后，在 `ranzevor-standards/` 执行：
 
