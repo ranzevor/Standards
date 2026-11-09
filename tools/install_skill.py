@@ -66,13 +66,19 @@ class _WindowsAPI:
         self.info = self.dll.GetFileInformationByHandleEx
         self.info.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32]
         self.info.restype = ctypes.c_int
-        self.rename = self.dll.SetFileInformationByHandle
-        self.rename.argtypes = [ctypes.c_void_p, ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32]
-        self.rename.restype = ctypes.c_int
+        self.ntdll = ctypes.WinDLL('ntdll')
+        self.rename = self.ntdll.NtSetInformationFile
+        self.rename.argtypes = [ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p,
+                                ctypes.c_uint32, ctypes.c_int]
+        self.rename.restype = ctypes.c_int32
+        self.error = self.ntdll.RtlNtStatusToDosError
+        self.error.argtypes = [ctypes.c_int32]
+        self.error.restype = ctypes.c_uint32
 
     def directory(self, path: Path, *, movable: bool = False) -> int:
         # No delete sharing pins ancestors against rename/removal until CloseHandle.
-        access = 0x80 | (0x10000 if movable else 0)  # READ_ATTRIBUTES, DELETE
+        # Metadata-only opens do not enforce directory sharing restrictions.
+        access = 0x100080 | (0x10000 if movable else 1)  # SYNCHRONIZE | READ_ATTRIBUTES, DELETE or LIST_DIRECTORY
         share = 3 | (4 if movable else 0)  # READ | WRITE, optionally DELETE
         handle = self.open(str(path), access, share, None, 3, 0x02200000, None)
         if handle == ctypes.c_void_p(-1).value:
@@ -91,13 +97,18 @@ class _WindowsAPI:
     def move(self, source: Path, target: Path, parent: int) -> None:
         class RenameInfo(ctypes.Structure):
             _fields_ = [('flags', ctypes.c_uint32), ('root', ctypes.c_void_p),
-                        ('length', ctypes.c_uint32), ('name', ctypes.c_wchar * (len(target.name) + 1))]
+                        ('length', ctypes.c_uint32), ('name', ctypes.c_wchar * (len(target.name) + 2))]
+        class IoStatus(ctypes.Structure):
+            _fields_ = [('status_or_pointer', ctypes.c_void_p), ('information', ctypes.c_size_t)]
         info = RenameInfo(0, parent, len(target.name.encode('utf-16-le')), target.name)
+        io_status = IoStatus()
         handle = self.directory(source, movable=True)
         try:
-            # FileRenameInfo resolves the leaf name against the pinned destination handle.
-            if not self.rename(handle, 3, ctypes.byref(info), ctypes.sizeof(info)):
-                raise ctypes.WinError(ctypes.get_last_error())
+            # FileRenameInformation resolves only the leaf against the held parent.
+            status = self.rename(handle, ctypes.byref(io_status), ctypes.byref(info),
+                                 ctypes.sizeof(info), 10)
+            if status < 0:
+                raise ctypes.WinError(self.error(status))
         finally:
             self.close(handle)
 
