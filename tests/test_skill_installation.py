@@ -1,5 +1,6 @@
 """Scope-safe installation and recovery for host-selected discovery directories."""
 from concurrent.futures import ThreadPoolExecutor
+import ctypes
 import json
 import os
 from pathlib import Path
@@ -212,9 +213,9 @@ class SkillInstallationTests(unittest.TestCase):
 
     def test_competing_empty_target_is_not_replaced(self):
         publish = install_skill._publish
-        def compete(source, target):
+        def compete(source, target, **parents):
             target.mkdir()
-            publish(source, target)
+            publish(source, target, **parents)
         with patch('tools.install_skill._publish', side_effect=compete), self.assertRaises(FileExistsError):
             self.install()
         self.assertTrue(self.target.is_dir())
@@ -282,6 +283,117 @@ install(Path(sys.argv[1]), Path(sys.argv[2]), Path('client/skills'))
                 installed = Path(json.loads(result.stdout)['path'])
                 verify_directory(installed)
                 verify_directory(bundle)
+
+    @unittest.skipUnless(sys.platform == 'linux', 'POSIX parent replacement requires Linux')
+    def test_parent_replacement_at_publication_is_rejected_without_external_writes(self):
+        outside = self.base / 'outside-at-publication'
+        outside.mkdir()
+        self.skills.mkdir(parents=True)
+        other = self.skills / 'other-skill'
+        other.mkdir()
+        (other / 'SKILL.md').write_text('keep', encoding='utf-8')
+        publish = install_skill._publish
+        for parent in (self.skills, self.skills.parent):
+            with self.subTest(parent=parent.name):
+                parked = self.project / ('checked-' + parent.name)
+                invoked = []
+                def redirect(source, target, **parents):
+                    # This separate process runs after the installer's final path checks.
+                    result = subprocess.run([
+                        sys.executable, '-B', '-c',
+                        'from pathlib import Path; import sys; '
+                        'p,q,o=map(Path,sys.argv[1:]); p.rename(q); p.symlink_to(o,target_is_directory=True)',
+                        str(parent), str(parked), str(outside)], capture_output=True, timeout=30)
+                    self.assertEqual(result.returncode, 0, result.stderr)
+                    invoked.append(True)
+                    publish(source, target, **parents)
+                try:
+                    with patch.object(install_skill, '_publish', side_effect=redirect), \
+                            self.assertRaisesRegex(ValueError, 'parent was replaced'):
+                        self.install()
+                    self.assertEqual(invoked, [True])
+                    self.assertEqual(list(outside.iterdir()), [])
+                    self.assertEqual(list(parked.rglob('ranzevor-standards')), [])
+                    preserved = parked / ('other-skill' if parent == self.skills else 'skills/other-skill')
+                    self.assertEqual((preserved / 'SKILL.md').read_text(encoding='utf-8'), 'keep')
+                    self.assertEqual(list(self.project.glob('.standards-install-*')), [])
+                finally:
+                    if parent.is_symlink():
+                        parent.unlink()
+                        parked.rename(parent)
+        self.install()
+        verify_directory(self.target)
+
+    @unittest.skipUnless(sys.platform == 'linux', 'Descriptor-relative rename requires Linux')
+    def test_kernel_move_uses_pinned_parents_not_replaced_pathnames(self):
+        self.skills.mkdir(parents=True)
+        stage = self.project / 'private-stage'; stage.mkdir()
+        staged = stage / 'ranzevor-standards'
+        shutil.copytree(self.source, staged)
+        outside = self.base / 'outside-kernel'; outside.mkdir()
+        parked = self.project / 'pinned-parent'
+        native = ctypes.CDLL(None, use_errno=True).renameat2
+        native.argtypes = [ctypes.c_int, ctypes.c_char_p, ctypes.c_int, ctypes.c_char_p, ctypes.c_uint]
+        native.restype = ctypes.c_int
+        calls = []
+        def swap_at_syscall(source_fd, source_name, target_fd, target_name, flags):
+            self.assertGreaterEqual(source_fd, 0)
+            self.assertGreaterEqual(target_fd, 0)
+            self.assertEqual((source_name, target_name, flags),
+                             (b'ranzevor-standards', b'ranzevor-standards', 1))
+            if not calls:
+                self.skills.rename(parked)
+                self.skills.symlink_to(outside, target_is_directory=True)
+            calls.append((source_fd, target_fd))
+            return native(source_fd, source_name, target_fd, target_name, flags)
+        library = type('Library', (), {})()
+        library.renameat2 = swap_at_syscall
+        with install_skill._pin_parent(stage) as source_parent, \
+                install_skill._pin_parent(self.skills) as target_parent, \
+                patch.object(install_skill.ctypes, 'CDLL', return_value=library):
+            with self.assertRaisesRegex(ValueError, 'parent was replaced'):
+                install_skill._publish(staged, self.target, source_parent=source_parent,
+                                       target_parent=target_parent)
+        self.assertEqual(len(calls), 2)
+        self.assertEqual(calls[1], tuple(reversed(calls[0])))
+        self.assertEqual(list(outside.iterdir()), [])
+        self.assertEqual(list(parked.iterdir()), [])
+        verify_directory(staged)
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows directory sharing requires Windows')
+    def test_windows_parents_cannot_be_replaced_during_final_move(self):
+        publish = install_skill._publish
+        blocked = []
+        def try_replace(source, target, **parents):
+            for parent in (target.parent, target.parent.parent, source.parent):
+                result = subprocess.run([
+                    sys.executable, '-B', '-c',
+                    'from pathlib import Path; import sys; Path(sys.argv[1]).rename(sys.argv[2])',
+                    str(parent), str(parent.with_name(parent.name + '-moved'))],
+                    capture_output=True, timeout=30)
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                self.assertTrue(parent.is_dir())
+                self.assertFalse(parent.with_name(parent.name + '-moved').exists())
+                blocked.append(parent.name)
+            publish(source, target, **parents)
+        with patch.object(install_skill, '_publish', side_effect=try_replace):
+            self.install()
+        self.assertEqual(len(blocked), 3)
+        verify_directory(self.target)
+        moved = self.project / 'parent-after-close'
+        self.skills.rename(moved)
+        moved.rename(self.skills)
+
+    def test_directory_handles_are_released_when_publication_fails(self):
+        with patch.object(install_skill, '_publish', side_effect=OSError('move failed')), \
+                self.assertRaises(OSError):
+            self.install()
+        self.assert_no_installation()
+        moved = self.project / 'parent-after-error'
+        self.skills.rename(moved)
+        moved.rename(self.skills)
+        self.install()
+        verify_directory(self.target)
 
 
 class InstallationPromptTests(unittest.TestCase):
