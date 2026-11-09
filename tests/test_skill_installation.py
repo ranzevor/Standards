@@ -143,7 +143,9 @@ class SkillInstallationTests(unittest.TestCase):
                 self.skills.rmdir()
                 self.skills.symlink_to(outside, target_is_directory=True)
             return result
-        with patch('shutil.copytree', side_effect=redirect), self.assertRaisesRegex(ValueError, 'link or reparse'):
+        expected = (self.assertRaises(PermissionError) if os.name == 'nt' else
+                    self.assertRaisesRegex(ValueError, 'parent was replaced'))
+        with patch('shutil.copytree', side_effect=redirect), expected:
             self.install()
         self.assertEqual(list(outside.iterdir()), [])
         self.assertEqual(list(self.project.glob('.standards-install-*')), [])
@@ -394,6 +396,118 @@ install(Path(sys.argv[1]), Path(sys.argv[2]), Path('client/skills'))
         moved.rename(self.skills)
         self.install()
         verify_directory(self.target)
+
+
+    @unittest.skipUnless(sys.platform == 'linux', 'Descriptor-relative staging requires Linux')
+    def test_staging_replacement_before_copy_never_copies_payload_outside_scope(self):
+        stage = self.project / 'staging'; stage.mkdir()
+        moved = self.base / 'moved-staging'
+        copytree = shutil.copytree
+        triggered = []
+        def redirect(src, dst, *args, **kwargs):
+            if Path(src) == self.source:
+                stage.rename(moved)
+                stage.symlink_to(moved, target_is_directory=True)
+                triggered.append(True)
+            return copytree(src, dst, *args, **kwargs)
+        try:
+            with patch('shutil.copytree', side_effect=redirect), \
+                    self.assertRaisesRegex(ValueError, 'parent was replaced'):
+                self.install(staging_parent=Path('staging'))
+            self.assertEqual(triggered, [True])
+            self.assertEqual(list(moved.iterdir()), [])
+            self.assertFalse(self.target.exists())
+        finally:
+            if stage.is_symlink():
+                stage.unlink()
+                moved.rename(stage)
+        self.install(staging_parent=Path('staging'))
+        verify_directory(self.target)
+
+    @unittest.skipUnless(sys.platform == 'linux', 'Descriptor-relative creation requires Linux')
+    def test_staging_creation_does_not_follow_replaced_parent(self):
+        stage = self.project / 'staging'; stage.mkdir()
+        parked = self.project / 'original-staging'
+        outside = self.base / 'outside-create'; outside.mkdir()
+        native = tempfile.mkdtemp
+        def redirect(*args, **kwargs):
+            stage.rename(parked)
+            stage.symlink_to(outside, target_is_directory=True)
+            return native(*args, **kwargs)
+        try:
+            with patch.object(install_skill.tempfile, 'mkdtemp', side_effect=redirect), \
+                    self.assertRaisesRegex(ValueError, 'parent was replaced'):
+                self.install(staging_parent=Path('staging'))
+            self.assertEqual(list(outside.iterdir()), [])
+            self.assertEqual(list(parked.iterdir()), [])
+            self.assertFalse(self.target.exists())
+        finally:
+            if stage.is_symlink():
+                stage.unlink()
+                parked.rename(stage)
+
+    @unittest.skipUnless(sys.platform == 'linux', 'Descriptor-relative cleanup requires Linux')
+    def test_cleanup_never_removes_a_replacement_parent_tree(self):
+        stage = self.project / 'staging'; stage.mkdir()
+        parked = self.project / 'original-staging'
+        outside = self.base / 'outside-cleanup'; outside.mkdir()
+        remove = shutil.rmtree
+        redirected = []
+        def redirect(path, *args, **kwargs):
+            if not redirected:
+                stage.rename(parked)
+                stage.symlink_to(outside, target_is_directory=True)
+                # A competing tree has the same temporary name but belongs to another writer.
+                other = outside / Path(path).name
+                other.mkdir()
+                (other / 'keep.txt').write_text('unrelated', encoding='utf-8')
+                redirected.append(other)
+            return remove(path, *args, **kwargs)
+        try:
+            with patch('shutil.copytree', side_effect=OSError('copy interrupted')), \
+                    patch('shutil.rmtree', side_effect=redirect), self.assertRaisesRegex(OSError, 'copy interrupted'):
+                self.install(staging_parent=Path('staging'))
+            self.assertEqual(len(redirected), 1)
+            self.assertEqual((redirected[0] / 'keep.txt').read_text(encoding='utf-8'), 'unrelated')
+            self.assertEqual(list(parked.iterdir()), [])
+            self.assertFalse(self.target.exists())
+        finally:
+            if stage.is_symlink():
+                stage.unlink()
+                parked.rename(stage)
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows sharing requires Windows')
+    def test_windows_staging_is_pinned_during_copy_and_cleanup(self):
+        stage = self.project / 'staging'; stage.mkdir()
+        copytree, remove = shutil.copytree, shutil.rmtree
+        blocked = []
+        def attempt_move(parent):
+            moved = parent.with_name(parent.name + '-moved')
+            result = subprocess.run([
+                sys.executable, '-B', '-c',
+                'from pathlib import Path; import sys; Path(sys.argv[1]).rename(sys.argv[2])',
+                str(parent), str(moved)], capture_output=True, timeout=30)
+            self.assertNotEqual(result.returncode, 0, result.stdout)
+            self.assertTrue(parent.is_dir())
+            self.assertFalse(moved.exists())
+            blocked.append(parent)
+        def copy(src, dst, *args, **kwargs):
+            if Path(src) == self.source:
+                attempt_move(stage)
+                attempt_move(Path(dst).parent)
+            return copytree(src, dst, *args, **kwargs)
+        def cleanup(path, *args, **kwargs):
+            attempt_move(stage)
+            return remove(path, *args, **kwargs)
+        with patch('shutil.copytree', side_effect=copy), patch('shutil.rmtree', side_effect=cleanup):
+            self.install(staging_parent=Path('staging'))
+        self.assertEqual(len(blocked), 3)
+        self.assertEqual(list(stage.iterdir()), [])
+        verify_directory(self.target)
+        moved = self.project / 'staging-after-close'
+        stage.rename(moved)
+        moved.rename(stage)
+
 
 
 class InstallationPromptTests(unittest.TestCase):

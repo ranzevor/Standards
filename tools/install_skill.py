@@ -29,7 +29,7 @@ def _plain(path: Path) -> None:
         raise ValueError('installation path contains a link or reparse point: ' + str(path))
 
 
-def _directory(scope: Path, relative: Path, *, create: bool = False) -> Path:
+def _directory(scope: Path, relative: Path) -> Path:
     relative = Path(relative)
     if relative.is_absolute() or relative.drive or '..' in relative.parts:
         raise ValueError('installation directory must be relative to the selected scope')
@@ -38,12 +38,7 @@ def _directory(scope: Path, relative: Path, *, create: bool = False) -> Path:
     for part in relative.parts:
         current = current / part
         if not os.path.lexists(current):
-            if not create:
-                continue
-            try:
-                current.mkdir()
-            except FileExistsError:
-                pass
+            continue
         if os.path.lexists(current):
             _plain(current)
             if not current.is_dir():
@@ -117,6 +112,15 @@ class _PinnedParent:
     def __init__(self, path: Path, handle: int, links, windows=None):
         self.path, self.handle, self.links, self.windows = path, handle, links, windows
 
+    def view(self) -> Path:
+        if self.windows is not None:
+            return self.path
+        # Keep path-based package readers attached to the open directory, not its name.
+        path = Path('/proc/self/fd') / str(self.handle)
+        if not os.path.samestat(path.stat(), os.fstat(self.handle)):
+            raise OSError(errno.ENOTSUP, 'directory-descriptor paths are unavailable')
+        return path
+
     def check(self) -> None:
         if self.windows is not None:
             # All ancestors are open without delete sharing; their names cannot be replaced.
@@ -154,6 +158,65 @@ def _pin_parent(path: Path):
             yield _PinnedParent(path, handle, links)
         else:
             raise OSError(errno.ENOTSUP, 'handle-bound directory installation is unavailable')
+
+
+@contextmanager
+def _pin_child(parent: _PinnedParent, relative: Path, *, create: bool = False):
+    """Create/open descendants through the held parent, retaining all intermediate handles."""
+    parts = Path(relative)
+    if parts.is_absolute() or parts.drive or '..' in parts.parts:
+        raise ValueError('installation directory must be relative to the selected scope')
+    with ExitStack() as stack:
+        current = parent
+        for part in parts.parts:
+            current.check()
+            if create:
+                try:
+                    if current.windows is not None:
+                        (current.path / part).mkdir()
+                    else:
+                        os.mkdir(part, dir_fd=current.handle)
+                except FileExistsError:
+                    pass
+            if current.windows is not None:
+                handle = current.windows.directory(current.path / part)
+                stack.callback(current.windows.close, handle)
+                links = ()
+            else:
+                handle = os.open(part, os.O_PATH | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC,
+                                 dir_fd=current.handle)
+                stack.callback(os.close, handle)
+                links = (*current.links, (current.handle, part, handle))
+            current = _PinnedParent(current.path / part, handle, links, current.windows)
+        current.check()
+        yield current
+
+
+@contextmanager
+def _temporary_copy(parent: _PinnedParent):
+    """Keep creation and cleanup rooted in the same parent for the whole staging lifetime."""
+    parent.check()
+    temporary = Path(tempfile.mkdtemp(prefix='.standards-install-', dir=parent.view()))
+    try:
+        with _pin_child(parent, Path(temporary.name)) as private:
+            yield private
+    finally:
+        # The Windows parent is still delete-locked; Linux resolves only this relative name.
+        if parent.windows is not None:
+            shutil.rmtree(temporary)
+        else:
+            shutil.rmtree(temporary.name, dir_fd=parent.handle)
+
+
+def _copy_skill(source: Path, private: _PinnedParent) -> Path:
+    private.check()
+    staged = private.view() / NAME
+    def copy_file(src, dst):
+        private.check()
+        return shutil.copy2(src, dst)
+    shutil.copytree(source, staged, symlinks=True, copy_function=copy_file)
+    private.check()
+    return staged
 
 
 def _publish(source: Path, target: Path, *, source_parent: _PinnedParent,
@@ -213,20 +276,16 @@ def install(source: Path, scope_root: Path, skills_dir: Path,
         raise ValueError('installation and staging must not be inside the source Skill')
     if os.path.lexists(target):
         raise FileExistsError('a Skill already exists at ' + str(target))
-    _directory(scope, skills_dir, create=True)
-    _directory(scope, staging_parent, create=True)
-    with tempfile.TemporaryDirectory(prefix='.standards-install-', dir=staging) as temporary:
-        staged = Path(temporary) / NAME
-        # Preserve redirected entries rather than following them; verification rejects them.
-        shutil.copytree(source, staged, symlinks=True)
+    with _pin_parent(scope) as scope_parent, \
+            _pin_child(scope_parent, skills_dir, create=True) as target_parent, \
+            _pin_child(scope_parent, staging_parent, create=True) as staging_handle, \
+            _temporary_copy(staging_handle) as source_parent:
+        staged = _copy_skill(source, source_parent)
         for entry in staged.rglob('*'):
             _plain(entry)
         if verify_directory(staged) != original:
             raise ValueError('the Skill changed while being copied')
-        _directory(scope, staging_parent)
-        _directory(scope, skills_dir)
-        with _pin_parent(staged.parent) as source_parent, _pin_parent(target.parent) as target_parent:
-            _publish(staged, target, source_parent=source_parent, target_parent=target_parent)
+        _publish(staged, target, source_parent=source_parent, target_parent=target_parent)
     return {'version': original['version'], 'path': str(target)}
 
 
