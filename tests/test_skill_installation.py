@@ -164,7 +164,7 @@ class SkillInstallationTests(unittest.TestCase):
         verify_directory(self.source)
 
     def test_copy_error_and_keyboard_interrupt_leave_no_discoverable_skill_and_retry(self):
-        original = shutil.copyfile
+        original, copytree = shutil.copy2, shutil.copytree
         for failure in (OSError('copy failed'), KeyboardInterrupt()):
             with self.subTest(error=type(failure).__name__):
                 calls = []
@@ -174,8 +174,13 @@ class SkillInstallationTests(unittest.TestCase):
                     if len(calls) == 3:
                         raise failure
                     return original(src, dst, *args, **kwargs)
-                with patch('shutil.copyfile', side_effect=copy), self.assertRaises(type(failure)):
+                def copy_with_failure(src, dst, *args, **kwargs):
+                    if Path(src) == self.source:
+                        kwargs['copy_function'] = copy
+                    return copytree(src, dst, *args, **kwargs)
+                with patch('shutil.copytree', side_effect=copy_with_failure), self.assertRaises(type(failure)):
                     self.install()
+                self.assertGreaterEqual(len(calls), 3)
                 self.assert_no_installation()
         result = self.install()
         self.assertTrue(Path(result['path']).samefile(self.target))
@@ -234,7 +239,7 @@ class SkillInstallationTests(unittest.TestCase):
 import os, shutil, sys
 from pathlib import Path
 from tools.install_skill import install
-copyfile = shutil.copyfile
+copyfile, copytree = shutil.copy2, shutil.copytree
 count = 0
 def crash(src, dst, *args, **kwargs):
     global count
@@ -242,7 +247,11 @@ def crash(src, dst, *args, **kwargs):
     if count == 3:
         os._exit(29)
     return copyfile(src, dst, *args, **kwargs)
-shutil.copyfile = crash
+def interrupted_tree(src, dst, *args, **kwargs):
+    if Path(src) == Path(sys.argv[1]):
+        kwargs['copy_function'] = crash
+    return copytree(src, dst, *args, **kwargs)
+shutil.copytree = interrupted_tree
 install(Path(sys.argv[1]), Path(sys.argv[2]), Path('client/skills'))
 '''
         crashed = subprocess.run([sys.executable, '-B', '-c', code, str(self.source), str(self.project)],
