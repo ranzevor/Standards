@@ -42,6 +42,13 @@ def published_predecessor():
 
 
 class PatchReleaseTests(unittest.TestCase):
+    def test_changelog_uses_versioned_release_section(self):
+        changelog = (Path(__file__).resolve().parents[1] / 'CHANGELOG.md').read_text(encoding='utf-8')
+        section = changelog.split('## 0.2.1\n', 1)
+        self.assertEqual(len(section), 2)
+        self.assertIn('发行内容见 [0.2.1](releases/v0.2.1.md)。', section[1].split('## 0.2.0', 1)[0])
+        self.assertNotIn('## 未发布（0.2.1）', changelog)
+
     def test_patch_requires_the_exact_predecessor(self):
         self.assertEqual(validate_release_config(CONFIG, '0.2.1'), CONFIG)
         for previous in (None, '0.1.2', '0.2.1', '0.2.2', '0.2.00'):
