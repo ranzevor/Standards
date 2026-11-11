@@ -13,8 +13,9 @@
 | [按需加载与宿主适配](cases/context.json) | 6 | 0.1.0 |
 | [真实行为评测操作](cases/evaluation.json) | 6 | 0.1.0 |
 | [Skill 规范消费](cases/skill-consumption.json) | 4 | 0.2.0 |
+| [Skill 真实宿主任务](cases/skill-host-tasks.json) | 3 | 0.2.1 |
 
-当前共 40 个场景。规范引用通过稳定文档和条款 ID 解析；运行时还要固定准确版本与摘要。
+当前共 43 个场景。规范引用通过稳定文档和条款 ID 解析；运行时还要固定准确版本与摘要。
 
 ```sh
 python -m checks.behavior_cases
@@ -25,3 +26,5 @@ python -m checks.behavior_cases
 ## 在项目中采用
 
 参考[采用、升级与反馈](../../../guides/ai-behavior/ADOPTION.md)固定选用范围及准确版本。报告具体偏差时使用[反馈模板](FEEDBACK.template.md)，保留原失败、实际配置及合法邻例。项目采用状态和模型运行结果分别记录。
+
+真实宿主任务的安装范围、显式与自然触发试验、独立交付复核见[宿主任务说明](../../../guides/SKILL-HOST-TASKS.md)。

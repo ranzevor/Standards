@@ -30,6 +30,18 @@ Standards 是面向中文开发者、项目发起者、研究者、维护者与�
 
 运行工具需要 Python 3.12，仅使用标准库。在线阅读不需要安装；正式发行包解压即用，无需账号、凭据或环境变量。
 
+### 交给 Agent 安装 Skill
+
+将下面的提示词复制给当前使用的 Agent：
+
+```text
+请在我当前使用的 Agent 环境中，为当前项目安装 Ranzevor Standards 的 ranzevor-standards Skill。仓库：https://github.com/ranzevor/Standards 。从该仓库 GitHub Releases 获取最新正式发布的完整 Agent Skill 包，不使用未发布的 PR、分支源码或 SKILL.md.in 模板。按 Agent Skills 开放规范（https://agentskills.io/specification）处理 SKILL.md 和随附资源，并根据当前 Agent 实际支持的发现与安装机制选择当前项目范围的安装位置；不要把某个 Agent 专属目录、命令、插件或服务当作协议要求。
+
+安装前校验发行包，保留完整技能目录。不得覆盖已有同名 Skill，不得经符号链接、junction 等重定向写出项目范围；先在项目范围内、技能发现目录外暂存并验证，成功后再放入正式位置，失败不得留下可被发现的不完整技能。完成后确认当前 Agent 能发现并加载技能，使用随包检索脚本完成一次只读条款查询，并报告安装版本、实际位置和验证结果。不要修改业务源码、现有项目采用决定、其他 Skill 或全局配置。当前 Agent 不支持项目级安装或缺少实际权限时，说明具体缺失，不改为全局安装，也不以安装说明冒充安装成功。
+```
+
+安装流程与中英文提示词见[安装指南](guides/SKILL-INSTALLATION.md)。
+
 ### 从正式发行包开始
 
 1. 从 [Standards v0.2.0](https://github.com/ranzevor/Standards/releases/tag/v0.2.0) 下载 [`Standards-v0.2.0-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.2.0/Standards-v0.2.0-source.zip) 和 [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.2.0/SHA256SUMS.txt)。
@@ -70,7 +82,7 @@ python -X utf8 -B -m unittest discover -s tests -v
 - **软件开发与维护：** [变更流程](guides/SOFTWARE-CHANGE-WORKFLOW.md) · [门禁设计](guides/QUALITY-GATE-DESIGN.md) · [制品安装与恢复](guides/ARTIFACT-INSTALLATION-LIFECYCLE.md)
 - **核对依据：** [官方来源与适用边界][sources] · [语言覆盖与翻译流程][languages]
 
-- **Agent Skill 规范消费：** [按任务选读与准确条款检索](guides/SKILL-CONSUMPTION.md) · [离线使用](guides/OFFLINE.md)
+- **Agent Skill 规范消费：** [安装与首次任务](guides/SKILL-INSTALLATION.md) · [按任务选读与准确条款检索](guides/SKILL-CONSUMPTION.md) · [离线使用](guides/OFFLINE.md)
 - **AI 行为配置：** [可选行为指南](guides/AI-BEHAVIOR.md) · [场景与验证](examples/ai-agent/behavior/README.md)
 
 - **原生平台验收：** [编码、路径与离线消费者](guides/CROSS-PLATFORM.md)

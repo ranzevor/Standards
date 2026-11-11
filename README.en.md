@@ -30,6 +30,18 @@ Project governance covers repositories and maintenance. L0–L3 organize archite
 
 The tools require Python 3.12 and use only the standard library. Reading online requires no installation. The official release archive works after extraction and needs no account, credentials or environment variables.
 
+### Ask your Agent to install the Skill
+
+Copy this prompt to the Agent you use:
+
+```text
+Install the ranzevor-standards Skill from Ranzevor Standards for the current project in the Agent environment I am using. Repository: https://github.com/ranzevor/Standards . Obtain the complete Agent Skill archive from the latest official GitHub Release in that repository, not an unpublished PR, branch checkout, or SKILL.md.in template. Handle SKILL.md and its bundled resources according to the Agent Skills specification (https://agentskills.io/specification). Select a project-scoped installation location using this Agent's actual discovery and installation mechanism; do not treat any Agent-specific directory, command, plugin, or service as a protocol requirement.
+
+Verify the release archive before installing and retain the complete Skill directory. Do not overwrite an existing Skill with the same name or follow symlinks, junctions, or other redirects outside the project scope. Stage and verify inside the project scope but outside Skill discovery directories, then place the complete directory at its final location; failures must not leave a discoverable partial Skill. Confirm that this Agent can discover and load it, run one read-only clause lookup with its bundled script, and report the installed version, actual location, and verification results. Do not modify business source, existing adoption decisions, other Skills, or global configuration. If this Agent lacks project-scoped installation support or the necessary permissions, report the specific missing capability; do not switch to a global installation or present instructions as a successful installation.
+```
+
+See the [installation guide](guides/SKILL-INSTALLATION.md) for the workflow and both prompt languages.
+
 ### Start from the official release
 
 1. Download [`Standards-v0.2.0-source.zip`](https://github.com/ranzevor/Standards/releases/download/v0.2.0/Standards-v0.2.0-source.zip) and [`SHA256SUMS.txt`](https://github.com/ranzevor/Standards/releases/download/v0.2.0/SHA256SUMS.txt) from [Standards v0.2.0](https://github.com/ranzevor/Standards/releases/tag/v0.2.0).
@@ -63,7 +75,7 @@ The first command checks current directories, links, schemas and contract bindin
 <a id="navigation"></a>
 ## Find an entry by task
 
-All twenty project governance standards have [full English translations](translations/en/project-governance/README.md). Other linked guides, policies and catalogs are currently **Chinese only**.
+All twenty project governance standards have [full English translations](translations/en/project-governance/README.md). Most linked guides, policies and catalogs are in Chinese; the installation guide includes a bilingual Agent prompt.
 
 - **Understand the system:** [architecture][architecture] · [complete catalog][catalog]
 - **Establish project governance:** [framework and responsibility interfaces][governance] · [README and branding — English full text][readme-standard] · [documentation and internationalization — English full text][documentation-standard] · [rights and licensing — English full text][rights-standard]
@@ -72,7 +84,7 @@ All twenty project governance standards have [full English translations](transla
 - **Check the basis:** [official sources and limits][sources] · [language coverage and translation workflow][languages]
 
 - **Software engineering (Chinese):** [Change workflow](guides/SOFTWARE-CHANGE-WORKFLOW.md) · [Quality gate design](guides/QUALITY-GATE-DESIGN.md) · [Artifacts, installation and recovery](guides/ARTIFACT-INSTALLATION-LIFECYCLE.md)
-- **Agent Skill consumption (Chinese):** [Task selection and precise clause lookup](guides/SKILL-CONSUMPTION.md) · [Offline use](guides/OFFLINE.md)
+- **Agent Skill consumption:** [Installation and first task (bilingual prompt)](guides/SKILL-INSTALLATION.md) · [Task selection and precise clause lookup](guides/SKILL-CONSUMPTION.md) · [Offline use](guides/OFFLINE.md)
 - **AI behavior profiles:** [Optional behavior guidance](guides/AI-BEHAVIOR.md) · [Scenarios and verification](examples/ai-agent/behavior/README.md)
 
 - **Native platform validation:** [Encoding, paths and offline consumers](guides/CROSS-PLATFORM.md)
