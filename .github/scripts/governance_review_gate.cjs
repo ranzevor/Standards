@@ -40,11 +40,11 @@ function reviewErrors(pr, reviews, files) {
   const needed = 1;
   if (approvals.length < needed) {
     errors.push('当前 HEAD 至少需要一个有效 GitHub APPROVED 审查，实际 ' + approvals.length
-      + ' 个。PR 作者不能审批本人创建的 PR；OPC 可让授权 App 创建 PR，再由本人审查批准');
+      + ' 个。PR 作者不能审批本人创建的 PR；OPC 可让GitHub Actions Bot 或授权 App 创建 PR，再由本人审查批准');
   }
   if (sensitive && approvals.length > 0
       && !approvals.some(review => review.author_association === 'OWNER')) {
-    errors.push('治理敏感变更需要仓库所有者审批；本人可审查授权 App 创建的 PR');
+    errors.push('治理敏感变更需要仓库所有者审批；本人可审查GitHub Actions Bot 或授权 App 创建的 PR');
   }
   return errors;
 }

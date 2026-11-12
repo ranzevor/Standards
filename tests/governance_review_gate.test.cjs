@@ -14,9 +14,6 @@ function review(id, state, options = {}) {
     user: {login: 'reviewer', type: 'User'}, ...options
   };
 }
-function second(state='APPROVED') {
-  return review(3, state, {user: {login: 'second-reviewer', type: 'User'}});
-}
 test('没有审查或只有评论的普通 PR 不能合并', () => {
   assert.match(reviewErrors(pr, [], ordinary)[0], /至少需要一个/u);
   assert.equal(reviewErrors(pr, [review(1, 'COMMENTED')], ordinary).length, 1);
@@ -25,11 +22,25 @@ test('普通变更需要当前 HEAD 的有效独立批准', () => {
   assert.deepEqual(reviewErrors(pr, [review(1, 'APPROVED')], ordinary), []);
   assert.equal(reviewErrors(pr, [review(1, 'APPROVED', {commit_id: 'b'.repeat(40)})], ordinary).length, 1);
 });
-test('治理和发行路径需要两个不同的独立批准', () => {
-  assert.match(reviewErrors(pr, [review(1, 'APPROVED')], sensitive)[0], /需要 2 个/u);
-  assert.deepEqual(reviewErrors(pr, [review(1, 'APPROVED'), second()], sensitive), []);
-  assert.equal(reviewErrors(pr, [review(1, 'APPROVED'), review(2, 'APPROVED')], sensitive).length, 1);
-  assert.match(reviewErrors(pr, [], [{filename: 'releases/current.json'}])[0], /需要 2 个/u);
+test('治理和发行路径至少一票，且由所有者参与审批', () => {
+  assert.match(reviewErrors(pr, [], sensitive)[0], /至少需要一个/u);
+  assert.match(reviewErrors(pr, [review(1, 'APPROVED')], sensitive)[0], /所有者/u);
+  const owner = review(2, 'APPROVED', {
+    user: {login: 'ranzevor', type: 'User'}, author_association: 'OWNER'
+  });
+  assert.deepEqual(reviewErrors(pr, [owner], sensitive), []);
+  assert.match(reviewErrors(pr, [], [{filename: 'releases/current.json'}])[0], /至少需要一个/u);
+});
+test('GitHub Actions Bot 创建 PR 后，唯一开发者可自行审查并批准', () => {
+  const botPr = {head: {sha}, user: {login: 'github-actions[bot]', type: 'Bot'}};
+  const ownerApproval = review(1, 'APPROVED', {
+    user: {login: 'ranzevor', type: 'User'}, author_association: 'OWNER'
+  });
+  assert.deepEqual(reviewErrors(botPr, [ownerApproval], ordinary), []);
+  assert.deepEqual(reviewErrors(botPr, [ownerApproval], sensitive), []);
+  const selfAuthored = {head: {sha}, user: {login: 'ranzevor', type: 'User'}};
+  assert.match(reviewErrors(selfAuthored, [ownerApproval], ordinary)[0], /PR 作者不能审批/u);
+  assert.match(reviewErrors(selfAuthored, [ownerApproval], sensitive)[0], /PR 作者不能审批/u);
 });
 test('作者自审、机器人及无写入关联资格的意见不能替代批准', () => {
   const changes = [
