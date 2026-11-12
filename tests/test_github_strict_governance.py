@@ -1,6 +1,9 @@
 """Regression contracts for OPC PR self-review and enforced GitHub quality checks."""
 import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
 import unittest
 
 from checks.behavior_cases import validate_suite
@@ -49,6 +52,62 @@ class GitHubGovernanceTests(unittest.TestCase):
         self.assertTrue(decisions["GITHUB-004"]["ready"])
         self.assertFalse(decisions["GITHUB-005"]["execute"])
         self.assertFalse(decisions["GITHUB-006"]["ready"])
+
+
+    def test_each_main_push_has_its_own_non_cancelling_concurrency_group(self):
+        for path in (".github/workflows/quality.yml", ".github/workflows/platform.yml"):
+            with self.subTest(workflow=path):
+                workflow = self.source(path)
+                self.assertIn(
+                    "github.event_name == 'push' && github.run_id || github.ref",
+                    workflow,
+                )
+                self.assertIn(
+                    "cancel-in-progress: ${{ github.event_name != 'push' }}",
+                    workflow,
+                )
+
+    @unittest.skipUnless(shutil.which("bash"), "Bash is required to exercise the Linux quality gate")
+    def test_validate_step_rejects_failed_skipped_cancelled_and_missing_dependencies(self):
+        quality = self.source(".github/workflows/quality.yml")
+        block = quality.split(
+            "      - name: Reject incomplete or failed required prerequisites\n", 1
+        )[1].split("        run: |\n", 1)[1]
+        lines = []
+        for line in block.splitlines():
+            if line.startswith("          "):
+                lines.append(line[10:])
+            elif lines:
+                break
+        script = "\n".join(lines) + "\n"
+        self.assertIn('CONTRACTS_RESULT" != "success"', script)
+        self.assertIn('CONSUMERS_RESULT" != "success"', script)
+        for contracts, consumers in (
+            ("success", "success"),
+            ("failure", "success"),
+            ("success", "failure"),
+            ("skipped", "success"),
+            ("success", "skipped"),
+            ("cancelled", "success"),
+            ("success", "cancelled"),
+            ("neutral", "success"),
+            ("success", "neutral"),
+            ("", "success"),
+            ("success", ""),
+        ):
+            with self.subTest(contracts=contracts, consumers=consumers):
+                result = subprocess.run(
+                    ["bash", "-e", "-c", script],
+                    env={**os.environ, "CONTRACTS_RESULT": contracts,
+                         "CONSUMERS_RESULT": consumers},
+                    capture_output=True, timeout=10,
+                )
+                self.assertEqual(
+                    result.returncode == 0,
+                    contracts == consumers == "success",
+                    result.stdout.decode("utf-8", "replace") +
+                    result.stderr.decode("utf-8", "replace"),
+                )
 
     def test_skill_routes_to_current_opc_flow(self):
         skill = self.source("skills/ranzevor-standards/SKILL.md.in")

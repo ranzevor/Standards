@@ -20,8 +20,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: standards-quality-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  group: standards-quality-${{ github.workflow }}-${{ github.event_name == 'push' && github.run_id || github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 jobs:
   contracts:
