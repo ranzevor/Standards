@@ -19,7 +19,10 @@ function reviewErrors(pr, reviews, files) {
     current.set(review.user.login.toLowerCase(), review);
   }
   const errors = [];
-  const blocking = [...current.values()].filter(row => row.state === 'CHANGES_REQUESTED');
+  const blocking = [...current.values()].filter(row =>
+    row.state === 'CHANGES_REQUESTED'
+    && row.user.type === 'User'
+    && ELIGIBLE.has(row.author_association));
   if (blocking.length) {
     errors.push('存在未解除的 CHANGES_REQUESTED 审查：'
       + blocking.map(row => row.user.login).join('、'));

@@ -59,3 +59,11 @@ test('审查输入缺失必须失败', () => {
   assert.equal(reviewErrors(pr, null, ordinary).length, 1);
   assert.equal(reviewErrors(pr, [review(1, 'APPROVED')], []).length, 1);
 });
+
+test('无权限的公开评论者不能通过 CHANGES_REQUESTED 使合法 PR 永久阻断', () => {
+  const outsider = review(2, 'CHANGES_REQUESTED', {
+    user: {login: 'random-contributor', type: 'User'},
+    author_association: 'CONTRIBUTOR'
+  });
+  assert.deepEqual(reviewErrors(pr, [review(1, 'APPROVED'), outsider], ordinary), []);
+});
