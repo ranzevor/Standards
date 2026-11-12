@@ -27,6 +27,7 @@
     "platform_controls": "governance/BRANCHES-AND-REVIEW.md",
     "workflows": [
       ".github/workflows/governance-metadata.yml",
+      ".github/workflows/opc-open-pr.yml",
       ".github/workflows/platform.yml",
       ".github/workflows/quality.yml",
       ".github/workflows/release.yml"
