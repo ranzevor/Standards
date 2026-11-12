@@ -42,10 +42,8 @@ python -X utf8 -B -m unittest test_runner -v
 
 每次记录是否完成、引用是否准确、是否越权，以及不必要确认、无关产物和重复检查的实际数量；成本只采用宿主实际提供的数据。记录保存在源码外，PR 只汇总所测版本、任务、结果和具体剩余问题。一个宿主通过不替另一个宿主通过；缺失试验仍保留在分母。
 
-## GitHub 治理延伸案例
+## OPC GitHub 治理宿主检查
 
-[GitHub 治理合成场景](../examples/ai-agent/behavior/cases/github-governance.json) 检查未经独立审查、失效批准、失败检查、合并后发行失败和有效合并候选。使用现有 `behavior_eval.py` 冻结输入并在真实 Agent 中执行；合成输入只检验决策行为，不访问或修改真实 GitHub 仓库。必须将实际规则配置、真实 PR 审查记录和 CI 结果与静态样例区分。没有产生真实 Agent 输出的场景不能列入宿主通过数。
+使用 [GitHub PR 自审与 CI 指南](GITHUB-STRICT-GOVERNANCE.md) 和 [GitHub 治理合成场景](../examples/ai-agent/behavior/cases/github-governance.json)，分别检查未完成自审、必要 CI 失败或跳过、未解决审查线程、合并后发行失败，以及本人创建 PR 并自审且全部检查成功的合法情况。
 
-## 单人仓库 GitHub 治理宿主检查
-
-使用 [GitHub PR 自审与 CI 指南](GITHUB-STRICT-GOVERNANCE.md) 和 [治理合成场景](../examples/ai-agent/behavior/cases/github-governance.json)，分别检查当前自审不足、必要 CI 失败、未解决审查讨论和本人创建 PR 后自审且全部检查成功的合法情况。OPC 自审不要求 GitHub 原生 APPROVED；不把案例运行结果冒充实际 GitHub 的 PR、CI 或发布状态。
+现有 `behavior_eval.py` 仅在隔离输入上评估 Agent 的决策行为；不操作真实 GitHub。实际审查和 CI 结果以对应远端对象为准；没有执行的宿主案例不能列为通过。独立开发者无需其他账号的 GitHub APPROVED，但仍须执行已采用的实际审查与 CI。
