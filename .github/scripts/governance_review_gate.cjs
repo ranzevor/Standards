@@ -32,10 +32,16 @@ function reviewErrors(pr, reviews, files) {
     && review.user.type === 'User'
     && ELIGIBLE.has(review.author_association));
   const sensitive = files.some(row => SENSITIVE.test(row.filename));
-  const needed = sensitive ? 2 : 1;
+  // GitHub allows the single owner to approve a PR opened by an authorized App.
+  // The actual PR author cannot approve their own GitHub PR.
+  const needed = 1;
   if (approvals.length < needed) {
-    errors.push('当前 PR HEAD 需要 ' + needed + ' 个不同的有效非作者批准，实际只有 '
-      + approvals.length + ' 个；旧提交、作者自审、机器人评论及无资格审查不计入');
+    errors.push('当前 HEAD 至少需要一个有效 GitHub APPROVED 审查，实际 ' + approvals.length
+      + ' 个。PR 作者不能审批本人创建的 PR；OPC 可让授权 App 创建 PR，再由本人审查批准');
+  }
+  if (sensitive && approvals.length > 0
+      && !approvals.some(review => review.author_association === 'OWNER')) {
+    errors.push('治理敏感变更需要仓库所有者审批；本人可审查授权 App 创建的 PR');
   }
   return errors;
 }

@@ -56,6 +56,6 @@ runs-on:
 
 `quality.yml` 的受保护检查名继续为 `validate`，由 `contracts` 与复用的 `native-consumers` 两个任务汇总。两个任务都必须实际报告 `success`，任何失败、取消或跳过均导致 `validate` 失败；Ubuntu/Windows 矩阵不受仓库所有者筛选或路径过滤跳过。原有 `verify` 保持独立必需项。
 
-受保护的 `governance-metadata` 除 PR 与提交元数据，还复核最新 HEAD 的独立 GitHub 审查、未解除拒绝意见及治理敏感变更的更高批准要求。平台 Ruleset 必须实际要求独立审查、必需 CI、未解决讨论阻断及同步；仅在仓库内写约定不足以完成保护配置。
+受保护的 `governance-metadata` 除 PR 与提交元数据，还复核最新 HEAD 至少一次有效 GitHub APPROVED、未解除拒绝意见，以及治理敏感变更的所有者审批。OPC 可以由授权 App 创建 PR 后由唯一开发者本人批准；平台 Ruleset 必须实际要求至少一票 GitHub 审批、必需 CI、未解决讨论阻断及同步；仅在仓库内写约定不足以完成保护配置。
 
 目标分支更新后 `quality.yml` 通过 `push` 再检查集成提交。正式发行还需自身发布工作流执行、附件读取和最终渠道核验。合并后检查失败时以新修复 PR 或适用的受控回退恢复，保留已合入历史，不将先前绿色 PR 检查冒称真实主分支通过。详见 [GitHub 严格治理流程](../guides/GITHUB-STRICT-GOVERNANCE.md)。

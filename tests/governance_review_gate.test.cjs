@@ -18,7 +18,7 @@ function second(state='APPROVED') {
   return review(3, state, {user: {login: 'second-reviewer', type: 'User'}});
 }
 test('没有审查或只有评论的普通 PR 不能合并', () => {
-  assert.match(reviewErrors(pr, [], ordinary)[0], /需要 1 个/u);
+  assert.match(reviewErrors(pr, [], ordinary)[0], /至少需要一个/u);
   assert.equal(reviewErrors(pr, [review(1, 'COMMENTED')], ordinary).length, 1);
 });
 test('普通变更需要当前 HEAD 的有效独立批准', () => {

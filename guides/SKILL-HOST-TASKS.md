@@ -45,3 +45,7 @@ python -X utf8 -B -m unittest test_runner -v
 ## GitHub 治理延伸案例
 
 [GitHub 治理合成场景](../examples/ai-agent/behavior/cases/github-governance.json) 检查未经独立审查、失效批准、失败检查、合并后发行失败和有效合并候选。使用现有 `behavior_eval.py` 冻结输入并在真实 Agent 中执行；合成输入只检验决策行为，不访问或修改真实 GitHub 仓库。必须将实际规则配置、真实 PR 审查记录和 CI 结果与静态样例区分。没有产生真实 Agent 输出的场景不能列入宿主通过数。
+
+## 单人仓库审批的宿主检查
+
+使用 [GitHub 严格治理指南](GITHUB-STRICT-GOVERNANCE.md) 中的 OPC 流程，区分“同一人完成代码自审”和“同一 GitHub PR 作者原生自批”。合成场景 `GITHUB-004` 验证由授权 App 创建 PR 后所有者审批、全部 CI 成功的合法路径；`GITHUB-006` 验证 PR 作者自己声称 APPROVED 时应保持阻断。真实宿主检验需要实际运行结果；本仓库不新增无关审批证明文件。

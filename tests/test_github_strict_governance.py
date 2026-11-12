@@ -35,13 +35,14 @@ class StrictGovernanceTests(unittest.TestCase):
         self.assertIn("node .github/scripts/governance_review_gate.cjs", workflow)
         self.assertIn("CHANGES_REQUESTED", guard)
         self.assertIn("review.commit_id === pr.head.sha", guard)
-        self.assertIn("const needed = sensitive ? 2 : 1;", guard)
+        self.assertIn("const needed = 1;", guard)
+        self.assertIn("review.author_association === 'OWNER'", guard)
 
     def test_github_behavior_suite_covers_failures_and_legal_neighbor(self):
         suite = json.loads(self.source("examples/ai-agent/behavior/cases/github-governance.json"))
-        self.assertEqual(validate_suite(suite), 5)
+        self.assertEqual(validate_suite(suite), 6)
         ids = {case["id"] for case in suite["cases"]}
-        self.assertEqual(ids, {"GITHUB-001", "GITHUB-002", "GITHUB-003", "GITHUB-004", "GITHUB-005"})
+        self.assertEqual(ids, {"GITHUB-001", "GITHUB-002", "GITHUB-003", "GITHUB-004", "GITHUB-005", "GITHUB-006"})
         decisions = {case["id"]: next(check for check in case["checks"] if check["kind"] == "json_equals")["expected"]
                      for case in suite["cases"]}
         self.assertFalse(decisions["GITHUB-001"]["ready"])
@@ -49,6 +50,7 @@ class StrictGovernanceTests(unittest.TestCase):
         self.assertFalse(decisions["GITHUB-003"]["published"])
         self.assertTrue(decisions["GITHUB-004"]["ready"])
         self.assertFalse(decisions["GITHUB-005"]["execute"])
+        self.assertFalse(decisions["GITHUB-006"]["ready"])
 
     def test_skill_and_navigation_link_to_full_github_process(self):
         skill = self.source("skills/ranzevor-standards/SKILL.md.in")
