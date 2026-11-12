@@ -25,12 +25,12 @@ function reviewErrors(pr, reviews, files) {
       + blocking.map(row => row.user.login).join('、'));
   }
   const author = pr.user.login.toLowerCase();
-  const approvals = [...current.values()].filter(row =>
-    row.state === 'APPROVED'
-    && row.commit_id === pr.head.sha
-    && row.user.login.toLowerCase() !== author
-    && row.user.type === 'User'
-    && ELIGIBLE.has(row.author_association));
+  const approvals = [...current.values()].filter(review =>
+    review.state === 'APPROVED'
+    && review.commit_id === pr.head.sha
+    && review.user.login.toLowerCase() !== author
+    && review.user.type === 'User'
+    && ELIGIBLE.has(review.author_association));
   const sensitive = files.some(row => SENSITIVE.test(row.filename));
   const needed = sensitive ? 2 : 1;
   if (approvals.length < needed) {
