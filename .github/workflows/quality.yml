@@ -2,6 +2,8 @@ name: Standards quality
 
 on:
   pull_request:
+  push:
+    branches: [main]
   workflow_dispatch:
     inputs:
       runner_mode:
@@ -22,7 +24,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
+  contracts:
     runs-on: >-
       ${{ fromJSON(github.event.repository.private
           && github.actor_id == github.repository_owner_id
@@ -59,3 +61,27 @@ jobs:
           skills-ref validate "$skill_dir/ranzevor-standards"
       - name: Run regression suite
         run: python -m unittest discover -s tests -v
+
+  native-consumers:
+    uses: ./.github/workflows/platform.yml
+    with:
+      runner_mode: ${{ inputs.runner_mode || 'auto' }}
+
+  validate:
+    name: validate
+    needs: [contracts, native-consumers]
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Reject incomplete or failed required prerequisites
+        env:
+          CONTRACTS_RESULT: ${{ needs.contracts.result }}
+          CONSUMERS_RESULT: ${{ needs.native-consumers.result }}
+        shell: bash
+        run: |
+          echo "contracts=$CONTRACTS_RESULT; native-consumers=$CONSUMERS_RESULT"
+          if [[ "$CONTRACTS_RESULT" != "success" || "$CONSUMERS_RESULT" != "success" ]]; then
+            echo "::error::Required quality and native consumer checks must both succeed"
+            exit 1
+          fi

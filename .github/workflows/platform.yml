@@ -1,16 +1,12 @@
 name: Standards offline consumers
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/platform.yml'
-      - 'guides/OFFLINE.md'
-      - 'guides/SKILL-INSTALLATION.md'
-      - 'tools/skill_lookup.py'
-      - 'tests/test_lookup_pagination.py'
-      - 'tests/test_quickstart_commands.py'
-      - 'tests/test_skill_installation.py'
-      - 'tools/install_skill.py'
+  workflow_call:
+    inputs:
+      runner_mode:
+        required: false
+        type: string
+        default: auto
   workflow_dispatch:
     inputs:
       runner_mode:
@@ -38,8 +34,6 @@ env:
 
 jobs:
   offline-consumer:
-    if: >-
-      github.repository == 'ranzevor/Standards' && github.actor_id == github.repository_owner_id && github.triggering_actor == github.repository_owner
     strategy:
       fail-fast: false
       matrix:

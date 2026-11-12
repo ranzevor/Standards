@@ -2,7 +2,7 @@
 
 ## 运行入口
 
-仓库提供 [quality.yml](../.github/workflows/quality.yml)，在 Pull Request 或手动触发时使用 Python 3.12 执行离线门禁。普通 main 推送不触发该工作流。
+仓库提供 [quality.yml](../.github/workflows/quality.yml)，在 Pull Request、main 推送或手动触发时运行质量门禁。主分支的 post-merge 运行核实际集成提交；PR 通过不代替 post-merge 通过。
 
 1. `python checks/generate_registry.py --check`：核对规范、条款和引用索引。
 2. `python checks/generate_index.py --check`：核对规范目录。
@@ -51,3 +51,11 @@ runs-on:
 检查对应实际待集成提交。失败日志与后续修复结果分别保留，报告列出退出码、受影响对象和检查范围。生成物不一致时先修正输入或生成器，再重新生成并复核。
 
 管理员配置必需检查与分支保护后，核对规则的生效分支、检查名称和权限例外；工作流检查结果与平台规则分别维护。
+
+## GitHub 合并强制门禁
+
+`quality.yml` 的受保护检查名继续为 `validate`，由 `contracts` 与复用的 `native-consumers` 两个任务汇总。两个任务都必须实际报告 `success`，任何失败、取消或跳过均导致 `validate` 失败；Ubuntu/Windows 矩阵不受仓库所有者筛选或路径过滤跳过。原有 `verify` 保持独立必需项。
+
+受保护的 `governance-metadata` 除 PR 与提交元数据，还复核最新 HEAD 的独立 GitHub 审查、未解除拒绝意见及治理敏感变更的更高批准要求。平台 Ruleset 必须实际要求独立审查、必需 CI、未解决讨论阻断及同步；仅在仓库内写约定不足以完成保护配置。
+
+目标分支更新后 `quality.yml` 通过 `push` 再检查集成提交。正式发行还需自身发布工作流执行、附件读取和最终渠道核验。合并后检查失败时以新修复 PR 或适用的受控回退恢复，保留已合入历史，不将先前绿色 PR 检查冒称真实主分支通过。详见 [GitHub 严格治理流程](../guides/GITHUB-STRICT-GOVERNANCE.md)。

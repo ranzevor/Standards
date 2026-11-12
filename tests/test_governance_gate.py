@@ -8,7 +8,8 @@ class GovernanceMetadataTests(unittest.TestCase):
     def test_node_regressions(self):
         root = Path(__file__).resolve().parents[1]
         result = subprocess.run(
-            ["node", "--test", "tests/governance_gate.test.cjs", "tests/governance_gate.integration.test.cjs"],
+            ["node", "--test", "tests/governance_gate.test.cjs", "tests/governance_gate.integration.test.cjs",
+             "tests/governance_review_gate.test.cjs"],
             cwd=root, capture_output=True, text=True, encoding="utf-8",
             check=False,
         )
