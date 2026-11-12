@@ -80,6 +80,20 @@ class LookupPaginationTests(unittest.TestCase):
             with self.subTest(offset=offset), self.assertRaisesRegex(VerificationError, 'contract fields'):
                 find(self.root, text_query='完整要求', limit=1, offset=offset)
 
+
+    def test_unknown_document_id_is_error_but_literal_zero_matches_are_valid(self):
+        command = [
+            sys.executable, '-B', str(ROOT / 'tools/skill_lookup.py'),
+            '--root', str(self.root), '--document-id', 'STD-PG-NOT-REGISTERED',
+        ]
+        result = subprocess.run(command, capture_output=True, timeout=30)
+        self.assertEqual(result.returncode, 1)
+        self.assertEqual(result.stdout, b'')
+        self.assertIn('unknown exact document ID', result.stderr.decode('utf-8'))
+        self.assertIn('--query', result.stderr.decode('utf-8'))
+        empty = find(self.root, text_query='MISSING_LITERAL_TEXT')
+        self.assertEqual((empty['total'], empty['results']), (0, []))
+
     def test_source_and_skill_entrypoints_page_from_foreign_working_directory(self):
         source = fixture_source()
         for kind in ('source', 'agent-skill'):

@@ -41,3 +41,9 @@ python -X utf8 -B -m unittest test_runner -v
 确认原有零和非零退出用例保留，再补查另一个非零退出码。允许不同的正确实现，不按变量名或代码片段评分。审查任务核对源码未改，发行任务核对输入未改及结论没有扩大。
 
 每次记录是否完成、引用是否准确、是否越权，以及不必要确认、无关产物和重复检查的实际数量；成本只采用宿主实际提供的数据。记录保存在源码外，PR 只汇总所测版本、任务、结果和具体剩余问题。一个宿主通过不替另一个宿主通过；缺失试验仍保留在分母。
+
+## OPC GitHub 治理宿主检查
+
+使用 [GitHub PR 自审与 CI 指南](GITHUB-STRICT-GOVERNANCE.md) 和 [GitHub 治理合成场景](../examples/ai-agent/behavior/cases/github-governance.json)，分别检查未完成自审、必要 CI 失败或跳过、未解决审查线程、合并后发行失败，以及本人创建 PR 并自审且全部检查成功的合法情况。
+
+现有 `behavior_eval.py` 仅在隔离输入上评估 Agent 的决策行为；不操作真实 GitHub。实际审查和 CI 结果以对应远端对象为准；没有执行的宿主案例不能列为通过。独立开发者无需其他账号的 GitHub APPROVED，但仍须执行已采用的实际审查与 CI。

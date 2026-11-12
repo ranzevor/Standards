@@ -67,7 +67,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
         return cache[path]
     validate_registry_bytes(docs,normative)
     if document_id is not None and document_id not in {doc['id'] for doc in docs}:
-        raise ValueError('unknown exact document ID: '+str(document_id))
+        raise ValueError('unknown exact document ID: '+str(document_id)+'; search the document registry with --query before selecting a document ID')
     if text_query is not None:
         if type(text_query) is not str or not text_query.strip() or len(text_query)>256 or any(chr(c) in text_query for c in (0, 10, 13)):
             raise ValueError('text-query must be 1..256 nonblank characters')
@@ -129,9 +129,9 @@ def main(argv=None):
             stream.reconfigure(encoding='utf-8',newline='\n')
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',type=Path,default=ROOT)
-    parser.add_argument('--query');parser.add_argument('--document-id')
-    parser.add_argument('--clause-id');parser.add_argument('--domain')
-    parser.add_argument('--text-query',help='Exact text contained in a verified clause (not semantic search)')
+    parser.add_argument('--query',help='Case-insensitive document metadata search (ID, title, path, domain)');parser.add_argument('--document-id',help='Exact registered document ID')
+    parser.add_argument('--clause-id',help='Exact clause ID within selected documents; zero matches do not prove inapplicability');parser.add_argument('--domain')
+    parser.add_argument('--text-query',help='Literal text in a verified clause, not synonyms or semantic search; zero matches are only literal zero matches')
     parser.add_argument('--limit',type=int,default=20)
     parser.add_argument('--offset',type=int,default=0,help='Skip this many filtered results; retain registry order')
     args=parser.parse_args(argv)

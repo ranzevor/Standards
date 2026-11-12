@@ -18,7 +18,7 @@ metadata:
 1. **识别对象。** 明确任务、产物、实际环境、权限、适用条件和完成标准。先区分项目已经采用的条款与本次提出的候选条款；不能因为安装 Skill 就新增项目义务。
 2. **确定范围。** 按 [任务选读与边界](references/guides/SKILL-CONSUMPTION.md) 选取相关领域。先查目录和标题；不确定具体条款时用正文精确检索，核对适用与不适用条件。
 3. **固定依据。** 将检索结果中的文档 ID、单份版本、SHA-256、条款 ID、行段和条款摘要与原文核对。命中是候选依据，不代表自动适用；必要依赖按原文追溯。
-4. **实施任务。** 使用被采用的要求和实际授权完成工程动作；可以按需运行只读检查器。Skill 指令与脚本不扩大宿主工具权限，也不代替项目的真实验收。
+4. **实施任务。** 使用被采用的要求和实际授权完成工程动作；可以按需运行只读检查器。Skill 指令与脚本不扩大宿主工具权限，也不代替项目的真实验收。GitHub PR、Ruleset、CI、合并、发行与事故修复任务须先读 [GitHub PR 自审与 CI](references/guides/GITHUB-STRICT-GOVERNANCE.md)；对于已采用该模式的 GitHub OPC 仓库，本人可创建 PR、自审当前 Diff，并在对应候选的独立技术复核通过、必需 CI 全部成功、目标分支同步、审查线程解决且获合并授权后合并；此模式下 GitHub 原生必需批准数为 0，不要求第二账号或 Bot 的原生 APPROVED。其他仓库的已有审批和质量规则以实际采用配置为准，未经所有者准确授权不得降低。
 5. **核验与反馈。** 对准确产物执行实际检查，区分文件结构结果、语义审查和目标运行结果。问题按 [现有反馈流程](references/guides/ai-behavior/ADOPTION.md) 复现、修复和复验。
 
 ## 离线命令
@@ -34,6 +34,6 @@ python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-que
 
 `--query` 搜索目录元数据；`--text-query` 搜索已校验条款中的精确文本，返回匹配行和来源身份，不进行语义推断。`--document-id`、`--clause-id`、`--domain` 可按需组合过滤。`total` 是全部命中数，`results` 是当前页；需要后续结果时，用相同条件和发行副本，将 `--offset` 增加本页实际条数，直到取全。结果为零或出现身份校验错误时，不补造条款；重新选择检索条件或恢复正确发行包。
 
-按需读取 [AI 行为专题](references/guides/AI-BEHAVIOR.md)、[采用指南](references/guides/ADOPTION.md) 和 [规范目录](references/INDEX.md)。不要求一次加载所有规范，也不为简单任务制造额外记录。
+按需读取 [AI 行为专题](references/guides/AI-BEHAVIOR.md)、[采用指南](references/guides/ADOPTION.md)、[GitHub PR 自审与 CI](references/guides/GITHUB-STRICT-GOVERNANCE.md) 和 [规范目录](references/INDEX.md)。不要求一次加载所有规范，也不为简单任务制造额外记录。
 
 本包 **multi-licensed by material type**：规范、文档和数据为 CC BY 4.0；可执行脚本和校验器为 Apache-2.0。准确权利分配见 [许可文本](references/LICENSE)。
