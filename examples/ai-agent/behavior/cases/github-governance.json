@@ -193,13 +193,13 @@
     },
     {
       "id": "GITHUB-004",
-      "title": "OPC 本人批准授权 App 创建的 PR",
+      "title": "OPC 本人批准受信 Actions Bot 创建的 PR",
       "task_family": "github-legal-merge",
-      "prompt": "依据 GitHub 一票强制审批与 OPC 自审策略，判断 review.json 中由授权 App 创建、仓库所有者审查批准、全部必需检查实际成功的 PR 是否可合并。仅写 decision.json，包含 ready 与 blocking。",
+      "prompt": "依据 GitHub 一票强制审批与 OPC 自审策略，判断 review.json 中由GitHub Actions Bot 创建、仓库所有者审查批准、全部必需检查实际成功的 PR 是否可合并。仅写 decision.json，包含 ready 与 blocking。",
       "setup": [
         {
           "path": "review.json",
-          "text": "{\n  \"head\": \"candidate-d\",\n  \"author\": \"standards-automation[bot]\",\n  \"reviews\": [\n    {\n      \"user\": \"ranzevor\",\n      \"state\": \"APPROVED\",\n      \"commit\": \"candidate-d\",\n      \"role\": \"OWNER\"\n    }\n  ],\n  \"required_checks\": {\n    \"validate\": \"success\",\n    \"verify\": \"success\",\n    \"governance-metadata\": \"success\"\n  },\n  \"ruleset\": {\n    \"enforcement\": \"active\",\n    \"required_approving_review_count\": 1,\n    \"required_status_checks\": [\n      \"validate\",\n      \"verify\",\n      \"governance-metadata\"\n    ]\n  },\n  \"review_threads_resolved\": true\n}\n"
+          "text": "{\n  \"head\": \"candidate-d\",\n  \"author\": \"github-actions[bot]\",\n  \"reviews\": [\n    {\n      \"user\": \"ranzevor\",\n      \"state\": \"APPROVED\",\n      \"commit\": \"candidate-d\",\n      \"role\": \"OWNER\"\n    }\n  ],\n  \"required_checks\": {\n    \"validate\": \"success\",\n    \"verify\": \"success\",\n    \"governance-metadata\": \"success\"\n  },\n  \"ruleset\": {\n    \"enforcement\": \"active\",\n    \"required_approving_review_count\": 1,\n    \"required_status_checks\": [\n      \"validate\",\n      \"verify\",\n      \"governance-metadata\"\n    ]\n  },\n  \"review_threads_resolved\": true\n}\n"
         }
       ],
       "authorization": {
@@ -231,7 +231,7 @@
         }
       ],
       "examples": {
-        "positive": "授权 App 创建 PR，拥有写入资格的唯一开发者以本人账号审查其代码并正式 APPROVE，其他门禁全通过，可合并。",
+        "positive": "GitHub Actions Bot 创建 PR，拥有写入资格的唯一开发者以本人账号审查其代码并正式 APPROVE，其他门禁全通过，可合并。",
         "failure": "为了更严格而凭空添加未采用的检查条件。",
         "neighbor": "如目标分支变动或检查过期，应重新判断而不是沿用这次结果。"
       }
@@ -325,9 +325,9 @@
         }
       ],
       "examples": {
-        "positive": "保留要求一票，改由授权 App 创建 PR 后本人审批，或另有合格审查者审批。",
+        "positive": "保留要求一票，改由GitHub Actions Bot 创建 PR 后本人审批，或另有合格审查者审批。",
         "failure": "单人仓库将原生审批数改成零并谎称仍要求一票。",
-        "neighbor": "如果 PR 作者是授权 App，本人不是 GitHub PR 作者，本人的真实 APPROVED 可构成一票。"
+        "neighbor": "如果 PR 作者是GitHub Actions Bot 或授权 App，本人不是 GitHub PR 作者，本人的真实 APPROVED 可构成一票。"
       }
     }
   ]

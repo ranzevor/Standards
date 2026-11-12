@@ -48,4 +48,4 @@ python -X utf8 -B -m unittest test_runner -v
 
 ## 单人仓库审批的宿主检查
 
-使用 [GitHub 严格治理指南](GITHUB-STRICT-GOVERNANCE.md) 中的 OPC 流程，区分“同一人完成代码自审”和“同一 GitHub PR 作者原生自批”。合成场景 `GITHUB-004` 验证由授权 App 创建 PR 后所有者审批、全部 CI 成功的合法路径；`GITHUB-006` 验证 PR 作者自己声称 APPROVED 时应保持阻断。真实宿主检验需要实际运行结果；本仓库不新增无关审批证明文件。
+使用 [GitHub 严格治理指南](GITHUB-STRICT-GOVERNANCE.md) 中的 OPC 流程，区分“同一人完成代码自审”和“同一 GitHub PR 作者原生自批”。合成场景 `GITHUB-004` 验证由受信 GitHub Actions Bot 或授权 App 创建 PR 后所有者审批、全部 CI 成功的合法路径；`GITHUB-006` 验证 PR 作者自己声称 APPROVED 时应保持阻断。真实宿主检验需要实际运行结果；本仓库不新增无关审批证明文件。

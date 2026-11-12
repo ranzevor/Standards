@@ -8,7 +8,7 @@
 
 安装器拒绝通过符号链接父目录安装到可能被重定向的路径。安装完成后检出其他分支时，受管理的钩子不从工作树加载可执行脚本。仅在审查并接受新版检查器后重新安装；新克隆需单独安装。本地钩子仍可通过 `--no-verify` 绕过，远端保护由独立的必需检查承担。
 
-创建 PR 前应对当前 Git 分支的实际提交、相对于目标分支的差异、拟使用的标题和正文进行检查，并填写当前 PR 模板。本地 `commit-msg` 钩子仅约束提交消息；本仓库未提供直接绑定 Git 候选的自动 PR 创建前门禁，不使用脱离真实变更的 JSON 快照代替预检。
+创建 PR 前应对当前 Git 分支的实际提交、相对于目标分支的差异、拟使用的标题和正文进行检查，并填写当前 PR 模板。本地 `commit-msg` 钩子仅约束提交消息；本仓库提供了按准确候选分支创建草稿 PR 的可选 OPC 工作流；其标题、正文及实际 Git 变更仍由远端必需检查验证，不使用脱离真实变更的 JSON 快照代替预检。
 
 ## 远端检查接入
 
@@ -33,3 +33,9 @@ node .github/scripts/governance_gate.cjs message-file ../squash-message.txt
 校验通过后，将同一标题和正文用于 squash 合并；通过 API 合并时，将同一标题和正文分别传入 `commit_title`、`commit_message`，将已审查 PR 的当前 HEAD 传入 `sha` 参数。消息修改后重新校验。
 
 `PR_TITLE`、`PR_BODY` 提供默认合并文本，合并时仍可覆盖。元数据检查校验的是 PR 标题、正文和源提交；最终合并消息使用上述入口单独检查。参见 [GitHub 合并接口](https://docs.github.com/en/rest/pulls/pulls#merge-a-pull-request)。
+
+## OPC 内置令牌创建 PR
+
+可选 [OPC 草稿 PR 工作流](../.github/workflows/opc-open-pr.yml) 由仓库所有者从默认分支手动运行，输入已推送的分支和真实标题。它仅请求 `contents: read` 与 `pull-requests: write`，从受信默认分支复制 PR 模板后以 GitHub Actions Bot 创建 Draft PR。仓库需在 **Settings → Actions → General → Workflow permissions** 单独启用 **Allow GitHub Actions to create and approve pull requests**；默认关闭时创建请求会被 GitHub 拒绝。工作流不自动审批 PR。
+
+GitHub 当前允许使用 `GITHUB_TOKEN` 创建的 PR 触发 `pull_request` opened/synchronize/reopened 工作流，但执行需要仓库写入者批准；其余事件不必然触发。创建者须编辑完整正文、手动将 Draft 标为 Ready for review 以触发本仓库受信的 `pull_request_target` 检查、批准所需 CI 实际运行，再由不是 PR 作者的所有者以本人账户提交 APPROVE。PR、审核与检查三者都要绑定当前 HEAD，不能用设置开关或操作已发起代替实际门禁通过。

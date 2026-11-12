@@ -18,7 +18,7 @@ GitHub 仓库治理任务默认按严格保护执行；已有更严格且实际�
 
 针对主分支设置 active Ruleset：禁止删除/force push，要求经 PR 合并、线性历史、目标分支最新基线、解决全部 Review threads、当前候选至少 **1 次有效 GitHub APPROVED** 以及必需 CI 通过，不允许宽泛 bypass。普通代码和治理敏感变更都要求至少一票；治理、保护、发布、身份与权限变更还应由所有者亲自审批并审查完整影响范围。已有更高审批数量时保持该数量，未经用户明确批准不得降低。
 
-若选用 CODEOWNERS 审查，确认指定人员对实际变更路径具有审查权限，且不是该 GitHub PR 的作者，并在 Ruleset 中打开必需 CODEOWNERS 批准。单人仓库可以由所有者担任唯一 CODEOWNER，但若本人是 PR 作者则 GitHub 不允许本人 APPROVE；可以让授权 GitHub App 创建 PR，再由所有者批准。对 CHANGES_REQUESTED、未解决线程、候选变化后旧批准及未经批准的变更一律阻断。
+若选用 CODEOWNERS 审查，确认指定人员对实际变更路径具有审查权限，且不是该 GitHub PR 的作者，并在 Ruleset 中打开必需 CODEOWNERS 批准。单人仓库可以由所有者担任唯一 CODEOWNER；GitHub 不允许 PR 作者本人 APPROVE。可由受信 GitHub Actions 工作流创建草稿 PR（不必注册独立 App），再由所有者按当前候选正式批准。对 CHANGES_REQUESTED、未解决线程、候选变化后旧批准及未经批准的变更一律阻断。
 
 Ruleset 的 Required status checks 明确列入所有必要作业并绑定可信 GitHub App 来源。注意 GitHub 把 `skipped` 与 `neutral` 当成满足必需检查的结论；重要任务须由不可跳过的汇总作业核对每个必要任务的实际 `success`。不要给必需工作流加 paths/branches 过滤，也不要通过 job 级 `if` 把任务跳过包装成通过。
 
@@ -35,10 +35,13 @@ Ruleset 的 Required status checks 明确列入所有必要作业并绑定可信
 
 默认 GitHub Ruleset 的 `required_approving_review_count` **至少为 1**。GitHub 原生机制禁止 PR 作者批准自己的 PR。允许同一个独立开发者审查自己编写的代码，但要让这种自主管理被 GitHub 原生审批接受，应使用以下角色分离：
 
-1. 开发者维护并验证代码，由安装在目标仓库且经过授权的 GitHub App 身份创建 PR。PR 的实际 `user.login` 是 App 身份，所有者本人不是 PR 作者。
-2. 所有者检查当前 HEAD 的完整差异、测试、权限和目标分支后，使用自己的 GitHub 账号提交真实的 APPROVE Review。该账号必须具有仓库要求的审查权限；治理敏感路径由所有者批准。
-3. PR 创建必须触发真实 `pull_request`、`pull_request_target` 检查；仅使用仓库内置 `GITHUB_TOKEN` 创建 PR 时 GitHub 通常不自动触发新的 Actions，需使用授权 GitHub App 安装令牌并核对真实运行结果。不得用不存在的工作流事件冒充检查通过。
-4. 同一开发者如果亲自创建了 PR，就无法用这个账号原生 APPROVE；需要另一名有资格的审查者，或者将有效变更保留到由授权 App 创建的新 PR，再完成本人审查。不得把原生 Required approvals 改为 0，却声称仍满足一票审批。
+1. 开发者在本仓库的候选分支上完成代码和定向验证。管理员可在 `Settings → Actions → General → Workflow permissions` 开启 **Allow GitHub Actions to create and approve pull requests**；此设置同时赋予创建与批准能力，因此只允许受信工作流按需申请 `pull-requests: write`，不得让 PR 代码运行该写入令牌。
+2. 本项目提供的 [OPC 创建草稿 PR 工作流](../.github/workflows/opc-open-pr.yml) 只允许仓库所有者从默认分支手动触发，读取默认分支 PR 模板，通过内置 `GITHUB_TOKEN` 以 `github-actions[bot]` 身份创建草稿 PR；不授予长期 App 私钥，不向候选分支提供仓库写权限。用户随后编辑真实 PR 正文并点击 **Ready for review**。
+3. GitHub 当前对 `GITHUB_TOKEN` 创建 PR 的 `pull_request` opened/synchronize/reopened 事件会产生**需要写入者人工批准运行**的 CI。所有者在 PR 中选择 **Approve workflows to run**，并确认实际 `validate`、`verify`、`governance-metadata` 已运行成功。该行为不自动触发所有 `pull_request_target` 事件；本仓库由所有者手动将草稿标为 Ready for review，触发受信的 `pull_request_target` 治理门禁，仍需回读实际检查结果。如果项目屏蔽 `pull_request_target`，须先按其权限政策修复触发配置，而不是把缺失检查当成功。
+4. 唯一开发者检查当前 HEAD 的完整差异、代码质量与安全、必要 CI 及发布影响后，用本人 GitHub 账号提交真实 **APPROVE** Review；PR 作者是 `github-actions[bot]`，不是该开发者。需要的检查实际完成，且不存在未解决阻断项，方可合并；合并后继续验证主分支与发布结果。
+5. 若所有者已经以本人账号创建 PR，则同一账号无法原生 APPROVE。应由另一名有资格的审查者批准，或者保留全部有效代码，将 PR 由上述受信工作流重新创建为 Bot 作者后完成审核。不得把 Required approvals 改为 0，亦不得用自查文本伪装 GitHub 原生审批。
+
+仓库没有启用 Actions 创建 PR 能力时，该路径保持不可用；可采用独立安装的 GitHub App 或真实其他审查者的批准，但它们不是 OPC 默认依赖。
 
 “允许自审”指允许唯一开发者承担实际代码审查与合并决策，不指 GitHub 允许 PR 作者向自己提交有效原生批准。无需为此雇佣第二名开发者，也不允许跳过 CI、审查拒绝或合并后验证。
 

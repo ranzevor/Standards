@@ -38,6 +38,20 @@ class StrictGovernanceTests(unittest.TestCase):
         self.assertIn("const needed = 1;", guard)
         self.assertIn("review.author_association === 'OWNER'", guard)
 
+    def test_opc_pr_opening_is_owner_only_and_keeps_write_token_isolated(self):
+        flow = self.source(".github/workflows/opc-open-pr.yml")
+        self.assertIn("  workflow_dispatch:", flow)
+        self.assertIn("  pull-requests: write", flow)
+        self.assertIn("  contents: read", flow)
+        self.assertIn("RUN_ACTOR_ID", flow)
+        self.assertIn("REPO_OWNER_ID", flow)
+        self.assertIn('RUN_REF" != "refs/heads/$BASE"', flow)
+        self.assertIn("persist-credentials: false", flow)
+        self.assertIn("-F draft=true", flow)
+        self.assertIn('gh api -X POST "repos/$GH_REPO/pulls"', flow)
+        self.assertNotIn("pull_request_review", flow)
+        self.assertNotIn("review decision", flow)
+
     def test_github_behavior_suite_covers_failures_and_legal_neighbor(self):
         suite = json.loads(self.source("examples/ai-agent/behavior/cases/github-governance.json"))
         self.assertEqual(validate_suite(suite), 6)
