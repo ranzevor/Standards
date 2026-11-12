@@ -56,6 +56,6 @@ runs-on:
 
 `quality.yml` 的受保护检查名继续为 `validate`，由 `contracts` 与复用的 `native-consumers` 两个任务汇总。两个任务都必须实际报告 `success`，任何失败、取消或跳过均导致 `validate` 失败；Ubuntu/Windows 矩阵不受仓库所有者筛选或路径过滤跳过。原有 `verify` 保持独立必需项。
 
-受保护的 `governance-metadata` 除 PR 与提交元数据，还复核最新 HEAD 至少一次有效 GitHub APPROVED、未解除拒绝意见，以及治理敏感变更的所有者审批。OPC 可通过仅由所有者运行的受信 GitHub Actions 工作流用 GITHUB_TOKEN 创建草稿 PR，编辑并转为 Ready for review 后由本人批准；无须额外 GitHub App 私钥，但必须启用仓库允许 Actions 创建 PR 的设置，并分别批准 CI 运行与 PR 审查；平台 Ruleset 必须实际要求至少一票 GitHub 审批、必需 CI、未解决讨论阻断及同步；仅在仓库内写约定不足以完成保护配置。
+受保护的 `governance-metadata` 保留 PR 与提交元数据校验。OPC 模式由开发者本人创建并自审 PR，原生 Required approving reviews 为 0；仍须先检查变更 Diff、解决全部审查线程，且 `validate`、`verify`、`governance-metadata` 均成功。平台 Ruleset 实际阻断失败 CI、禁止直接推送、要求同步；检查结果与仓库实际设置分别验证，不通过额外 Bot 或伪造批准替代自审。
 
 目标分支更新后 `quality.yml` 通过 `push` 再检查集成提交。正式发行还需自身发布工作流执行、附件读取和最终渠道核验。合并后检查失败时以新修复 PR 或适用的受控回退恢复，保留已合入历史，不将先前绿色 PR 检查冒称真实主分支通过。详见 [GitHub 严格治理流程](../guides/GITHUB-STRICT-GOVERNANCE.md)。

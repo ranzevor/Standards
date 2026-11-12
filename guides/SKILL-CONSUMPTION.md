@@ -7,7 +7,7 @@
 | 实际任务 | 优先搜索 | 必须核实 |
 | --- | --- | --- |
 | 新项目治理、职责和版本决策 | `--query "项目治理"`、`--document-id STD-L0-001` | 项目阶段、责任与既有决定 |
-| GitHub 仓库审查、保护规则、CI、合并或发布 | 先读 [GitHub 严格治理流程](GITHUB-STRICT-GOVERNANCE.md)；再查 `STD-PG-009`、`STD-PG-011`、`STD-PG-015` | 实际 Ruleset、PR 审查、必需 CI、集成提交和发布结果 |
+| GitHub 仓库审查、保护规则、CI、合并或发布 | 先读 [GitHub PR 自审与 CI](GITHUB-STRICT-GOVERNANCE.md)；再查 `STD-PG-009`、`STD-PG-011`、`STD-PG-015` | 实际 Ruleset、PR 审查、必需 CI、集成提交和发布结果 |
 | Agent 系统、工具或评测 | `--query "Agent"`、`--document-id STD-L4-AI-AGENT-002` | 宿主限制、实际工具权限与运行观察 |
 | Web、数据库、游戏等领域 | `--domain web`、`--query "数据库"`、`--query "游戏"` | 项目确实使用的领域和功能 |
 | 安全、凭据和隔离 | `--query "安全"`、`--query "身份"` | 信任边界、数据来源和真实授权 |
@@ -51,6 +51,6 @@ Skill 格式校验、脚本单元测试、离线解包检查、真实宿主任�
 
 ## GitHub 治理任务的检索与执行
 
-GitHub PR 审查、治理设置、合并、CI、Release 及事故恢复按 [GitHub 严格治理流程](GITHUB-STRICT-GOVERNANCE.md) 执行。先读取远端最新事实与已采用的治理决定，再按准确文档 ID 查条款；不能把 `--query "仓库"` 的第一项命中当成覆盖完整治理范围，也不能因为单个检查为绿色而报告合并或发布完成。
+GitHub PR 审查、治理设置、合并、CI、Release 及事故恢复按 [GitHub PR 自审与 CI](GITHUB-STRICT-GOVERNANCE.md) 执行。先读取远端最新事实与已采用的治理决定，再按准确文档 ID 查条款；不能把 `--query "仓库"` 的第一项命中当成覆盖完整治理范围，也不能因为单个检查为绿色而报告合并或发布完成。
 
 正文精确文本零命中表示本次字面查询无结果，不表示不存在适用规范。依次检查过滤条件、文档身份、同义表达，必要时通过目录和条款索引阅读完整相关文档；损坏的索引属于错误，不能当成合法零命中。当前 JSON 查询结果结构保持不变，错误详情只写入标准错误流。

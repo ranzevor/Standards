@@ -1,64 +1,40 @@
-# GitHub 仓库严格治理：PR、CI、集成与发行
+# GitHub 仓库治理：PR 自审、必需 CI 与合并后验证
 
-适用于已经选择本配置的 GitHub 仓库，以及使用 Standards Skill 执行的 GitHub 仓库治理任务。本指南复用现有的 [变更提案审查与合并规范](../standards/project-governance/009-变更提案审查与合并规范--v0.1.0.md)、[测试质量门禁与证据规范](../standards/project-governance/011-测试质量门禁与证据规范--v0.1.0.md)、[工作项规范](../standards/project-governance/010-工作项里程碑与协作职责规范--v0.1.0.md)及[版本发行规范](../standards/project-governance/015-版本标签与发行规范--v0.1.0.md)。本配置不改变其他项目已经固定的规范采用决定。
+适用于已采用此配置的独立开发者、OPC 和使用 Standards Skill 执行 GitHub 治理任务的 Agent。具体要求沿用[变更提案审查与合并规范](../standards/project-governance/009-变更提案审查与合并规范--v0.1.0.md)、[测试质量门禁与证据规范](../standards/project-governance/011-测试质量门禁与证据规范--v0.1.0.md)及[版本发行规范](../standards/project-governance/015-版本标签与发行规范--v0.1.0.md)。其他仓库已实际采用的更严格规则不会因本配置自动降低。
 
-## 默认保护与降级决定
+## 1. OPC 基线：本人创建 PR、本人与 Agent 审查、CI 全部通过
 
-GitHub 仓库治理任务默认按严格保护执行；已有更严格且实际生效的保护必须保留。降低保护包括取消最少一次有效审批、未经批准降低既定审批数、解除拒绝意见、不检查某个必要环境、移除必需检查、改成可跳过任务、关闭同步/讨论门禁、增加 bypass、直接推送或降低合并后验证。Agent 不以单人开发、速度、临时调试、额度不足或 CI 不稳定为理由自行降级。
+1. 在非受保护分支完成变更，使用本人现有 GitHub 账号或已获授权的 Agent 创建 PR；无需另设 GitHub App、Actions Bot 或第二个维护者。
+2. 对当前 PR 的 **Files changed**、提交、测试覆盖、兼容性、权限和发布影响进行实际自审。发现问题就修改，修改后重新审查受影响范围。已采用的规范另外要求实质独立技术审查时，由未参与实现的独立审查者或审查 Agent 针对当前候选完成复核；这一技术审查不等于 GitHub 平台的 APPROVED，也不要求另设账号。现有 PR 正文按仓库模板填写真实审查和验证内容，不生成无关证明文件。
+3. 主分支强制经 PR 集成，禁止删除和 force push，保持线性历史和目标分支同步；必须解决全部审查线程、阻止失败/跳过的必需 CI，且不设置宽泛 bypass。
+4. 当前策略允许开发者**自审并自行决定合并**。GitHub Ruleset 的 `required_approving_review_count=0`，含义仅为**不强制其他账号提交 APPROVED**；不是跳过审查、CI 或合并授权。PR 作者不能使用 GitHub 原生 APPROVE 审批自己的 PR，但可以审阅 Diff、讨论修改并在门禁满足后执行合并。
+5. 若某仓库已经采用原生一票或多人审批，保持原设置，除非所有者针对准确仓库明确批准改变。Agent 不因开发者人数、效率、额度或 CI 失败而自行降低任何实际采用的保护。
 
-如确需例外，仓库所有者先明确批准 **准确仓库、分支或 PR、保护项、理由、时限与恢复条件**；未获得决定前维持阻断。批准一次修复动作不等于批准永久修改 Ruleset。例外仅覆盖明确批准的范围，其他保护继续执行。所有者批准也不能伪造审查、CI 通过或真实发布结果。独立开发者/OPC 可以本人审查自己负责的代码，但有效 GitHub 批准必须由符合平台规则的真实审查身份提交；只写自查清单或让机器人生成评论不能替代审批。
+## 2. 配置并核实真正生效的 GitHub Ruleset
 
-## 1. 读取当前远端事实
+必须核实目标仓库和主分支的远端 Ruleset，而不是凭文档、历史会话、PR 文本推断已启用。对本模式的 `main`：
 
-先读取目标仓库实际默认分支和最新 HEAD、已有采用决定、开放 PR/Issue、检查运行、Ruleset/branch protection、CODEOWNERS、仓库合并方式及必要工作流。区分 **规范要求** 与 **实际平台设置**；仓库文件和文档中写了要求不等于 GitHub 已启用对应规则。远端 API 拒绝读取时，相关状态为未核，不能猜测已启用。
+- Active：Require pull request before merging，Required approving reviews **0**，Require conversation resolution；保持 dismiss stale reviews on push 等已采用的设置。
+- 禁止删除、force push，要求线性历史；要求更新目标分支后重新检查。只允许已采用的 squash 合并方式。
+- Required status checks：`validate`、`verify`、`governance-metadata`，绑定正确且可信的检查来源。
+- 不新增能跳过检查或直接推送到主分支的 bypass；如远端 Ruleset 高于本模式，要先取得仓库所有者针对该对象的明确调整决定。
 
-变更前保护现有成果，固定 PR 当前 head SHA、base SHA、完整文件差异、作者及授权。对 PR 内容、审查或目标分支更新，重新读取必要状态，不沿用旧快照。
+GitHub 可将 `neutral` 或 `skipped` 结论视为满足原生 Required status check；关键作业必须用始终执行的汇总检查验证所有必要依赖均为实际 `success`。该汇总检查的名称须与 Ruleset 要求相符。没有发生的工作流不是通过；不要因路径过滤或身份条件漏跑必需任务。
 
-## 2. 配置实际可阻断的 Ruleset
+审查失败、待解决的线程、CI 未完成、取消或缺失时禁止合并。使用真实 PR 核验失败时有阻断、修复后能恢复，避免错误门禁永久阻断合法变更。若 `pull_request_target` 在仓库策略中被禁止，应修复受信工作流事件配置；不要取消必需的 `governance-metadata`。
 
-针对主分支设置 active Ruleset：禁止删除/force push，要求经 PR 合并、线性历史、目标分支最新基线、解决全部 Review threads、当前候选至少 **1 次有效 GitHub APPROVED** 以及必需 CI 通过，不允许宽泛 bypass。普通代码和治理敏感变更都要求至少一票；治理、保护、发布、身份与权限变更还应由所有者亲自审批并审查完整影响范围。已有更高审批数量时保持该数量，未经用户明确批准不得降低。
+## 3. 从 PR 到 main 的交付
 
-若选用 CODEOWNERS 审查，确认指定人员对实际变更路径具有审查权限，且不是该 GitHub PR 的作者，并在 Ruleset 中打开必需 CODEOWNERS 批准。单人仓库可以由所有者担任唯一 CODEOWNER；GitHub 不允许 PR 作者本人 APPROVE。可由受信 GitHub Actions 工作流创建草稿 PR（不必注册独立 App），再由所有者按当前候选正式批准。对 CHANGES_REQUESTED、未解决线程、候选变化后旧批准及未经批准的变更一律阻断。
+合并前重新读取 PR head、base、全部文件和审查线程，确认本次自审覆盖准确候选；`validate` 必须同时汇总 Linux 合同检查与 Ubuntu/Windows 原生消费测试，`verify` 和 `governance-metadata` 也须成功。PR 没有独立批准不是阻断条件；未审阅实际 Diff、未获合并授权则需要补齐相应动作。
 
-Ruleset 的 Required status checks 明确列入所有必要作业并绑定可信 GitHub App 来源。注意 GitHub 把 `skipped` 与 `neutral` 当成满足必需检查的结论；重要任务须由不可跳过的汇总作业核对每个必要任务的实际 `success`。不要给必需工作流加 paths/branches 过滤，也不要通过 job 级 `if` 把任务跳过包装成通过。
+目标分支变化后重新检查。批准合并时使用当前 HEAD 并校验最终 squash 消息，不强推或通过管理员绕过。合并后检查真实 `main` 提交上的 `push` CI、产物及实际发行结果。PR 绿色不是集成后发行成功的证明。
 
-**平台验证：** 在真实的未获独立批准、拒绝审查、当前 CI 失败、取消和跳过的 PR 上分别核合并确实受阻；再验证完成全部条件的合法 PR 可以合并。不能以页面出现“受保护”或某个检查绿色代替这些实测。检查结果必须关联实际当前 PR 和检查来源。
+### 合并后发行失败处理
 
-## 3. PR 的变更、独审与 CI
+若发行工作流已经创建草稿并上传附件，却因草稿回读 API 返回 HTTP 404，准确结果是“草稿及附件部分创建成功，发行检查失败”。先按 Release ID 检查既有草稿和附件，定位错误；通过新的修复 PR 或受控回退恢复，按相同门禁复核后继续发行。禁止把已经合并的提交当成未合并，也不重建尚未检查的草稿、重写已共享历史或隐瞒失败。
 
-1. 先检查准确基线和所有变更文件，保留现有有效成果；新建分支、最小修改、定向回归。审核治理相关代码时还要检查该 PR 是否自行削弱了门禁、移除测试、改变 expected 或扩大权限。
-2. 审查代码和变更合同的实现、异常与恢复、兼容、权限、非预期副作用。OPC 可以独立审查自己负责的代码，但评论“已审查”、Codex 总结、文件数量和作者自查清单都不能代替实际 GitHub APPROVED。审查失败应逐项修复，候选变化后重新核完整影响范围。
-3. CI 必须针对当前候选及目标分支的实际集成形态执行。全部必需作业必须实际完成且成功；失败、超时、取消、未运行、未知、跳过或单元测试代替目标环境，均不能记为完整通过。
-4. 合并前再读取最新 PR、检查、审查和 Ruleset 状态。目标分支发生变化时，重新计算集成对象与必要验证。只有当前版本满足全部强制条件且已有合并授权，才执行合并。API 合并响应不明时先回读对象，不能重复提交或直接推送覆盖。
+## 4. Agent 与宿主
 
-### 独立开发者 / OPC 自审
+操作前读取当前远端状态、准确采用决定及权限。将**审查完成**、**必需检查通过**、**已合并**、**主分支集成检查成功**、**已发行**视为不同事实。不允许因为“只有一个开发者”虚构第二名批准者，也不允许为了严格而强加未采用的一票审批。实际合并、发布或修改 Ruleset 仍按各自授权执行。
 
-默认 GitHub Ruleset 的 `required_approving_review_count` **至少为 1**。GitHub 原生机制禁止 PR 作者批准自己的 PR。允许同一个独立开发者审查自己编写的代码，但要让这种自主管理被 GitHub 原生审批接受，应使用以下角色分离：
-
-1. 开发者在本仓库的候选分支上完成代码和定向验证。管理员可在 `Settings → Actions → General → Workflow permissions` 开启 **Allow GitHub Actions to create and approve pull requests**；此设置同时赋予创建与批准能力，因此只允许受信工作流按需申请 `pull-requests: write`，不得让 PR 代码运行该写入令牌。
-2. 本项目提供的 [OPC 创建草稿 PR 工作流](../.github/workflows/opc-open-pr.yml) 只允许仓库所有者从默认分支手动触发，读取默认分支 PR 模板，通过内置 `GITHUB_TOKEN` 以 `github-actions[bot]` 身份创建草稿 PR；不授予长期 App 私钥，不向候选分支提供仓库写权限。用户随后编辑真实 PR 正文并点击 **Ready for review**。
-3. GitHub 当前对 `GITHUB_TOKEN` 创建 PR 的 `pull_request` opened/synchronize/reopened 事件会产生**需要写入者人工批准运行**的 CI。所有者在 PR 中选择 **Approve workflows to run**，并确认实际 `validate`、`verify`、`governance-metadata` 已运行成功。该行为不自动触发所有 `pull_request_target` 事件；本仓库由所有者手动将草稿标为 Ready for review，触发受信的 `pull_request_target` 治理门禁，仍需回读实际检查结果。如果项目屏蔽 `pull_request_target`，须先按其权限政策修复触发配置，而不是把缺失检查当成功。
-4. 唯一开发者检查当前 HEAD 的完整差异、代码质量与安全、必要 CI 及发布影响后，用本人 GitHub 账号提交真实 **APPROVE** Review；PR 作者是 `github-actions[bot]`，不是该开发者。需要的检查实际完成，且不存在未解决阻断项，方可合并；合并后继续验证主分支与发布结果。
-5. 若所有者已经以本人账号创建 PR，则同一账号无法原生 APPROVE。应由另一名有资格的审查者批准，或者保留全部有效代码，将 PR 由上述受信工作流重新创建为 Bot 作者后完成审核。不得把 Required approvals 改为 0，亦不得用自查文本伪装 GitHub 原生审批。
-
-仓库没有启用 Actions 创建 PR 能力时，该路径保持不可用；可采用独立安装的 GitHub App 或真实其他审查者的批准，但它们不是 OPC 默认依赖。
-
-“允许自审”指允许唯一开发者承担实际代码审查与合并决策，不指 GitHub 允许 PR 作者向自己提交有效原生批准。无需为此雇佣第二名开发者，也不允许跳过 CI、审查拒绝或合并后验证。
-
-## 4. 合并后实际提交与流程验收
-
-合并只表示 PR 已集成；其结果须重新核实主分支实际 commit/tree、必需工作流、相关回归、构建/发布/部署和最终下载或使用结果。主分支的 `push` CI 在真正合并的提交上运行，默认分支名为 `main` 时需要将相关工作流明确绑定该分支；不能用 PR HEAD 已通过推导主分支已通过。
-
-对 GitHub 合并队列可用的仓库，可采用 `merge_group` 事件与队列的严格验证；对不可用队列的个人账户仓库，使用严格目标分支同步、PR 测试合并对象、合并后的 `push` 验证。即使如此，发布专用工作流和首次真实外部效果仍可能在合并后暴露缺陷。
-
-**合并后失败处置：** 保留原始失败对象和已完成的正确部分，阻断依赖失败结果的发行、部署和交付。先核对当前 HEAD 与已发生的外部动作，定位具体失败及是否存在部分成功；在新分支修复或以授权方式回退，按同样审查和 CI 门禁集成，再重新核实主分支和受影响流程。不能强推重写已共享历史、修改历史绿色结果、删除失败测试或者把“之前 PR CI 成功”当作问题已关闭。
-
-### 草稿 Release 的反例
-
-若发行工作流创建草稿并上传附件成功，但用仅面向正式标签的读取 API 查询草稿导致 HTTP 404，正确状态是“部分操作已发生，发布检查失败”。应先按发行 ID 查询或恢复草稿，核对实际附件与源身份，修复后再发布并回读正式 Release；不是重试创建新 Release、宣布成功或覆盖已发布对象。此类发布状态需在独立合成 API 目标上验证正常、失败和合法恢复，PR 的其他质量矩阵通过不代替发行工作流本身测试。
-
-## 5. Agent 任务完成判据
-
-Agent 必须依据实际工具结果分别报告：本次读取和修改了什么、当前 PR 是否具备可合并条件、是否已真实合并、主分支检查是否通过、正式发布或部署是否真正完成。对尚未运行、无法读取和已有反证的项目给对应准确状态。只在现有 PR/Issue 和必要使用文档中记录最终有用内容，不创建无关治理报告、证据文件、机器身份摘要或审核自述。多 Agent 审查不自动变成 GitHub 平台批准或用户授权。
-
-使用 [Skill 选读指南](SKILL-CONSUMPTION.md) 检索已采用的准确条款；使用 [行为场景](../examples/ai-agent/behavior/cases/github-governance.json) 检验规范检索、判断和越权边界。测试样例的绿色结果不替代真实 GitHub Ruleset 的生效回读。
+Agent 可按[Skill 选读流程](SKILL-CONSUMPTION.md)寻找准确条款，使用[GitHub 治理行为案例](../examples/ai-agent/behavior/cases/github-governance.json)核对阻断与合法邻例。此处的行为测试不替代真实 GitHub 上的生效检查。

@@ -3,8 +3,6 @@ name: Governance metadata
 on:
   pull_request_target:
     types: [opened, reopened, synchronize, edited, ready_for_review]
-  pull_request_review:
-    types: [submitted, edited, dismissed]
 
 permissions:
   contents: read
@@ -29,7 +27,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: node .github/scripts/governance_gate.cjs pr
-      - name: Require current independent approvals and reject unresolved review objections
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: node .github/scripts/governance_review_gate.cjs
