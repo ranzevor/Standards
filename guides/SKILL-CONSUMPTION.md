@@ -7,6 +7,7 @@
 | 实际任务 | 优先搜索 | 必须核实 |
 | --- | --- | --- |
 | 新项目治理、职责和版本决策 | `--query "项目治理"`、`--document-id STD-L0-001` | 项目阶段、责任与既有决定 |
+| 软件仓库审查、质量门禁和发布 | `--query "仓库"`、`--query "质量"` | 目标产物、版本、权限和验证环境；按实际 GitLab、Gitea、本地 Git 或其他平台规则执行 |
 | GitHub 仓库审查、保护规则、CI、合并或发布 | 先读 [GitHub PR 自审与 CI](GITHUB-STRICT-GOVERNANCE.md)；再查 `STD-PG-009`、`STD-PG-011`、`STD-PG-015` | 实际 Ruleset、PR 审查、必需 CI、集成提交和发布结果 |
 | Agent 系统、工具或评测 | `--query "Agent"`、`--document-id STD-L4-AI-AGENT-002` | 宿主限制、实际工具权限与运行观察 |
 | Web、数据库、游戏等领域 | `--domain web`、`--query "数据库"`、`--query "游戏"` | 项目确实使用的领域和功能 |

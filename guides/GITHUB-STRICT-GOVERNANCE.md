@@ -25,7 +25,7 @@ GitHub 可将 `neutral` 或 `skipped` 结论视为满足原生 Required status c
 
 ## 3. 从 PR 到 main 的交付
 
-合并前重新读取 PR head、base、全部文件和审查线程，确认本次自审覆盖准确候选；`validate` 必须同时汇总 Linux 合同检查与 Ubuntu/Windows 原生消费测试，`verify` 和 `governance-metadata` 也须成功。PR 没有独立批准不是阻断条件；未审阅实际 Diff、未获合并授权则需要补齐相应动作。
+合并前重新读取 PR head、base、全部文件和审查线程，确认本次自审覆盖准确候选；`validate` 必须同时汇总 Linux 合同检查与 Ubuntu/Windows 原生消费测试，`verify` 和 `governance-metadata` 也须成功。缺少其他 GitHub 账号的原生 APPROVED 不是本模式的阻断条件；已采用的独立技术复核必须对当前候选完整通过，未审阅实际 Diff、独立复核未完成或未获合并授权均须阻断。
 
 目标分支变化后重新检查。批准合并时使用当前 HEAD 并校验最终 squash 消息，不强推或通过管理员绕过。合并后检查真实 `main` 提交上的 `push` CI、产物及实际发行结果。PR 绿色不是集成后发行成功的证明。
 
