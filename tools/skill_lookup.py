@@ -23,6 +23,10 @@ class LookupInputError(ValueError):
     """An invalid filter or unregistered exact document identity."""
 
 
+class LookupRootError(LookupInputError):
+    """The caller supplied a non-directory or symlinked lookup root."""
+
+
 class LookupSourceMissing(ValueError):
     """A required released file is missing."""
 
@@ -54,7 +58,7 @@ def _matched_excerpt(text: str, start: int, end: int, limit: int = 240) -> str:
 
 def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None,*,offset=0,text_all=None):
     root=Path(root)
-    if root.is_symlink() or not root.is_dir():raise LookupInputError('lookup root is not a plain directory')
+    if root.is_symlink() or not root.is_dir():raise LookupRootError('lookup root is not a plain directory')
     root=root.resolve()
     if type(limit) is not int or not 1<=limit<=100:raise LookupInputError('limit must be 1..100')
     if type(offset) is not int or offset<0:raise LookupInputError('offset must be a nonnegative integer')
@@ -147,7 +151,9 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
     return {'version':release_version,'total':len(matching),'results':matching[offset:offset+limit]}
 
 def error_detail(exc):
-    if isinstance(exc,LookupInputError):
+    if isinstance(exc,LookupRootError):
+        code,action='INVALID_QUERY','Set --root to an existing plain directory.'
+    elif isinstance(exc,LookupInputError):
         code,action='INVALID_QUERY','Correct the query or exact identifier.'
     elif isinstance(exc,LookupSourceMissing):
         code,action='SOURCE_MISSING','Restore the missing file from the verified release.'
