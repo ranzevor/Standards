@@ -20,10 +20,10 @@ class LookupDiagnosticsTests(unittest.TestCase):
         self.root.mkdir()
         SkillConsumptionTests.write_fixture(self.root)
 
-    def cli(self, *options):
+    def cli(self, *options, root=None):
         return subprocess.run(
             [sys.executable, '-X', 'utf8', '-B', str(ROOT / 'tools/skill_lookup.py'),
-             '--root', str(self.root), *options],
+             '--root', str(self.root if root is None else root), *options],
             capture_output=True, timeout=30)
 
     def test_all_terms_can_match_different_verified_lines(self):
@@ -67,6 +67,57 @@ class LookupDiagnosticsTests(unittest.TestCase):
         missing = self.cli('--error-json')
         self.assertEqual((missing.returncode, missing.stdout), (1, b''))
         self.assertEqual(json.loads(missing.stderr)['code'], 'SOURCE_MISSING')
+
+    def test_parsed_out_of_range_values_respect_error_output_mode(self):
+        cases = (
+            ('--limit', '0', 'limit must be 1..100'),
+            ('--limit', '101', 'limit must be 1..100'),
+            ('--offset', '-1', 'offset must be a nonnegative integer'),
+        )
+        for flag, value, message in cases:
+            with self.subTest(flag=flag, value=value, mode='json'):
+                response = self.cli('--error-json', flag, value)
+                self.assertEqual((response.returncode, response.stdout), (1, b''))
+                error = json.loads(response.stderr.decode('utf-8'))
+                self.assertEqual(set(error), {'code', 'message', 'next_action'})
+                self.assertEqual((error['code'], error['message']),
+                                 ('INVALID_QUERY', message))
+                self.assertIn('Correct the query', error['next_action'])
+                self.assertEqual(len(response.stderr.decode('utf-8').splitlines()), 1)
+            with self.subTest(flag=flag, value=value, mode='legacy'):
+                response = self.cli(flag, value)
+                self.assertEqual((response.returncode, response.stdout), (2, b''))
+                stderr = response.stderr.decode('utf-8')
+                self.assertIn('usage:', stderr)
+                self.assertIn('error: ' + message, stderr)
+                self.assertNotIn('INVALID_QUERY', stderr)
+
+    def test_file_and_missing_roots_are_input_errors_in_both_modes(self):
+        ordinary_file = Path(self.temp.name) / 'not-a-directory'
+        ordinary_file.write_text('not a lookup release', encoding='utf-8')
+        missing_directory = Path(self.temp.name) / 'not-created'
+        for root in (ordinary_file, missing_directory):
+            with self.subTest(root=root, mode='json'):
+                response = self.cli('--error-json', root=root)
+                self.assertEqual((response.returncode, response.stdout), (1, b''))
+                error = json.loads(response.stderr.decode('utf-8'))
+                self.assertEqual(error['code'], 'INVALID_QUERY')
+                self.assertEqual(error['message'], 'lookup root is not a plain directory')
+                self.assertIn('Correct the query', error['next_action'])
+            with self.subTest(root=root, mode='legacy'):
+                response = self.cli(root=root)
+                self.assertEqual((response.returncode, response.stdout), (1, b''))
+                self.assertEqual(response.stderr.decode('utf-8').strip(),
+                                 'lookup failed: lookup root is not a plain directory')
+
+    def test_argparse_syntax_errors_keep_exit_two_even_with_error_json(self):
+        for flag, value in (('--limit', 'not-an-integer'), ('--offset', '1.5')):
+            with self.subTest(flag=flag):
+                response = self.cli('--error-json', flag, value)
+                self.assertEqual((response.returncode, response.stdout), (2, b''))
+                stderr = response.stderr.decode('utf-8')
+                self.assertIn('usage:', stderr)
+                self.assertIn('invalid int value', stderr)
 
     def test_corrupt_clause_index_has_integrity_error_not_zero_results(self):
         path = self.root / 'registry/requirements.json'
