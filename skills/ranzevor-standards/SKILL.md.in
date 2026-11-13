@@ -5,7 +5,7 @@ license: references/LICENSE
 compatibility: Offline Markdown and JSON; Python 3.12 standard library for optional verified clause lookup and bundle checks.
 metadata:
   author: Ranzevor
-  version: "0.2.1"
+  version: "0.2.2"
   normative_language: zh-Hans
 ---
 
