@@ -25,6 +25,14 @@ python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-que
 python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-query "授权" --limit 5 --offset 5
 ```
 
+同一条款需要同时包含多处字面条件时，可重复提供 `--text-query`：
+
+```sh
+python -X utf8 -B scripts/lookup.py --document-id STD-L4-AI-AGENT-002 --text-query "授权" --text-query "评测" --limit 10
+```
+
+重复条件在同一个经校验的条款规范段内按 AND 匹配，可以位于不同行；多条件结果增加 `term_matches`，分别给出各词的原文行号和片段，原有 `matched_line`、`matched_excerpt` 对应第一个条件。最多 8 个条件，单条件输出保持不变。精确子串条件不执行语义补全。
+
 输出保持 `version`、`total`、`results` 三个字段；`total` 不受分页影响。`--offset` 是非负整数，默认 0；`--limit` 仍为 1–100。按登记顺序返回，偏移在全部过滤后应用，超过总数返回空数组。继续读取时将偏移增加实际返回条数，直到达到 `total` 或返回空数组。不要在翻页中途替换发行包或改变过滤条件；版本更新后从第一页开始。分页不会跳过所选文档的索引校验。
 
 在项目目录工作时，用宿主实际加载的 `SKILL.md` 路径定位 Skill 根目录，并使用脚本绝对路径；返回的 `references/...` 路径相对于 Skill 根目录，不相对于项目工作目录。安装与首个任务见 [宿主使用说明](SKILL-INSTALLATION.md)。
@@ -54,4 +62,4 @@ Skill 格式校验、脚本单元测试、离线解包检查、真实宿主任�
 
 GitHub PR 审查、治理设置、合并、CI、Release 及事故恢复按 [GitHub PR 自审与 CI](GITHUB-STRICT-GOVERNANCE.md) 执行。先读取远端最新事实与已采用的治理决定，再按准确文档 ID 查条款；不能把 `--query "仓库"` 的第一项命中当成覆盖完整治理范围，也不能因为单个检查为绿色而报告合并或发布完成。
 
-正文精确文本零命中表示本次字面查询无结果，不表示不存在适用规范。依次检查过滤条件、文档身份、同义表达，必要时通过目录和条款索引阅读完整相关文档；损坏的索引属于错误，不能当成合法零命中。当前 JSON 查询结果结构保持不变，错误详情只写入标准错误流。
+正文精确文本零命中表示本次字面查询无结果，不表示不存在适用规范。依次检查过滤条件、文档身份、同义表达，必要时通过目录和条款索引阅读完整相关文档；损坏的索引属于错误，不能当成合法零命中。当前 JSON 查询结果结构保持不变，错误详情只写入标准错误流。调用程序可附加 `--error-json`，以失败返回码 `1` 从标准错误流获取 `code`、`message`、`next_action`。运行阶段错误区分 `INVALID_QUERY`（过滤参数/未知文档 ID）、`SOURCE_MISSING`（发行文件缺失）、`INTEGRITY_ERROR`（校验或索引不一致）与 `IO_ERROR`（文件系统访问异常）。合法零命中仍是退出码 `0` 的空 `results`。`--root` 指向普通文件、缺失目录或根目录符号链接属于 `INVALID_QUERY`。`--error-json` 下，已解析的 `--limit`、`--offset` 越界值返回 `INVALID_QUERY`（退出码 `1`）；不使用该参数时，这两类值域错误保持原有的 `argparse` 文本格式和退出码 `2`。参数语法错误（如输入非整数）仍由 `argparse` 以退出码 `2` 处理。

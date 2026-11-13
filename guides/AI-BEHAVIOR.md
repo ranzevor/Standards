@@ -20,6 +20,7 @@
 | [按需加载与宿主适配](ai-behavior/PROFILES.md) | 对应现有条款的执行方法、失败例与合法邻例 | [context](../examples/ai-agent/behavior/cases/context.json) |
 | [真实行为评测操作](ai-behavior/EVALUATION.md) | 对应现有条款的执行方法、失败例与合法邻例 | [evaluation](../examples/ai-agent/behavior/cases/evaluation.json) |
 | [Skill 规范消费](SKILL-CONSUMPTION.md) | 选择适用条款并验证消费结果 | [skill-consumption](../examples/ai-agent/behavior/cases/skill-consumption.json) |
+| [检索、错误反馈与交付纠偏](ai-behavior/ADOPTION.md) | 区分检索状态、撤销错误依赖、恢复未知动作与交付验收 | [retrieval-feedback-delivery](../examples/ai-agent/behavior/cases/retrieval-feedback-delivery.json) |
 | [GitHub PR 自审与 CI](GITHUB-STRICT-GOVERNANCE.md) | OPC 自审、必需 CI 阻断、集成与发行恢复 | [github-governance](../examples/ai-agent/behavior/cases/github-governance.json) |
 
 ## 核对场景合同

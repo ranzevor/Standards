@@ -426,7 +426,7 @@ def compare(root, baseline, candidate, baseline_sha256, candidate_sha256):
             'status': 'INCOMPLETE' if incomplete else 'DESCRIPTIVE',
             'baseline_batch_sha256': baseline_sha256, 'candidate_batch_sha256': candidate_sha256,
             'baseline_counts': before['counts'], 'candidate_counts': after['counts'],
-            'success_fraction_delta': after['success_fraction'] - before['success_fraction'],
+            'success_fraction_delta': None if incomplete else after['success_fraction'] - before['success_fraction'],
             'configuration_changed': old_batch['execution_config_sha256'] != new_batch['execution_config_sha256'],
             'transitions': transitions, 'statistical_claim': 'paired descriptive difference; no significance or causality claim'}
 
