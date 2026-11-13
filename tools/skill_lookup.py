@@ -19,6 +19,14 @@ else:
 ROOT=HERE.parent/'references' if (HERE.parent/'references').is_dir() else HERE.parent
 
 
+class LookupInputError(ValueError):
+    """An invalid filter or unregistered exact document identity."""
+
+
+class LookupSourceMissing(ValueError):
+    """A required released file is missing."""
+
+
 def _casefold_match(text: str, needle: str):
     """Return original character bounds for a Unicode casefolded substring match."""
     folded_parts = []
@@ -44,19 +52,22 @@ def _matched_excerpt(text: str, start: int, end: int, limit: int = 240) -> str:
     right = left + width
     return ('…' if left else '') + text[left:right] + ('…' if right < len(text) else '')
 
-def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None,*,offset=0):
+def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None,*,offset=0,text_all=None):
     root=Path(root)
     if root.is_symlink() or not root.is_dir():raise ValueError('lookup root is not a plain directory')
     root=root.resolve()
-    if type(limit) is not int or not 1<=limit<=100:raise ValueError('limit must be 1..100')
-    if type(offset) is not int or offset<0:raise ValueError('offset must be a nonnegative integer')
+    if type(limit) is not int or not 1<=limit<=100:raise LookupInputError('limit must be 1..100')
+    if type(offset) is not int or offset<0:raise LookupInputError('offset must be a nonnegative integer')
+    for label,value in (('query',query),('document-id',document_id),('clause-id',clause_id),('domain',domain)):
+        if value is not None and (type(value) is not str or not value.strip() or len(value)>256):
+            raise LookupInputError(label+' must be 1..256 nonblank characters')
     def read(path):
         parts=checked_path(path).parts
         target=root
         for part in parts:
             target=target/part
             if target.is_symlink():raise ValueError('symlink in lookup path: '+path)
-        if not target.is_file():raise ValueError('lookup source missing: '+path)
+        if not target.is_file():raise LookupSourceMissing('lookup source missing: '+path)
         return target.read_bytes()
     release_version=validate_project_release(parse_json(read('project.json')))
     docs=parse_json(read('registry/standards.json'))
@@ -67,13 +78,21 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
         return cache[path]
     validate_registry_bytes(docs,normative)
     if document_id is not None and document_id not in {doc['id'] for doc in docs}:
-        raise ValueError('unknown exact document ID: '+str(document_id)+'; search the document registry with --query before selecting a document ID')
-    if text_query is not None:
-        if type(text_query) is not str or not text_query.strip() or len(text_query)>256 or any(chr(c) in text_query for c in (0, 10, 13)):
-            raise ValueError('text-query must be 1..256 nonblank characters')
-        text_needle=text_query.casefold()
-    else:
-        text_needle=None
+        raise LookupInputError('unknown exact document ID: '+str(document_id)+'; search the document registry with --query before selecting a document ID')
+    if text_all is None:
+        text_all=()
+    if type(text_all) not in (list,tuple):raise LookupInputError('text-all must be a list of literal terms')
+    terms=([text_query] if text_query is not None else [])+list(text_all)
+    if len(terms)>8:raise LookupInputError('at most eight text-query terms are supported')
+    text_needles=[]
+    seen_terms=set()
+    for term in terms:
+        if type(term) is not str or not term.strip() or len(term)>256 or any(chr(c) in term for c in (0,10,13)):
+            raise LookupInputError('text-query must be 1..256 nonblank characters')
+        folded=term.casefold()
+        if folded not in seen_terms:
+            text_needles.append((term,folded))
+            seen_terms.add(folded)
     needle=query.casefold() if query else None
     prefix='references/' if root.name=='references' else ''
     matching=[]
@@ -86,7 +105,7 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
                          'title':doc['title'],'version':doc['version'],
                          'status':doc['status'],'path':prefix+doc['path'],
                          'sha256':doc['sha256'],'domain':doc['domain']})
-    if clause_id or text_needle is not None:
+    if clause_id or text_needles:
         clauses=parse_json(read('registry/requirements.json'))
         selected={doc['document_id']:doc for doc in matching}
         # Check every indexed clause for the selected documents before filtering.
@@ -105,21 +124,39 @@ def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit
             result={**doc,'clause_id':row['clause_id'],'line':start,'end_line':end,
                     'section_sha256':row['section_sha256'],'normative_start_line':normative_start,
                     'normative_end_line':normative_end,'normative_sha256':row['normative_sha256']}
-            if text_needle is not None:
-                matched=None
-                for line_offset,raw_line in enumerate(lines[normative_start-1:normative_end]):
-                    line_text=_decode_physical_line(raw_line)
-                    bounds=_casefold_match(line_text,text_needle)
-                    if bounds is not None:
-                        matched=(normative_start+line_offset,line_text,bounds)
-                        break
-                if matched is None:continue
-                line_number,line_text,(match_start,match_end)=matched
-                result['matched_line']=line_number
-                result['matched_excerpt']=_matched_excerpt(line_text,match_start,match_end)
+            if text_needles:
+                term_matches=[]
+                for term,text_needle in text_needles:
+                    matched=None
+                    for line_offset,raw_line in enumerate(lines[normative_start-1:normative_end]):
+                        line_text=_decode_physical_line(raw_line)
+                        bounds=_casefold_match(line_text,text_needle)
+                        if bounds is not None:
+                            matched=(normative_start+line_offset,line_text,bounds)
+                            break
+                    if matched is None:break
+                    line_number,line_text,(match_start,match_end)=matched
+                    term_matches.append({'text_query':term,'matched_line':line_number,
+                                         'matched_excerpt':_matched_excerpt(line_text,match_start,match_end)})
+                if len(term_matches)!=len(text_needles):continue
+                result['matched_line']=term_matches[0]['matched_line']
+                result['matched_excerpt']=term_matches[0]['matched_excerpt']
+                if len(term_matches)>1:result['term_matches']=term_matches
             results.append(result)
         matching=results
     return {'version':release_version,'total':len(matching),'results':matching[offset:offset+limit]}
+
+def error_detail(exc):
+    if isinstance(exc,LookupInputError):
+        code,action='INVALID_QUERY','Correct the query or exact identifier.'
+    elif isinstance(exc,LookupSourceMissing):
+        code,action='SOURCE_MISSING','Restore the missing file from the verified release.'
+    elif isinstance(exc,OSError):
+        code,action='IO_ERROR','Check filesystem access and retry the lookup.'
+    else:
+        code,action='INTEGRITY_ERROR','Restore the verified release before citing clauses.'
+    return {'code':code,'message':str(exc),'next_action':action}
+
 
 def main(argv=None):
     # JSON redirected to a file or pipe is always UTF-8, including Windows
@@ -131,16 +168,23 @@ def main(argv=None):
     parser.add_argument('--root',type=Path,default=ROOT)
     parser.add_argument('--query',help='Case-insensitive document metadata search (ID, title, path, domain)');parser.add_argument('--document-id',help='Exact registered document ID')
     parser.add_argument('--clause-id',help='Exact clause ID within selected documents; zero matches do not prove inapplicability');parser.add_argument('--domain')
-    parser.add_argument('--text-query',help='Literal text in a verified clause, not synonyms or semantic search; zero matches are only literal zero matches')
+    parser.add_argument('--text-query',action='append',help='Literal text in a verified clause; repeat for AND matching inside one clause (up to 8)')
     parser.add_argument('--limit',type=int,default=20)
     parser.add_argument('--offset',type=int,default=0,help='Skip this many filtered results; retain registry order')
+    parser.add_argument('--error-json',action='store_true',help='Write categorized runtime lookup failures as JSON to stderr')
     args=parser.parse_args(argv)
     if not 1<=args.limit<=100:parser.error('limit must be 1..100')
     if args.offset<0:parser.error('offset must be a nonnegative integer')
     try:
-        result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit,args.text_query,offset=args.offset)
+        terms=args.text_query or []
+        result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit,
+                    terms[0] if terms else None,offset=args.offset,text_all=terms[1:])
     except (ValueError,OSError,KeyError,TypeError) as exc:
-        print('lookup failed: '+str(exc),file=sys.stderr);return 1
+        if args.error_json:
+            print(json.dumps(error_detail(exc),ensure_ascii=False),file=sys.stderr)
+        else:
+            print('lookup failed: '+str(exc),file=sys.stderr)
+        return 1
     print(json.dumps(result,ensure_ascii=False,indent=2));return 0
 
 if __name__=='__main__':raise SystemExit(main())
