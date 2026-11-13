@@ -54,7 +54,7 @@ def _matched_excerpt(text: str, start: int, end: int, limit: int = 240) -> str:
 
 def find(root: Path,query=None,document_id=None,clause_id=None,domain=None,limit=20,text_query=None,*,offset=0,text_all=None):
     root=Path(root)
-    if root.is_symlink() or not root.is_dir():raise ValueError('lookup root is not a plain directory')
+    if root.is_symlink() or not root.is_dir():raise LookupInputError('lookup root is not a plain directory')
     root=root.resolve()
     if type(limit) is not int or not 1<=limit<=100:raise LookupInputError('limit must be 1..100')
     if type(offset) is not int or offset<0:raise LookupInputError('offset must be a nonnegative integer')
@@ -173,9 +173,13 @@ def main(argv=None):
     parser.add_argument('--offset',type=int,default=0,help='Skip this many filtered results; retain registry order')
     parser.add_argument('--error-json',action='store_true',help='Write categorized runtime lookup failures as JSON to stderr')
     args=parser.parse_args(argv)
-    if not 1<=args.limit<=100:parser.error('limit must be 1..100')
-    if args.offset<0:parser.error('offset must be a nonnegative integer')
     try:
+        if not 1<=args.limit<=100:
+            if not args.error_json:parser.error('limit must be 1..100')
+            raise LookupInputError('limit must be 1..100')
+        if args.offset<0:
+            if not args.error_json:parser.error('offset must be a nonnegative integer')
+            raise LookupInputError('offset must be a nonnegative integer')
         terms=args.text_query or []
         result=find(args.root,args.query,args.document_id,args.clause_id,args.domain,args.limit,
                     terms[0] if terms else None,offset=args.offset,text_all=terms[1:])
