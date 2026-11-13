@@ -14,8 +14,9 @@
 | [真实行为评测操作](cases/evaluation.json) | 6 | 0.1.0 |
 | [Skill 规范消费](cases/skill-consumption.json) | 4 | 0.2.0 |
 | [Skill 真实宿主任务](cases/skill-host-tasks.json) | 3 | 0.2.1 |
+| [检索、反馈与交付纠偏](cases/retrieval-feedback-delivery.json) | 6 | 0.2.2（候选） |
 
-当前共 43 个场景。规范引用通过稳定文档和条款 ID 解析；运行时还要固定准确版本与摘要。
+当前共 49 个场景（其中 6 个为 0.2.2 候选新增场景）。规范引用通过稳定文档和条款 ID 解析；运行时还要固定准确版本与摘要。
 
 ```sh
 python -m checks.behavior_cases
