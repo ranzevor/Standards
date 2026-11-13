@@ -103,7 +103,7 @@ class LookupDiagnosticsTests(unittest.TestCase):
                 error = json.loads(response.stderr.decode('utf-8'))
                 self.assertEqual(error['code'], 'INVALID_QUERY')
                 self.assertEqual(error['message'], 'lookup root is not a plain directory')
-                self.assertIn('Correct the query', error['next_action'])
+                self.assertIn('Set --root', error['next_action'])
             with self.subTest(root=root, mode='legacy'):
                 response = self.cli(root=root)
                 self.assertEqual((response.returncode, response.stdout), (1, b''))
