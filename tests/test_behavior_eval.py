@@ -262,7 +262,19 @@ class BehaviorEvaluation(unittest.TestCase):
         result = evaluation.prepare(self.root, candidate, self.config, ['DECL-001'], 2)
         comparison = evaluation.compare(self.root, self.directory, candidate, self.batch_sha256, result['batch_sha256'])
         self.assertEqual(comparison['status'], 'INCOMPLETE')
-        self.assertEqual(comparison['success_fraction_delta'], 0.0)
+        self.assertIsNone(comparison['success_fraction_delta'])
+
+    def test_incomplete_comparison_does_not_report_an_apparent_gain(self):
+        candidate = self.base / 'partially-successful-candidate'
+        prepared = evaluation.prepare(self.root, candidate, self.config, ['DECL-001'], 2)
+        self.run = candidate / 'DECL-001/1'
+        self.capture()
+        self.review()
+        comparison = evaluation.compare(self.root, self.directory, candidate,
+                                        self.batch_sha256, prepared['batch_sha256'])
+        self.assertEqual(comparison['status'], 'INCOMPLETE')
+        self.assertEqual(comparison['candidate_counts']['PASS'], 1)
+        self.assertIsNone(comparison['success_fraction_delta'])
 
     def test_existing_run_and_capture_are_not_overwritten(self):
         with self.assertRaises(ValueError):
