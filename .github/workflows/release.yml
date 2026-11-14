@@ -117,8 +117,9 @@ jobs:
           && (inputs.runner_mode == 'mu-fallback' || ((inputs.runner_mode == '' || inputs.runner_mode == 'auto') && vars.STANDARDS_PRIVATE_ACTIONS_EXHAUSTED == 'true'))
           && format('["mu-fallback-linux-x64","mu-run-{0}-{1}","mu-job-publish"]', github.run_id, github.run_attempt)
           || '["ubuntu-latest"]') }}
-    timeout-minutes: 15
+    timeout-minutes: 50
     permissions:
+      actions: read
       contents: write
       id-token: write
       attestations: write
@@ -143,6 +144,11 @@ jobs:
         uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.12'
+      - name: Require matching main quality result
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python tools/release_quality_gate.py --source-commit "$SOURCE_COMMIT" --max-wait-seconds 1500
       - name: Retrieve only this run's verified artifacts
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:

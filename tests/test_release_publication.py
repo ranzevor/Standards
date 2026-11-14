@@ -9,6 +9,7 @@ import unittest
 from unittest.mock import call, patch
 import urllib.request
 
+from tools.release_quality_gate import QualityGateError, REQUIRED_JOBS
 from tools.publish_release import (
     APIError, API_PREFIX, GitHubAPI, PublishError, SafeRedirect, asset_names, publish,
     ensure_tag, tag_commit, tag_object_bytes, tag_object_id, tag_payload,
@@ -45,6 +46,18 @@ class FakeGitHub:
         self.main_reads = 0
         self.move_main_before_publish = False
         self.comparison_status = 'ahead'
+        self.quality_status = 'completed'
+        self.quality_conclusion = 'success'
+        self.quality_reads = 0
+        self.fail_quality_after_first_check = False
+
+    def quality_run(self):
+        return {
+            'id': 91, 'run_attempt': 1, 'path': '.github/workflows/quality.yml',
+            'event': 'push', 'head_branch': 'main', 'head_sha': COMMIT,
+            'repository': {'full_name': 'ranzevor/Standards'},
+            'status': self.quality_status, 'conclusion': self.quality_conclusion,
+        }
 
     def release(self, ident, tag, commit, draft, body):
         return {'id': ident, 'tag_name': tag, 'target_commitish': commit,
@@ -83,9 +96,22 @@ class FakeGitHub:
             return copy.deepcopy(self.releases if 'page=1' in suffix else [])
         if method == 'GET' and path == '/git/ref/heads/main':
             self.main_reads += 1
-            if self.move_main_before_publish and self.main_reads > 1:
+            if (self.move_main_before_publish and self.main_reads > 1
+                    and any(release['draft'] for release in self.releases)):
                 self.main = 'c' * 40
             return {'object': {'sha': self.main, 'type': 'commit'}}
+        if method == 'GET' and path == '/actions/runs':
+            self.quality_reads += 1
+            run = self.quality_run()
+            if self.fail_quality_after_first_check and self.quality_reads > 1:
+                run['conclusion'] = 'failure'
+            return {'total_count': 1, 'workflow_runs': [run]}
+        if method == 'GET' and path == '/actions/runs/91/jobs':
+            jobs = [{'name': name, 'status': 'completed', 'conclusion': 'success',
+                     'run_id': 91} for name in sorted(REQUIRED_JOBS)]
+            return {'total_count': len(jobs), 'jobs': jobs}
+        if method == 'GET' and path == '/actions/runs/91':
+            return self.quality_run()
         if method == 'GET' and path.startswith('/git/ref/tags/'):
             tag = path.rsplit('/', 1)[1]
             if tag not in self.tags:
@@ -958,6 +984,27 @@ class PublicationRecoveryTests(unittest.TestCase):
         api = GitHubAPI('synthetic-test-value')
         with self.assertRaisesRegex(PublishError, 'API target'):
             api._request('GET', 'https://api.github.com/repos/other/target/releases')
+
+
+class MainQualityPublicationTests(unittest.TestCase):
+    def test_unfinished_or_failed_main_quality_never_creates_release_objects(self):
+        for status, conclusion in (('in_progress', None), ('completed', 'failure'),
+                                   ('completed', 'cancelled'), ('completed', 'skipped')):
+            with self.subTest(status=status, conclusion=conclusion):
+                api = FakeGitHub()
+                api.quality_status = status
+                api.quality_conclusion = conclusion
+                with self.assertRaises(QualityGateError):
+                    publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+                self.assertEqual(api.mutations, [])
+
+    def test_quality_changed_after_artifact_upload_keeps_draft_unpublished(self):
+        api = FakeGitHub()
+        api.fail_quality_after_first_check = True
+        with self.assertRaisesRegex(QualityGateError, 'did not succeed'):
+            publish(api, CONFIG, ASSETS, COMMIT, NOTES)
+        self.assertTrue(api.releases[-1]['draft'])
+        self.assertNotIn(('PATCH', '/releases/2'), api.mutations)
 
 
 if __name__ == '__main__':

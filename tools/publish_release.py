@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from tools.build_release_bundle import clean_git_identity, read_source
 from tools.verify_release_artifacts import asset_names, local_assets
+from tools.release_quality_gate import require_main_quality
 from tools.verify_release_bundle import (
     MAX_BYTES, canonical, parse_json, valid_release_version, validate_project_release, validate_release_config,
 )
@@ -395,6 +396,7 @@ def publish(api, config, assets, commit, notes, verify_only=False):
     require(not verify_only, 'release is not published')
     main = api.request('GET', '/git/ref/heads/main')
     require(main.get('object', {}).get('sha') == commit, 'main changed; revalidate the release target')
+    require_main_quality(api, commit)
     if config['previous_version'] is None:
         check_initial_release_order(api, tag)
     else:
@@ -440,6 +442,7 @@ def publish(api, config, assets, commit, notes, verify_only=False):
     require(tag_receipt(api, tag, commit) == intended_tag, 'tag changed before publication')
     main = api.request('GET', '/git/ref/heads/main')
     require(main.get('object', {}).get('sha') == commit, 'main changed before publication')
+    require_main_quality(api, commit)
     latest = api.request('GET', f'/releases/{release["id"]}')
     check_release_identity(latest, tag, commit, notes)
     if latest.get('draft') is True:
